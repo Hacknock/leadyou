@@ -6,9 +6,10 @@
 // **
 
 const express = require('express');
+const http = require('http');
+const request = require('request');
 const fs = require('fs');
 const app = express();
-const http = require('http');
 const server = http.createServer(app);
 const mongo = require('mongodb'); // momgodb define
 const MongoClient = mongo.MongoClient; // use mongo client
@@ -20,19 +21,64 @@ const port = 3000;
 server.listen(port, () => {
     console.log('listen port 3000 #00');
 });
+
 app.use(bodyParser.urlencoded({
     extended: true
 }));
 app.use(bodyParser.json());
+
+// test code
+crawlingPortfolio();
+
 const connectOption = {
     useNewUrlParser: true,
     useUnifiedTopology: true,
 };
 
+function crawlingPortfolio() {
+    const options = {
+        url: 'https://api.github.com/repos/pullreq-me/portfolio/forks',
+        method: 'GET',
+        json: true,
+        headers: {
+            'User-Agent': 'request'
+        }
+    };
+    request(options, (error, response, json) => {
+        for (let i = 0; i < 1; i++) {
+
+            //for (let i = 0; i < Object.keys(json).length; i++) {
+            getUserPortfolio(json[i]['full_name']);
+        }
+    });
+}
+
+function getUserPortfolio(userPath) {
+    const options = {
+        url: `https://api.github.com/repos/${userPath}/contents/README.md`,
+        method: 'GET',
+        json: true,
+        headers: {
+            'User-Agent': 'request'
+        }
+    };
+    request(options, (error, response, json) => {
+        const content = Buffer.from(json['content'], 'base64').toString();
+        parseUserPortfolio(content);
+    });
+}
+
+function parseUserPortfolio(content) {
+    var result = content.split(/\n#/);
+    console.log(result);
+    // セクションごとには別れたので，各セクションごとのお仕事をすればいい
+}
+
 function insertData(jsonData) {
     const nameDb = 'pullreqme';
     const nameCollection = 'dbSearch';
-    MongoClient.connect('mongodb://127.0.0.1:27017', connectOption, (err, client) => {
+    const url = 'mongodb://127.0.0.1:27017';
+    MongoClient.connect(url, connectOption, (err, client) => {
         if (err) {
             console.log('Error occurred #01');
             throw err;
