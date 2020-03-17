@@ -13,6 +13,7 @@ const server = http.createServer(app);
 const mongo = require('mongodb'); // momgodb define
 const MongoClient = mongo.MongoClient; // use mongo client
 const bodyParser = require('body-parser');
+const ejs = require('ejs');
 
 const port = 3000;
 
@@ -126,7 +127,7 @@ insertData(jsonInsert);
 
 app.get('/', (req, res) => {
     fs.readFile('./public/html/index.html', 'utf-8', (err, data) => {
-        res.writeHead(200, { 'Content-Type': 'text/html' });
+        res.writeHead(200, {'Content-Type': 'text/html'});
         res.write(data);
         res.end();
     });
@@ -135,7 +136,7 @@ app.get('/', (req, res) => {
 app.post('/search/result', (req, res) => {
     console.log(req.body);
     fs.readFile('./public/html/index.html', 'utf-8', (err, data) => {
-        res.writeHead(200, { 'Content-Type': 'text/html' });
+        res.writeHead(200, {'Content-Type': 'text/html'});
         res.write(data);
         res.end();
     });
