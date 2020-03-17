@@ -8,7 +8,7 @@
 const express = require('express');
 const app = express();
 const http = require('http');
-var server = http.createServer(app);
+let server = http.createServer(app);
 const mongo = require('mongodb');   //momgodb define
 const MongoClient = mongo.MongoClient;  //use mongo client
 

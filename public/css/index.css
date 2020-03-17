@@ -1,0 +1,35 @@
+html {
+	height: 100%;
+}
+
+body {
+	text-align: center;
+	margin: 0;
+	padding: 0;
+}
+
+/* === sample code === */
+button {
+    display: inline-block;
+    padding: 0.5em 1em;
+    width: 120px;
+    font-size: 18px;
+    text-decoration: none;
+    color: #263238;
+    background: #FAFAFA;
+    border-bottom: solid 4px #E0E0E0;
+    border-radius: 3px;
+}
+
+button:active {
+    -webkit-transform: translateY(4px);
+    transform: translateY(4px);
+    border-bottom: none;
+}
+
+button:disabled {
+    color: #BDBDBD;
+    background: #E0E0E0;
+    border-bottom: solid 4px #9E9E9E;
+}
+/* === sample code === */
