@@ -12,13 +12,17 @@ const http = require('http');
 const server = http.createServer(app);
 const mongo = require('mongodb'); // momgodb define
 const MongoClient = mongo.MongoClient; // use mongo client
+const bodyParser = require('body-parser');
 
 const port = 3000;
 
 server.listen(port, () => {
     console.log('listen port 3000 #00');
 });
-
+app.use(bodyParser.urlencoded({
+    extended: true
+}));
+app.use(bodyParser.json());
 const connectOption = {
     useNewUrlParser: true,
     useUnifiedTopology: true,
@@ -121,6 +125,15 @@ let jsonInsert = {
 insertData(jsonInsert);
 
 app.get('/', (req, res) => {
+    fs.readFile('./public/html/index.html', 'utf-8', (err, data) => {
+        res.writeHead(200, { 'Content-Type': 'text/html' });
+        res.write(data);
+        res.end();
+    });
+});
+
+app.post('/search/result', (req, res) => {
+    console.log(req.body);
     fs.readFile('./public/html/index.html', 'utf-8', (err, data) => {
         res.writeHead(200, { 'Content-Type': 'text/html' });
         res.write(data);
