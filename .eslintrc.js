@@ -29,6 +29,7 @@ module.exports = {
         'keyword-spacing': ['error', {'before': true, 'after': true}],
         'space-before-blocks': 'error',
         'space-in-parens': ['error', 'never'],
-        'arrow-spacing': ['error', {'before': true, 'after': true}]
+        'arrow-spacing': ['error', {'before': true, 'after': true}],
+        'space-infix-ops': 'error'
     }
 };
