@@ -18,6 +18,7 @@ module.exports = {
         'linebreak-style': ['error', 'unix'],
         'quotes': ['error', 'single'],
         'semi': ['error', 'always'],
+        'semi-spacing': ['error', {'before': false, 'after': true}],
         'array-bracket-spacing': ['error', 'never'],
         'block-spacing': 'error',
         'brace-style': 'error',
