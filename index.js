@@ -50,7 +50,7 @@ function insertData(jsonData) {
                 } else {
                     console.log('Data has been existed. #04');
                     console.log(jsonData.idGithub);
-                    deleteData(db, nameCollection, {idGithub: jsonData.idGithub}, (result) => {
+                    deleteData(db, nameCollection, {idGithub: jsonData.idGithub}, () => {
                         insertDocuments(db, nameCollection, jsonData, () => {
                             client.close();
                         });
@@ -100,6 +100,41 @@ const findData = (db, coll, key, callback) => {
     });
 };
 
+const search = (key, words, callback) => {
+    const nameDb = 'pullreqme';
+    const nameCollection = 'dbSearch';
+    MongoClient.connect('mongodb://127.0.0.1:27017', connectOption, (err, client) => {
+        if (err) {
+            console.log('Error occurred #01');
+            throw err;
+        } else {
+            console.log('Database connection is established on insert data process. #02');
+            const db = client.db(nameDb);  //Get pullreqme database
+
+            findData(db, nameCollection, {[key]: words}, (items) => {
+                console.log(items.length);
+                // console.log(items);
+                client.close();
+                callback(items);
+                // if (items.length == 0) {
+                //     console.log('No data. #03');
+                //     insertDocuments(db, nameCollection, jsonData, () => {
+                //         client.close();
+                //     });
+                // } else {
+                //     console.log('Data has been existed. #04');
+                //     console.log(jsonData.idGithub);
+                //     deleteData(db, nameCollection, {idGithub: jsonData.idGithub}, (result) => {
+                //         insertDocuments(db, nameCollection, jsonData, () => {
+                //             client.close();
+                //         });
+                //     });
+                // }
+            });
+        }
+    });
+};
+
 let jsonInsert = {
     idGithub: 'wan',
     nameUser: '',
@@ -135,10 +170,17 @@ app.get('/', (req, res) => {
 
 app.post('/search/result', (req, res) => {
     console.log(req.body);
-    fs.readFile('./public/html/index.html', 'utf-8', (err, data) => {
-        res.writeHead(200, {'Content-Type': 'text/html'});
-        res.write(data);
-        res.end();
+    fs.readFile('./public/html/result.ejs', 'utf-8', (err, data) => {
+        search('idGithub', req.body.search, (result) => {
+            console.log('result');
+            console.log(result);
+            let page = ejs.render(data, {
+                infoResult: JSON.stringify(result)
+            });
+            res.writeHead(200, {'Content-Type': 'text/html'});
+            res.write(page);
+            res.end();
+        });
     });
 });
 
