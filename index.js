@@ -120,6 +120,14 @@ let jsonInsert = {
 
 insertData(jsonInsert);
 
+app.get('/', (req, res) => {
+    fs.readFile('./public/html/index.html', 'utf-8', (err, data) => {
+        res.writeHead(200, { 'Content-Type': 'text/html' });
+        res.write(data);
+        res.end();
+    });
+});
+
 app.get('/src/css/*', (req, res) => {
     fs.readFile('./public/css/' + req.params[0], 'utf-8', (err, data) => {
         res.writeHead(200, {'Content-Type': 'text/css'});

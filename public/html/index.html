@@ -2,13 +2,14 @@
 <html lang='en'>
 <head>
     <meta http-equiv='Content-Type' content='text/html; charset=UTF-8'>
-    <link href='public/css/index.css' rel='stylesheet' type='text/css'>
+    <link href='/src/css/index.css' rel='stylesheet' type='text/css'>
 	<title>pullreq-me</title>
 </head>
 <body>
-    <p>Hello World</p>
-    <h1 id='countLabel'>0</h1>
-    <button id='countButton'>push</button>
-	<script type='text/javascript' src='public/js/index.js'></script>
+<form action="/search/result" method="post">
+    <input type="text" name="search">
+    <input type="submit" value="search" class='countButton'>
+</form>
+<script type='text/javascript' src='/src/js/index.js'></script>
 </body>
 </html>
