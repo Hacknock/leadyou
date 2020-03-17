@@ -15,7 +15,7 @@ const MongoClient = mongo.MongoClient;  //use mongo client
 const port=3000;
 
 server.listen(port, ()=>{
-    console.log('listen port 3000 #00')
+    console.log('listen port 3000 #00');
 });
 
 const connectOption = {
@@ -26,18 +26,34 @@ const connectOption = {
 function insertData(jsonData) {
     MongoClient.connect('mongodb://127.0.0.1:27017', connectOption,(err, client) =>{
         if(err) {
-            console.log("Error occurred #01");
+            console.log('Error occurred #01');
             throw err;
         } else {
-            console.log("Database connection is established on insert data process. #02");
+            console.log('Database connection is established on insert data process. #02');
             const db = client.db('pullreqme');  //Get pullreqme database
             db.collection('dbSearch', (err, collection)=>{
                collection.find({idGithub: jsonData.idGithub}).toArray((err, items) =>{
+                   console.log(jsonData.idGithub);
                    console.log(items.length);
-                   if(items.length == 0) {
-                        console.log()
+                   if (items.length == 0) {
+                        console.log('No data. #03');
+                        insertDocuments(db,'dbSearch',jsonData,()=>{
+                            client.close();
+                        });
                    } else {
-
+                        console.log('Data has been existed. #04');
+                        console.log(jsonData.idGithub);
+                        db.collection('dbSearch').deleteMany({idGithub: jsonData.idGithub}, (err, result)=>{
+                            if(err) {
+                                console.log("Failed to delete documents " + jsonData.idGithub);
+                                throw err;
+                            } else {
+                                console.log(result.result.n);
+                                insertDocuments(db,'dbSearch',jsonData,()=>{
+                                    client.close();
+                                });
+                            }
+                        });
                    }
                });
             });
@@ -45,28 +61,40 @@ function insertData(jsonData) {
     });
 }
 
-let jsonInsert = {
-    idGithub: 'hai',
-    nameUser: '',
-    desc: '',
-    linkFB: '',
-    linkTw: '',
-    linkLinked: '',
-    linkYoutube: '',
-    linkWeb: '',
-    langProgram: '',
-    liFr: '',
-    enviro: '',
-    skills: '',
-    qualifi: '',
-    termComp: '',
-    nameComp: '',
-    termEdu: '',
-    nameEdu: '',
-    projects: '',
-    distr: '',
-    namePub: ''
+const insertDocuments = (db, coll, document, callback) => {
+    db.collection(coll).insertOne(document, (err, result) =>{
+        if (err) {
+            console.log('error occured');
+        } else {
+            console.log("success to insert documents");
+            callback(result);
+        }
+    })
 };
+
+let jsonInsert =
+    {
+        idGithub: 'nyao',
+        nameUser: '',
+        desc: '',
+        linkFB: '',
+        linkTw: '',
+        linkLinked: '',
+        linkYoutube: '',
+        linkWeb: '',
+        langProgram: '',
+        liFr: '',
+        enviro: '',
+        skills: '',
+        qualifi: '',
+        termComp: '',
+        nameComp: '',
+        termEdu: '',
+        nameEdu: '',
+        projects: '',
+        distr: '',
+        namePub: ''
+    };
 
 insertData(jsonInsert);
 
