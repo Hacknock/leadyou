@@ -1,0 +1,22 @@
+{
+  "name": "api_pillreq-me",
+  "version": "1.0.0",
+  "description": "This code is for pull req me project",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/KASHIHARAAkira/api_pillreq-me.git"
+  },
+  "keywords": [
+    "Github"
+  ],
+  "author": "Akira Kashihara, Takuto Nakamura",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/KASHIHARAAkira/api_pillreq-me/issues"
+  },
+  "homepage": "https://github.com/KASHIHARAAkira/api_pillreq-me#readme"
+}
