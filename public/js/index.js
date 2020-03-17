@@ -1,5 +1,5 @@
-const countLabel = document.getElementById("countLabel");
-const countButton = document.getElementById("countButton");
+const countLabel = document.getElementById('countLabel');
+const countButton = document.getElementById('countButton');
 let count = 0;
 
 function countUp() {
@@ -8,5 +8,5 @@ function countUp() {
 }
 
 window.onload = function() {
-    countButton.addEventListener("click", countUp, false);
-}
+    countButton.addEventListener('click', countUp, false);
+};
