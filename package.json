@@ -4,7 +4,8 @@
   "description": "This code is for pull req me project",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "eslint": "eslint --fix ."
   },
   "repository": {
     "type": "git",
@@ -22,8 +23,12 @@
   "dependencies": {
     "basic-auth": "^2.0.1",
     "express": "^4.17.1",
+    "fs": "0.0.1-security",
     "http": "0.0.0",
     "mongodb": "^3.5.5",
     "pm2": "^4.2.3"
+  },
+  "devDependencies": {
+    "eslint": "^6.8.0"
   }
 }
