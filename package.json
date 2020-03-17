@@ -26,7 +26,8 @@
     "fs": "0.0.1-security",
     "http": "0.0.0",
     "mongodb": "^3.5.5",
-    "pm2": "^4.2.3"
+    "pm2": "^4.2.3",
+    "request": "^2.88.2"
   },
   "devDependencies": {
     "eslint": "^6.8.0"
