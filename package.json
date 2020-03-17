@@ -18,5 +18,8 @@
   "bugs": {
     "url": "https://github.com/KASHIHARAAkira/api_pillreq-me/issues"
   },
-  "homepage": "https://github.com/KASHIHARAAkira/api_pillreq-me#readme"
+  "homepage": "https://github.com/KASHIHARAAkira/api_pillreq-me#readme",
+  "dependencies": {
+    "package.json": "^2.0.1"
+  }
 }
