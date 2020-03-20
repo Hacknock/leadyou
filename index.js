@@ -53,12 +53,14 @@ const crawlingPortfolio = () => {
         }
     };
     request(options, (error, response, json) => {
+        if (error) {
+            throw error;
+        }
         console.log(json);
         for (let i = 0; i < Object.keys(json).length; i++) {
-            console.log(json[i]);
-            // let idGithub = json[i]['owner']['login'];
-            // getUserPortfolio(idGithub);
-            // getUserLanguages(idGithub);
+            let idGithub = json[i]['owner']['login'];
+            getUserPortfolio(idGithub);
+            getUserLanguages(idGithub);
         }
     });
 };
