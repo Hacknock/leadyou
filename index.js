@@ -6,20 +6,27 @@
 // **
 
 const express = require('express');
+const app = express();
 const http = require('http');
+const server = http.createServer(app);
 const request = require('request');
 const fs = require('fs');
-const app = express();
-const server = http.createServer(app);
+const ejs = require('ejs');
 const mongo = require('mongodb'); // momgodb define
 const MongoClient = mongo.MongoClient; // use mongo client
 const bodyParser = require('body-parser');
-const ejs = require('ejs');
 
 const port = 3000;
-
 const token = '1711100913c7a4446e3f81dcda0d91519d295802';
+const mongoURL = 'mongodb://127.0.0.1:27017';
+const nameDb = 'pullreqme';
+const nameCollection = 'dbSearch';
+const connectOption = {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+};
 
+// initial process
 server.listen(port, () => {
     console.log('listen port 3000 #00');
 });
@@ -32,12 +39,8 @@ app.use(bodyParser.json());
 // test code
 // crawlingPortfolio();
 
-const connectOption = {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-};
-
-function crawlingPortfolio() {
+// This function crawls data of all users whose forks original portfolio.
+const crawlingPortfolio = () => {
     const options = {
         url: 'https://api.github.com/repos/pullreq-me/portfolio/forks',
         method: 'GET',
@@ -47,16 +50,16 @@ function crawlingPortfolio() {
         }
     };
     request(options, (error, response, json) => {
-
         for (let i = 0; i < Object.keys(json).length; i++) {
             let idGithub = json[1]['owner']['login'];
             let userPath = json[i]['full_name'];
             getUserPortfolio(idGithub, userPath);
         }
     });
-}
+};
 
-function getUserPortfolio(idGithub, userPath) {
+// This function gets the portfolio of one user.
+const getUserPortfolio = (idGithub, userPath) => {
     const options = {
         url: `https://api.github.com/repos/${userPath}/contents/README.md`,
         method: 'GET',
@@ -67,16 +70,15 @@ function getUserPortfolio(idGithub, userPath) {
     };
     request(options, (error, response, json) => {
         const content = Buffer.from(json['content'], 'base64').toString();
-        let data = {idGithub: idGithub};
-        data = Object.assign(data, parseUserPortfolio(content));
-        console.log(data);
-        insertData(data);
+        let data = Object.assign({idGithub: idGithub}, parseUserPortfolio(content));
+        insertUserPortfolioData(data);
     });
-}
+};
 
-function parseUserPortfolio(content) {
+// This function parses the markdown and returns user data (json object).
+const parseUserPortfolio = (content) => {
     let data = {nameUser: 'Unknown', desc: 'No description'};
-    let result = content.split(/(?<=\n)(?=# )/).filter(value => {
+    const result = content.split(/(?<=\n)(?=# )/).filter(value => {
         return value.startsWith('# ');
     });
     if (0 == result.length) return;
@@ -85,11 +87,11 @@ function parseUserPortfolio(content) {
         if (value.startsWith('# ')) { // overview
             data = Object.assign(data, parseOverview(value));
         } else if (value.startsWith('## Programming Languages')) {
-            data = Object.assign(data, {langProgram: parseTags(value)});
+            data = Object.assign(data, {langProg: parseTags(value)});
         } else if (value.startsWith('## Frameworks / Libraries')) {
-            data = Object.assign(data, {liFr: parseTags(value)});
-        } else if (value.startsWith('## Environments')) {
-            data = Object.assign(data, {enviro: parseTags(value)});
+            data = Object.assign(data, {libFw: parseTags(value)});
+        } else if (value.startsWith('## envnments')) {
+            data = Object.assign(data, {env: parseTags(value)});
         } else if (value.startsWith('## Other Skills')) {
             data = Object.assign(data, {skills: parseTags(value)});
         } else if (value.startsWith('## Qualifications')) {
@@ -101,17 +103,18 @@ function parseUserPortfolio(content) {
         } else if (value.startsWith('## Projects')) {
             data = Object.assign(data, {projects: parseTitles(value)});
         } else if (value.startsWith('## Distributions')) {
-            data = Object.assign(data, {distr: parseTitles(value)});
+            data = Object.assign(data, {dist: parseTitles(value)});
         } else if (value.startsWith('## Publications')) {
-            data = Object.assign(data, {namePub: parseTitles(value)});
+            data = Object.assign(data, {pub: parseTitles(value)});
         }
     }
     return data;
-}
+};
 
-function parseOverview(content) {
+// This function parses the markdown and returns [nameUser, desc].
+const parseOverview = (content) => {
     let data = {};
-    let result = content.split(/\n/g).filter(value => {
+    const result = content.split(/\n/g).filter(value => {
         return (value.length !== 0) && (value !== '***');
     });
     let nameUser = '';
@@ -124,20 +127,20 @@ function parseOverview(content) {
             if (url === null) continue;
             switch (url[1]) {
                 case 'website':
-                    Object.assign(data, {linkWeb: url[2]});
-                    break;
+                Object.assign(data, {linkWeb: url[2]});
+                break;
                 case 'facebook':
-                    Object.assign(data, {linkFB: url[2]});
-                    break;
+                Object.assign(data, {linkFB: url[2]});
+                break;
                 case 'twitter':
-                    Object.assign(data, {linkTw: url[2]});
-                    break;
+                Object.assign(data, {linkTw: url[2]});
+                break;
                 case 'linkedin':
-                    Object.assign(data, {linkLinked: url[2]});
-                    break;
+                Object.assign(data, {linkLI: url[2]});
+                break;
                 case 'youtube':
-                    Object.assign(data, {linkYoutube: url[2]});
-                    break;
+                Object.assign(data, {linkYT: url[2]});
+                break;
             }
         } else {
             desc += value;
@@ -145,10 +148,12 @@ function parseOverview(content) {
     }
     data = Object.assign(data, {nameUser: nameUser, desc: desc});
     return data;
-}
+};
 
-function parseTags(content) {
-    let tags = content.split(/\n/g).filter(value => {
+// This function parses the markdown and returns tags
+// [Programming Languages, Frameworks / Libraries, envnments, Other Skills, Qualifications].
+const parseTags = (content) => {
+    return content.split(/\n/g).filter(value => {
         return (value.length !== 0) && !(value.startsWith('## '));
     }).flatMap(value => {
         return value.match(/`[^`]+` */g);
@@ -157,22 +162,22 @@ function parseTags(content) {
     }).filter(value => {
         return (value.length !== 0);
     });
-    return tags;
-}
+};
 
-function parseTitles(content) {
-    let titles = content.split(/\n/g).filter(value => {
+// This function parses the markdown and returns tags [Projects, Distributions, Publications].
+const parseTitles = (content) => {
+    return content.split(/\n/g).filter(value => {
         return value.startsWith('### ');
     }).map(value => {
         return value.replace(/### /, '');
     }).filter(value => {
         return (value.length !== 0);
     });
-    return titles;
-}
+};
 
-function parseJobExperience(content) {
-    let result = content.split(/(?<=\n)(?=### )/).filter(value => {
+// This function parses the markdown and returns Job Experience array.
+const parseJobExperience = (content) => {
+    const result = content.split(/(?<=\n)(?=### )/).filter(value => {
         return value.startsWith('### ');
     });
     let termComp = [];
@@ -180,7 +185,7 @@ function parseJobExperience(content) {
     for (let i in result) {
         termComp.push('');
         nameComp.push('');
-        let lines = result[i].split(/\n/g).filter(value => {
+        const lines = result[i].split(/\n/g).filter(value => {
             return (value.length !== 0);
         });
         for (let line of lines) {
@@ -201,10 +206,11 @@ function parseJobExperience(content) {
         return {termComp: termComp, nameComp: nameComp};
     }
     return {};
-}
+};
 
-function parseEducation(content) {
-    let result = content.split(/(?<=\n)(?=### )/).filter(value => {
+// This function parses the markdown and returns Education array.
+const parseEducation = (content) => {
+    const result = content.split(/(?<=\n)(?=### )/).filter(value => {
         return value.startsWith('### ');
     });
     let termEdu = [];
@@ -212,7 +218,7 @@ function parseEducation(content) {
     for (let i in result) {
         termEdu.push('');
         nameEdu.push('');
-        let lines = result[i].split(/\n/g).filter(value => {
+        const lines = result[i].split(/\n/g).filter(value => {
             return (value.length !== 0);
         });
         for (let line of lines) {
@@ -233,22 +239,17 @@ function parseEducation(content) {
         return {termEdu: termEdu, nameEdu: nameEdu};
     }
     return {};
-}
+};
 
-function insertData(jsonData) {
-    const nameDb = 'pullreqme';
-    const nameCollection = 'dbSearch';
-    const url = 'mongodb://127.0.0.1:27017';
-    MongoClient.connect(url, connectOption, (err, client) => {
+const insertUserPortfolioData = (jsonData) => {
+    MongoClient.connect(mongoURL, connectOption, (err, client) => {
         if (err) {
             console.log('Error occurred #01');
             throw err;
         }
         console.log('Database connection is established on insert data process. #02');
         const db = client.db(nameDb);  //Get pullreqme database
-
         findData(db, nameCollection, {idGithub: jsonData.idGithub}, (items) => {
-            console.log(items.length);
             if (items.length == 0) {
                 console.log('No data. #03');
                 insertDocuments(db, nameCollection, jsonData, () => {
@@ -265,7 +266,7 @@ function insertData(jsonData) {
             }
         });
     });
-}
+};
 
 // This function insert new search info document to database(database, collection, document, callback)
 const insertDocuments = (db, coll, document, callback) => {
@@ -273,10 +274,9 @@ const insertDocuments = (db, coll, document, callback) => {
         if (err) {
             console.log('error occurred #05');
             throw err;
-        } else {
-            console.log('success to insert documents #06');
-            callback(result);
         }
+        console.log('success to insert documents #06');
+        callback(result);
     });
 };
 
@@ -286,10 +286,9 @@ const deleteData = (db, coll, key, callback) => {
         if (err) {
             console.log('Error occurred on delete many. #07');
             throw err;
-        } else {
-            console.log('success to delete many. #08');
-            callback(result);
         }
+        console.log('success to delete many. #08');
+        callback(result);
     });
 };
 
@@ -299,79 +298,47 @@ const findData = (db, coll, key, callback) => {
         if (err) {
             console.log('Error occurred on finding documents. #09');
             throw err;
-        } else {
-            console.log('Success to find documents with key. #10');
-            callback(items);
         }
+        console.log('Success to find documents with key. #10');
+        callback(items);
     });
 };
-
-// const selectDB = (key, words, callback) => {
-//     const nameDb = 'pullreqme';
-//     const nameCollection = 'dbSearch';
-//     MongoClient.connect('mongodb://127.0.0.1:27017', connectOption, (err, client) => {
-//         if (err) {
-//             console.log('Error occurred #01');
-//             throw err;
-//         } else {
-//             console.log('Database connection is established on insert data process. #02');
-//             const db = client.db(nameDb);  //Get pullreqme database
-//
-//             findData(db, nameCollection, {[key]: words}, (items) => {
-//                 console.log(items.length);
-//                 client.close();
-//                 callback(items);
-//             });
-//         }
-//     });
-// };
 
 // Search user function by search window
 const search = (bodyReq, callback) => {
     // make json format to search user
-    let keywords = bodyReq.split(' ');
-    let jsonSearch = {};
-    let qu = new Array();
-    for (var i = 0; i < keywords.length; i++) {
-        if (keywords[i].indexOf('lang:') === 0) {
+    const keywords = bodyReq.split(' ');
+    let query = new Array();
+    for (let i in keywords) {
+        if (keywords[i].startsWith('lang:')){
             // OR search
-            let listLang = keywords[i].split(':')[1];
-            listLang = listLang.split(',');
-            for (var j = 0; j < listLang.length; j++) {
-                let jsonSt = {};
-                jsonSt.langProgram = listLang[i];
-                qu.push(jsonSt);
+            const listLang = keywords[i].split(':')[1].split(',');
+            for (let j in listLang) {
+                query.push({langProg: listLang[i]});
             }
         } else {
-            let jsonSt = {};
-            jsonSt = Object.assign(jsonSt, {nameUser: new RegExp(keywords[i])});
-            qu.push(jsonSt);
+            query.push({nameUser: new RegExp(keywords[i])});
         }
     }
-    jsonSearch = Object.assign(jsonSearch, {$or: qu});
-    // console.log('jsonSearch is ' + JSON.stringify(jsonSearch));
-    const nameDb = 'pullreqme';
-    const nameCollection = 'dbSearch';
-    MongoClient.connect('mongodb://127.0.0.1:27017', connectOption, (err, client) => {
+    MongoClient.connect(mongoURL, connectOption, (err, client) => {
         if (err) {
             console.log('Error occured.');
             throw err;
-        } else {
-            console.log('Database connection is established on insert data process.');
-            const db = client.db(nameDb);  //Get pullreqme database
-            findData(db, nameCollection, jsonSearch, (items) => {
-                console.log(items.length);
-                // verification of programming language
-                verifyLang(items, jsonSearch.langProgram, (result) => {
-                    client.close();
-                    callback(result);
-                });
-            });
         }
+        console.log('Database connection is established on insert data process.');
+        const db = client.db(nameDb);  //Get pullreqme database
+        findData(db, nameCollection, {$or: query}, (items) => {
+            console.log(items.length);
+            // verification of programming language
+            verifyLang(items, jsonSearch.langProg, (result) => {
+                client.close();
+                callback(result);
+            });
+        });
     });
 };
 
-const getAllRepo = (dataUsers, langProgram, arrayURL, callback) => {
+const getAllRepo = (dataUsers, langProg, arrayURL, callback) => {
     if (dataUsers.length === 0) {
         callback(arrayURL);
         return;
@@ -393,16 +360,14 @@ const getAllRepo = (dataUsers, langProgram, arrayURL, callback) => {
         let arraySt = json.map(v => {
             return v.languages_url;
         });
-
-        getAllRepo(dataUsers, langProgram, arrayURL.concat(arraySt), callback);
+        getAllRepo(dataUsers, langProg, arrayURL.concat(arraySt), callback);
     });
 };
 
-const verifyLang = (dataUsers, langProgram, callback) => {
+const verifyLang = (dataUsers, langProg, callback) => {
     let arrayURL = new Array();
-    getAllRepo(dataUsers, langProgram, arrayURL, (result) => {
+    getAllRepo(dataUsers, langProg, arrayURL, (result) => {
         callback(result);
-
     });
 };
 
@@ -412,12 +377,12 @@ let jsonInsert = {
     desc: '',
     linkFB: '',
     linkTw: '',
-    linkLinked: '',
-    linkYoutube: '',
+    linkLI: '',
+    linkYT: '',
     linkWeb: '',
-    langProgram: 'C',
-    liFr: '',
-    enviro: '',
+    langProg: 'C',
+    libFw: '',
+    env: '',
     skills: '',
     qualifi: '',
     termComp: '',
@@ -425,11 +390,11 @@ let jsonInsert = {
     termEdu: '',
     nameEdu: '',
     projects: '',
-    distr: '',
-    namePub: ''
+    dist: '',
+    pub: ''
 };
 
-insertData(jsonInsert);
+insertUserPortfolioData(jsonInsert);
 
 app.get('/', (req, res) => {
     fs.readFile('./public/html/index.html', 'utf-8', (err, data) => {
@@ -445,7 +410,7 @@ app.post('/search/result', (req, res) => {
         search(req.body.search, (result) => {
             // console.log('result');
             // console.log(result);
-            let page = ejs.render(data, {
+            const page = ejs.render(data, {
                 infoResult: JSON.stringify(result)
             });
             res.writeHead(200, {'Content-Type': 'text/html'});
