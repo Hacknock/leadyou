@@ -64,7 +64,7 @@ function getUserPortfolio(userPath) {
     };
     request(options, (error, response, json) => {
         const content = Buffer.from(json['content'], 'base64').toString();
-        parseUserPortfolio(content);
+        insertData(parseUserPortfolio(content));
     });
 }
 
@@ -89,9 +89,9 @@ function parseUserPortfolio(content) {
         } else if (value.startsWith('## Qualifications')) {
             data = Object.assign(data, {qualifi: parseTags(value)});
         } else if (value.startsWith('## Job Experience')) {
-
+            data = Object.assign(data, parseJobExperience(value));
         } else if (value.startsWith('## Education')) {
-
+            data = Object.assign(data, parseEducation(value));
         } else if (value.startsWith('## Projects')) {
             data = Object.assign(data, {projects: parseTitles(value)});
         } else if (value.startsWith('## Distributions')) {
@@ -100,7 +100,7 @@ function parseUserPortfolio(content) {
             data = Object.assign(data, {namePub: parseTitles(value)});
         }
     }
-    console.log(data);
+    return data;
 }
 
 function parseOverview(content) {
@@ -163,6 +163,70 @@ function parseTitles(content) {
         return (value.length !== 0);
     });
     return titles;
+}
+
+function parseJobExperience(content) {
+    let result = content.split(/(?<=\n)(?=### )/).filter(value => {
+        return value.startsWith('### ');
+    });
+    let termComp = [];
+    let nameComp = [];
+    for (let i in result) {
+        termComp.push('');
+        nameComp.push('');
+        let lines = result[i].split(/\n/g).filter(value => {
+            return (value.length !== 0);
+        });
+        for (let line of lines) {
+            if (line.startsWith('### ')) {
+                let term = line.match(/\*([^*]+)\*/);
+                if (term) {
+                    termComp[i] = term[1];
+                }
+            } else if (line.startsWith('**')) {
+                let name = line.match(/\*\*([^*]+)\*\*/);
+                if (name) {
+                    nameComp[i] = name[1];
+                }
+            }
+        }
+    }
+    if (0 < termComp.length) {
+        return {termComp: termComp, nameComp: nameComp};
+    }
+    return {};
+}
+
+function parseEducation(content) {
+    let result = content.split(/(?<=\n)(?=### )/).filter(value => {
+        return value.startsWith('### ');
+    });
+    let termEdu = [];
+    let nameEdu = [];
+    for (let i in result) {
+        termEdu.push('');
+        nameEdu.push('');
+        let lines = result[i].split(/\n/g).filter(value => {
+            return (value.length !== 0);
+        });
+        for (let line of lines) {
+            if (line.startsWith('### ')) {
+                let term = line.match(/\*([^*]+)\*/);
+                if (term) {
+                    termEdu[i] = term[1];
+                }
+            } else {
+                let name = line.match(/> (.+)/);
+                if (name) {
+                    nameEdu[i] += name[1];
+                }
+            }
+        }
+    }
+    if (0 < termEdu.length) {
+        return {termEdu: termEdu, nameEdu: nameEdu};
+    }
+    return {};
 }
 
 function insertData(jsonData) {
