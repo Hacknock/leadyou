@@ -22,7 +22,7 @@ const token = config.get('AuthGithub.kyomechan');
 const port = 3000;
 const mongoURL = 'mongodb://127.0.0.1:27017';
 const nameDb = 'pullreqme';
-const portfolioCollection = 'dbPortfolio';
+const portfolioCollection = 'dbSearch';
 const languageCollection = 'dbLanguage';
 
 const connectOption = {
@@ -355,6 +355,68 @@ const getAllLangEvi = (urls, jsonData, callback) => {
     });
 };
 
+const searchUser = (bodyReq, callback) => {
+    makeQuery(bodyReq.split(' '), new Array(), (result) => {
+        console.log(result);
+        MongoClient.connect(mongoURL, connectOption, (err, client) => {
+            const db = client.db(nameDb);  //Get pullreqme database
+            findData(db, portfolioCollection, {'$or': result}, (items) => {
+                console.log('number of hits');
+                console.log(items.length);
+                let listLang = result.map(v => {
+                    return v.langProgram;
+                });
+                let idGithubs = items.map(v => {
+                    return v.idGithub;
+                });
+                console.log({'idGithub': {'$in': idGithubs}});
+                findData(db, languageCollection, {'idGithub': {'$in': idGithubs}}, (items) => {
+                    let resultSort = {};
+                    for (let i = 0; i < idGithubs.length; i++) {
+                        let score = 0;
+                        for (let j = 0; j < listLang.length; j++) {
+                            console.log(items[i][listLang[j]]);
+                            if (typeof items[i][listLang[j]] === 'undefined') {
+                                console.log('undifined');
+                                console.log(items[i]);
+                                console.log(listLang[j]);
+                            } else {
+                                score += items[i][listLang[j]];
+                            }
+                        }
+                        resultSort = Object.assign(resultSort, {[idGithubs[i]]: score});
+                    }
+                    console.log(resultSort);
+                    callback(resultSort);
+                });
+            });
+        });
+    });
+};
+
+const sortResult = (idGithubs, langs, callback) => {
+
+};
+
+const makeQuery = (keywords, arrayQuery, callback) => {
+    if (keywords.length === 0) {
+        callback(arrayQuery);
+        return;
+    }
+    let keyword = keywords.pop();
+    if (keyword.indexOf('lang:') === 0) {
+        let listLang = keyword.split(':')[1];
+        listLang = listLang.split(',');
+        for (var j = 0; j < listLang.length; j++) {
+            arrayQuery.push({'langProgram': listLang[j]});
+        }
+        makeQuery(keywords, arrayQuery, callback);
+    } else {
+        arrayQuery.push({'nameUser': keyword});
+        makeQuery(keywords, arrayQuery, callback);
+    }
+};
+
 app.get('/', (req, res) => {
     fs.readFile('./public/html/index.html', 'utf-8', (err, data) => {
         res.writeHead(200, {'Content-Type': 'text/html'});
@@ -363,21 +425,19 @@ app.get('/', (req, res) => {
     });
 });
 
-// app.post('/search/result', (req, res) => {
-//     console.log(req.body);
-//     fs.readFile('./public/html/result.ejs', 'utf-8', (err, data) => {
-//         search(req.body.search, (result) => {
-//             // console.log('result');
-//             // console.log(result);
-//             const page = ejs.render(data, {
-//                 infoResult: JSON.stringify(result)
-//             });
-//             res.writeHead(200, {'Content-Type': 'text/html'});
-//             res.write(page);
-//             res.end();
-//         });
-//     });
-// });
+app.post('/search/result', (req, res) => {
+    console.log(req.body);
+    fs.readFile('./public/html/result.ejs', 'utf-8', (err, data) => {
+        searchUser(req.body.search, (result) => {
+            const page = ejs.render(data, {
+                infoResult: JSON.stringify(result)
+            });
+            res.writeHead(200, {'Content-Type': 'text/html'});
+            res.write(page);
+            res.end();
+        });
+    });
+});
 
 app.get('/src/css/*', (req, res) => {
     fs.readFile('./public/css/' + req.params[0], 'utf-8', (err, data) => {
@@ -404,4 +464,4 @@ app.get('/src/img/*', function(req, res) {
 
 
 // test code
-crawlingPortfolio();
+// crawlingPortfolio();
