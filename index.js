@@ -9,7 +9,7 @@ const express = require('express');
 const app = express();
 const http = require('http');
 const server = http.createServer(app);
-const request = require('request');
+const rp = require('request-promise');
 const fs = require('fs');
 const ejs = require('ejs');
 const mongo = require('mongodb'); // momgodb define
@@ -17,7 +17,7 @@ const MongoClient = mongo.MongoClient; // use mongo client
 const bodyParser = require('body-parser');
 const config = require('config');
 
-const token = '40589521dd7257dbbfa4f905051908bc2017d0e6';
+const token = config.get('AuthGithub.kyomechan');
 
 const port = 3000;
 const mongoURL = 'mongodb://127.0.0.1:27017';
@@ -44,45 +44,36 @@ app.use(bodyParser.json());
 // This function crawls data of all users whose forks original portfolio.
 const crawlingPortfolio = () => {
     const options = {
-        url: 'https://api.github.com/repos/pullreq-me/portfolio/forks',
-        method: 'GET',
-        json: true,
-        headers: {
-            'User-Agent': 'request',
-            'Authorization': token
-        }
+        uri: 'https://api.github.com/repos/pullreq-me/portfolio/forks',
+        qs: {access_token: token},
+        headers: {'User-Agent': 'Request-Promise'},
+        json: true
     };
-    request(options, (error, response, json) => {
-        if (error) {
-            throw error;
-        }
-        console.log(json);
+    rp(options).then(function (json) {
         for (let i = 0; i < Object.keys(json).length; i++) {
             let idGithub = json[i]['owner']['login'];
             getUserPortfolio(idGithub);
             getUserLanguages(idGithub);
         }
+    }).catch(function (err) {
+        throw err;
     });
 };
-
-// test code
-crawlingPortfolio();
 
 // This function gets the portfolio of one user.
 const getUserPortfolio = (idGithub) => {
     const options = {
-        url: `https://api.github.com/repos/${idGithub}/portfolio/contents/README.md`,
-        method: 'GET',
-        json: true,
-        headers: {
-            'User-Agent': 'request',
-            'Authorization': token
-        }
+        uri: `https://api.github.com/repos/${idGithub}/portfolio/contents/README.md`,
+        qs: {access_token: token},
+        headers: {'User-Agent': 'Request-Promise'},
+        json: true
     };
-    request(options, (error, response, json) => {
+    rp(options).then(function (json) {
         const content = Buffer.from(json['content'], 'base64').toString();
         let data = Object.assign({idGithub: idGithub}, parseUserPortfolio(content));
         insertUserData(portfolioCollection, data);
+    }).catch(function (err) {
+        throw err;
     });
 };
 
@@ -318,15 +309,12 @@ const findData = (db, coll, key, callback) => {
 // This function gets the languages of one user.
 const getUserLanguages = (idGithub) => {
     const options = {
-        url: `https://api.github.com/users/${idGithub}/repos`,
-        method: 'GET',
-        json: true,
-        headers: {
-            'User-Agent': 'request',
-            'Authorization': token
-        }
+        uri: `https://api.github.com/users/${idGithub}/repos`,
+        qs: {access_token: token},
+        headers: {'User-Agent': 'Request-Promise'},
+        json: true
     };
-    request(options, (error, response, json) => {
+    rp(options).then(function (json) {
         let urls = json.map(v => {
             return v.languages_url;
         });
@@ -335,6 +323,8 @@ const getUserLanguages = (idGithub) => {
             console.log(idGithub);
             insertUserData(languageCollection, data);
         });
+    }).catch(function (err) {
+        throw err;
     });
 };
 
@@ -345,16 +335,12 @@ const getAllLangEvi = (urls, jsonData, callback) => {
     }
     const url = urls.pop();
     const options = {
-        url: url,
-        method: 'GET',
-        json: true,
-        headers: {
-            'User-Agent': 'request',
-            'Authorization': token
-        }
+        uri: url,
+        qs: {access_token: token},
+        headers: {'User-Agent': 'Request-Promise'},
+        json: true
     };
-    // callback(dataUser);
-    request(options, (error, response, json) => {
+    rp(options).then(function (json) {
         const keys = Object.keys(json);
         for (let key of keys) {
             if (key in jsonData) {
@@ -364,33 +350,10 @@ const getAllLangEvi = (urls, jsonData, callback) => {
             }
         }
         getAllLangEvi(urls, jsonData, callback);
+    }).catch(function (err) {
+        throw err;
     });
 };
-
-// let jsonInsert = {
-//     idGithub: 'Kyome22',
-//     nameUser: 'Takuto Nakamura',
-//     desc: '',
-//     linkFB: '',
-//     linkTw: '',
-//     linkLI: '',
-//     linkYT: '',
-//     linkWeb: '',
-//     langProg: 'C',
-//     libFw: '',
-//     env: '',
-//     skills: '',
-//     qualifi: '',
-//     termComp: '',
-//     nameComp: '',
-//     termEdu: '',
-//     nameEdu: '',
-//     projects: '',
-//     dist: '',
-//     pub: ''
-// };
-
-// insertUserPortfolioData(jsonInsert);
 
 app.get('/', (req, res) => {
     fs.readFile('./public/html/index.html', 'utf-8', (err, data) => {
@@ -438,3 +401,7 @@ app.get('/src/img/*', function(req, res) {
     const buf = fs.readFileSync('./public/img/' + req.params[0]);
     res.send(buf, {'Content-Type': 'image'}, 200);
 });
+
+
+// test code
+crawlingPortfolio();
