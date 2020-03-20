@@ -262,14 +262,25 @@ const search = (bodyReq, callback) => {
     // make json format to search user
     let keywords = bodyReq.split(' ');
     let jsonSearch = {};
+    let qu = new Array();
     for (var i = 0; i < keywords.length; i++) {
         if (keywords[i].indexOf('lang:') === 0) {
-            let lang = keywords[i].split(':')[1];
-            jsonSearch.langProgram = lang;
+            // OR search
+            let listLang = keywords[i].split(':')[1];
+            listLang = listLang.split(',');
+            for (var j = 0; j < listLang.length; j++) {
+                let jsonSt = {};
+                jsonSt.langProgram = listLang[i];
+                qu.push(jsonSt);
+            }
         } else {
-            jsonSearch = Object.assign(jsonSearch, {nameUser: new RegExp(keywords[i])});
+            let jsonSt = {};
+            jsonSt = Object.assign(jsonSt, {nameUser: new RegExp(keywords[i])});
+            qu.push(jsonSt);
         }
     }
+    jsonSearch = Object.assign(jsonSearch, {$or: qu});
+    // console.log('jsonSearch is ' + JSON.stringify(jsonSearch));
     const nameDb = 'pullreqme';
     const nameCollection = 'dbSearch';
     MongoClient.connect('mongodb://127.0.0.1:27017', connectOption, (err, client) => {
@@ -292,7 +303,6 @@ const search = (bodyReq, callback) => {
 };
 
 const verifyLang = (dataUser, langProgram, callback) => {
-    console.log('#$%' + JSON.stringify(dataUser));
     for (var i = 0; i < dataUser.length; i++) {
         const options = {
             url: `https://api.github.com/users/${dataUser[i].idGithub}/repos`,
@@ -303,7 +313,13 @@ const verifyLang = (dataUser, langProgram, callback) => {
             }
         };
         request(options, (error, response, json) => {
-            console.log(json);
+            console.log(json.length);
+
+            //Get url which obtain programming language list
+            for (var i = 0; i < json.length; i++) {
+                console.log(json[i].languages_url);
+
+            }
             callback(json);
         });
     }
@@ -346,8 +362,8 @@ app.post('/search/result', (req, res) => {
     console.log(req.body);
     fs.readFile('./public/html/result.ejs', 'utf-8', (err, data) => {
         search(req.body.search, (result) => {
-            console.log('result');
-            console.log(result);
+            // console.log('result');
+            // console.log(result);
             let page = ejs.render(data, {
                 infoResult: JSON.stringify(result)
             });
