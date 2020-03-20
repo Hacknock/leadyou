@@ -300,7 +300,7 @@ const verifyLang = (dataUser, langProgram, callback) => {
             }
         };
         request(options, (error, response, json) => {
-            console.log(dataUser.idGithub + ' can write language ')
+            console.log(dataUser.idGithub + ' can write language ');
         });
     }
 };
