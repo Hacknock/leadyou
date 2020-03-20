@@ -69,9 +69,100 @@ function getUserPortfolio(userPath) {
 }
 
 function parseUserPortfolio(content) {
-    var result = content.split(/\n#/);
-    console.log(result);
-    // セクションごとには別れたので，各セクションごとのお仕事をすればいい
+    let data = {nameUser: 'Unknown', desc: 'No description'};
+    let result = content.split(/(?<=\n)(?=# )/).filter(value => {
+        return value.startsWith('# ');
+    });
+    if (0 == result.length) return;
+    result = result[0].split(/(?<=\n)(?=## )/);
+    for (let value of result) {
+        if (value.startsWith('# ')) { // overview
+            data = Object.assign(data, parseOverview(value));
+        } else if (value.startsWith('## Programming Languages')) {
+            data = Object.assign(data, {langProgram: parseTags(value)});
+        } else if (value.startsWith('## Frameworks / Libraries')) {
+            data = Object.assign(data, {liFr: parseTags(value)});
+        } else if (value.startsWith('## Environments')) {
+            data = Object.assign(data, {enviro: parseTags(value)});
+        } else if (value.startsWith('## Other Skills')) {
+            data = Object.assign(data, {skills: parseTags(value)});
+        } else if (value.startsWith('## Qualifications')) {
+            data = Object.assign(data, {qualifi: parseTags(value)});
+        } else if (value.startsWith('## Job Experience')) {
+
+        } else if (value.startsWith('## Education')) {
+
+        } else if (value.startsWith('## Projects')) {
+            data = Object.assign(data, {projects: parseTitles(value)});
+        } else if (value.startsWith('## Distributions')) {
+            data = Object.assign(data, {distr: parseTitles(value)});
+        } else if (value.startsWith('## Publications')) {
+            data = Object.assign(data, {namePub: parseTitles(value)});
+        }
+    }
+    console.log(data);
+}
+
+function parseOverview(content) {
+    let data = {};
+    let result = content.split(/\n/g).filter(value => {
+        return (value.length !== 0) && (value !== '***');
+    });
+    let nameUser = '';
+    let desc = '';
+    for (let value of result) {
+        if (value.startsWith('# ')) {
+            nameUser = value.replace(/# /, '');
+        } else if (value.startsWith('[<img')) {
+            let url = value.match(/.+id="(.+)" src.+\((.+)\)/);
+            if (url === null) continue;
+            switch (url[1]) {
+                case 'website':
+                    Object.assign(data, {linkWeb: url[2]});
+                    break;
+                case 'facebook':
+                    Object.assign(data, {linkFB: url[2]});
+                    break;
+                case 'twitter':
+                    Object.assign(data, {linkTw: url[2]});
+                    break;
+                case 'linkedin':
+                    Object.assign(data, {linkLinked: url[2]});
+                    break;
+                case 'youtube':
+                    Object.assign(data, {linkYoutube: url[2]});
+                    break;
+            }
+        } else {
+            desc += value;
+        }
+    }
+    data = Object.assign(data, {nameUser: nameUser, desc: desc});
+    return data;
+}
+
+function parseTags(content) {
+    let tags = content.split(/\n/g).filter(value => {
+        return (value.length !== 0) && !(value.startsWith('## '));
+    }).flatMap(value => {
+        return value.match(/`[^`]+` */g);
+    }).map(value => {
+        return value.replace(/` */g, '');
+    }).filter(value => {
+        return (value.length !== 0);
+    });
+    return tags;
+}
+
+function parseTitles(content) {
+    let titles = content.split(/\n/g).filter(value => {
+        return value.startsWith('### ');
+    }).map(value => {
+        return value.replace(/### /, '');
+    }).filter(value => {
+        return (value.length !== 0);
+    });
+    return titles;
 }
 
 function insertData(jsonData) {
