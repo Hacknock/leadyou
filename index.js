@@ -146,31 +146,30 @@ const findData = (db, coll, key, callback) => {
     });
 };
 
-const selectDB = (key, words, callback) => {
-    const nameDb = 'pullreqme';
-    const nameCollection = 'dbSearch';
-    MongoClient.connect('mongodb://127.0.0.1:27017', connectOption, (err, client) => {
-        if (err) {
-            console.log('Error occurred #01');
-            throw err;
-        } else {
-            console.log('Database connection is established on insert data process. #02');
-            const db = client.db(nameDb);  //Get pullreqme database
-
-            findData(db, nameCollection, {[key]: words}, (items) => {
-                console.log(items.length);
-                client.close();
-                callback(items);
-            });
-        }
-    });
-};
+// const selectDB = (key, words, callback) => {
+//     const nameDb = 'pullreqme';
+//     const nameCollection = 'dbSearch';
+//     MongoClient.connect('mongodb://127.0.0.1:27017', connectOption, (err, client) => {
+//         if (err) {
+//             console.log('Error occurred #01');
+//             throw err;
+//         } else {
+//             console.log('Database connection is established on insert data process. #02');
+//             const db = client.db(nameDb);  //Get pullreqme database
+//
+//             findData(db, nameCollection, {[key]: words}, (items) => {
+//                 console.log(items.length);
+//                 client.close();
+//                 callback(items);
+//             });
+//         }
+//     });
+// };
 
 // Search user function by search window
 const search = (bodyReq, callback) => {
     // make json format to search user
     let keywords = bodyReq.split(' ');
-    console.log('Keywords length of search engine is ' + keywords.length);
     let jsonSearch = {};
     for (var i = 0; i < keywords.length; i++) {
         if (keywords[i].indexOf('lang:') === 0) {
@@ -196,6 +195,23 @@ const search = (bodyReq, callback) => {
             });
         }
     });
+};
+
+const verifyLang = (dataUser, langProgram, callback) => {
+    console.log(dataUser.length);
+    for (var i = 0; i < dataUser.length; i++) {
+        const options = {
+            url: `https://api.github.com/repos/${dataUser.idGithub}/languages`,
+            method: 'GET',
+            json: true,
+            headers: {
+                'User-Agent': 'request'
+            }
+        };
+        request(options, (error, response, json) => {
+            console.log(dataUser.idGithub + ' can write language ')
+        });
+    }
 };
 
 let jsonInsert = {
@@ -237,6 +253,9 @@ app.post('/search/result', (req, res) => {
         search(req.body.search, (result) => {
             console.log('result');
             console.log(result);
+            //very programming language
+
+
             let page = ejs.render(data, {
                 infoResult: JSON.stringify(result)
             });
