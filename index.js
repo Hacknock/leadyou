@@ -18,6 +18,8 @@ const ejs = require('ejs');
 
 const port = 3000;
 
+const token = '1711100913c7a4446e3f81dcda0d91519d295802';
+
 server.listen(port, () => {
     console.log('listen port 3000 #00');
 });
@@ -28,7 +30,7 @@ app.use(bodyParser.urlencoded({
 app.use(bodyParser.json());
 
 // test code
-crawlingPortfolio();
+// crawlingPortfolio();
 
 const connectOption = {
     useNewUrlParser: true,
@@ -46,7 +48,6 @@ function crawlingPortfolio() {
     };
     request(options, (error, response, json) => {
         for (let i = 0; i < 1; i++) {
-
             //for (let i = 0; i < Object.keys(json).length; i++) {
             getUserPortfolio(json[i]['full_name']);
         }
@@ -293,7 +294,7 @@ const search = (bodyReq, callback) => {
             findData(db, nameCollection, jsonSearch, (items) => {
                 console.log(items.length);
                 // verification of programming language
-                verifyLang(items, jsonSearch.langProgram, (result)=>{
+                verifyLang(items, jsonSearch.langProgram, (result) => {
                     client.close();
                     callback(result);
                 });
@@ -302,32 +303,44 @@ const search = (bodyReq, callback) => {
     });
 };
 
-const verifyLang = (dataUser, langProgram, callback) => {
-    for (var i = 0; i < dataUser.length; i++) {
-        const options = {
-            url: `https://api.github.com/users/${dataUser[i].idGithub}/repos`,
-            method: 'GET',
-            json: true,
-            headers: {
-                'User-Agent': 'request'
-            }
-        };
-        request(options, (error, response, json) => {
-            console.log(json.length);
-
-            //Get url which obtain programming language list
-            for (var i = 0; i < json.length; i++) {
-                console.log(json[i].languages_url);
-
-            }
-            callback(json);
-        });
+const getAllRepo = (dataUsers, langProgram, arrayURL, callback) => {
+    if (dataUsers.length === 0) {
+        callback(arrayURL);
+        return;
     }
+    const dataUser = dataUsers.pop();
+    const options = {
+        url: `https://api.github.com/users/${dataUser.idGithub}/repos`,
+        method: 'GET',
+        json: true,
+        headers: {
+            'User-Agent': 'request',
+            'client_id': '002a7ec4a91d0cb0c48b',
+            'client_secret': '3e141ba490f3b74d44dffd67cc8c26a14b2830a0'
+        }
+    };
+    // callback(dataUser);
+    request(options, (error, response, json) => {
+        //Get url which obtain programming language list
+        let arraySt = json.map(v => {
+            return v.languages_url;
+        });
+
+        getAllRepo(dataUsers, langProgram, arrayURL.concat(arraySt), callback);
+    });
+};
+
+const verifyLang = (dataUsers, langProgram, callback) => {
+    let arrayURL = new Array();
+    getAllRepo(dataUsers, langProgram, arrayURL, (result) => {
+        callback(result);
+
+    });
 };
 
 let jsonInsert = {
-    idGithub: 'KASHIHARAAkira',
-    nameUser: 'Akira Kashihara',
+    idGithub: 'Kyome22',
+    nameUser: 'Takuto Nakamura',
     desc: '',
     linkFB: '',
     linkTw: '',
