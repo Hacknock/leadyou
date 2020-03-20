@@ -159,23 +159,8 @@ const search = (key, words, callback) => {
 
             findData(db, nameCollection, {[key]: words}, (items) => {
                 console.log(items.length);
-                // console.log(items);
                 client.close();
                 callback(items);
-                // if (items.length == 0) {
-                //     console.log('No data. #03');
-                //     insertDocuments(db, nameCollection, jsonData, () => {
-                //         client.close();
-                //     });
-                // } else {
-                //     console.log('Data has been existed. #04');
-                //     console.log(jsonData.idGithub);
-                //     deleteData(db, nameCollection, {idGithub: jsonData.idGithub}, (result) => {
-                //         insertDocuments(db, nameCollection, jsonData, () => {
-                //             client.close();
-                //         });
-                //     });
-                // }
             });
         }
     });
