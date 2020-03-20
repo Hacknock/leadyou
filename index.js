@@ -118,20 +118,20 @@ function parseOverview(content) {
             if (url === null) continue;
             switch (url[1]) {
                 case 'website':
-                Object.assign(data, {linkWeb: url[2]});
-                break;
+                    Object.assign(data, {linkWeb: url[2]});
+                    break;
                 case 'facebook':
-                Object.assign(data, {linkFB: url[2]});
-                break;
+                    Object.assign(data, {linkFB: url[2]});
+                    break;
                 case 'twitter':
-                Object.assign(data, {linkTw: url[2]});
-                break;
+                    Object.assign(data, {linkTw: url[2]});
+                    break;
                 case 'linkedin':
-                Object.assign(data, {linkLinked: url[2]});
-                break;
+                    Object.assign(data, {linkLinked: url[2]});
+                    break;
                 case 'youtube':
-                Object.assign(data, {linkYoutube: url[2]});
-                break;
+                    Object.assign(data, {linkYoutube: url[2]});
+                    break;
             }
         } else {
             desc += value;
@@ -162,7 +162,7 @@ function parseTitles(content) {
     }).filter(value => {
         return (value.length !== 0);
     });
-    return titles
+    return titles;
 }
 
 function insertData(jsonData) {
@@ -237,51 +237,68 @@ const findData = (db, coll, key, callback) => {
     });
 };
 
-const search = (key, words, callback) => {
+const selectDB = (key, words, callback) => {
     const nameDb = 'pullreqme';
     const nameCollection = 'dbSearch';
     MongoClient.connect('mongodb://127.0.0.1:27017', connectOption, (err, client) => {
-    if (err) {
-        console.log('Error occurred #01');
-        throw err;
-    } else {
-        console.log('Database connection is established on insert data process. #02');
-        const db = client.db(nameDb);  //Get pullreqme database
+        if (err) {
+            console.log('Error occurred #01');
+            throw err;
+        } else {
+            console.log('Database connection is established on insert data process. #02');
+            const db = client.db(nameDb);  //Get pullreqme database
 
-        findData(db, nameCollection, {[key]: words}, (items) => {
-            console.log(items.length);
-            // console.log(items);
-            client.close();
-            callback(items);
-            // if (items.length == 0) {
-            //     console.log('No data. #03');
-            //     insertDocuments(db, nameCollection, jsonData, () => {
-            //         client.close();
-            //     });
-            // } else {
-            //     console.log('Data has been existed. #04');
-            //     console.log(jsonData.idGithub);
-            //     deleteData(db, nameCollection, {idGithub: jsonData.idGithub}, (result) => {
-            //         insertDocuments(db, nameCollection, jsonData, () => {
-            //             client.close();
-            //         });
-            //     });
-            // }
-        });
+            findData(db, nameCollection, {[key]: words}, (items) => {
+                console.log(items.length);
+                client.close();
+                callback(items);
+            });
+        }
+    });
+};
+
+// Search user function by search window
+const search = (bodyReq, callback) => {
+    // make json format to search user
+    let keywords = bodyReq.split(' ');
+    console.log('Keywords length of search engine is ' + keywords.length);
+    let jsonSearch = {};
+    for (var i = 0; i < keywords.length; i++) {
+        if (keywords[i].indexOf('lang:') === 0) {
+            let lang = keywords[i].split(':')[1];
+            jsonSearch.langProgram = lang;
+        } else {
+            jsonSearch = Object.assign(jsonSearch, {nameUser: new RegExp(keywords[i])});
+        }
     }
-});
+    const nameDb = 'pullreqme';
+    const nameCollection = 'dbSearch';
+    MongoClient.connect('mongodb://127.0.0.1:27017', connectOption, (err, client) => {
+        if (err) {
+            console.log('Error occured.');
+            throw err;
+        } else {
+            console.log('Database connection is established on insert data process.');
+            const db = client.db(nameDb);  //Get pullreqme database
+            findData(db, nameCollection, jsonSearch, (items) => {
+                console.log(items.length);
+                client.close();
+                callback(items);
+            });
+        }
+    });
 };
 
 let jsonInsert = {
-    idGithub: 'wan',
-    nameUser: '',
+    idGithub: 'KASHIHARAAkira',
+    nameUser: 'Akira Kashihara',
     desc: '',
     linkFB: '',
     linkTw: '',
     linkLinked: '',
     linkYoutube: '',
     linkWeb: '',
-    langProgram: '',
+    langProgram: 'C',
     liFr: '',
     enviro: '',
     skills: '',
@@ -308,7 +325,7 @@ app.get('/', (req, res) => {
 app.post('/search/result', (req, res) => {
     console.log(req.body);
     fs.readFile('./public/html/result.ejs', 'utf-8', (err, data) => {
-        search('idGithub', req.body.search, (result) => {
+        search(req.body.search, (result) => {
             console.log('result');
             console.log(result);
             let page = ejs.render(data, {
