@@ -281,18 +281,21 @@ const search = (bodyReq, callback) => {
             const db = client.db(nameDb);  //Get pullreqme database
             findData(db, nameCollection, jsonSearch, (items) => {
                 console.log(items.length);
-                client.close();
-                callback(items);
+                // verification of programming language
+                verifyLang(items, jsonSearch.langProgram, (result)=>{
+                    client.close();
+                    callback(result);
+                });
             });
         }
     });
 };
 
 const verifyLang = (dataUser, langProgram, callback) => {
-    console.log(dataUser.length);
+    console.log('#$%' + JSON.stringify(dataUser));
     for (var i = 0; i < dataUser.length; i++) {
         const options = {
-            url: `https://api.github.com/repos/${dataUser.idGithub}/languages`,
+            url: `https://api.github.com/users/${dataUser[i].idGithub}/repos`,
             method: 'GET',
             json: true,
             headers: {
@@ -300,7 +303,8 @@ const verifyLang = (dataUser, langProgram, callback) => {
             }
         };
         request(options, (error, response, json) => {
-            console.log(dataUser.idGithub + ' can write language ');
+            console.log(json);
+            callback(json);
         });
     }
 };
@@ -344,9 +348,6 @@ app.post('/search/result', (req, res) => {
         search(req.body.search, (result) => {
             console.log('result');
             console.log(result);
-            //very programming language
-
-
             let page = ejs.render(data, {
                 infoResult: JSON.stringify(result)
             });
