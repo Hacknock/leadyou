@@ -15,10 +15,9 @@ const mongo = require('mongodb'); // momgodb define
 const MongoClient = mongo.MongoClient; // use mongo client
 const bodyParser = require('body-parser');
 const ejs = require('ejs');
+const config = require('config');
 
 const port = 3000;
-
-const token = '1711100913c7a4446e3f81dcda0d91519d295802';
 
 server.listen(port, () => {
     console.log('listen port 3000 #00');
@@ -306,26 +305,6 @@ const findData = (db, coll, key, callback) => {
     });
 };
 
-// const selectDB = (key, words, callback) => {
-//     const nameDb = 'pullreqme';
-//     const nameCollection = 'dbSearch';
-//     MongoClient.connect('mongodb://127.0.0.1:27017', connectOption, (err, client) => {
-//         if (err) {
-//             console.log('Error occurred #01');
-//             throw err;
-//         } else {
-//             console.log('Database connection is established on insert data process. #02');
-//             const db = client.db(nameDb);  //Get pullreqme database
-//
-//             findData(db, nameCollection, {[key]: words}, (items) => {
-//                 console.log(items.length);
-//                 client.close();
-//                 callback(items);
-//             });
-//         }
-//     });
-// };
-
 // Search user function by search window
 const search = (bodyReq, callback) => {
     // make json format to search user
@@ -383,8 +362,8 @@ const getAllRepo = (dataUsers, langProgram, arrayURL, callback) => {
         json: true,
         headers: {
             'User-Agent': 'request',
-            'client_id': '002a7ec4a91d0cb0c48b',
-            'client_secret': '3e141ba490f3b74d44dffd67cc8c26a14b2830a0'
+            'client_id': config.get('AuthGithub.client_id'),
+            'client_secret': config.get('AuthGithub.client_secret')
         }
     };
     // callback(dataUser);
