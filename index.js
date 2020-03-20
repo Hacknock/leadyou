@@ -145,13 +145,13 @@ function parseTags(content) {
     let tags = content.split(/\n/g).filter(value => {
         return (value.length !== 0) && !(value.startsWith('## '));
     }).flatMap(value => {
-        return value.split(/ /g);
+        return value.match(/`[^`]+` */g);
     }).map(value => {
-        return value.replace(/`/g, '');
+        return value.replace(/` */g, '');
     }).filter(value => {
         return (value.length !== 0);
     });
-    return tags
+    return tags;
 }
 
 function parseTitles(content) {
