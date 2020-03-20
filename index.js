@@ -45,15 +45,15 @@ function crawlingPortfolio() {
         }
     };
     request(options, (error, response, json) => {
-        for (let i = 0; i < 1; i++) {
-
-            //for (let i = 0; i < Object.keys(json).length; i++) {
-            getUserPortfolio(json[i]['full_name']);
+        for (let i = 0; i < Object.keys(json).length; i++) {
+            let idGithub = json[1]['owner']['login'];
+            let userPath = json[i]['full_name'];
+            getUserPortfolio(idGithub, userPath);
         }
     });
 }
 
-function getUserPortfolio(userPath) {
+function getUserPortfolio(idGithub, userPath) {
     const options = {
         url: `https://api.github.com/repos/${userPath}/contents/README.md`,
         method: 'GET',
@@ -64,7 +64,10 @@ function getUserPortfolio(userPath) {
     };
     request(options, (error, response, json) => {
         const content = Buffer.from(json['content'], 'base64').toString();
-        insertData(parseUserPortfolio(content));
+        let data = {idGithub: idGithub};
+        data = Object.assign(data, parseUserPortfolio(content));
+        console.log(data);
+        insertData(data);
     });
 }
 
@@ -237,28 +240,27 @@ function insertData(jsonData) {
         if (err) {
             console.log('Error occurred #01');
             throw err;
-        } else {
-            console.log('Database connection is established on insert data process. #02');
-            const db = client.db(nameDb);  //Get pullreqme database
+        }
+        console.log('Database connection is established on insert data process. #02');
+        const db = client.db(nameDb);  //Get pullreqme database
 
-            findData(db, nameCollection, {idGithub: jsonData.idGithub}, (items) => {
-                console.log(items.length);
-                if (items.length == 0) {
-                    console.log('No data. #03');
+        findData(db, nameCollection, {idGithub: jsonData.idGithub}, (items) => {
+            console.log(items.length);
+            if (items.length == 0) {
+                console.log('No data. #03');
+                insertDocuments(db, nameCollection, jsonData, () => {
+                    client.close();
+                });
+            } else {
+                console.log('Data has been existed. #04');
+                console.log(jsonData.idGithub);
+                deleteData(db, nameCollection, {idGithub: jsonData.idGithub}, () => {
                     insertDocuments(db, nameCollection, jsonData, () => {
                         client.close();
                     });
-                } else {
-                    console.log('Data has been existed. #04');
-                    console.log(jsonData.idGithub);
-                    deleteData(db, nameCollection, {idGithub: jsonData.idGithub}, () => {
-                        insertDocuments(db, nameCollection, jsonData, () => {
-                            client.close();
-                        });
-                    });
-                }
-            });
-        }
+                });
+            }
+        });
     });
 }
 
