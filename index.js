@@ -146,7 +146,7 @@ const findData = (db, coll, key, callback) => {
     });
 };
 
-const search = (key, words, callback) => {
+const selectDB = (key, words, callback) => {
     const nameDb = 'pullreqme';
     const nameCollection = 'dbSearch';
     MongoClient.connect('mongodb://127.0.0.1:27017', connectOption, (err, client) => {
@@ -165,6 +165,8 @@ const search = (key, words, callback) => {
         }
     });
 };
+
+
 
 let jsonInsert = {
     idGithub: 'wan',
@@ -202,7 +204,7 @@ app.get('/', (req, res) => {
 app.post('/search/result', (req, res) => {
     console.log(req.body);
     fs.readFile('./public/html/result.ejs', 'utf-8', (err, data) => {
-        search('idGithub', req.body.search, (result) => {
+        selectDB('idGithub', req.body.search, (result) => {
             console.log('result');
             console.log(result);
             let page = ejs.render(data, {
