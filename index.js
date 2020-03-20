@@ -22,7 +22,7 @@ const token = config.get('AuthGithub.kyomechan');
 const port = 3000;
 const mongoURL = 'mongodb://127.0.0.1:27017';
 const nameDb = 'pullreqme';
-const portfolioCollection = 'dbSearch';
+const portfolioCollection = 'dbPortfolio';
 const languageCollection = 'dbLanguage';
 
 const connectOption = {
@@ -364,7 +364,7 @@ const searchUser = (bodyReq, callback) => {
                 console.log('number of hits');
                 console.log(items.length);
                 let listLang = result.map(v => {
-                    return v.langProgram;
+                    return v.langProg;
                 });
                 let idGithubs = items.map(v => {
                     return v.idGithub;
@@ -408,7 +408,7 @@ const makeQuery = (keywords, arrayQuery, callback) => {
         let listLang = keyword.split(':')[1];
         listLang = listLang.split(',');
         for (var j = 0; j < listLang.length; j++) {
-            arrayQuery.push({'langProgram': listLang[j]});
+            arrayQuery.push({'langProg': listLang[j]});
         }
         makeQuery(keywords, arrayQuery, callback);
     } else {
@@ -426,12 +426,9 @@ app.get('/', (req, res) => {
 });
 
 app.post('/search/result', (req, res) => {
-    console.log(req.body);
-    fs.readFile('./public/html/result.ejs', 'utf-8', (err, data) => {
-        searchUser(req.body.search, (result) => {
-            const page = ejs.render(data, {
-                infoResult: JSON.stringify(result)
-            });
+    searchUser(req.body.search, (result) => {
+        fs.readFile('./public/html/result.ejs', 'utf-8', (err, data) => {
+            const page = ejs.render(data, {jsonData: JSON.stringify(result)});
             res.writeHead(200, {'Content-Type': 'text/html'});
             res.write(page);
             res.end();

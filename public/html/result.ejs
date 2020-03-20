@@ -10,11 +10,10 @@
         <input type="text" name="search">
         <input type="submit" value="search" class='countButton'>
     </form>
-
-    <section id='result'>
-        <%= infoResult %>
-    </section>
-
+    <pre id='result'></pre>
+    <div id='json' hidden>
+        <%= jsonData %>
+    </div>
     <script type='text/javascript' src='/src/js/index.js'></script>
 </body>
 </html>

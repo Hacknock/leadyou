@@ -1,12 +1,8 @@
-const countLabel = document.getElementById('countLabel');
-const countButton = document.getElementById('countButton');
-let count = 0;
-
-function countUp() {
-    count += 1;
-    countLabel.innerText = count;
-}
+const result = document.getElementById('result');
+const jsonArea = document.getElementById('json');
 
 window.onload = function() {
-    countButton.addEventListener('click', countUp, false);
+    let json = JSON.parse(jsonArea.innerText);
+    let pretty = JSON.stringify(json, null, 4);
+    result.innerText = pretty;
 };

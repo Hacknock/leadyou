@@ -33,3 +33,10 @@ input.countButton:disabled {
     border-bottom: solid 4px #9E9E9E;
 }
 /* === sample code === */
+
+
+pre#result {
+    margin: 0 auto;
+    width: 400px;
+    text-align: left;
+}
