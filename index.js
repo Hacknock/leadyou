@@ -363,21 +363,23 @@ app.get('/', (req, res) => {
     });
 });
 
-// app.post('/search/result', (req, res) => {
-//     console.log(req.body);
-//     fs.readFile('./public/html/result.ejs', 'utf-8', (err, data) => {
-//         search(req.body.search, (result) => {
-//             // console.log('result');
-//             // console.log(result);
-//             const page = ejs.render(data, {
-//                 infoResult: JSON.stringify(result)
-//             });
-//             res.writeHead(200, {'Content-Type': 'text/html'});
-//             res.write(page);
-//             res.end();
-//         });
-//     });
-// });
+app.post('/search/result', (req, res) => {
+    fs.readFile('./public/html/result.ejs', 'utf-8', (err, data) => {
+        MongoClient.connect(mongoURL, connectOption, (err, client) => {
+            if (err) {
+                throw err;
+            }
+            const db = client.db(nameDb);
+            findData(db, portfolioCollection, {'nameUser': new RegExp('.*' + req.body.search + '.*')}, (json) => {
+                console.log(json);
+                const page = ejs.render(data, {jsonData: JSON.stringify(json)});
+                res.writeHead(200, {'Content-Type': 'text/html'});
+                res.write(page);
+                res.end();
+            });
+        });
+    });
+});
 
 app.get('/src/css/*', (req, res) => {
     fs.readFile('./public/css/' + req.params[0], 'utf-8', (err, data) => {
@@ -404,4 +406,4 @@ app.get('/src/img/*', function(req, res) {
 
 
 // test code
-crawlingPortfolio();
+// crawlingPortfolio();
