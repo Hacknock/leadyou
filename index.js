@@ -45,15 +45,15 @@ function crawlingPortfolio() {
         }
     };
     request(options, (error, response, json) => {
-        for (let i = 0; i < 1; i++) {
-
-            //for (let i = 0; i < Object.keys(json).length; i++) {
-            getUserPortfolio(json[i]['full_name']);
+        for (let i = 0; i < Object.keys(json).length; i++) {
+            let idGithub = json[1]['owner']['login'];
+            let userPath = json[i]['full_name'];
+            getUserPortfolio(idGithub, userPath);
         }
     });
 }
 
-function getUserPortfolio(userPath) {
+function getUserPortfolio(idGithub, userPath) {
     const options = {
         url: `https://api.github.com/repos/${userPath}/contents/README.md`,
         method: 'GET',
@@ -64,7 +64,10 @@ function getUserPortfolio(userPath) {
     };
     request(options, (error, response, json) => {
         const content = Buffer.from(json['content'], 'base64').toString();
-        parseUserPortfolio(content);
+        let data = {idGithub: idGithub};
+        data = Object.assign(data, parseUserPortfolio(content));
+        console.log(data);
+        insertData(data);
     });
 }
 
@@ -89,9 +92,9 @@ function parseUserPortfolio(content) {
         } else if (value.startsWith('## Qualifications')) {
             data = Object.assign(data, {qualifi: parseTags(value)});
         } else if (value.startsWith('## Job Experience')) {
-
+            data = Object.assign(data, parseJobExperience(value));
         } else if (value.startsWith('## Education')) {
-
+            data = Object.assign(data, parseEducation(value));
         } else if (value.startsWith('## Projects')) {
             data = Object.assign(data, {projects: parseTitles(value)});
         } else if (value.startsWith('## Distributions')) {
@@ -100,7 +103,7 @@ function parseUserPortfolio(content) {
             data = Object.assign(data, {namePub: parseTitles(value)});
         }
     }
-    console.log(data);
+    return data;
 }
 
 function parseOverview(content) {
@@ -165,6 +168,70 @@ function parseTitles(content) {
     return titles;
 }
 
+function parseJobExperience(content) {
+    let result = content.split(/(?<=\n)(?=### )/).filter(value => {
+        return value.startsWith('### ');
+    });
+    let termComp = [];
+    let nameComp = [];
+    for (let i in result) {
+        termComp.push('');
+        nameComp.push('');
+        let lines = result[i].split(/\n/g).filter(value => {
+            return (value.length !== 0);
+        });
+        for (let line of lines) {
+            if (line.startsWith('### ')) {
+                let term = line.match(/\*([^*]+)\*/);
+                if (term) {
+                    termComp[i] = term[1];
+                }
+            } else if (line.startsWith('**')) {
+                let name = line.match(/\*\*([^*]+)\*\*/);
+                if (name) {
+                    nameComp[i] = name[1];
+                }
+            }
+        }
+    }
+    if (0 < termComp.length) {
+        return {termComp: termComp, nameComp: nameComp};
+    }
+    return {};
+}
+
+function parseEducation(content) {
+    let result = content.split(/(?<=\n)(?=### )/).filter(value => {
+        return value.startsWith('### ');
+    });
+    let termEdu = [];
+    let nameEdu = [];
+    for (let i in result) {
+        termEdu.push('');
+        nameEdu.push('');
+        let lines = result[i].split(/\n/g).filter(value => {
+            return (value.length !== 0);
+        });
+        for (let line of lines) {
+            if (line.startsWith('### ')) {
+                let term = line.match(/\*([^*]+)\*/);
+                if (term) {
+                    termEdu[i] = term[1];
+                }
+            } else {
+                let name = line.match(/> (.+)/);
+                if (name) {
+                    nameEdu[i] += name[1];
+                }
+            }
+        }
+    }
+    if (0 < termEdu.length) {
+        return {termEdu: termEdu, nameEdu: nameEdu};
+    }
+    return {};
+}
+
 function insertData(jsonData) {
     const nameDb = 'pullreqme';
     const nameCollection = 'dbSearch';
@@ -173,28 +240,27 @@ function insertData(jsonData) {
         if (err) {
             console.log('Error occurred #01');
             throw err;
-        } else {
-            console.log('Database connection is established on insert data process. #02');
-            const db = client.db(nameDb);  //Get pullreqme database
+        }
+        console.log('Database connection is established on insert data process. #02');
+        const db = client.db(nameDb);  //Get pullreqme database
 
-            findData(db, nameCollection, {idGithub: jsonData.idGithub}, (items) => {
-                console.log(items.length);
-                if (items.length == 0) {
-                    console.log('No data. #03');
+        findData(db, nameCollection, {idGithub: jsonData.idGithub}, (items) => {
+            console.log(items.length);
+            if (items.length == 0) {
+                console.log('No data. #03');
+                insertDocuments(db, nameCollection, jsonData, () => {
+                    client.close();
+                });
+            } else {
+                console.log('Data has been existed. #04');
+                console.log(jsonData.idGithub);
+                deleteData(db, nameCollection, {idGithub: jsonData.idGithub}, () => {
                     insertDocuments(db, nameCollection, jsonData, () => {
                         client.close();
                     });
-                } else {
-                    console.log('Data has been existed. #04');
-                    console.log(jsonData.idGithub);
-                    deleteData(db, nameCollection, {idGithub: jsonData.idGithub}, () => {
-                        insertDocuments(db, nameCollection, jsonData, () => {
-                            client.close();
-                        });
-                    });
-                }
-            });
-        }
+                });
+            }
+        });
     });
 }
 
