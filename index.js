@@ -166,18 +166,48 @@ const selectDB = (key, words, callback) => {
     });
 };
 
-
+// Search user function by search window
+const search = (bodyReq, callback) => {
+    // make json format to search user
+    let keywords = bodyReq.split(' ');
+    console.log('Keywords length of search engine is ' + keywords.length);
+    let jsonSearch = {};
+    for (var i = 0; i < keywords.length; i++) {
+        if (keywords[i].indexOf('lang:') === 0) {
+            let lang = keywords[i].split(':')[1];
+            jsonSearch.langProgram = lang;
+        } else {
+            jsonSearch = Object.assign(jsonSearch, {nameUser: new RegExp(keywords[i])});
+        }
+    }
+    const nameDb = 'pullreqme';
+    const nameCollection = 'dbSearch';
+    MongoClient.connect('mongodb://127.0.0.1:27017', connectOption, (err, client) => {
+        if (err) {
+            console.log('Error occured.');
+            throw err;
+        } else {
+            console.log('Database connection is established on insert data process.');
+            const db = client.db(nameDb);  //Get pullreqme database
+            findData(db, nameCollection, jsonSearch, (items) => {
+                console.log(items.length);
+                client.close();
+                callback(items);
+            });
+        }
+    });
+};
 
 let jsonInsert = {
-    idGithub: 'wan',
-    nameUser: '',
+    idGithub: 'KASHIHARAAkira',
+    nameUser: 'Akira Kashihara',
     desc: '',
     linkFB: '',
     linkTw: '',
     linkLinked: '',
     linkYoutube: '',
     linkWeb: '',
-    langProgram: '',
+    langProgram: 'C',
     liFr: '',
     enviro: '',
     skills: '',
@@ -204,7 +234,7 @@ app.get('/', (req, res) => {
 app.post('/search/result', (req, res) => {
     console.log(req.body);
     fs.readFile('./public/html/result.ejs', 'utf-8', (err, data) => {
-        selectDB('idGithub', req.body.search, (result) => {
+        search(req.body.search, (result) => {
             console.log('result');
             console.log(result);
             let page = ejs.render(data, {
