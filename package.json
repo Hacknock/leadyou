@@ -4,8 +4,7 @@
   "description": "This code is for pull req me project",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "eslint": "eslint --fix ."
+    "lint": "eslint --ext .js public/js --fix"
   },
   "repository": {
     "type": "git",
