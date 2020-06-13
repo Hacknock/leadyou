@@ -10,5 +10,3 @@ $ npm install
 fource lint -->
 `$ npm run lint`
 コードの見た目をいい感じにしてくれる(メンテした)
-
-test
