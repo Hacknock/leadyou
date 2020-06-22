@@ -1,11 +1,14 @@
-# api_pillreq-me
+# api_pullreq-me
+
 API of pullreq-me
 
 ## System Deploy
-  You need to install node.js and mongoDB. You can get these the following page.
+
+You need to install node.js and mongoDB. You can get these the following page.
+
+`$ npm install`
 
 ## Lint
-$ npm install
 
 fource lint -->
 `$ npm run lint`
