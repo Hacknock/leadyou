@@ -459,6 +459,13 @@ app.get('/src/img/*', function(req, res) {
     res.send(buf, {'Content-Type': 'image'}, 200);
 });
 
+app.get('/src/json/*', function(req, res) {
+    fs.readFile('./public/json/' + req.params[0], 'utf-8', (err, data) => {
+        res.writeHead(200, {'Content-Type': 'application/json'});
+        res.write(data);
+        res.end();
+    });
+});
 
 // test code
 // crawlingPortfolio();
