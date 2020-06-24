@@ -1,0 +1,56 @@
+{
+  "repository_url": "https://github.com/user/repo_name",
+  "project_icon": "image url",
+  "readme_sections": [
+    {
+      "title": "Project Name",
+      "required": true,
+      "form_type": "{custom DOM name} //budge display"
+    },
+    {
+      "title": "Tags",
+      "required": true,
+      "form_type": "{custom DOM name}"
+    },
+    {
+      "title": "Short Description",
+      "required": true,
+      "form_type": "{custom DOM name}"
+    },
+    {
+      "title": "Demo",
+      "required": false,
+      "form_type": "{custom DOM name}"
+    },
+    {
+      "title": "Advantages",
+      "required": true,
+      "form_type": "{custom DOM name}"
+    },
+    {
+      "title": "Installation",
+      "required": true,
+      "form_type": "{custom DOM name}"
+    },
+    {
+      "title": "Deployment",
+      "required": false,
+      "form_type": "{custom DOM name}"
+    },
+    {
+      "title": "Minimal Example",
+      "required": true,
+      "form_type": "{custom DOM name}"
+    },
+    {
+      "title": "Contributors",
+      "required": true,
+      "form_type": "{custom DOM name}"
+    },
+    {
+      "title": "Users",
+      "required": false,
+      "form_type": "{custom DOM name}"
+    }
+  ]
+}
