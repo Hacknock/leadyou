@@ -1,85 +1,43 @@
 {
   "repository_url": "https://github.com/user/repo_name",
+  "project_icon": "image url",
   "readme_chapters": [
     {
-      "title": "Section name",
+      "title": "Project Name",
       "required": true,
-      "form_type": "{custom DOM name}",
+      "form": {
+        "component": "name",
+        "description": "Please type project name."
+      },
       "child_content": [
         {
-          "title": "Section Name",
+          "title": "Project Name",
           "required": true,
-          "form_type": "{custom DOM name}",
+          "form": {
+            "component": "name",
+            "description": "Please type project name."
+          },
           "child_content": [
             {
-              "title": "Section Name",
+              "title": "Project Name",
               "required": true,
-              "form_type": "{custom DOM name}"              
+              "form": {
+                "component": "name",
+                "description": "Please type project name."
+              }
             }
           ]
         }
       ]
     },
     {
-      "icon": "Icon",
-      "essential": false,
-      "auto_collect": false,
-      "input_form": "URL"
-    },
-    {
-      "title": "Tags",
-      "essential": true,
-      "auto_collect": true
-    },
-    {
-      "title": "Short Description",
-      "essential": true,
-      "auto_collect": true,
-      "value": "Hoge",
-      "limit": 30
-    },
-    {
-      "title": "Demo",
-      "essential": true,
-      "auto_collect": false,
-      "value": "",
-      "": ""
-    },
-    {
-      "title": "Advantages",
-      "essential": true,
-      "value": "",
-      "": ""
-    },
-    {
-      "title": "Installation",
-      "essential": true,
-      "value": "",
-      "": ""
-    },
-    {
-      "title": "Deployment",
-      "essential": false,
-      "value": "",
-      "": ""
-    },
-    {
-      "title": "Minimal Example",
-      "essential": true,
-      "value": "",
-      "": ""
-    },
-    {
-      "title": "Contributors",
-      "essential": true,
-      "value": "",
-      "": ""
-    },
-    {
-      "title": "Ranking on the pullreq-me",
-      "essential": true,
-      "value": "",
-      "": ""
+      "title": "Badge",
+      "hidden_title": true,
+      "required": true,
+      "form": {
+        "component": "name",
+        "description": "Description"
+      }
     }
   ]
 }
