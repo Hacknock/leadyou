@@ -2,14 +2,21 @@
   "repository_url": "https://github.com/user/repo_name",
   "readme_chapters": [
     {
-      "title": "Project Name",
-      "essential": true,
-      "auto_collect": true,
-      "form_type": "text",
-      "limit": 200,
+      "title": "Section name",
+      "required": true,
+      "form_type": "{custom DOM name}",
       "child_content": [
         {
-          "title": ""
+          "title": "Section Name",
+          "required": true,
+          "form_type": "{custom DOM name}",
+          "child_content": [
+            {
+              "title": "Section Name",
+              "required": true,
+              "form_type": "{custom DOM name}"              
+            }
+          ]
         }
       ]
     },
