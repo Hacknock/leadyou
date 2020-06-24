@@ -1,0 +1,95 @@
+{
+  "repository_url": "https://github.com/user/repo_name",
+  "project_icon": "image url",
+  "readme_sections": [
+    {
+      "title": "Project Name",
+      "required": true,
+      "form": {
+        "component": "name",
+        "description": "Please type project name."
+      } 
+    },
+    {
+      "title": "Badge",
+      "hidden_title": true,      
+      "required": true,
+      "form": {
+        "component": "name",
+        "description": "Description"
+      } 
+    },
+    {
+      "title": "Tags",
+      "required": true,
+      "form": {
+        "component": "name",
+        "description": "Description"
+      } 
+    },
+    {
+      "title": "Short Description",
+      "required": true,
+      "form": {
+        "component": "name",
+        "description": "Description"
+      } 
+    },
+    {
+      "title": "Demo",
+      "required": false,
+      "form": {
+        "component": "name",
+        "description": "Description"
+      } 
+    },
+    {
+      "title": "Advantages",
+      "required": true,
+      "form": {
+        "component": "name",
+        "description": "Description"
+      } 
+    },
+    {
+      "title": "Installation",
+      "required": true,
+      "form": {
+        "component": "name",
+        "description": "Description"
+      } 
+    },
+    {
+      "title": "Deployment",
+      "required": false,
+      "form": {
+        "component": "name",
+        "description": "Description"
+      } 
+    },
+    {
+      "title": "Minimal Example",
+      "required": true,
+      "form": {
+        "component": "name",
+        "description": "Description"
+      } 
+    },
+    {
+      "title": "Contributors",
+      "required": true,
+      "form": {
+        "component": "name",
+        "description": "Description"
+      } 
+    },
+    {
+      "title": "Users",
+      "required": false,
+      "form": {
+        "component": "name",
+        "description": "Description"
+      } 
+    }
+  ]
+}
