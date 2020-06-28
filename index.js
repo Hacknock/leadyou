@@ -45,8 +45,8 @@ app.use(bodyParser.json());
 const crawlingPortfolio = () => {
     const options = {
         uri: 'https://api.github.com/repos/pullreq-me/portfolio/forks',
-        qs: {access_token: token},
-        headers: {'User-Agent': 'Request-Promise'},
+        qs: { access_token: token },
+        headers: { 'User-Agent': 'Request-Promise' },
         json: true
     };
     rp(options).then(function (json) {
@@ -64,13 +64,13 @@ const crawlingPortfolio = () => {
 const getUserPortfolio = (idGithub) => {
     const options = {
         uri: `https://api.github.com/repos/${idGithub}/portfolio/contents/README.md`,
-        qs: {access_token: token},
-        headers: {'User-Agent': 'Request-Promise'},
+        qs: { access_token: token },
+        headers: { 'User-Agent': 'Request-Promise' },
         json: true
     };
     rp(options).then(function (json) {
         const content = Buffer.from(json['content'], 'base64').toString();
-        let data = Object.assign({idGithub: idGithub}, parseUserPortfolio(content));
+        let data = Object.assign({ idGithub: idGithub }, parseUserPortfolio(content));
         insertUserData(portfolioCollection, data);
     }).catch(function (err) {
         throw err;
@@ -79,7 +79,7 @@ const getUserPortfolio = (idGithub) => {
 
 // This function parses the markdown and returns user data (json object).
 const parseUserPortfolio = (content) => {
-    let data = {nameUser: 'Unknown', desc: 'No description'};
+    let data = { nameUser: 'Unknown', desc: 'No description' };
     let result = content.split(/(?<=\n)(?=# )/).filter(value => {
         return value.startsWith('# ');
     });
@@ -89,25 +89,25 @@ const parseUserPortfolio = (content) => {
         if (value.startsWith('# ')) { // overview
             data = Object.assign(data, parseOverview(value));
         } else if (value.startsWith('## Programming Languages')) {
-            data = Object.assign(data, {langProg: parseTags(value)});
+            data = Object.assign(data, { langProg: parseTags(value) });
         } else if (value.startsWith('## Frameworks / Libraries')) {
-            data = Object.assign(data, {libFw: parseTags(value)});
+            data = Object.assign(data, { libFw: parseTags(value) });
         } else if (value.startsWith('## envnments')) {
-            data = Object.assign(data, {env: parseTags(value)});
+            data = Object.assign(data, { env: parseTags(value) });
         } else if (value.startsWith('## Other Skills')) {
-            data = Object.assign(data, {skills: parseTags(value)});
+            data = Object.assign(data, { skills: parseTags(value) });
         } else if (value.startsWith('## Qualifications')) {
-            data = Object.assign(data, {qualifi: parseTags(value)});
+            data = Object.assign(data, { qualifi: parseTags(value) });
         } else if (value.startsWith('## Job Experience')) {
             data = Object.assign(data, parseJobExperience(value));
         } else if (value.startsWith('## Education')) {
             data = Object.assign(data, parseEducation(value));
         } else if (value.startsWith('## Projects')) {
-            data = Object.assign(data, {projects: parseTitles(value)});
+            data = Object.assign(data, { projects: parseTitles(value) });
         } else if (value.startsWith('## Distributions')) {
-            data = Object.assign(data, {dist: parseTitles(value)});
+            data = Object.assign(data, { dist: parseTitles(value) });
         } else if (value.startsWith('## Publications')) {
-            data = Object.assign(data, {pub: parseTitles(value)});
+            data = Object.assign(data, { pub: parseTitles(value) });
         }
     }
     return data;
@@ -129,26 +129,26 @@ const parseOverview = (content) => {
             if (url === null) continue;
             switch (url[1]) {
                 case 'website':
-                    Object.assign(data, {linkWeb: url[2]});
+                    Object.assign(data, { linkWeb: url[2] });
                     break;
                 case 'facebook':
-                    Object.assign(data, {linkFB: url[2]});
+                    Object.assign(data, { linkFB: url[2] });
                     break;
                 case 'twitter':
-                    Object.assign(data, {linkTw: url[2]});
+                    Object.assign(data, { linkTw: url[2] });
                     break;
                 case 'linkedin':
-                    Object.assign(data, {linkLI: url[2]});
+                    Object.assign(data, { linkLI: url[2] });
                     break;
                 case 'youtube':
-                    Object.assign(data, {linkYT: url[2]});
+                    Object.assign(data, { linkYT: url[2] });
                     break;
             }
         } else {
             desc += value;
         }
     }
-    data = Object.assign(data, {nameUser: nameUser, desc: desc});
+    data = Object.assign(data, { nameUser: nameUser, desc: desc });
     return data;
 };
 
@@ -205,7 +205,7 @@ const parseJobExperience = (content) => {
         }
     }
     if (0 < termComp.length) {
-        return {termComp: termComp, nameComp: nameComp};
+        return { termComp: termComp, nameComp: nameComp };
     }
     return {};
 };
@@ -238,7 +238,7 @@ const parseEducation = (content) => {
         }
     }
     if (0 < termEdu.length) {
-        return {termEdu: termEdu, nameEdu: nameEdu};
+        return { termEdu: termEdu, nameEdu: nameEdu };
     }
     return {};
 };
@@ -251,7 +251,7 @@ const insertUserData = (collection, jsonData) => {
         }
         console.log('Database connection is established on insert data process. #02');
         const db = client.db(nameDb);  //Get pullreqme database
-        findData(db, collection, {idGithub: jsonData.idGithub}, (items) => {
+        findData(db, collection, { idGithub: jsonData.idGithub }, (items) => {
             if (items.length == 0) {
                 console.log('No data. #03');
                 insertDocuments(db, collection, jsonData, () => {
@@ -260,7 +260,7 @@ const insertUserData = (collection, jsonData) => {
             } else {
                 console.log('Data has been existed. #04');
                 console.log(jsonData.idGithub);
-                deleteData(db, collection, {idGithub: jsonData.idGithub}, () => {
+                deleteData(db, collection, { idGithub: jsonData.idGithub }, () => {
                     insertDocuments(db, collection, jsonData, () => {
                         client.close();
                     });
@@ -310,8 +310,8 @@ const findData = (db, coll, key, callback) => {
 const getUserLanguages = (idGithub) => {
     const options = {
         uri: `https://api.github.com/users/${idGithub}/repos`,
-        qs: {access_token: token},
-        headers: {'User-Agent': 'Request-Promise'},
+        qs: { access_token: token },
+        headers: { 'User-Agent': 'Request-Promise' },
         json: true
     };
     rp(options).then(function (json) {
@@ -319,7 +319,7 @@ const getUserLanguages = (idGithub) => {
             return v.languages_url;
         });
         getAllLangEvi(urls, {}, (result) => {
-            let data = Object.assign({idGithub: idGithub}, result);
+            let data = Object.assign({ idGithub: idGithub }, result);
             console.log(idGithub);
             insertUserData(languageCollection, data);
         });
@@ -336,8 +336,8 @@ const getAllLangEvi = (urls, jsonData, callback) => {
     const url = urls.pop();
     const options = {
         uri: url,
-        qs: {access_token: token},
-        headers: {'User-Agent': 'Request-Promise'},
+        qs: { access_token: token },
+        headers: { 'User-Agent': 'Request-Promise' },
         json: true
     };
     rp(options).then(function (json) {
@@ -360,7 +360,7 @@ const searchUser = (bodyReq, callback) => {
         console.log(result);
         MongoClient.connect(mongoURL, connectOption, (err, client) => {
             const db = client.db(nameDb);  //Get pullreqme database
-            findData(db, portfolioCollection, {'$or': result}, (items) => {
+            findData(db, portfolioCollection, { '$or': result }, (items) => {
                 console.log('number of hits');
                 console.log(items.length);
                 let listLang = result.map(v => {
@@ -369,8 +369,8 @@ const searchUser = (bodyReq, callback) => {
                 let idGithubs = items.map(v => {
                     return v.idGithub;
                 });
-                console.log({'idGithub': {'$in': idGithubs}});
-                findData(db, languageCollection, {'idGithub': {'$in': idGithubs}}, (items) => {
+                console.log({ 'idGithub': { '$in': idGithubs } });
+                findData(db, languageCollection, { 'idGithub': { '$in': idGithubs } }, (items) => {
                     let resultSort = {};
                     for (let i = 0; i < idGithubs.length; i++) {
                         let score = 0;
@@ -384,7 +384,7 @@ const searchUser = (bodyReq, callback) => {
                                 score += items[i][listLang[j]];
                             }
                         }
-                        resultSort = Object.assign(resultSort, {[idGithubs[i]]: score});
+                        resultSort = Object.assign(resultSort, { [idGithubs[i]]: score });
                     }
                     console.log(resultSort);
                     callback(resultSort);
@@ -408,18 +408,18 @@ const makeQuery = (keywords, arrayQuery, callback) => {
         let listLang = keyword.split(':')[1];
         listLang = listLang.split(',');
         for (var j = 0; j < listLang.length; j++) {
-            arrayQuery.push({'langProg': listLang[j]});
+            arrayQuery.push({ 'langProg': listLang[j] });
         }
         makeQuery(keywords, arrayQuery, callback);
     } else {
-        arrayQuery.push({'nameUser': keyword});
+        arrayQuery.push({ 'nameUser': keyword });
         makeQuery(keywords, arrayQuery, callback);
     }
 };
 
 app.get('/', (req, res) => {
     fs.readFile('./public/html/index.html', 'utf-8', (err, data) => {
-        res.writeHead(200, {'Content-Type': 'text/html'});
+        res.writeHead(200, { 'Content-Type': 'text/html' });
         res.write(data);
         res.end();
     });
@@ -428,8 +428,8 @@ app.get('/', (req, res) => {
 app.post('/search/result', (req, res) => {
     searchUser(req.body.search, (result) => {
         fs.readFile('./public/html/result.ejs', 'utf-8', (err, data) => {
-            const page = ejs.render(data, {jsonData: JSON.stringify(result)});
-            res.writeHead(200, {'Content-Type': 'text/html'});
+            const page = ejs.render(data, { jsonData: JSON.stringify(result) });
+            res.writeHead(200, { 'Content-Type': 'text/html' });
             res.write(page);
             res.end();
         });
@@ -438,7 +438,7 @@ app.post('/search/result', (req, res) => {
 
 app.get('/src/css/*', (req, res) => {
     fs.readFile('./public/css/' + req.params[0], 'utf-8', (err, data) => {
-        res.writeHead(200, {'Content-Type': 'text/css'});
+        res.writeHead(200, { 'Content-Type': 'text/css' });
         res.write(data);
         res.end();
     });
@@ -446,26 +446,34 @@ app.get('/src/css/*', (req, res) => {
 
 app.get('/src/js/*', (req, res) => {
     fs.readFile('./public/js/' + req.params[0], 'utf-8', (err, data) => {
-        res.writeHead(200, {'Content-Type': 'text/javascript'});
+        res.writeHead(200, { 'Content-Type': 'text/javascript' });
         res.write(data);
         res.end();
     });
 });
 
 // img file rooting
-app.get('/src/img/*', function(req, res) {
+app.get('/src/img/*', function (req, res) {
     console.log(req.params[0]);
     const buf = fs.readFileSync('./public/img/' + req.params[0]);
-    res.send(buf, {'Content-Type': 'image'}, 200);
+    res.send(buf, { 'Content-Type': 'image' }, 200);
 });
 
-app.get('/src/json/*', function(req, res) {
+app.get('/src/json/*', function (req, res) {
     fs.readFile('./public/json/' + req.params[0], 'utf-8', (err, data) => {
-        res.writeHead(200, {'Content-Type': 'application/json'});
+        res.writeHead(200, { 'Content-Type': 'application/json' });
         res.write(data);
         res.end();
     });
 });
+
+app.get('/src/customdom/*', function (req, res) {
+    fs.readFile('./public/js/customElement/' + req.params[0], 'utf-8', (err, data) => {
+        res.writeHead(200, { 'Content-Type': 'text/javascript' });
+        res.write(data);
+        res.end();
+    });
+})
 
 // test code
 // crawlingPortfolio();
