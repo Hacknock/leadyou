@@ -1,23 +1,29 @@
 {
   "repository_url": "https://github.com/user/repo_name",
-  "project_icon": "https://qwerty",
-  "readme_sections": [
+  "project_icon": "awoefha;woeifh;aowief;ao.png",
+  "sections": [
     {
       "title": "Project Name",
-      "value": ""
+      "values": [""],
+      "child_content": [
+        {
+          "title": "Hoge",
+          "value": ["meu"]
+        }
+      ]
     },
     {
       "title": "Badge",
-      "hidden_title": true,
-      "value": true
-    },
-    {
-      "title": "Tags",
-      "value": ""
+      "value": [""]
     },
     {
       "title": "Demo",
-      "content_url": "https://qwerty"
+      "values": [
+        {
+          "image": "url",
+          "main": "本文"
+        }
+      ]
     }
   ]
 }
