@@ -1,0 +1,23 @@
+{
+  "repository_url": "https://github.com/user/repo_name",
+  "project_icon": "https://qwerty",
+  "readme_sections": [
+    {
+      "title": "Project Name",
+      "value": ""
+    },
+    {
+      "title": "Badge",
+      "hidden_title": true,
+      "value": true
+    },
+    {
+      "title": "Tags",
+      "value": ""
+    },
+    {
+      "title": "Demo",
+      "content_url": "https://qwerty"
+    }
+  ]
+}
