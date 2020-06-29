@@ -5,9 +5,13 @@
     {
       "title": "Project Name",
       "required": true,
+      "multiple": false,
       "form": {
-        "component": "name",
-        "description": "Please type project name."
+        "type": "string",
+        "component": "wrap-multiline-field",
+        "description": "Please type project name.",
+        "maxlength": 200,
+        "place_holder": ""
       },
       "child_content": [
         {
