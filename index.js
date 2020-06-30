@@ -475,5 +475,11 @@ app.get('/src/customdom/*', function (req, res) {
     });
 })
 
-// test code
-// crawlingPortfolio();
+
+app.get('/makeReadme', (req, res) => {
+    fs.readFile('./public/html/form.html', 'utf-8', (err, data) => {
+        res.writeHead(200, { 'Content-Type': 'text/html' });
+        res.write(data);
+        res.end();
+    });
+});
