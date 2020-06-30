@@ -20,23 +20,34 @@ class WrapMultiField extends HTMLElement {
         description.textContent = descShort;
 
         // Create form 
-        const formF = document.createElement('form');
         const inputF = document.createElement('input');
         inputF.setAttribute('type', 'text');
         inputF.setAttribute('maxlength', 140);
-        formF.appendChild(inputF);
+        inputF.setAttribute('class', 'multiField')
 
         // Create some CSS to apply to the shadow dom
         const style = document.createElement('style');
         console.log(style.isConnected);
-        style.textContent = ``;
+        style.textContent = `
+        
+        .multiField {
+            width: 100%;
+            height: 30%;
+        }
+
+        section {
+            padding: 0 10%;
+            height: 100%;
+        }
+        
+        `;
 
         // Append Child
         shadow.appendChild(style);
         shadow.appendChild(wrapper);
         wrapper.appendChild(subtitle);
         wrapper.appendChild(description);
-        wrapper.appendChild(formF);
+        wrapper.appendChild(inputF);
     }
 }
 // Define the new element
