@@ -45,3 +45,8 @@ pre#result {
     position: absolute;
     top: 300px
 }
+
+wrap-multiline-field {
+    height: 300px;
+    display: block;
+}
