@@ -13,10 +13,12 @@ class WrapMultiField extends HTMLElement {
         // Create title holder
         const subtitle = document.createElement('h2');
         const titleSub = this.getAttribute('nameTitle');
+        subtitle.setAttribute('class', 'subTitle');
         subtitle.textContent = titleSub;
 
         // Create description holder
         const description = document.createElement('p');
+        description.setAttribute('class', 'shortDescription')
         const descShort = this.getAttribute('descShort');
         description.textContent = descShort;
 
@@ -50,16 +52,19 @@ class WrapMultiField extends HTMLElement {
         wrapper.appendChild(description);
         wrapper.appendChild(inputF);
     }
-    static get observedAttributes() { return ["nameTitle"]; }
+    static get observedAttributes() { return ["nameTitle", "descShort"]; }
 
     attributeChangedCallback(attr, oldVal, newVal) {
         console.log('my-el attribute changed', attr);
         console.log('new value is ', newVal);
-        // Create title holder
-        const subtitle = document.createElement('h2');
-        subtitle.textContent = newVal;
-        this.shadowRoot.appendChild(subtitle);
-        //        this.appendChild(subtitle);
+
+        if (attr === 'nameTitle') {
+            // Create title holder
+            this.shadowRoot.querySelector('.subTitle').textContent = newVal;
+        } else if (attr === 'descShort') {
+            // Create description holder
+            this.shadowRoot.querySelector('.shortDescription').textContent = newVal;
+        }
     }
 }
 // Define the new element

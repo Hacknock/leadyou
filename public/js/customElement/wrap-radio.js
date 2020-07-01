@@ -11,11 +11,14 @@ class WrapRadio extends HTMLElement {
 
         // Create title holder
         const subtitle = document.createElement('h2');
+        subtitle.setAttribute('class', 'subTitle');
         const titleSub = this.getAttribute('nameTitle');
+        const hiddenTitle = this.getAttribute('hiddenTitle');
         subtitle.textContent = titleSub;
 
         // Create description holder
         const description = document.createElement('p');
+        description.setAttribute('class', 'shortDescription');
         const descShort = this.getAttribute('descShort');
         description.textContent = descShort;
 
@@ -44,24 +47,53 @@ class WrapRadio extends HTMLElement {
         console.log(style.isConnected);
         style.textContent = ``;
 
+        console.log('hidden title', hiddenTitle)
+
+        if (hiddenTitle) {
+            style.textContent = style.textContent + `
+                h2 {
+                    display: none;
+                }
+            `;
+        }
+
         // Append Child
         shadow.appendChild(style);
-        shadow.appendChild(wrapper);
-        wrapper.appendChild(subtitle);
-        wrapper.appendChild(description);
-        wrapper.appendChild(formF);
+        // shadow.appendChild(wrapper);
+        shadow.appendChild(subtitle);
+        shadow.appendChild(description);
+        shadow.appendChild(formF);
     }
 
-    static get observedAttributes() { return ["nameTitle"]; }
+    static get observedAttributes() { return ["nameTitle", "hiddenTitle", 'descShort']; }
 
     attributeChangedCallback(attr, oldVal, newVal) {
         console.log('my-el attribute changed', attr);
         console.log('new value is ', newVal);
-        // Create title holder
-        const subtitle = document.createElement('h2');
-        subtitle.textContent = newVal;
-        this.shadowRoot.appendChild(subtitle);
-        //        this.appendChild(subtitle);
+        if (attr === 'nameTitle') {
+            // Create title holder
+            this.shadowRoot.querySelector('.subTitle').textContent = newVal;
+        } else if (attr === 'descShort') {
+            // Create description holder
+            this.shadowRoot.querySelector('.shortDescription').textContent = newVal;
+        } else if (attr === "hiddenTitle") {
+            console.log('hidden title nyao');
+            this.updateStyle(this);
+        }
+    }
+
+    updateStyle(elem) {
+        var shadow = elem.shadowRoot;
+        var childNodes = shadow.childNodes;
+        for (var i = 0; i < childNodes.length; i++) {
+            if (childNodes[i].nodeName === 'STYLE') {
+                childNodes[i].textContent += `
+                h2 {
+                    display: none;
+                }
+            `;
+            }
+        }
     }
 }
 // Define the new element
