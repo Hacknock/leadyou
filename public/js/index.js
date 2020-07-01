@@ -10,7 +10,7 @@ var myInit = {
     cache: 'default'
 };
 
-var myRequest = new Request('/src/json/setting.json', myInit);
+var myRequest = new Request('/src/json/template.json', myInit);
 
 fetch(myRequest).then(function (response) {
     var contentType = response.headers.get("content-type");
@@ -20,7 +20,7 @@ fetch(myRequest).then(function (response) {
     throw new TypeError("Oops, we haven't got JSON!");
 })
     .then(function (json) {
-        console.log(json.readme_sections.length);
+        console.log(json.sections.length);
         generateForm(json, 0);
     })
     .catch(function (error) { console.log(error); });
@@ -31,14 +31,14 @@ var rootEle = document.getElementById('areaForm');
 // function which generate the form user input information.
 function generateForm(jsonSetting, numArray) {
     console.log(numArray);
-    if (jsonSetting.readme_sections.length > numArray) {
-        var childElement = document.createElement(jsonSetting.readme_sections[numArray].component);
-        childElement.setAttributeNS(null, 'nameTitle', jsonSetting.readme_sections[numArray].title);
-        childElement.setAttributeNS(null, 'descShort', jsonSetting.readme_sections[numArray].description);
-        childElement.setAttributeNS(null, 'hiddenTitle', jsonSetting.readme_sections[numArray].hidden_title);
+    if (jsonSetting.sections.length > numArray) {
+        var childElement = document.createElement(jsonSetting.sections[numArray].component);
+        childElement.setAttributeNS(null, 'nameTitle', jsonSetting.sections[numArray].title);
+        childElement.setAttributeNS(null, 'descShort', jsonSetting.sections[numArray].description);
+        childElement.setAttributeNS(null, 'hiddenTitle', jsonSetting.sections[numArray].hidden_title);
 
         rootEle.appendChild(childElement);
-        console.log(jsonSetting.readme_sections[numArray]);
+        console.log(jsonSetting.sections[numArray]);
         generateForm(jsonSetting, ++numArray);
     } else {
         console.log("Finish read read_sections");
