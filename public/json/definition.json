@@ -1,0 +1,47 @@
+{
+  "repository_url": "https://github.com/user/repo_name",
+  "project_icon": "image url",
+  "readme_chapters": [
+    {
+      "title": "Project Name",
+      "required": true,
+      "multiple": false,
+      "form": {
+        "type": "string",
+        "component": "wrap-multiline-field",
+        "description": "Please type project name.",
+        "maxlength": 200,
+        "place_holder": ""
+      },
+      "child_content": [
+        {
+          "title": "Project Name",
+          "required": true,
+          "form": {
+            "component": "name",
+            "description": "Please type project name."
+          },
+          "child_content": [
+            {
+              "title": "Project Name",
+              "required": true,
+              "form": {
+                "component": "name",
+                "description": "Please type project name."
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "Badge",
+      "hidden_title": true,
+      "required": true,
+      "form": {
+        "component": "name",
+        "description": "Description"
+      }
+    }
+  ]
+}
