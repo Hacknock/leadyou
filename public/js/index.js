@@ -34,6 +34,9 @@ function generateForm(jsonSetting, numArray) {
     if (jsonSetting.readme_sections.length > numArray) {
         var childElement = document.createElement(jsonSetting.readme_sections[numArray].component);
         childElement.setAttributeNS(null, 'nameTitle', jsonSetting.readme_sections[numArray].title);
+        childElement.setAttributeNS(null, 'descShort', jsonSetting.readme_sections[numArray].description);
+        childElement.setAttributeNS(null, 'hiddenTitle', jsonSetting.readme_sections[numArray].hidden_title);
+
         rootEle.appendChild(childElement);
         console.log(jsonSetting.readme_sections[numArray]);
         generateForm(jsonSetting, ++numArray);
