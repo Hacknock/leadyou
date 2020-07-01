@@ -1,11 +1,9 @@
 {
   "name": "api_pillreq-me",
   "version": "1.0.0",
+  "private": "true",
   "description": "This code is for pull req me project",
   "main": "index.js",
-  "scripts": {
-    "lint": "eslint --ext .js public/js --fix"
-  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/KASHIHARAAkira/api_pillreq-me.git"
@@ -14,7 +12,6 @@
     "Github"
   ],
   "author": "Akira Kashihara, Takuto Nakamura",
-  "license": "ISC",
   "bugs": {
     "url": "https://github.com/KASHIHARAAkira/api_pillreq-me/issues"
   },
@@ -32,7 +29,5 @@
     "request": "^2.88.2",
     "request-promise": "^4.2.5"
   },
-  "devDependencies": {
-    "eslint": "^6.8.0"
-  }
+  "devDependencies": {}
 }
