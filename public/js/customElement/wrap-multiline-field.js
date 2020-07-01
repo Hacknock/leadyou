@@ -60,11 +60,6 @@ class WrapMultiField extends HTMLElement {
         subtitle.textContent = newVal;
         this.shadowRoot.appendChild(subtitle);
         //        this.appendChild(subtitle);
-        this._updateRendering();
-    }
-
-    _updateRendering() {
-        console.log("nyao");
     }
 }
 // Define the new element

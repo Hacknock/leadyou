@@ -44,6 +44,18 @@ class WrapUploadFile extends HTMLElement {
         wrapper.appendChild(description);
         wrapper.appendChild(formF);
     }
+
+    static get observedAttributes() { return ["nameTitle"]; }
+
+    attributeChangedCallback(attr, oldVal, newVal) {
+        console.log('my-el attribute changed', attr);
+        console.log('new value is ', newVal);
+        // Create title holder
+        const subtitle = document.createElement('h2');
+        subtitle.textContent = newVal;
+        this.shadowRoot.appendChild(subtitle);
+        //        this.appendChild(subtitle);
+    }
 }
 // Define the new element
 customElements.define('wrap-upload-file', WrapUploadFile);
