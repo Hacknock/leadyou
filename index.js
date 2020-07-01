@@ -38,7 +38,7 @@ app.get("/src/:dir/:file", (req, res) => {
       responseFileSupport(res, `./public/json/${file}`, "application/json");
       break;
     case "img":
-      responseFileSupport(res, `./public/img/${file}`, "image/png");
+      responseFileSupport(res, `./public/img/${file}`, "image/*");
       break;
     default:
       res.writeHead(400, { "Content-Type": "text/plain" });
@@ -58,6 +58,9 @@ const responseFileSupport = (res, path, type) => {
     });
   } catch (err) {
     console.error(err);
+    res.writeHead(404, { "Content-Type": "text/plain" });
+    res.write("404 Not Found");
+    res.end();
   }
 };
 
