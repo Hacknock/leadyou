@@ -48,5 +48,5 @@ pre#result {
 
 wrap-multiline-field {
     height: 300px;
-    display: block;
+    /* display: block; */
 }

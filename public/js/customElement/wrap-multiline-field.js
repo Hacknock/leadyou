@@ -1,3 +1,4 @@
+
 class WrapMultiField extends HTMLElement {
     constructor() {
         // Always call super first in constructor
@@ -48,6 +49,22 @@ class WrapMultiField extends HTMLElement {
         wrapper.appendChild(subtitle);
         wrapper.appendChild(description);
         wrapper.appendChild(inputF);
+    }
+    static get observedAttributes() { return ["nameTitle"]; }
+
+    attributeChangedCallback(attr, oldVal, newVal) {
+        console.log('my-el attribute changed', attr);
+        console.log('new value is ', newVal);
+        // Create title holder
+        const subtitle = document.createElement('h2');
+        subtitle.textContent = newVal;
+        this.shadowRoot.appendChild(subtitle);
+        //        this.appendChild(subtitle);
+        this._updateRendering();
+    }
+
+    _updateRendering() {
+        console.log("nyao");
     }
 }
 // Define the new element
