@@ -1,27 +1,27 @@
 {
   "repository_url": "https://github.com/user/repo_name",
-  "project_icon": "awoefha;woeifh;aowief;ao.png",
+  "project_icon": "icon.png",
   "sections": [
     {
-      "title": "Project Name",
+      "title": "Title",
       "values": [""],
       "child_content": [
         {
-          "title": "Hoge",
-          "value": ["meu"]
+          "title": "Title",
+          "value": [""]
         }
       ]
     },
     {
-      "title": "Badge",
+      "title": "Title",
       "value": [""]
     },
     {
       "title": "Demo",
       "values": [
         {
-          "image": "url",
-          "main": "本文"
+          "image": "URL",
+          "text": "Text"
         }
       ]
     }
