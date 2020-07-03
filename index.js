@@ -15,12 +15,34 @@ app.listen(port, () => {
   console.log("listen port 3000");
 });
 
+// file serve
 app.get("/", (req, res) => {
   responseFileSupport(res, "./public/html/index.html", "text/html");
 });
 
+app.get("/makereadme", (req, res) => {
+  responseFileSupport(res, "./public/html/form.html", "text/html");
+});
+
 app.get("/favicon.ico", (req, res) => {
   responseFileSupport(res, "./public/favicon.ico", "image/x-icon");
+});
+
+app.get("/:path", (req, res) => {
+  const path = String(req.params.path).toLocaleLowerCase();
+  console.log(path);
+  switch (path) {
+    case "favicon.ico":
+      responseFileSupport(res, "./public/favicon.ico", "image/x-icon");
+      break;
+    case "makereadme":
+      responseFileSupport(res, "./public/html/form.html", "text/html");
+      break;
+    default:
+      res.writeHead(400, { "Content-Type": "text/plain" });
+      res.write("400 Bad Request");
+      res.end();
+  }
 });
 
 app.get("/src/:dir/:file", (req, res) => {
@@ -34,6 +56,13 @@ app.get("/src/:dir/:file", (req, res) => {
     case "js":
       responseFileSupport(res, `./public/js/${file}`, "text/javascript");
       break;
+    case "customdom":
+      responseFileSupport(
+        res,
+        `./public/js/customElement/${file}`,
+        "text/javascript"
+      );
+      break;
     case "json":
       responseFileSupport(res, `./public/json/${file}`, "application/json");
       break;
@@ -44,7 +73,6 @@ app.get("/src/:dir/:file", (req, res) => {
       res.writeHead(400, { "Content-Type": "text/plain" });
       res.write("400 Bad Request");
       res.end();
-      break;
   }
 });
 
