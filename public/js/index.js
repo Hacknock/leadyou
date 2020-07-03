@@ -12,6 +12,8 @@ var myInit = {
 
 var myRequest = new Request('/src/json/template.json', myInit);
 
+var jsonFile = new Array();
+
 fetch(myRequest).then(function (response) {
     var contentType = response.headers.get("content-type");
     if (contentType && contentType.includes("application/json")) {
@@ -20,6 +22,7 @@ fetch(myRequest).then(function (response) {
     throw new TypeError("Oops, we haven't got JSON!");
 })
     .then(function (json) {
+        jsonFile = json;
         generateForm(json, 0);
     })
     .catch(function (error) { console.log(error); });
@@ -47,11 +50,21 @@ function generateForm(jsonSetting, numArray) {
 document.getElementById('sub').addEventListener('click', function () {
     var eleS2 = document.getElementsByClassName('infoBox'); //Extract all custom element
     console.log(eleS2)
+    generateJson(jsonFile, 0);
     // console.log(eleS2[1].shadowRoot.querySelectorAll('.field')[0].checked)
     // console.log(eleS2[0].shadowRoot.getElementById('field').value);
     // console.log(eleS2[0].shadowRoot.querySelector('.field').value);
 
 })
+
+function generateJson(jsonSetting, numArray) {
+    if (jsonSetting.sections[numArray] === undefined) {
+        console.log('finished');
+    } else {
+        console.log(numArray);
+        generateJson(jsonSetting, ++numArray);
+    }
+}
 
 function convertToId(title) {
     // console.log(title)
