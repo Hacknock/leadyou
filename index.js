@@ -9,13 +9,13 @@ const fs = require("fs");
 const express = require("express");
 const app = express();
 
-// Initial Process
+// ★★★ Initial Process ★★★
 const port = process.env.port || 3000;
 app.listen(port, () => {
   console.log("listen port 3000");
 });
 
-// File Serve & Rooting API Request
+// ★★★ File Serve & Rooting API Request ★★★
 app.get("/", (req, res) => {
   responseFileSupport(res, "./public/html/index.html", "text/html");
 });
@@ -24,16 +24,19 @@ app.get("/:path", (req, res) => {
   const path = String(req.params.path).toLocaleLowerCase();
   console.log(path);
   switch (path) {
-    case "favicon.ico":
+    case "favicon.ico": {
       responseFileSupport(res, "./public/favicon.ico", "image/x-icon");
       break;
-    case "makereadme":
+    }
+    case "makereadme": {
       responseFileSupport(res, "./public/html/form.html", "text/html");
       break;
-    default:
+    }
+    default: {
       res.writeHead(400, { "Content-Type": "text/plain" });
       res.write("400 Bad Request");
       res.end();
+    }
   }
 });
 
@@ -42,29 +45,35 @@ app.get("/src/:dir/:file", (req, res) => {
   const file = String(req.params.file).toLocaleLowerCase();
   console.log(`${dir}, ${file}`);
   switch (dir) {
-    case "css":
+    case "css": {
       responseFileSupport(res, `./public/css/${file}`, "text/css");
       break;
-    case "js":
+    }
+    case "js": {
       responseFileSupport(res, `./public/js/${file}`, "text/javascript");
       break;
-    case "customdom":
+    }
+    case "customdom": {
       responseFileSupport(
         res,
         `./public/js/customElement/${file}`,
         "text/javascript"
       );
       break;
-    case "json":
+    }
+    case "json": {
       responseFileSupport(res, `./public/json/${file}`, "application/json");
       break;
-    case "img":
+    }
+    case "img": {
       responseFileSupport(res, `./public/img/${file}`, "image/*");
       break;
-    default:
+    }
+    default: {
       res.writeHead(400, { "Content-Type": "text/plain" });
       res.write("400 Bad Request");
       res.end();
+    }
   }
 });
 
@@ -101,13 +110,76 @@ const getLocalJson = (filePath) => {
   return "cannot read the json file";
 };
 
-// Generate README Engine
-const generateReadme = (json) => {};
+// ★★★ Generate README Engine ★★★
+const inspectTemplateJson = (template) => {
+  if (!("sections" in template)) {
+    throw new Error("template.json is broken.");
+  }
+  for (const section of template.sections) {
+    if (
+      !("title" in section) ||
+      !("hidden_title" in section) ||
+      !("required" in section) ||
+      !("multiple" in section) ||
+      !("component" in section) ||
+      !("description" in section) ||
+      !("attributes" in section)
+    ) {
+      throw new Error(`${section.title} template.json is broken.`);
+    }
+  }
+  if ("decorations" in template) {
+    for (const decoration of template.decorations) {
+      if (
+        !("title" in decoration) ||
+        !("required" in decoration) ||
+        !("component" in decoration) ||
+        !("description" in decoration) ||
+        !("attributes" in decoration)
+      ) {
+        throw new Error(
+          `Decoration:${decoration.title}, template.json is broken.`
+        );
+      }
+    }
+  }
+};
+
+const inspectContentsJson = (contents) => {
+  if (!("repository_url" in contents && "sections" in contents)) {
+    throw new Error("contents.json is broken");
+  }
+  for (const section of contents.sections) {
+    if (!("title" in section && "values" in section)) {
+      throw new Error(`Section:${section.title}, contents.json is broken.`);
+    }
+    if (section.values.length == 0) {
+      throw new Error(`Section:${section.title}, contents.json is broken.`);
+    }
+  }
+};
+
+const generateReadme = (template, contents) => {
+  // const repoUrl =
+};
 
 // Temporary Calling
+const templatePath = "./public/json/template.json";
+const templateJson = getLocalJson(templatePath);
+try {
+  inspectTemplateJson(templateJson);
+} catch (error) {
+  console.error(error);
+}
 const sampleContentsPath = "./public/sample_json/contents.json";
 const sampleContentsJson = getLocalJson(sampleContentsPath);
-console.log(sampleContentsJson);
+try {
+  inspectContentsJson(sampleContentsJson);
+} catch (error) {
+  console.error(error);
+}
+
+generateReadme(sampleContentsJson);
 
 // app.post("/search/result", (req, res) => {
 //   searchUser(req.body.search, (result) => {

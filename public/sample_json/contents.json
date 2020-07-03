@@ -8,7 +8,7 @@
     },
     {
       "title": "Badge",
-      "value": [
+      "values": [
         "[![Release version](https://img.shields.io/github/release/Kyome22/RunCat)](url)",
         "[![Issues](https://img.shields.io/github/issues/Kyome22/RunCat)](url)",
         "[![Forks](https://img.shields.io/github/forks/Kyome22/RunCat)](url)",
@@ -18,17 +18,17 @@
     },
     {
       "title": "Tags",
-      "value": ["TypeScript", "Web", "Front-end"]
+      "values": ["TypeScript", "Web", "Front-end"]
     },
     {
       "title": "Short Description",
-      "value": [
+      "values": [
         "RunCatは CPU 負荷に合わせて Runner と呼ばれるキャラクター（あるいはモチーフ）のアニメーション再生速度が変化する、システム・インフォメーション・インジケーターです。"
       ]
     },
     {
       "title": "Demo",
-      "value": [
+      "values": [
         {
           "image": "https://kyome.io/images/article/e6d7a2ed-89c6-ead0-68ed-bf4dccf656db.gif",
           "text": "↑ 基本的にはこんな感じで猫が走るアニメーションが無限に再生されるだけのアプリです。"
@@ -37,13 +37,13 @@
     },
     {
       "title": "Advantages",
-      "value": [
+      "values": [
         "利点-利点-利点-利点-利点-利点-利点-利点-利点-利点-利点-利点-利点"
       ]
     },
     {
       "title": "Installation",
-      "value": [
+      "values": [
         "導入方法-導入方法-導入方法-導入方法-導入方法-導入方法-導入方法-導入方法-導入方法"
       ]
     },
