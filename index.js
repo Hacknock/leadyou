@@ -15,7 +15,7 @@ app.listen(port, () => {
   console.log("listen port 3000");
 });
 
-// file serve
+// File Serve & Rooting API Request
 app.get("/", (req, res) => {
   responseFileSupport(res, "./public/html/index.html", "text/html");
 });
@@ -83,6 +83,31 @@ const responseFileSupport = (res, path, type) => {
     res.end();
   }
 };
+
+const existFile = (filePath) => {
+  try {
+    fs.statSync(filePath);
+    return true;
+  } catch (err) {
+    return false;
+  }
+};
+
+const getLocalJson = (filePath) => {
+  if (existFile(filePath)) {
+    const json = JSON.parse(fs.readFileSync(filePath, "utf8"));
+    return json;
+  }
+  return "cannot read the json file";
+};
+
+// Generate README Engine
+const generateReadme = (json) => {};
+
+// Temporary Calling
+const sampleContentsPath = "./public/sample_json/contents.json";
+const sampleContentsJson = getLocalJson(sampleContentsPath);
+console.log(sampleContentsJson);
 
 // app.post("/search/result", (req, res) => {
 //   searchUser(req.body.search, (result) => {
