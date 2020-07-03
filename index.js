@@ -19,6 +19,10 @@ app.get("/", (req, res) => {
   responseFileSupport(res, "./public/html/index.html", "text/html");
 });
 
+app.get("/makeReadme", (req, res) => {
+  responseFileSupport(res, "./public/html/form.html", "text/html");
+});
+
 app.get("/favicon.ico", (req, res) => {
   responseFileSupport(res, "./public/favicon.ico", "image/x-icon");
 });
@@ -33,6 +37,9 @@ app.get("/src/:dir/:file", (req, res) => {
       break;
     case "js":
       responseFileSupport(res, `./public/js/${file}`, "text/javascript");
+      break;
+    case "customdom":
+      responseFileSupport(res, `./public/js/customElement/${file}`, "text/javascript");
       break;
     case "json":
       responseFileSupport(res, `./public/json/${file}`, "application/json");
