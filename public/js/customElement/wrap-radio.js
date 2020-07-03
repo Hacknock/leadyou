@@ -45,10 +45,10 @@ class WrapRadio extends HTMLElement {
 
         // Create some CSS to apply to the shadow dom
         const style = document.createElement('style');
-        console.log(style.isConnected);
+        // console.log(style.isConnected);
         style.textContent = ``;
 
-        console.log('hidden title', hiddenTitle)
+        // console.log('hidden title', hiddenTitle)
 
         if (hiddenTitle) {
             style.textContent = style.textContent + `
@@ -69,8 +69,8 @@ class WrapRadio extends HTMLElement {
     static get observedAttributes() { return ["nameTitle", "hiddenTitle", 'descShort']; }
 
     attributeChangedCallback(attr, oldVal, newVal) {
-        console.log('my-el attribute changed', attr);
-        console.log('new value is ', newVal);
+        // console.log('my-el attribute changed', attr);
+        // console.log('new value is ', newVal);
         if (attr === 'nameTitle') {
             // Create title holder
             this.shadowRoot.querySelector('.subTitle').textContent = newVal;
@@ -78,7 +78,7 @@ class WrapRadio extends HTMLElement {
             // Create description holder
             this.shadowRoot.querySelector('.shortDescription').textContent = newVal;
         } else if (attr === "hiddenTitle") {
-            console.log('hidden title nyao');
+            // console.log('hidden title nyao');
             this.updateStyle(this);
         }
     }

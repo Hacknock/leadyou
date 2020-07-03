@@ -37,7 +37,7 @@ class WrapUploadFile extends HTMLElement {
 
         // Create some CSS to apply to the shadow dom
         const style = document.createElement('style');
-        console.log(style.isConnected);
+        // console.log(style.isConnected);
         style.textContent = ``;
 
         // Append Child
@@ -50,8 +50,8 @@ class WrapUploadFile extends HTMLElement {
     static get observedAttributes() { return ["nameTitle", "descShort"]; }
 
     attributeChangedCallback(attr, oldVal, newVal) {
-        console.log('my-el attribute changed', attr);
-        console.log('new value is ', newVal);
+        // console.log('my-el attribute changed', attr);
+        // console.log('new value is ', newVal);
         if (attr === 'nameTitle') {
             // Create title holder
             this.shadowRoot.querySelector('.subTitle').textContent = newVal;
