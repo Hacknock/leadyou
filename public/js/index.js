@@ -36,6 +36,7 @@ function generateForm(jsonSetting, numArray) {
         childElement.setAttributeNS(null, 'nameTitle', jsonSetting.sections[numArray].title);
         childElement.setAttributeNS(null, 'descShort', jsonSetting.sections[numArray].description);
         childElement.setAttributeNS(null, 'hiddenTitle', jsonSetting.sections[numArray].hidden_title);
+        childElement.setAttributeNS(null, 'class', 'infoBox');
 
         rootEle.appendChild(childElement);
         console.log(jsonSetting.sections[numArray]);
@@ -44,4 +45,13 @@ function generateForm(jsonSetting, numArray) {
         console.log("Finish read read_sections");
     }
 }
+
+document.getElementById('sub').addEventListener('click', function () {
+    var eleS2 = document.getElementsByClassName('infoBox'); //Extract all custom element
+
+    console.log(eleS2[1].shadowRoot.querySelectorAll('.field')[0].checked)
+    // console.log(eleS2[0].shadowRoot.getElementById('field').value);
+    // console.log(eleS2[0].shadowRoot.querySelector('.field').value);
+
+})
 

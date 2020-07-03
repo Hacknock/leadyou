@@ -25,7 +25,7 @@ class WrapMultiField extends HTMLElement {
         const inputF = document.createElement('input');
         inputF.setAttribute('type', 'text');
         inputF.setAttribute('maxlength', 140);
-        inputF.setAttribute('class', 'multiField')
+        inputF.setAttribute('class', 'multiField field')
 
         // Create some CSS to apply to the shadow dom
         const style = document.createElement('style');

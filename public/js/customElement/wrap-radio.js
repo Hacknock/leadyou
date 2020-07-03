@@ -23,7 +23,6 @@ class WrapRadio extends HTMLElement {
         description.textContent = descShort;
 
         // Create form 
-        const formF = document.createElement('form');
         const radioY = document.createElement('input');
         const labelY = document.createElement('label');
         const radioN = document.createElement('input');
@@ -32,15 +31,17 @@ class WrapRadio extends HTMLElement {
         radioY.setAttribute('type', 'radio');
         radioY.setAttribute('name', subject);
         radioY.setAttribute('value', 'Yes');
+        radioY.setAttribute('class', 'field');
         labelY.textContent = "Yes";
         radioN.setAttribute('type', 'radio');
         radioN.setAttribute('name', subject);
         radioN.setAttribute('value', 'No');
+        radioN.setAttribute('class', 'field');
         labelN.innerText = 'No';
-        formF.appendChild(radioY);
-        formF.appendChild(labelY);
-        formF.appendChild(radioN);
-        formF.appendChild(labelN);
+        wrapper.appendChild(radioY);
+        wrapper.appendChild(labelY);
+        wrapper.appendChild(radioN);
+        wrapper.appendChild(labelN);
 
         // Create some CSS to apply to the shadow dom
         const style = document.createElement('style');
@@ -62,7 +63,7 @@ class WrapRadio extends HTMLElement {
         // shadow.appendChild(wrapper);
         shadow.appendChild(subtitle);
         shadow.appendChild(description);
-        shadow.appendChild(formF);
+        shadow.appendChild(wrapper);
     }
 
     static get observedAttributes() { return ["nameTitle", "hiddenTitle", 'descShort']; }
