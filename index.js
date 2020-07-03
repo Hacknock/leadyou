@@ -20,14 +20,6 @@ app.get("/", (req, res) => {
   responseFileSupport(res, "./public/html/index.html", "text/html");
 });
 
-app.get("/makereadme", (req, res) => {
-  responseFileSupport(res, "./public/html/form.html", "text/html");
-});
-
-app.get("/favicon.ico", (req, res) => {
-  responseFileSupport(res, "./public/favicon.ico", "image/x-icon");
-});
-
 app.get("/:path", (req, res) => {
   const path = String(req.params.path).toLocaleLowerCase();
   console.log(path);
