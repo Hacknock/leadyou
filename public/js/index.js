@@ -50,19 +50,32 @@ function generateForm(jsonSetting, numArray) {
 document.getElementById('sub').addEventListener('click', function () {
     var eleS2 = document.getElementsByClassName('infoBox'); //Extract all custom element
     console.log(eleS2)
-    generateJson(jsonFile, 0);
+    var jsOb = new Object();
+    jsOb.repository_url = "https://hacknock.com";
+    jsOb.project_icon = "hogehoge.ico";
+    console.log("json object is");
+    console.log(jsOb);
+    generateJson(jsOb, eleS2, jsonFile, 0);
     // console.log(eleS2[1].shadowRoot.querySelectorAll('.field')[0].checked)
     // console.log(eleS2[0].shadowRoot.getElementById('field').value);
     // console.log(eleS2[0].shadowRoot.querySelector('.field').value);
 
 })
 
-function generateJson(jsonSetting, numArray) {
+function generateJson(jsonObj, listEle, jsonSetting, numArray) {
     if (jsonSetting.sections[numArray] === undefined) {
         console.log('finished');
     } else {
-        console.log(numArray);
-        generateJson(jsonSetting, ++numArray);
+        if (listEle[numArray].shadowRoot.querySelector('.field').type === "text") {
+            console.log(listEle[numArray].shadowRoot.querySelector('.field').value);
+        } else if (listEle[numArray].shadowRoot.querySelector('.field').type === "radio") {
+            console.log(listEle[numArray].shadowRoot.querySelectorAll('.field')[0].checked);
+            console.log(listEle[numArray].shadowRoot.querySelectorAll('.field')[1].checked);
+        }
+        // console.log(listEle[numArray].shadowRoot.querySelector('.field').type);
+        // console.log(listEle[numArray].shadowRoot.querySelector('.field').value);
+        // console.log(numArray);
+        generateJson(jsonObj, listEle, jsonSetting, ++numArray);
     }
 }
 
