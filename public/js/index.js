@@ -49,38 +49,51 @@ function generateForm(jsonSetting, numArray) {
 
 document.getElementById('sub').addEventListener('click', function () {
     var eleS2 = document.getElementsByClassName('infoBox'); //Extract all custom element
-    console.log(eleS2)
+    // console.log(eleS2)
     var jsOb = new Object();
     jsOb.repository_url = "https://hacknock.com";
     jsOb.project_icon = "hogehoge.ico";
-    console.log("json object is");
+    // console.log("json object is");
+    // console.log(jsOb);
+    var aS = generateJson(eleS2, jsonFile, 0);
+    // console.log("Array is ");
+    // console.log(aS);
+    jsOb.sections = aS;
     console.log(jsOb);
-    generateJson(jsOb, eleS2, jsonFile, 0);
-    // console.log(eleS2[1].shadowRoot.querySelectorAll('.field')[0].checked)
-    // console.log(eleS2[0].shadowRoot.getElementById('field').value);
-    // console.log(eleS2[0].shadowRoot.querySelector('.field').value);
-
 })
 
-function generateJson(jsonObj, listEle, jsonSetting, numArray) {
-    if (jsonSetting.sections[numArray] === undefined) {
-        console.log('finished');
+function generateJson(listEle, jsonSetting, numArray) {
+    var arrayS = new Array();
+    var jsonChild = new Object();
+    var arrayChild = new Array();
+    if (typeof jsonSetting.sections[numArray] === "undefined") {
+        // console.log('finished');
+        // console.log(arrayS);
     } else {
         if (listEle[numArray].shadowRoot.querySelector('.field').type === "text") {
-            console.log(listEle[numArray].shadowRoot.querySelector('.field').value);
+            // console.log(listEle[numArray].shadowRoot.querySelector('h2').textContent);
+            // console.log(listEle[numArray].shadowRoot.querySelector('.field').value);
+            arrayChild.push(listEle[numArray].shadowRoot.querySelector('.field').value);
+            jsonChild.title = listEle[numArray].shadowRoot.querySelector('h2').textContent;
+            jsonChild.value = arrayChild;
+            arrayS.push(jsonChild);
         } else if (listEle[numArray].shadowRoot.querySelector('.field').type === "radio") {
-            console.log(listEle[numArray].shadowRoot.querySelectorAll('.field')[0].checked);
-            console.log(listEle[numArray].shadowRoot.querySelectorAll('.field')[1].checked);
+            // console.log(listEle[numArray].shadowRoot.querySelector('h2').textContent);
+            // console.log(listEle[numArray].shadowRoot.querySelectorAll('.field')[0].checked);
+            // console.log(listEle[numArray].shadowRoot.querySelectorAll('.field')[1].checked);
+            arrayChild.push(listEle[numArray].shadowRoot.querySelectorAll('.field')[0].checked);
+            arrayChild.push(listEle[numArray].shadowRoot.querySelectorAll('.field')[0].checked);
+            jsonChild.title = listEle[numArray].shadowRoot.querySelector('h2').textContent;
+            jsonChild.value = arrayChild;
+            arrayS.push(jsonChild);
         }
-        // console.log(listEle[numArray].shadowRoot.querySelector('.field').type);
-        // console.log(listEle[numArray].shadowRoot.querySelector('.field').value);
-        // console.log(numArray);
-        generateJson(jsonObj, listEle, jsonSetting, ++numArray);
+        arrayS = arrayS.concat(generateJson(listEle, jsonSetting, ++numArray));
     }
+    return arrayS;
 }
 
 function convertToId(title) {
     // console.log(title)
-    console.log(title.replace(' ', '_'));
+    // console.log(title.replace(' ', '_'));
     return title.replace(' ', '_');
 }
