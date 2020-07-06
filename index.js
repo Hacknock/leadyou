@@ -9,22 +9,35 @@ const fs = require("fs");
 const express = require("express");
 const app = express();
 
-// Initial Process
+// ★★★ Initial Process ★★★
 const port = process.env.port || 3000;
 app.listen(port, () => {
   console.log("listen port 3000");
 });
 
+// ★★★ File Serve & Rooting API Request ★★★
 app.get("/", (req, res) => {
   responseFileSupport(res, "./public/html/index.html", "text/html");
 });
 
-app.get("/makeReadme", (req, res) => {
-  responseFileSupport(res, "./public/html/form.html", "text/html");
-});
-
-app.get("/favicon.ico", (req, res) => {
-  responseFileSupport(res, "./public/favicon.ico", "image/x-icon");
+app.get("/:path", (req, res) => {
+  const path = String(req.params.path).toLocaleLowerCase();
+  console.log(path);
+  switch (path) {
+    case "favicon.ico": {
+      responseFileSupport(res, "./public/favicon.ico", "image/x-icon");
+      break;
+    }
+    case "makereadme": {
+      responseFileSupport(res, "./public/html/form.html", "text/html");
+      break;
+    }
+    default: {
+      res.writeHead(400, { "Content-Type": "text/plain" });
+      res.write("400 Bad Request");
+      res.end();
+    }
+  }
 });
 
 app.get("/src/:dir/:file", (req, res) => {
@@ -32,26 +45,35 @@ app.get("/src/:dir/:file", (req, res) => {
   const file = String(req.params.file).toLocaleLowerCase();
   console.log(`${dir}, ${file}`);
   switch (dir) {
-    case "css":
+    case "css": {
       responseFileSupport(res, `./public/css/${file}`, "text/css");
       break;
-    case "js":
+    }
+    case "js": {
       responseFileSupport(res, `./public/js/${file}`, "text/javascript");
       break;
-    case "customdom":
-      responseFileSupport(res, `./public/js/customElement/${file}`, "text/javascript");
+    }
+    case "customdom": {
+      responseFileSupport(
+        res,
+        `./public/js/customElement/${file}`,
+        "text/javascript"
+      );
       break;
-    case "json":
+    }
+    case "json": {
       responseFileSupport(res, `./public/json/${file}`, "application/json");
       break;
-    case "img":
+    }
+    case "img": {
       responseFileSupport(res, `./public/img/${file}`, "image/*");
       break;
-    default:
+    }
+    default: {
       res.writeHead(400, { "Content-Type": "text/plain" });
       res.write("400 Bad Request");
       res.end();
-      break;
+    }
   }
 });
 
@@ -71,180 +93,107 @@ const responseFileSupport = (res, path, type) => {
   }
 };
 
-// app.post("/search/result", (req, res) => {
-//   searchUser(req.body.search, (result) => {
-//     fs.readFile("./public/html/result.ejs", "utf-8", (err, data) => {
-//       const page = ejs.render(data, { jsonData: JSON.stringify(result) });
-//       res.writeHead(200, { "Content-Type": "text/html" });
-//       res.write(page);
-//       res.end();
-//     });
-//   });
-// });
-
-/*
-// This function parses the markdown and returns user data (json object).
-const parseUserPortfolio = (content) => {
-  let data = {nameUser: 'Unknown', desc: 'No description'};
-  let result = content.split(/(?<=\n)(?=# )/).filter(value => {
-    return value.startsWith('# ');
-  });
-  if (0 == result.length) return;
-  result = result[0].split(/(?<=\n)(?=## )/);
-  for (let value of result) {
-    if (value.startsWith('# ')) { // overview
-      data = Object.assign(data, parseOverview(value));
-    } else if (value.startsWith('## Programming Languages')) {
-      data = Object.assign(data, {langProg: parseTags(value)});
-    } else if (value.startsWith('## Frameworks / Libraries')) {
-      data = Object.assign(data, {libFw: parseTags(value)});
-    } else if (value.startsWith('## envnments')) {
-      data = Object.assign(data, {env: parseTags(value)});
-    } else if (value.startsWith('## Other Skills')) {
-      data = Object.assign(data, {skills: parseTags(value)});
-    } else if (value.startsWith('## Qualifications')) {
-      data = Object.assign(data, {qualifi: parseTags(value)});
-    } else if (value.startsWith('## Job Experience')) {
-      data = Object.assign(data, parseJobExperience(value));
-    } else if (value.startsWith('## Education')) {
-      data = Object.assign(data, parseEducation(value));
-    } else if (value.startsWith('## Projects')) {
-      data = Object.assign(data, {projects: parseTitles(value)});
-    } else if (value.startsWith('## Distributions')) {
-      data = Object.assign(data, {dist: parseTitles(value)});
-    } else if (value.startsWith('## Publications')) {
-      data = Object.assign(data, {pub: parseTitles(value)});
-    }
+const existFile = (filePath) => {
+  try {
+    fs.statSync(filePath);
+    return true;
+  } catch (err) {
+    return false;
   }
-  return data;
 };
 
-// This function parses the markdown and returns [nameUser, desc].
-const parseOverview = (content) => {
-  let data = {};
-  const result = content.split(/\n/g).filter(value => {
-    return (value.length !== 0) && (value !== '***');
-  });
-  let nameUser = '';
-  let desc = '';
-  for (let value of result) {
-    if (value.startsWith('# ')) {
-      nameUser = value.replace(/# /, '');
-    } else if (value.startsWith('[<img')) {
-      let url = value.match(/.+id="(.+)" src.+\((.+)\)/);
-      if (url === null) continue;
-      switch (url[1]) {
-        case 'website':
-        Object.assign(data, {linkWeb: url[2]});
-        break;
-        case 'facebook':
-        Object.assign(data, {linkFB: url[2]});
-        break;
-        case 'twitter':
-        Object.assign(data, {linkTw: url[2]});
-        break;
-        case 'linkedin':
-        Object.assign(data, {linkLI: url[2]});
-        break;
-        case 'youtube':
-        Object.assign(data, {linkYT: url[2]});
-        break;
+const getLocalJson = (filePath) => {
+  if (existFile(filePath)) {
+    const json = JSON.parse(fs.readFileSync(filePath, "utf8"));
+    return json;
+  }
+  return "cannot read the json file";
+};
+
+// ★★★ Generate README Engine ★★★
+const inspectTemplateJson = (template) => {
+  if (!("sections" in template)) {
+    throw new Error("template.json is broken.");
+  }
+  for (const section of template.sections) {
+    if (
+      !("title" in section) ||
+      !("hidden_title" in section) ||
+      !("required" in section) ||
+      !("multiple" in section) ||
+      !("component" in section) ||
+      !("description" in section) ||
+      !("attributes" in section)
+    ) {
+      throw new Error(`${section.title} template.json is broken.`);
+    }
+  }
+  if ("decorations" in template) {
+    for (const decoration of template.decorations) {
+      if (
+        !("title" in decoration) ||
+        !("required" in decoration) ||
+        !("component" in decoration) ||
+        !("description" in decoration) ||
+        !("attributes" in decoration)
+      ) {
+        throw new Error(
+          `Decoration:${decoration.title}, template.json is broken.`
+        );
       }
-    } else {
-      desc += value;
     }
   }
-  data = Object.assign(data, {nameUser: nameUser, desc: desc});
-  return data;
 };
-*/
-// This function parses the markdown and returns tags
-// [Programming Languages, Frameworks / Libraries, envnments, Other Skills, Qualifications].
-// const parseTags = (content) => {
-//     return content.split(/\n/g).filter(value => {
-//         return (value.length !== 0) && !(value.startsWith('## '));
-//     }).flatMap(value => {
-//         return value.match(/`[^`]+` */g);
-//     }).map(value => {
-//         return value.replace(/` */g, '');
-//     }).filter(value => {
-//         return (value.length !== 0);
-//     });
-// };
 
-// // This function parses the markdown and returns tags [Projects, Distributions, Publications].
-// const parseTitles = (content) => {
-//     return content.split(/\n/g).filter(value => {
-//         return value.startsWith('### ');
-//     }).map(value => {
-//         return value.replace(/### /, '');
-//     }).filter(value => {
-//         return (value.length !== 0);
-//     });
-// };
+const inspectContentsJson = (contents) => {
+  if (!("repository_url" in contents && "sections" in contents)) {
+    throw new Error("contents.json is broken");
+  }
+  for (const section of contents.sections) {
+    if (!("title" in section && "values" in section)) {
+      throw new Error(`Section:${section.title}, contents.json is broken.`);
+    }
+    if (section.values.length == 0) {
+      throw new Error(`Section:${section.title}, contents.json is broken.`);
+    }
+  }
+};
 
-// // This function parses the markdown and returns Job Experience array.
-// const parseJobExperience = (content) => {
-//     const result = content.split(/(?<=\n)(?=### )/).filter(value => {
-//         return value.startsWith('### ');
-//     });
-//     let termComp = [];
-//     let nameComp = [];
-//     for (let i in result) {
-//         termComp.push('');
-//         nameComp.push('');
-//         const lines = result[i].split(/\n/g).filter(value => {
-//             return (value.length !== 0);
-//         });
-//         for (let line of lines) {
-//             if (line.startsWith('### ')) {
-//                 let term = line.match(/\*([^*]+)\*/);
-//                 if (term) {
-//                     termComp[i] = term[1];
-//                 }
-//             } else if (line.startsWith('**')) {
-//                 let name = line.match(/\*\*([^*]+)\*\*/);
-//                 if (name) {
-//                     nameComp[i] = name[1];
-//                 }
-//             }
-//         }
-//     }
-//     if (0 < termComp.length) {
-//         return {termComp: termComp, nameComp: nameComp};
-//     }
-//     return {};
-// };
+// ignoring child component
+const generateReadme = (template, contents) => {
+  let text = "";
+  for (const section of contents.sections) {
+    const templateSection = template.sections.find((element) => {
+      return element.title == section.title;
+    });
+    if (typeof templateSection === "undefined") {
+      continue;
+    }
+    if (templateSection.hidden_title === false) {
+      text += `# ${section.title}\n`;
+    }
+    for (const value of section.values) {
+      text += `${value}\n`;
+    }
+    text += "\n";
+  }
+  console.log(text);
+};
 
-// // This function parses the markdown and returns Education array.
-// const parseEducation = (content) => {
-//     const result = content.split(/(?<=\n)(?=### )/).filter(value => {
-//         return value.startsWith('### ');
-//     });
-//     let termEdu = [];
-//     let nameEdu = [];
-//     for (let i in result) {
-//         termEdu.push('');
-//         nameEdu.push('');
-//         const lines = result[i].split(/\n/g).filter(value => {
-//             return (value.length !== 0);
-//         });
-//         for (let line of lines) {
-//             if (line.startsWith('### ')) {
-//                 let term = line.match(/\*([^*]+)\*/);
-//                 if (term) {
-//                     termEdu[i] = term[1];
-//                 }
-//             } else {
-//                 let name = line.match(/> (.+)/);
-//                 if (name) {
-//                     nameEdu[i] += name[1];
-//                 }
-//             }
-//         }
-//     }
-//     if (0 < termEdu.length) {
-//         return {termEdu: termEdu, nameEdu: nameEdu};
-//     }
-//     return {};
-// };
+// Temporary Calling
+const templatePath = "./public/json/template.json";
+const templateJson = getLocalJson(templatePath);
+try {
+  inspectTemplateJson(templateJson);
+} catch (error) {
+  console.error(error);
+}
+const sampleContentsPath = "./public/sample_json/contents.json";
+const sampleContentsJson = getLocalJson(sampleContentsPath);
+try {
+  inspectContentsJson(sampleContentsJson);
+} catch (error) {
+  console.error(error);
+}
+
+generateReadme(templateJson, sampleContentsJson);
