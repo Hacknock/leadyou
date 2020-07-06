@@ -23,7 +23,6 @@ class WrapRadio extends HTMLElement {
         description.textContent = descShort;
 
         // Create form 
-        const formF = document.createElement('form');
         const radioY = document.createElement('input');
         const labelY = document.createElement('label');
         const radioN = document.createElement('input');
@@ -32,22 +31,24 @@ class WrapRadio extends HTMLElement {
         radioY.setAttribute('type', 'radio');
         radioY.setAttribute('name', subject);
         radioY.setAttribute('value', 'Yes');
+        radioY.setAttribute('class', 'field');
         labelY.textContent = "Yes";
         radioN.setAttribute('type', 'radio');
         radioN.setAttribute('name', subject);
         radioN.setAttribute('value', 'No');
+        radioN.setAttribute('class', 'field');
         labelN.innerText = 'No';
-        formF.appendChild(radioY);
-        formF.appendChild(labelY);
-        formF.appendChild(radioN);
-        formF.appendChild(labelN);
+        wrapper.appendChild(radioY);
+        wrapper.appendChild(labelY);
+        wrapper.appendChild(radioN);
+        wrapper.appendChild(labelN);
 
         // Create some CSS to apply to the shadow dom
         const style = document.createElement('style');
-        console.log(style.isConnected);
+        // console.log(style.isConnected);
         style.textContent = ``;
 
-        console.log('hidden title', hiddenTitle)
+        // console.log('hidden title', hiddenTitle)
 
         if (hiddenTitle) {
             style.textContent = style.textContent + `
@@ -62,14 +63,14 @@ class WrapRadio extends HTMLElement {
         // shadow.appendChild(wrapper);
         shadow.appendChild(subtitle);
         shadow.appendChild(description);
-        shadow.appendChild(formF);
+        shadow.appendChild(wrapper);
     }
 
     static get observedAttributes() { return ["nameTitle", "hiddenTitle", 'descShort']; }
 
     attributeChangedCallback(attr, oldVal, newVal) {
-        console.log('my-el attribute changed', attr);
-        console.log('new value is ', newVal);
+        // console.log('my-el attribute changed', attr);
+        // console.log('new value is ', newVal);
         if (attr === 'nameTitle') {
             // Create title holder
             this.shadowRoot.querySelector('.subTitle').textContent = newVal;
@@ -77,7 +78,7 @@ class WrapRadio extends HTMLElement {
             // Create description holder
             this.shadowRoot.querySelector('.shortDescription').textContent = newVal;
         } else if (attr === "hiddenTitle") {
-            console.log('hidden title nyao');
+            // console.log('hidden title nyao');
             this.updateStyle(this);
         }
     }
