@@ -25,11 +25,11 @@ class WrapMultiField extends HTMLElement {
         const inputF = document.createElement('input');
         inputF.setAttribute('type', 'text');
         inputF.setAttribute('maxlength', 140);
-        inputF.setAttribute('class', 'multiField')
+        inputF.setAttribute('class', 'multiField field')
 
         // Create some CSS to apply to the shadow dom
         const style = document.createElement('style');
-        console.log(style.isConnected);
+        // console.log(style.isConnected);
         style.textContent = `
         
         .multiField {
@@ -54,8 +54,8 @@ class WrapMultiField extends HTMLElement {
     static get observedAttributes() { return ["nameTitle", "descShort"]; }
 
     attributeChangedCallback(attr, oldVal, newVal) {
-        console.log('my-el attribute changed', attr);
-        console.log('new value is ', newVal);
+        // console.log('my-el attribute changed', attr);
+        // console.log('new value is ', newVal);
 
         if (attr === 'nameTitle') {
             // Create title holder

@@ -22,15 +22,14 @@ class WrapOnelineField extends HTMLElement {
         description.textContent = descShort;
 
         // Create form 
-        const formF = document.createElement('form');
         const inputF = document.createElement('input');
         inputF.setAttribute('type', 'text');
         inputF.setAttribute('maxlength', 140);
-        formF.appendChild(inputF);
+        inputF.setAttribute('class', 'field');
 
         // Create some CSS to apply to the shadow dom
         const style = document.createElement('style');
-        console.log(style.isConnected);
+        // console.log(style.isConnected);
         style.textContent = ``;
 
         // Append Child
@@ -38,14 +37,14 @@ class WrapOnelineField extends HTMLElement {
         shadow.appendChild(wrapper);
         wrapper.appendChild(subtitle);
         wrapper.appendChild(description);
-        wrapper.appendChild(formF);
+        wrapper.appendChild(inputF);
     }
 
     static get observedAttributes() { return ["nameTitle", 'descShort']; }
 
     attributeChangedCallback(attr, oldVal, newVal) {
-        console.log('my-el attribute changed', attr);
-        console.log('new value is ', newVal);
+        // console.log('my-el attribute changed', attr);
+        // console.log('new value is ', newVal);
         if (attr === 'nameTitle') {
             // Create title holder
             this.shadowRoot.querySelector('.subTitle').textContent = newVal;
