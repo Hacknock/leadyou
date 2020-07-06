@@ -159,8 +159,25 @@ const inspectContentsJson = (contents) => {
   }
 };
 
+// ignoring child component
 const generateReadme = (template, contents) => {
-  // const repoUrl =
+  let text = "";
+  for (const section of contents.sections) {
+    const templateSection = template.sections.find((element) => {
+      return element.title == section.title;
+    });
+    if (typeof templateSection === "undefined") {
+      continue;
+    }
+    if (templateSection.hidden_title === false) {
+      text += `# ${section.title}\n`;
+    }
+    for (const value of section.values) {
+      text += `${value}\n`;
+    }
+    text += "\n";
+  }
+  console.log(text);
 };
 
 // Temporary Calling
@@ -179,182 +196,4 @@ try {
   console.error(error);
 }
 
-generateReadme(sampleContentsJson);
-
-// app.post("/search/result", (req, res) => {
-//   searchUser(req.body.search, (result) => {
-//     fs.readFile("./public/html/result.ejs", "utf-8", (err, data) => {
-//       const page = ejs.render(data, { jsonData: JSON.stringify(result) });
-//       res.writeHead(200, { "Content-Type": "text/html" });
-//       res.write(page);
-//       res.end();
-//     });
-//   });
-// });
-
-/*
-// This function parses the markdown and returns user data (json object).
-const parseUserPortfolio = (content) => {
-  let data = {nameUser: 'Unknown', desc: 'No description'};
-  let result = content.split(/(?<=\n)(?=# )/).filter(value => {
-    return value.startsWith('# ');
-  });
-  if (0 == result.length) return;
-  result = result[0].split(/(?<=\n)(?=## )/);
-  for (let value of result) {
-    if (value.startsWith('# ')) { // overview
-      data = Object.assign(data, parseOverview(value));
-    } else if (value.startsWith('## Programming Languages')) {
-      data = Object.assign(data, {langProg: parseTags(value)});
-    } else if (value.startsWith('## Frameworks / Libraries')) {
-      data = Object.assign(data, {libFw: parseTags(value)});
-    } else if (value.startsWith('## envnments')) {
-      data = Object.assign(data, {env: parseTags(value)});
-    } else if (value.startsWith('## Other Skills')) {
-      data = Object.assign(data, {skills: parseTags(value)});
-    } else if (value.startsWith('## Qualifications')) {
-      data = Object.assign(data, {qualifi: parseTags(value)});
-    } else if (value.startsWith('## Job Experience')) {
-      data = Object.assign(data, parseJobExperience(value));
-    } else if (value.startsWith('## Education')) {
-      data = Object.assign(data, parseEducation(value));
-    } else if (value.startsWith('## Projects')) {
-      data = Object.assign(data, {projects: parseTitles(value)});
-    } else if (value.startsWith('## Distributions')) {
-      data = Object.assign(data, {dist: parseTitles(value)});
-    } else if (value.startsWith('## Publications')) {
-      data = Object.assign(data, {pub: parseTitles(value)});
-    }
-  }
-  return data;
-};
-
-// This function parses the markdown and returns [nameUser, desc].
-const parseOverview = (content) => {
-  let data = {};
-  const result = content.split(/\n/g).filter(value => {
-    return (value.length !== 0) && (value !== '***');
-  });
-  let nameUser = '';
-  let desc = '';
-  for (let value of result) {
-    if (value.startsWith('# ')) {
-      nameUser = value.replace(/# /, '');
-    } else if (value.startsWith('[<img')) {
-      let url = value.match(/.+id="(.+)" src.+\((.+)\)/);
-      if (url === null) continue;
-      switch (url[1]) {
-        case 'website':
-        Object.assign(data, {linkWeb: url[2]});
-        break;
-        case 'facebook':
-        Object.assign(data, {linkFB: url[2]});
-        break;
-        case 'twitter':
-        Object.assign(data, {linkTw: url[2]});
-        break;
-        case 'linkedin':
-        Object.assign(data, {linkLI: url[2]});
-        break;
-        case 'youtube':
-        Object.assign(data, {linkYT: url[2]});
-        break;
-      }
-    } else {
-      desc += value;
-    }
-  }
-  data = Object.assign(data, {nameUser: nameUser, desc: desc});
-  return data;
-};
-*/
-// This function parses the markdown and returns tags
-// [Programming Languages, Frameworks / Libraries, envnments, Other Skills, Qualifications].
-// const parseTags = (content) => {
-//     return content.split(/\n/g).filter(value => {
-//         return (value.length !== 0) && !(value.startsWith('## '));
-//     }).flatMap(value => {
-//         return value.match(/`[^`]+` */g);
-//     }).map(value => {
-//         return value.replace(/` */g, '');
-//     }).filter(value => {
-//         return (value.length !== 0);
-//     });
-// };
-
-// // This function parses the markdown and returns tags [Projects, Distributions, Publications].
-// const parseTitles = (content) => {
-//     return content.split(/\n/g).filter(value => {
-//         return value.startsWith('### ');
-//     }).map(value => {
-//         return value.replace(/### /, '');
-//     }).filter(value => {
-//         return (value.length !== 0);
-//     });
-// };
-
-// // This function parses the markdown and returns Job Experience array.
-// const parseJobExperience = (content) => {
-//     const result = content.split(/(?<=\n)(?=### )/).filter(value => {
-//         return value.startsWith('### ');
-//     });
-//     let termComp = [];
-//     let nameComp = [];
-//     for (let i in result) {
-//         termComp.push('');
-//         nameComp.push('');
-//         const lines = result[i].split(/\n/g).filter(value => {
-//             return (value.length !== 0);
-//         });
-//         for (let line of lines) {
-//             if (line.startsWith('### ')) {
-//                 let term = line.match(/\*([^*]+)\*/);
-//                 if (term) {
-//                     termComp[i] = term[1];
-//                 }
-//             } else if (line.startsWith('**')) {
-//                 let name = line.match(/\*\*([^*]+)\*\*/);
-//                 if (name) {
-//                     nameComp[i] = name[1];
-//                 }
-//             }
-//         }
-//     }
-//     if (0 < termComp.length) {
-//         return {termComp: termComp, nameComp: nameComp};
-//     }
-//     return {};
-// };
-
-// // This function parses the markdown and returns Education array.
-// const parseEducation = (content) => {
-//     const result = content.split(/(?<=\n)(?=### )/).filter(value => {
-//         return value.startsWith('### ');
-//     });
-//     let termEdu = [];
-//     let nameEdu = [];
-//     for (let i in result) {
-//         termEdu.push('');
-//         nameEdu.push('');
-//         const lines = result[i].split(/\n/g).filter(value => {
-//             return (value.length !== 0);
-//         });
-//         for (let line of lines) {
-//             if (line.startsWith('### ')) {
-//                 let term = line.match(/\*([^*]+)\*/);
-//                 if (term) {
-//                     termEdu[i] = term[1];
-//                 }
-//             } else {
-//                 let name = line.match(/> (.+)/);
-//                 if (name) {
-//                     nameEdu[i] += name[1];
-//                 }
-//             }
-//         }
-//     }
-//     if (0 < termEdu.length) {
-//         return {termEdu: termEdu, nameEdu: nameEdu};
-//     }
-//     return {};
-// };
+generateReadme(templateJson, sampleContentsJson);
