@@ -32,6 +32,20 @@ app.get("/:path", (req, res) => {
       responseFileSupport(res, "./public/html/form.html", "text/html");
       break;
     }
+    case "getvalues": {
+      console.log(req.query);
+      let jsonReturn = customScript(
+        req.query.url,
+        req.query.authToken,
+        req.query.secretToken
+      );
+      console.log("debug");
+      console.log(typeof jsonReturn);
+
+      res.json(jsonReturn);
+      res.end();
+      break;
+    }
     default: {
       res.writeHead(400, { "Content-Type": "text/plain" });
       res.write("400 Bad Request");
@@ -93,19 +107,56 @@ const responseFileSupport = (res, path, type) => {
   }
 };
 
-const existFile = (filePath) => {
+// const existFile = (filePath) => {
+//   try {
+//     fs.statSync(filePath);
+//     return true;
+//   } catch (err) {
+//     return false;
+//   }
+// };
+
+// const getLocalJson = (filePath) => {
+//   if (existFile(filePath)) {
+//     const json = JSON.parse(fs.readFileSync(filePath, "utf8"));
+//     return json;
+//   }
+//   return "cannot read the json file";
+// };
+
+const customScript = (repoUrl, authToken, secretToken) => {
+  // get file list of script
+
   try {
-    fs.statSync(filePath);
-    return true;
+    const files = fs.readdirSync("./public/js/customScript/");
+    let maps = Array.prototype.map;
+    let customScriptList = maps.call(files, function (x) {
+      return "./public/js/customScript/" + x;
+    });
+
+    let customScripts = customScriptList.map(require);
+    let debugText = multiGetValues(
+      customScripts,
+      repoUrl,
+      authToken,
+      secretToken
+    );
+    console.log(debugText);
+    return debugText;
   } catch (err) {
-    return false;
+    throw err;
   }
 };
 
-const getLocalJson = (filePath) => {
-  if (existFile(filePath)) {
-    const json = JSON.parse(fs.readFileSync(filePath, "utf8"));
-    return json;
+const multiGetValues = (customScripts, repoUrl, authToken, secretToken) => {
+  console.log(customScripts);
+  let stack = new Array();
+  if (customScripts.length > 0) {
+    stack.push(customScripts[0].getValues(repoUrl, authToken, secretToken));
+    customScripts.shift();
+    stack = stack.concat(
+      multiGetValues(customScripts, repoUrl, authToken, secretToken)
+    );
   }
-  return "cannot read the json file";
+  return stack;
 };
