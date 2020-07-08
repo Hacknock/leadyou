@@ -32,6 +32,21 @@ app.get("/:path", (req, res) => {
       responseFileSupport(res, "./public/html/form.html", "text/html");
       break;
     }
+    case "getvalues": {
+      console.log(req.query);
+      let jsonReturn = customScript(
+        req.query.url,
+        req.query.authToken,
+        req.query.secretToken
+      );
+      console.log("debug");
+      console.log(typeof jsonReturn);
+
+      // res.writeHead(200, { "Content-Type": "application/json" });
+      res.json(jsonReturn);
+      res.end();
+      break;
+    }
     default: {
       res.writeHead(400, { "Content-Type": "text/plain" });
       res.write("400 Bad Request");
@@ -110,90 +125,39 @@ const getLocalJson = (filePath) => {
   return "cannot read the json file";
 };
 
-// ★★★ Generate README Engine ★★★
-const inspectTemplateJson = (template) => {
-  if (!("sections" in template)) {
-    throw new Error("template.json is broken.");
-  }
-  for (const section of template.sections) {
-    if (
-      !("title" in section) ||
-      !("hidden_title" in section) ||
-      !("required" in section) ||
-      !("multiple" in section) ||
-      !("component" in section) ||
-      !("description" in section) ||
-      !("attributes" in section)
-    ) {
-      throw new Error(`${section.title} template.json is broken.`);
-    }
-  }
-  if ("decorations" in template) {
-    for (const decoration of template.decorations) {
-      if (
-        !("title" in decoration) ||
-        !("required" in decoration) ||
-        !("component" in decoration) ||
-        !("description" in decoration) ||
-        !("attributes" in decoration)
-      ) {
-        throw new Error(
-          `Decoration:${decoration.title}, template.json is broken.`
-        );
-      }
-    }
-  }
-};
+const customScript = (repoUrl, authToken, secretToken) => {
+  // get file list of script
 
-const inspectContentsJson = (contents) => {
-  if (!("repository_url" in contents && "sections" in contents)) {
-    throw new Error("contents.json is broken");
-  }
-  for (const section of contents.sections) {
-    if (!("title" in section && "values" in section)) {
-      throw new Error(`Section:${section.title}, contents.json is broken.`);
-    }
-    if (section.values.length == 0) {
-      throw new Error(`Section:${section.title}, contents.json is broken.`);
-    }
-  }
-};
-
-// ignoring child component
-const generateReadme = (template, contents) => {
-  let text = "";
-  for (const section of contents.sections) {
-    const templateSection = template.sections.find((element) => {
-      return element.title == section.title;
+  try {
+    const files = fs.readdirSync("./public/js/customScript/");
+    let maps = Array.prototype.map;
+    let customScriptList = maps.call(files, function (x) {
+      return "./public/js/customScript/" + x;
     });
-    if (typeof templateSection === "undefined") {
-      continue;
-    }
-    if (templateSection.hidden_title === false) {
-      text += `# ${section.title}\n`;
-    }
-    for (const value of section.values) {
-      text += `${value}\n`;
-    }
-    text += "\n";
+
+    let customScripts = customScriptList.map(require);
+    let debugText = multiGetValues(
+      customScripts,
+      repoUrl,
+      authToken,
+      secretToken
+    );
+    console.log(debugText);
+    return debugText;
+  } catch (err) {
+    throw err;
   }
-  console.log(text);
 };
 
-// Temporary Calling
-const templatePath = "./public/json/template.json";
-const templateJson = getLocalJson(templatePath);
-try {
-  inspectTemplateJson(templateJson);
-} catch (error) {
-  console.error(error);
-}
-const sampleContentsPath = "./public/sample_json/contents.json";
-const sampleContentsJson = getLocalJson(sampleContentsPath);
-try {
-  inspectContentsJson(sampleContentsJson);
-} catch (error) {
-  console.error(error);
-}
-
-generateReadme(templateJson, sampleContentsJson);
+const multiGetValues = (customScripts, repoUrl, authToken, secretToken) => {
+  console.log(customScripts);
+  let stack = new Array();
+  if (customScripts.length > 0) {
+    stack.push(customScripts[0].getValues(repoUrl, authToken, secretToken));
+    customScripts.shift();
+    stack = stack.concat(
+      multiGetValues(customScripts, repoUrl, authToken, secretToken)
+    );
+  }
+  return stack;
+};
