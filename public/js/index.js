@@ -1,99 +1,208 @@
 // Control general acrivity on index.html
 
-// Get setting.json which describe the layout of input form
-var myHeaders = new Headers();
+// Define root element which hold all custome elements.
+const rootEle = document.getElementById("areaForm");
+const outputEle = document.getElementById("output");
+let templateJson = new Object();
 
-var myInit = {
-    method: 'GET',
-    headers: myHeaders,
-    mode: 'cors',
-    cache: 'default'
+// Inspect format of json
+const inspectTemplateJson = (template) => {
+  if (!("sections" in template)) {
+    throw new Error("template.json is broken.");
+  }
+  for (const section of template.sections) {
+    if (
+      !("title" in section) ||
+      !("hidden_title" in section) ||
+      !("required" in section) ||
+      !("multiple" in section) ||
+      !("component" in section) ||
+      !("description" in section) ||
+      !("attributes" in section)
+    ) {
+      throw new Error(`${section.title} template.json is broken.`);
+    }
+  }
+  if ("decorations" in template) {
+    for (const decoration of template.decorations) {
+      if (
+        !("title" in decoration) ||
+        !("required" in decoration) ||
+        !("component" in decoration) ||
+        !("description" in decoration) ||
+        !("attributes" in decoration)
+      ) {
+        throw new Error(
+          `Decoration:${decoration.title}, template.json is broken.`
+        );
+      }
+    }
+  }
 };
 
-var myRequest = new Request('/src/json/template.json', myInit);
-
-var jsonFile = new Array();
-
-fetch(myRequest).then(function (response) {
-    var contentType = response.headers.get("content-type");
-    if (contentType && contentType.includes("application/json")) {
-        return response.json();
+const inspectContentsJson = (contents) => {
+  if (!("repository_url" in contents && "sections" in contents)) {
+    throw new Error("contents.json is broken");
+  }
+  for (const section of contents.sections) {
+    if (!("title" in section && "values" in section)) {
+      throw new Error(`Section:${section.title}, contents.json is broken.`);
     }
-    throw new TypeError("Oops, we haven't got JSON!");
-})
-    .then(function (json) {
-        jsonFile = json;
-        generateForm(json, 0);
-    })
-    .catch(function (error) { console.log(error); });
+    if (section.values.length == 0) {
+      throw new Error(`Section:${section.title}, contents.json is broken.`);
+    }
+  }
+};
 
-// define root element which hold all custome elements.
-var rootEle = document.getElementById('areaForm');
+// Get template.json which describe the layout of input form
+const getTemplateJson = async () => {
+  const myHeaders = new Headers();
+  const myInit = {
+    method: "GET",
+    headers: myHeaders,
+    mode: "cors",
+    cache: "default",
+  };
+  const myRequest = new Request("/src/json/template.json", myInit);
+  try {
+    const response = await fetch(myRequest);
+    const contentType = response.headers.get("content-type");
+    if (contentType && contentType.includes("application/json")) {
+      const json = await response.json();
+      inspectTemplateJson(json);
+      return json;
+    } else {
+      throw new TypeError("Oops, we haven't got JSON!");
+    }
+  } catch (error) {
+    throw error;
+  }
+};
+
+const convertToId = (title) => {
+  // console.log(title)
+  // console.log(title.replace(' ', '_'));
+  return title.replace(" ", "_");
+};
 
 // function which generate the form user input information.
-function generateForm(jsonSetting, numArray) {
-    if (jsonSetting.sections.length > numArray) {
-        var childElement = document.createElement(jsonSetting.sections[numArray].component);
-        childElement.setAttributeNS(null, 'nameTitle', jsonSetting.sections[numArray].title);
-        childElement.setAttributeNS(null, 'descShort', jsonSetting.sections[numArray].description);
-        childElement.setAttributeNS(null, 'hiddenTitle', jsonSetting.sections[numArray].hidden_title);
-        childElement.setAttributeNS(null, 'class', 'infoBox');
-        childElement.setAttributeNS(null, 'id', convertToId(jsonSetting.sections[numArray].title));
+const generateForm = (tempJson, index) => {
+  if (tempJson.sections.length > index) {
+    const childElement = document.createElement(
+      tempJson.sections[index].component
+    );
+    childElement.setAttributeNS(
+      null,
+      "nameTitle",
+      tempJson.sections[index].title
+    );
+    childElement.setAttributeNS(
+      null,
+      "descShort",
+      tempJson.sections[index].description
+    );
+    childElement.setAttributeNS(
+      null,
+      "hiddenTitle",
+      tempJson.sections[index].hidden_title
+    );
+    childElement.setAttributeNS(null, "class", "infoBox");
+    childElement.setAttributeNS(
+      null,
+      "id",
+      convertToId(tempJson.sections[index].title)
+    );
+    rootEle.appendChild(childElement);
+    generateForm(tempJson, ++index);
+  } else {
+    // console.log("Finish read read_sections");
+  }
+};
 
-        rootEle.appendChild(childElement);
-        generateForm(jsonSetting, ++numArray);
-    } else {
-        console.log("Finish read read_sections");
+// ★★★ Generate README Engine ★★★
+const generateJson = (listEle, tempJson, index) => {
+  let arraySec = new Array();
+  let arrayChild = new Array();
+  if (typeof tempJson.sections[index] !== "undefined") {
+    const root = listEle[index].shadowRoot;
+    if (root.querySelector(".field").type === "text") {
+      // console.log(root.querySelector('h2').textContent);
+      // console.log(root.querySelector('.field').value);
+      arrayChild.push(root.querySelector(".field").value);
+      arraySec.push({
+        title: root.querySelector("h2").textContent,
+        values: arrayChild,
+      });
+    } else if (root.querySelector(".field").type === "radio") {
+      // console.log(root.querySelector('h2').textContent);
+      // console.log(root.querySelectorAll('.field')[0].checked);
+      // console.log(root.querySelectorAll('.field')[1].checked);
+      arrayChild.push(root.querySelectorAll(".field")[0].checked);
+      arrayChild.push(root.querySelectorAll(".field")[1].checked);
+      arraySec.push({
+        title: root.querySelector("h2").textContent,
+        values: arrayChild,
+      });
     }
-}
+    arraySec = arraySec.concat(generateJson(listEle, tempJson, ++index));
+  }
+  return arraySec;
+};
 
-document.getElementById('sub').addEventListener('click', function () {
-    var eleS2 = document.getElementsByClassName('infoBox'); //Extract all custom element
-    // console.log(eleS2)
-    var jsOb = new Object();
-    jsOb.repository_url = "https://hacknock.com";
-    jsOb.project_icon = "hogehoge.ico";
-    // console.log("json object is");
-    // console.log(jsOb);
-    var aS = generateJson(eleS2, jsonFile, 0);
-    // console.log("Array is ");
-    // console.log(aS);
-    jsOb.sections = aS;
-    console.log(jsOb);
-})
+const createContentsJson = () => {
+  const sectionsJson = generateJson(
+    document.getElementsByClassName("infoBox"),
+    templateJson,
+    0
+  );
+  return {
+    repository_url: "https://hacknock.com",
+    project_icon: "hogehoge.ico",
+    sections: sectionsJson,
+  };
+};
 
-function generateJson(listEle, jsonSetting, numArray) {
-    var arrayS = new Array();
-    var jsonChild = new Object();
-    var arrayChild = new Array();
-    if (typeof jsonSetting.sections[numArray] === "undefined") {
-        // console.log('finished');
-        // console.log(arrayS);
-    } else {
-        if (listEle[numArray].shadowRoot.querySelector('.field').type === "text") {
-            // console.log(listEle[numArray].shadowRoot.querySelector('h2').textContent);
-            // console.log(listEle[numArray].shadowRoot.querySelector('.field').value);
-            arrayChild.push(listEle[numArray].shadowRoot.querySelector('.field').value);
-            jsonChild.title = listEle[numArray].shadowRoot.querySelector('h2').textContent;
-            jsonChild.value = arrayChild;
-            arrayS.push(jsonChild);
-        } else if (listEle[numArray].shadowRoot.querySelector('.field').type === "radio") {
-            // console.log(listEle[numArray].shadowRoot.querySelector('h2').textContent);
-            // console.log(listEle[numArray].shadowRoot.querySelectorAll('.field')[0].checked);
-            // console.log(listEle[numArray].shadowRoot.querySelectorAll('.field')[1].checked);
-            arrayChild.push(listEle[numArray].shadowRoot.querySelectorAll('.field')[0].checked);
-            arrayChild.push(listEle[numArray].shadowRoot.querySelectorAll('.field')[0].checked);
-            jsonChild.title = listEle[numArray].shadowRoot.querySelector('h2').textContent;
-            jsonChild.value = arrayChild;
-            arrayS.push(jsonChild);
-        }
-        arrayS = arrayS.concat(generateJson(listEle, jsonSetting, ++numArray));
+// ignoring child component
+const generateReadme = (template, contents) => {
+  let text = "";
+  for (const section of contents.sections) {
+    const templateSection = template.sections.find((element) => {
+      return element.title == section.title;
+    });
+    if (typeof templateSection === "undefined") {
+      continue;
     }
-    return arrayS;
-}
+    if (templateSection.hidden_title === false) {
+      text += `# ${section.title}\n`;
+    }
+    for (const value of section.values) {
+      text += `${value}\n`;
+    }
+    text += "\n";
+  }
+  return text;
+};
 
-function convertToId(title) {
-    // console.log(title)
-    // console.log(title.replace(' ', '_'));
-    return title.replace(' ', '_');
-}
+// call at loaded
+getTemplateJson()
+  .then((json) => {
+    templateJson = json;
+    generateForm(json, 0);
+  })
+  .catch((error) => {
+    console.error(error);
+  });
+
+// Submitボタンを押した時の処理
+document.getElementById("submit").addEventListener("click", () => {
+  const contentsJson = createContentsJson();
+  try {
+    if (Object.keys(templateJson).length === 0) {
+      throw new Error("template.json is empty.");
+    }
+    inspectContentsJson(contentsJson);
+    outputEle.textContent = generateReadme(templateJson, contentsJson);
+  } catch (error) {
+    console.error(error);
+  }
+});
