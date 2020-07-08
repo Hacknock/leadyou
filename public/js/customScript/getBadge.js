@@ -1,4 +1,4 @@
-module.exports.getBadge = (repoUrl, authToken, secretToken) => {
+module.exports.getValues = (repoUrl, authToken, secretToken) => {
   const sieldsUrl = "https://img.shields.io/github";
   const badgeList = ["release", "issues", "forks", "stars", "license"];
   const badgeNameList = [
@@ -37,7 +37,7 @@ module.exports.getBadge = (repoUrl, authToken, secretToken) => {
     }
 
     returnJson.value = arrayValue;
-    console.log(returnJson);
+    // console.log(returnJson);
     return returnJson;
   } else {
     console.log("This url is not available.");
