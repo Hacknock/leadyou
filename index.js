@@ -42,7 +42,6 @@ app.get("/:path", (req, res) => {
       console.log("debug");
       console.log(typeof jsonReturn);
 
-      // res.writeHead(200, { "Content-Type": "application/json" });
       res.json(jsonReturn);
       res.end();
       break;
@@ -108,22 +107,22 @@ const responseFileSupport = (res, path, type) => {
   }
 };
 
-const existFile = (filePath) => {
-  try {
-    fs.statSync(filePath);
-    return true;
-  } catch (err) {
-    return false;
-  }
-};
+// const existFile = (filePath) => {
+//   try {
+//     fs.statSync(filePath);
+//     return true;
+//   } catch (err) {
+//     return false;
+//   }
+// };
 
-const getLocalJson = (filePath) => {
-  if (existFile(filePath)) {
-    const json = JSON.parse(fs.readFileSync(filePath, "utf8"));
-    return json;
-  }
-  return "cannot read the json file";
-};
+// const getLocalJson = (filePath) => {
+//   if (existFile(filePath)) {
+//     const json = JSON.parse(fs.readFileSync(filePath, "utf8"));
+//     return json;
+//   }
+//   return "cannot read the json file";
+// };
 
 const customScript = (repoUrl, authToken, secretToken) => {
   // get file list of script
