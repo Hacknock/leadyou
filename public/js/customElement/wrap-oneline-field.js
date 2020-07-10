@@ -77,6 +77,7 @@ class WrapOnelineField extends HTMLElement {
     const newInputF = document.createElement("input");
     newInputF.setAttribute("type", "text");
     newInputF.setAttribute("maxlength", 140);
+    newInputF.setAttribute("class", "column");
     newDivWrap.appendChild(newInputF);
 
     return newDivWrap;

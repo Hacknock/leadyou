@@ -124,6 +124,20 @@ const generateForm = (tempJson, index) => {
   }
 };
 
+// Explore each field
+const explorationFields = (listFileds) => {};
+// Explore each column
+const getColumnData = (listColumn) => {
+  let content = "";
+  if (listColumn.length > 0) {
+    content = listColumn[0].value;
+    console.log(typeof listColumn);
+    listColumn.slice(0);
+    content = content + " " + getColumnData(listColumn);
+  }
+  return content;
+};
+
 // ★★★ Generate README Engine ★★★
 const generateJson = (listEle, tempJson, index) => {
   let arraySec = new Array();
@@ -132,6 +146,12 @@ const generateJson = (listEle, tempJson, index) => {
     const root = listEle[index].shadowRoot;
     console.log(root);
     console.log(root.querySelectorAll(".field").length);
+    console.log(root.querySelector(".field").querySelectorAll(".column"));
+    let stackEles = root.querySelector(".field").querySelectorAll(".column");
+    console.log(stackEles[0].value);
+    console.log(getColumnData(stackEles));
+
+    let secTitle = root.querySelector("h2").textContent;
 
     // if (root.querySelector(".field").type === "text") {
     //   // console.log(root.querySelector('h2').textContent);
