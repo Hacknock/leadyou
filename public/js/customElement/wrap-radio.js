@@ -8,7 +8,6 @@ class WrapRadio extends HTMLElement {
 
     // Create sections
     const wrapper = this.addInputField();
-    // wrapper.setAttribute("class", "field");
 
     // Create title holder
     const subtitle = document.createElement("h2");
@@ -56,11 +55,13 @@ class WrapRadio extends HTMLElement {
     shadow.appendChild(subtitle);
     shadow.appendChild(description);
     shadow.appendChild(wrapper);
-    shadow.appendChild(addButton);
+    if (this.getAttribute("multiple") === true) {
+      shadow.appendChild(addButton);
+    }
   }
 
   static get observedAttributes() {
-    return ["nameTitle", "hiddenTitle", "descShort"];
+    return ["nameTitle", "hiddenTitle", "descShort", "multiple"];
   }
 
   attributeChangedCallback(attr, oldVal, newVal) {
@@ -75,6 +76,16 @@ class WrapRadio extends HTMLElement {
     } else if (attr === "hiddenTitle") {
       // console.log('hidden title nyao');
       this.updateStyle(this);
+    } else if (attr === "multiple" && newVal === "true") {
+      const addButton = document.createElement("input");
+      addButton.setAttribute("type", "button");
+      addButton.setAttribute("value", "add");
+      addButton.addEventListener("click", () => {
+        const newDivWrap = this.addInputField();
+
+        this.shadowRoot.insertBefore(newDivWrap, addButton);
+      });
+      this.shadowRoot.appendChild(addButton);
     }
   }
 
