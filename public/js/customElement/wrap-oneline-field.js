@@ -41,11 +41,14 @@ class WrapOnelineField extends HTMLElement {
     shadow.appendChild(subtitle);
     shadow.appendChild(description);
     shadow.appendChild(wrapper);
-    shadow.appendChild(addButton);
+
+    if (this.getAttribute("multiple") === true) {
+      shadow.appendChild(addButton);
+    }
   }
 
   static get observedAttributes() {
-    return ["nameTitle", "descShort"];
+    return ["nameTitle", "descShort", "multiple"];
   }
 
   attributeChangedCallback(attr, oldVal, newVal) {
@@ -55,6 +58,16 @@ class WrapOnelineField extends HTMLElement {
     } else if (attr === "descShort") {
       // Create description holder
       this.shadowRoot.querySelector(".shortDescription").textContent = newVal;
+    } else if (attr === "multiple" && newVal === "true") {
+      const addButton = document.createElement("input");
+      addButton.setAttribute("type", "button");
+      addButton.setAttribute("value", "add");
+      addButton.addEventListener("click", () => {
+        const newDivWrap = this.addInputField();
+
+        this.shadowRoot.insertBefore(newDivWrap, addButton);
+      });
+      this.shadowRoot.appendChild(addButton);
     }
   }
 
