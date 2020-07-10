@@ -114,10 +114,12 @@ class WrapRadio extends HTMLElement {
     radioY.setAttribute("type", "radio");
     radioY.setAttribute("name", subject);
     radioY.setAttribute("value", "Yes");
+    radioY.setAttribute("class", "column");
     labelY.textContent = "Yes";
     radioN.setAttribute("type", "radio");
     radioN.setAttribute("name", subject);
     radioN.setAttribute("value", "No");
+    radioN.setAttribute("class", "column");
     labelN.innerText = "No";
     newDivWrap.appendChild(radioY);
     newDivWrap.appendChild(labelY);
