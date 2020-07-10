@@ -211,7 +211,7 @@ document.getElementById("submit").addEventListener("click", () => {
       throw new Error("template.json is empty.");
     }
     inspectContentsJson(contentsJson);
-    outputEle.textContent = generateReadme(templateJson, contentsJson);
+    outputEle.innerHTML = marked(generateReadme(templateJson, contentsJson));
   } catch (error) {
     console.error(error);
   }
