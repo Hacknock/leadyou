@@ -19,15 +19,17 @@ class WrapUploadFile extends HTMLElement {
     description.textContent = descShort;
 
     // Create form
-    const upFile = document.createElement("input");
-    const descFile = document.createElement("input");
+    const divWrap = addInputField();
 
-    upFile.setAttribute("type", "file");
-    upFile.setAttribute("name", "fig");
-    upFile.setAttribute("class", "field");
+    const addButton = document.createElement("input");
 
-    descFile.setAttribute("type", "text");
-    descFile.setAttribute("class", "field");
+    addButton.setAttribute("type", "button");
+    addButton.setAttribute("value", "add");
+    addButton.addEventListener("click", () => {
+      const newDivWrap = addInputField();
+
+      shadow.insertBefore(newDivWrap, addButton);
+    });
 
     // Create some CSS to apply to the shadow dom
     const style = document.createElement("style");
@@ -38,8 +40,8 @@ class WrapUploadFile extends HTMLElement {
     shadow.appendChild(style);
     shadow.appendChild(subtitle);
     shadow.appendChild(description);
-    shadow.appendChild(upFile);
-    shadow.appendChild(descFile);
+    shadow.appendChild(divWrap);
+    shadow.appendChild(addButton);
   }
 
   static get observedAttributes() {
@@ -58,5 +60,23 @@ class WrapUploadFile extends HTMLElement {
     }
   }
 }
+
+const addInputField = () => {
+  const newDivWrap = document.createElement("div");
+  newDivWrap.setAttribute("class", "field");
+  const newUpFile = document.createElement("input");
+  newUpFile.setAttribute("type", "file");
+  newUpFile.setAttribute("name", "image");
+  newUpFile.setAttribute("class", "column");
+  const newDescFile = document.createElement("input");
+  newDescFile.setAttribute("type", "text");
+  newDescFile.setAttribute("name", "text");
+  newDescFile.setAttribute("class", "column");
+  newDivWrap.appendChild(newUpFile);
+  newDivWrap.appendChild(newDescFile);
+
+  return newDivWrap;
+};
+
 // Define the new element
 customElements.define("wrap-upload-file", WrapUploadFile);
