@@ -19,14 +19,14 @@ class WrapUploadFile extends HTMLElement {
     description.textContent = descShort;
 
     // Create form
-    const divWrap = addInputField();
+    const divWrap = this.addInputField();
 
     const addButton = document.createElement("input");
 
     addButton.setAttribute("type", "button");
     addButton.setAttribute("value", "add");
     addButton.addEventListener("click", () => {
-      const newDivWrap = addInputField();
+      const newDivWrap = this.addInputField();
 
       shadow.insertBefore(newDivWrap, addButton);
     });
@@ -59,24 +59,23 @@ class WrapUploadFile extends HTMLElement {
       this.shadowRoot.querySelector(".shortDescription").textContent = newVal;
     }
   }
+  addInputField = () => {
+    const newDivWrap = document.createElement("div");
+    newDivWrap.setAttribute("class", "field");
+    const newUpFile = document.createElement("input");
+    newUpFile.setAttribute("type", "file");
+    newUpFile.setAttribute("name", "image");
+    newUpFile.setAttribute("class", "column");
+    const newDescFile = document.createElement("input");
+    newDescFile.setAttribute("type", "text");
+    newDescFile.setAttribute("name", "text");
+    newDescFile.setAttribute("class", "column");
+    newDivWrap.appendChild(newUpFile);
+    newDivWrap.appendChild(newDescFile);
+
+    return newDivWrap;
+  };
 }
-
-const addInputField = () => {
-  const newDivWrap = document.createElement("div");
-  newDivWrap.setAttribute("class", "field");
-  const newUpFile = document.createElement("input");
-  newUpFile.setAttribute("type", "file");
-  newUpFile.setAttribute("name", "image");
-  newUpFile.setAttribute("class", "column");
-  const newDescFile = document.createElement("input");
-  newDescFile.setAttribute("type", "text");
-  newDescFile.setAttribute("name", "text");
-  newDescFile.setAttribute("class", "column");
-  newDivWrap.appendChild(newUpFile);
-  newDivWrap.appendChild(newDescFile);
-
-  return newDivWrap;
-};
 
 // Define the new element
 customElements.define("wrap-upload-file", WrapUploadFile);
