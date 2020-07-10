@@ -2,7 +2,8 @@
 <html lang="en">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <link href="/src/css/index.css" rel="stylesheet" type="text/css" />
+    <link href="/src/css/form.css" rel="stylesheet" type="text/css" />
+    <link href="/src/css/marked.css" rel="stylesheet" type="text/css" />
     <script
       type="text/javascript"
       src="/src/customdom/wrap-multiline-field.js"
@@ -23,15 +24,22 @@
       src="/src/customdom/wrap-upload-file.js"
       defer
     ></script>
-    <script type="text/javascript" src="/src/customdom/test.js" defer></script>
-    <script type="text/javascript" src="/src/js/index.js" defer></script>
+    <script
+      type="text/javascript"
+      src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"
+    ></script>
+    <script type="text/javascript" src="/src/js/form.js" defer></script>
     <title>pullreq - me</title>
   </head>
 
   <body>
     <h1>Readme Generator</h1>
-    <section id="areaForm"></section>
-    <input type="button" id="submit" value="Submit" />
-    <pre id="output"></pre>
+    <div class="contents">
+      <div class="edit-area">
+        <div id="areaForm"></div>
+        <input type="button" id="submit" value="Submit" />
+      </div>
+      <div class="preview-area" id="output"></div>
+    </div>
   </body>
 </html>
