@@ -106,6 +106,11 @@ const generateForm = (tempJson, index) => {
       "hiddenTitle",
       tempJson.sections[index].hidden_title
     );
+    childElement.setAttributeNS(
+      null,
+      "multiple",
+      tempJson.sections[index].multiple
+    );
     childElement.setAttributeNS(null, "class", "infoBox");
     childElement.setAttributeNS(
       null,
@@ -125,25 +130,30 @@ const generateJson = (listEle, tempJson, index) => {
   let arrayChild = new Array();
   if (typeof tempJson.sections[index] !== "undefined") {
     const root = listEle[index].shadowRoot;
-    if (root.querySelector(".field").type === "text") {
-      // console.log(root.querySelector('h2').textContent);
-      // console.log(root.querySelector('.field').value);
-      arrayChild.push(root.querySelector(".field").value);
-      arraySec.push({
-        title: root.querySelector("h2").textContent,
-        values: arrayChild,
-      });
-    } else if (root.querySelector(".field").type === "radio") {
-      // console.log(root.querySelector('h2').textContent);
-      // console.log(root.querySelectorAll('.field')[0].checked);
-      // console.log(root.querySelectorAll('.field')[1].checked);
-      arrayChild.push(root.querySelectorAll(".field")[0].checked);
-      arrayChild.push(root.querySelectorAll(".field")[1].checked);
-      arraySec.push({
-        title: root.querySelector("h2").textContent,
-        values: arrayChild,
-      });
-    }
+    console.log(root);
+    console.log(root.querySelectorAll(".field").length);
+
+    // if (root.querySelector(".field").type === "text") {
+    //   // console.log(root.querySelector('h2').textContent);
+    //   // console.log(root.querySelector('.field').value);
+    //   arrayChild.push(root.querySelector(".field").value);
+    //   arraySec.push({
+    //     title: root.querySelector("h2").textContent,
+    //     values: arrayChild,
+    //   });
+    // } else if (root.querySelector(".field").type === "radio") {
+    //   // console.log(root.querySelector('h2').textContent);
+    //   // console.log(root.querySelectorAll('.field')[0].checked);
+    //   // console.log(root.querySelectorAll('.field')[1].checked);
+    //   arrayChild.push(root.querySelectorAll(".field")[0].checked);
+    //   arrayChild.push(root.querySelectorAll(".field")[1].checked);
+    //   arraySec.push({
+    //     title: root.querySelector("h2").textContent,
+    //     values: arrayChild,
+    //   });
+    // } else if (root.querySelectorAll(".files").length) {
+    //   console.log(root.querySelector(".files").querySelectorAll(".column"));
+    // }
     arraySec = arraySec.concat(generateJson(listEle, tempJson, ++index));
   }
   return arraySec;
