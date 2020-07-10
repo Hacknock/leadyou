@@ -124,7 +124,7 @@ const responseFileSupport = (res, path, type) => {
 //   return "cannot read the json file";
 // };
 
-const customScript = (repoUrl, authToken, secretToken) => {
+const customScript = async (repoUrl, authToken, secretToken) => {
   // get file list of script
 
   try {
@@ -135,28 +135,53 @@ const customScript = (repoUrl, authToken, secretToken) => {
     });
 
     let customScripts = customScriptList.map(require);
-    let debugText = multiGetValues(
-      customScripts,
-      repoUrl,
-      authToken,
-      secretToken
-    );
-    console.log(debugText);
-    return debugText;
+    return await multiGetValues(customScripts, repoUrl, authToken, secretToken);
   } catch (err) {
-    throw err;
+    return new Promise((_, reject) => reject(err));
   }
 };
 
-const multiGetValues = (customScripts, repoUrl, authToken, secretToken) => {
+const multiGetValues = async (
+  customScripts,
+  repoUrl,
+  authToken,
+  secretToken
+) => {
   console.log(customScripts);
   let stack = new Array();
   if (customScripts.length > 0) {
-    stack.push(customScripts[0].getValues(repoUrl, authToken, secretToken));
-    customScripts.shift();
-    stack = stack.concat(
-      multiGetValues(customScripts, repoUrl, authToken, secretToken)
-    );
+    try {
+      let values = await customScripts[0].getValues(
+        repoUrl,
+        authToken,
+        secretToken
+      );
+      stack.push(values);
+      customScripts.shift();
+      let recursiveStack = await multiGetValues(
+        customScripts,
+        repoUrl,
+        authToken,
+        secretToken
+      );
+      stack = stack.concat(recursiveStack);
+      return new Promise((resolve, _) => resolve(stack));
+    } catch (err) {
+      return new Promise((_, reject) => reject(err));
+    }
   }
-  return stack;
+  return new Promise((resolve, _) => resolve(stack));
 };
+
+// customScriptの処理を確認するだけ。
+customScript("https://github.com/facebook/react", "", "")
+  .then((result) => {
+    for (let item of result) {
+      if ("title" in item && "values" in item) {
+        console.log(item.title, item.values);
+      }
+    }
+  })
+  .catch((err) => {
+    console.error(err);
+  });
