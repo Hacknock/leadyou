@@ -94,7 +94,10 @@ app.get("/src/:dir/:file", (req, res) => {
 const responseFileSupport = (res, path, type) => {
   try {
     fs.readFile(path, (err, data) => {
-      if (err) throw err;
+      if (err) {
+        console.err(path);
+        throw err;
+      }
       res.writeHead(200, { "Content-Type": type });
       res.write(data);
       res.end();

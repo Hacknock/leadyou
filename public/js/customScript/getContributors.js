@@ -27,7 +27,7 @@ module.exports.getValues = (repoUrl, authToken, secretToken) => {
       };
       let arrayValue = new Array();
       for (const user of res) {
-        arrayValue = arrayValue.concat(user.login);
+        arrayValue = arrayValue.concat(` - ${user.login}`);
       }
       returnJson.values = arrayValue;
       return returnJson;
