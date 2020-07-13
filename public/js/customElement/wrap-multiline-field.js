@@ -89,7 +89,7 @@ class WrapMultiField extends HTMLElement {
     newDivWrap.setAttribute("class", "field");
     const inputF = document.createElement("input");
     inputF.setAttribute("type", "text");
-    inputF.setAttribute("class", "multiField");
+    inputF.setAttribute("class", "multiField column");
     newDivWrap.appendChild(inputF);
 
     return newDivWrap;

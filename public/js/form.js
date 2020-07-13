@@ -124,36 +124,29 @@ const generateForm = (tempJson, index) => {
   }
 };
 
+const getColumnData = (listColumn, referNum) => {
+  let arrayC = new Array();
+  if (listColumn.length > referNum) {
+    content = listColumn[referNum].querySelector(".column").value;
+    arrayC.push(content);
+    arrayC = arrayC.concat(getColumnData(listColumn, ++referNum));
+  }
+  return arrayC;
+};
+
 // ★★★ Generate README Engine ★★★
 const generateJson = (listEle, tempJson, index) => {
   let arraySec = new Array();
-  let arrayChild = new Array();
   if (typeof tempJson.sections[index] !== "undefined") {
     const root = listEle[index].shadowRoot;
-    console.log(root);
-    console.log(root.querySelectorAll(".field").length);
+    let stackEles = root.querySelectorAll(".field");
 
-    // if (root.querySelector(".field").type === "text") {
-    //   // console.log(root.querySelector('h2').textContent);
-    //   // console.log(root.querySelector('.field').value);
-    //   arrayChild.push(root.querySelector(".field").value);
-    //   arraySec.push({
-    //     title: root.querySelector("h2").textContent,
-    //     values: arrayChild,
-    //   });
-    // } else if (root.querySelector(".field").type === "radio") {
-    //   // console.log(root.querySelector('h2').textContent);
-    //   // console.log(root.querySelectorAll('.field')[0].checked);
-    //   // console.log(root.querySelectorAll('.field')[1].checked);
-    //   arrayChild.push(root.querySelectorAll(".field")[0].checked);
-    //   arrayChild.push(root.querySelectorAll(".field")[1].checked);
-    //   arraySec.push({
-    //     title: root.querySelector("h2").textContent,
-    //     values: arrayChild,
-    //   });
-    // } else if (root.querySelectorAll(".files").length) {
-    //   console.log(root.querySelector(".files").querySelectorAll(".column"));
-    // }
+    let secTitle = root.querySelector("h2").textContent;
+    let value = getColumnData(stackEles, 0);
+    arraySec.push({
+      title: secTitle,
+      values: value,
+    });
     arraySec = arraySec.concat(generateJson(listEle, tempJson, ++index));
   }
   return arraySec;
@@ -206,6 +199,7 @@ getTemplateJson()
 // Submitボタンを押した時の処理
 document.getElementById("submit").addEventListener("click", () => {
   const contentsJson = createContentsJson();
+  console.log(contentsJson);
   try {
     if (Object.keys(templateJson).length === 0) {
       throw new Error("template.json is empty.");
