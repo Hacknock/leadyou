@@ -98,6 +98,11 @@ const generateForm = (tempJson, index) => {
     );
     childElement.setAttributeNS(
       null,
+      "required",
+      tempJson.sections[index].required
+    );
+    childElement.setAttributeNS(
+      null,
       "descShort",
       tempJson.sections[index].description
     );
@@ -140,7 +145,6 @@ const generateJson = (listEle, tempJson, index) => {
   if (typeof tempJson.sections[index] !== "undefined") {
     const root = listEle[index].shadowRoot;
     let stackEles = root.querySelectorAll(".field");
-
     let secTitle = root.querySelector("h2").textContent;
     let value = getColumnData(stackEles, 0);
     arraySec.push({
@@ -198,15 +202,56 @@ getTemplateJson()
 
 // Submitボタンを押した時の処理
 document.getElementById("submit").addEventListener("click", () => {
-  const contentsJson = createContentsJson();
-  console.log(contentsJson);
-  try {
-    if (Object.keys(templateJson).length === 0) {
-      throw new Error("template.json is empty.");
+  if (inspectRequired(document.getElementsByClassName("infoBox"), 0) === 0) {
+    const contentsJson = createContentsJson();
+    console.log(contentsJson);
+    try {
+      if (Object.keys(templateJson).length === 0) {
+        throw new Error("template.json is empty.");
+      }
+      inspectContentsJson(contentsJson);
+      outputEle.innerHTML = marked(generateReadme(templateJson, contentsJson));
+    } catch (error) {
+      console.error(error);
     }
-    inspectContentsJson(contentsJson);
-    outputEle.innerHTML = marked(generateReadme(templateJson, contentsJson));
-  } catch (error) {
-    console.error(error);
+  } else {
   }
 });
+
+const inspectRequired = (eleList, referNum) => {
+  let returnNum = 0;
+  if (eleList.length > referNum) {
+    // console.log(eleList[referNum].shadowRoot.querySelector("h2").textContent);
+    console.log(eleList[referNum].getAttribute("required"));
+    if (eleList[referNum].getAttribute("required") === "true") {
+      // console.log(eleList[referNum].shadowRoot.querySelector("h2").textContent);
+      if (
+        eleList[referNum].shadowRoot
+          .querySelector(".field")
+          .querySelector(".column").value === ""
+      ) {
+        eleList[referNum].shadowRoot.querySelector("style").textContent += `
+          
+          .column {
+            border-color: #f00;
+          }
+
+          `;
+
+        returnNum = -1 + inspectRequired(eleList, ++referNum);
+      } else {
+        eleList[referNum].shadowRoot.querySelector("style").textContent += `
+          
+          .column {
+            border-color: #000;
+          }
+
+          `;
+        returnNum = 0 + inspectRequired(eleList, ++referNum);
+      }
+    } else {
+      returnNum = 0 + inspectRequired(eleList, ++referNum);
+    }
+  }
+  return returnNum;
+};
