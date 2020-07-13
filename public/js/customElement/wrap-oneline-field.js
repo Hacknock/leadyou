@@ -48,7 +48,7 @@ class WrapOnelineField extends HTMLElement {
   }
 
   static get observedAttributes() {
-    return ["nameTitle", "descShort", "multiple"];
+    return ["nameTitle", "descShort", "multiple", "reqAlert"];
   }
 
   attributeChangedCallback(attr, oldVal, newVal) {
@@ -68,6 +68,8 @@ class WrapOnelineField extends HTMLElement {
         this.shadowRoot.insertBefore(newDivWrap, addButton);
       });
       this.shadowRoot.appendChild(addButton);
+    } else if (attr === "reqAlert") {
+      let fieldEles = this.shadowRoot.querySelectorAll(".fields");
     }
   }
 
