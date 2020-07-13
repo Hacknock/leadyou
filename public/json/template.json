@@ -16,9 +16,12 @@
       "title": "Project Name",
       "hidden_title": false,
       "required": true,
+      "replacement": true,
       "multiple": false,
       "component": "wrap-oneline-field",
       "description": "Please type project name.",
+      "settougo": " - ",
+      "delimiter": "  \n",
       "attributes": {
         "place_holder": "",
         "maxlength": 50
@@ -29,12 +32,14 @@
       "title": "Badges",
       "hidden_title": true,
       "required": false,
+      "replacement": false,
       "multiple": false,
       "component": "wrap-radio",
       "description": "Do you need badge?",
+      "delimiter": "\n",
       "attributes": {
         "values": ["", ""],
-        "labels": ["", ""]
+        "labels": ["Yes", "No"]
       },
       "script": "getBadges.js"
     },
@@ -42,9 +47,11 @@
       "title": "Tags",
       "hidden_title": false,
       "required": true,
+      "replacement": false,
       "multiple": true,
       "component": "wrap-oneline-field",
       "description": "タグ入れて",
+      "delimiter": " ",
       "attributes": {
         "place_holder": "[タグ名]"
       }
@@ -53,9 +60,11 @@
       "title": "Short Description",
       "hidden_title": false,
       "required": true,
+      "replacement": false,
       "multiple": false,
       "component": "wrap-multiline-field",
       "description": "短い説明文書いてください",
+      "delimiter": "  \n",
       "attributes": {
         "place_holder": "具体例をあとで入れる",
         "maxlength": 300
@@ -66,9 +75,11 @@
       "title": "Demo",
       "hidden_title": false,
       "required": false,
+      "replacement": false,
       "multiple": true,
       "component": "wrap-upload-file",
       "description": "デモに必要な素材（画像/動画）と説明文をいれてね",
+      "delimiter": "\n\n",
       "attributes": {
         "kinds_of_file": ["image/*", "movie/*"],
         "place_holder": "具体例をあとで入れる"
@@ -78,9 +89,11 @@
       "title": "Advantages",
       "hidden_title": false,
       "required": true,
+      "replacement": false,
       "multiple": false,
       "component": "wrap-multiline-field",
       "description": "利点を書いてね",
+      "delimiter": "  \n",
       "attributes": {
         "place_holder": "具体例をあとで入れる"
       }
@@ -89,9 +102,11 @@
       "title": "Installation",
       "hidden_title": false,
       "required": true,
+      "replacement": false,
       "multiple": false,
       "component": "wrap-multiline-field",
       "description": "導入方法を記入",
+      "delimiter": "  \n",
       "attributes": {
         "place_holder": "具体例をあとで入れる"
       }
@@ -100,9 +115,11 @@
       "title": "Deployment",
       "hidden_title": false,
       "required": false,
+      "replacement": false,
       "multiple": false,
       "component": "wrap-multiline-field",
       "description": "デプロイ方法を記入",
+      "delimiter": "  \n",
       "attributes": {
         "place_holder": "具体例をあとで入れる"
       }
@@ -111,9 +128,11 @@
       "title": "Minimal Example",
       "hidden_title": false,
       "required": true,
+      "replacement": false,
       "multiple": false,
       "component": "wrap-multiline-field",
       "description": "サンプルコードとかを記入",
+      "delimiter": "  \n",
       "attributes": {
         "place_holder": "具体例をあとで入れる"
       }
@@ -122,9 +141,11 @@
       "title": "Contributors",
       "hidden_title": false,
       "required": true,
+      "replacement": false,
       "multiple": true,
       "component": "wrap-oneline-field",
       "description": "コントリビューターを記入",
+      "delimiter": "\n",
       "attributes": {
         "place_holder": "Name<email-address>"
       },
@@ -134,9 +155,11 @@
       "title": "Users",
       "hidden_title": false,
       "required": false,
+      "replacement": false,
       "multiple": true,
       "component": "wrap-oneline-field",
       "description": "OSSの利用者を記入",
+      "delimiter": "\n",
       "attributes": {
         "place_holder": "Name<url>"
       }

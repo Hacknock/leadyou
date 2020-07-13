@@ -4,6 +4,7 @@
 const rootEle = document.getElementById("areaForm");
 const outputEle = document.getElementById("output");
 let templateJson = new Object();
+let sampleContentsJson = new Object();
 
 // Inspect format of json
 const inspectTemplateJson = (template) => {
@@ -15,9 +16,11 @@ const inspectTemplateJson = (template) => {
       !("title" in section) ||
       !("hidden_title" in section) ||
       !("required" in section) ||
+      !("replacement" in section) ||
       !("multiple" in section) ||
       !("component" in section) ||
       !("description" in section) ||
+      !("delimiter" in section) ||
       !("attributes" in section)
     ) {
       throw new Error(`${section.title} template.json is broken.`);
@@ -55,25 +58,18 @@ const inspectContentsJson = (contents) => {
 };
 
 // Get template.json which describe the layout of input form
-const getTemplateJson = async () => {
-  const myHeaders = new Headers();
-  const myInit = {
-    method: "GET",
-    headers: myHeaders,
+const getJson = async (url, inspector) => {
+  const options = {
     mode: "cors",
-    cache: "default",
+    headers: {
+      "Content-Type": "application/json; charset=utf-8",
+    },
   };
-  const myRequest = new Request("/src/json/template.json", myInit);
   try {
-    const response = await fetch(myRequest);
-    const contentType = response.headers.get("content-type");
-    if (contentType && contentType.includes("application/json")) {
-      const json = await response.json();
-      inspectTemplateJson(json);
-      return json;
-    } else {
-      throw new TypeError("Oops, we haven't got JSON!");
-    }
+    const response = await fetch(url, options);
+    const json = await response.json();
+    inspector(json);
+    return json;
   } catch (error) {
     throw error;
   }
@@ -175,11 +171,18 @@ const generateReadme = (template, contents) => {
     if (typeof templateSection === "undefined") {
       continue;
     }
+    const valueText = section.values.reduce((prev, current) => {
+      return prev + `${current}${templateSection.delimiter}`;
+    });
     if (templateSection.hidden_title === false) {
-      text += `# ${section.title}\n`;
-    }
-    for (const value of section.values) {
-      text += `${value}\n`;
+      if (templateSection.replacement) {
+        text += `# ${valueText}\n`;
+      } else {
+        text += `# ${section.title}\n`;
+        text += valueText;
+      }
+    } else {
+      text += valueText;
     }
     text += "\n";
   }
@@ -187,7 +190,7 @@ const generateReadme = (template, contents) => {
 };
 
 // call at loaded
-getTemplateJson()
+getJson("/src/json/template.json", inspectTemplateJson)
   .then((json) => {
     templateJson = json;
     generateForm(json, 0);
@@ -196,16 +199,40 @@ getTemplateJson()
     console.error(error);
   });
 
+getJson("/src/json/sample_contents.json", inspectContentsJson)
+  .then((json) => {
+    sampleContentsJson = json;
+  })
+  .catch((error) => {
+    console.error(error);
+  });
+
 // Submitボタンを押した時の処理
 document.getElementById("submit").addEventListener("click", () => {
-  const contentsJson = createContentsJson();
-  console.log(contentsJson);
+  // 消しちゃダメ
+  // const contentsJson = createContentsJson();
+  // console.log(contentsJson);
+  // try {
+  //   if (Object.keys(templateJson).length === 0) {
+  //     throw new Error("template.json is empty.");
+  //   }
+  //   inspectContentsJson(contentsJson);
+  //   outputEle.innerHTML = marked(generateReadme(templateJson, contentsJson));
+  // } catch (error) {
+  //   console.error(error);
+  // }
+
+  // とりあえず、サンプルのcontents.jsonから生成する
   try {
-    if (Object.keys(templateJson).length === 0) {
-      throw new Error("template.json is empty.");
+    if (
+      Object.keys(templateJson).length === 0 ||
+      Object.keys(sampleContentsJson).length === 0
+    ) {
+      throw new Error("template.json or contents.json are empty.");
     }
-    inspectContentsJson(contentsJson);
-    outputEle.innerHTML = marked(generateReadme(templateJson, contentsJson));
+    outputEle.innerHTML = marked(
+      generateReadme(templateJson, sampleContentsJson)
+    );
   } catch (error) {
     console.error(error);
   }
