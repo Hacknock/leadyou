@@ -147,7 +147,6 @@ const multiGetValues = async (
   authToken,
   secretToken
 ) => {
-  console.log(customScripts);
   let stack = new Array();
   if (customScripts.length > 0) {
     try {
