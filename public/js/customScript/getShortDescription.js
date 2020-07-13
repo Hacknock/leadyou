@@ -11,7 +11,7 @@ module.exports.getValues = (repoUrl, authToken, secretToken) => {
   if (splitRepoUrl.length < 5)
     return errorPromise("Can not specify the repository with the inputed url.");
 
-  const requestURL = `https://api.github.com/repos/${splitRepoUrl[3]}/${splitRepoUrl[4]}/contributors`;
+  const requestURL = `https://api.github.com/repos/${splitRepoUrl[3]}/${splitRepoUrl[4]}`;
 
   const options = {
     mode: "cors",
@@ -22,15 +22,10 @@ module.exports.getValues = (repoUrl, authToken, secretToken) => {
   return fetch(requestURL, options)
     .then((res) => res.json())
     .then((res) => {
-      let returnJson = {
-        title: "Contributors",
+      return {
+        title: "Short Description",
+        values: [res.description],
       };
-      let arrayValue = new Array();
-      for (const user of res) {
-        arrayValue = arrayValue.concat(user.login);
-      }
-      returnJson.values = arrayValue;
-      return returnJson;
     })
     .catch((err) => {
       throw err;
