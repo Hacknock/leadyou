@@ -23,10 +23,10 @@
         "place_holder": "",
         "maxlength": 50
       },
-      "script": "get_project_name.js"
+      "script": "getProjectName.js"
     },
     {
-      "title": "Badge",
+      "title": "Badges",
       "hidden_title": true,
       "required": false,
       "multiple": false,
@@ -36,7 +36,7 @@
         "values": ["", ""],
         "labels": ["", ""]
       },
-      "script": "get_badge.js"
+      "script": "getBadges.js"
     },
     {
       "title": "Tags",
@@ -47,8 +47,7 @@
       "description": "タグ入れて",
       "attributes": {
         "place_holder": "[タグ名]"
-      },
-      "script": "get_tags.js"
+      }
     },
     {
       "title": "Short Description",
@@ -60,7 +59,8 @@
       "attributes": {
         "place_holder": "具体例をあとで入れる",
         "maxlength": 300
-      }
+      },
+      "script": "getShortDescription.js"
     },
     {
       "title": "Demo",
@@ -128,7 +128,7 @@
       "attributes": {
         "place_holder": "Name<email-address>"
       },
-      "script": "get_contributors.js"
+      "script": "getContributors.js"
     },
     {
       "title": "Users",
