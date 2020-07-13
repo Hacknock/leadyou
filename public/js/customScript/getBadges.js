@@ -1,14 +1,13 @@
 module.exports.getValues = (repoUrl, authToken, secretToken) => {
+  const errorPromise = (message) => {
+    return new Promise((_, reject) => reject(new Error(message)));
+  };
+
   if (!repoUrl.startsWith("https://github.com/"))
-    return new Promise((resolve, reject) => {
-      reject(new Error("Inputed repository url is not correct."));
-    });
+    return errorPromise("Inputed repository url is not correct.");
   const splitRepoUrl = repoUrl.split("/");
   if (splitRepoUrl.length < 5)
-    return new Promise((resolve, reject) => {
-      reject(new Error("Can not specify the repository with the inputed url."));
-    });
-  console.log("Get badge from " + repoUrl);
+    return errorPromise("Can not specify the repository with the inputed url.");
 
   const sieldsUrl = "https://img.shields.io/github";
   const badgeInfoList = [
@@ -18,7 +17,7 @@ module.exports.getValues = (repoUrl, authToken, secretToken) => {
     { name: "license", jumpKey: "" },
   ];
   let returnJson = {
-    title: "Badge",
+    title: "Badges",
   };
 
   let arrayValue = new Array();
@@ -28,5 +27,5 @@ module.exports.getValues = (repoUrl, authToken, secretToken) => {
     );
   }
   returnJson.values = arrayValue;
-  return new Promise((resolve, reject) => resolve(returnJson));
+  return new Promise((resolve, _) => resolve(returnJson));
 };
