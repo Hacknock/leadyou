@@ -27,11 +27,11 @@ class WrapOnelineField extends HTMLElement {
     style.textContent = `
     
       .style_alert {
-        border-color: #f00;
+        border: solid 0.7px #f00;
       }
 
       .style_normal {
-        border-color: #000;
+        border: solid 0.7px #000;
       }
     
     `;
