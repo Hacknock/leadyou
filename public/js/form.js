@@ -112,6 +112,7 @@ const generateForm = (tempJson, index) => {
       "multiple",
       tempJson.sections[index].multiple
     );
+    childElement.setAttributeNS(null, "alert", "false");
     childElement.setAttributeNS(null, "class", "infoBox");
     childElement.setAttributeNS(
       null,
@@ -257,23 +258,10 @@ const inspectRequired = (eleList, referNum) => {
           .querySelector(".field")
           .querySelector(".column").value === ""
       ) {
-        eleList[referNum].shadowRoot.querySelector("style").textContent += `
-
-          .column {
-            border-color: #f00;
-          }
-
-          `;
-
+        eleList[referNum].setAttribute("alert", "true");
         returnNum = -1 + inspectRequired(eleList, ++referNum);
       } else {
-        eleList[referNum].shadowRoot.querySelector("style").textContent += `
-
-          .column {
-            border-color: #000;
-          }
-
-          `;
+        eleList[referNum].setAttribute("alert", "false");
         returnNum = 0 + inspectRequired(eleList, ++referNum);
       }
     } else {

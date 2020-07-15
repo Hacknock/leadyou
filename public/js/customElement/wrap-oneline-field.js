@@ -24,7 +24,17 @@ class WrapOnelineField extends HTMLElement {
     // Create some CSS to apply to the shadow dom
     const style = document.createElement("style");
     // console.log(style.isConnected);
-    style.textContent = ``;
+    style.textContent = `
+    
+      .style_alert {
+        border-color: #f00;
+      }
+
+      .style_normal {
+        border-color: #000;
+      }
+    
+    `;
 
     // add input field button & its event
     const addButton = document.createElement("input");
@@ -48,7 +58,7 @@ class WrapOnelineField extends HTMLElement {
   }
 
   static get observedAttributes() {
-    return ["nameTitle", "descShort", "multiple", "reqAlert"];
+    return ["nameTitle", "descShort", "multiple", "alert"];
   }
 
   attributeChangedCallback(attr, oldVal, newVal) {
@@ -68,8 +78,17 @@ class WrapOnelineField extends HTMLElement {
         this.shadowRoot.insertBefore(newDivWrap, addButton);
       });
       this.shadowRoot.appendChild(addButton);
-    } else if (attr === "reqAlert") {
-      let fieldEles = this.shadowRoot.querySelectorAll(".fields");
+    } else if (attr === "alert") {
+      let inputEles = this.shadowRoot.querySelectorAll(".column");
+      if (newVal === "true") {
+        for (var i = 0; i < inputEles.length; i++) {
+          inputEles[i].setAttribute("class", "column style_alert");
+        }
+      } else {
+        for (var i = 0; i < inputEles.length; i++) {
+          inputEles[i].setAttribute("class", "column style_normal");
+        }
+      }
     }
   }
 
@@ -79,7 +98,14 @@ class WrapOnelineField extends HTMLElement {
     const newInputF = document.createElement("input");
     newInputF.setAttribute("type", "text");
     newInputF.setAttribute("maxlength", 140);
-    newInputF.setAttribute("class", "column");
+
+    const statusLabel = this.getAttribute("alert");
+
+    if (statusLabel === "true") {
+      newInputF.setAttribute("class", "column style_alert");
+    } else {
+      newInputF.setAttribute("class", "column style_normal");
+    }
     newDivWrap.appendChild(newInputF);
 
     return newDivWrap;
