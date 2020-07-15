@@ -34,7 +34,15 @@ class WrapUploadFile extends HTMLElement {
     // Create some CSS to apply to the shadow dom
     const style = document.createElement("style");
     // console.log(style.isConnected);
-    style.textContent = ``;
+    style.textContent = `
+    .style_alert {
+      border: solid 0.7px #f00;
+    }
+
+    .style_normal {
+      border: none;
+    }
+    `;
 
     // Append Child
     shadow.appendChild(style);
@@ -47,7 +55,7 @@ class WrapUploadFile extends HTMLElement {
   }
 
   static get observedAttributes() {
-    return ["nameTitle", "descShort", "multiple"];
+    return ["nameTitle", "descShort", "multiple", "alert"];
   }
 
   attributeChangedCallback(attr, oldVal, newVal) {
@@ -69,11 +77,21 @@ class WrapUploadFile extends HTMLElement {
         this.shadowRoot.insertBefore(newDivWrap, addButton);
       });
       this.shadowRoot.appendChild(addButton);
+    } else if (attr === "alert") {
+      let inputEles = this.shadowRoot.querySelectorAll(".field");
+      if (newVal === "true") {
+        for (var i = 0; i < inputEles.length; i++) {
+          inputEles[i].setAttribute("class", "field style_alert");
+        }
+      } else {
+        for (var i = 0; i < inputEles.length; i++) {
+          inputEles[i].setAttribute("class", "field style_normal");
+        }
+      }
     }
   }
   addInputField = () => {
     const newDivWrap = document.createElement("div");
-    newDivWrap.setAttribute("class", "field");
     const newUpFile = document.createElement("input");
     newUpFile.setAttribute("type", "file");
     newUpFile.setAttribute("name", "image");
@@ -82,6 +100,15 @@ class WrapUploadFile extends HTMLElement {
     newDescFile.setAttribute("type", "text");
     newDescFile.setAttribute("name", "text");
     newDescFile.setAttribute("class", "column");
+
+    const statusLabel = this.getAttribute("alert");
+
+    if (statusLabel === "true") {
+      newDivWrap.setAttribute("class", "field style_alert");
+    } else {
+      newDivWrap.setAttribute("class", "field style_normal");
+    }
+
     newDivWrap.appendChild(newUpFile);
     newDivWrap.appendChild(newDescFile);
 
