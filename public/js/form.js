@@ -57,6 +57,17 @@ const inspectContentsJson = (contents) => {
   }
 };
 
+const inspectAutoFillJson = (contents) => {
+  for (const section of contents) {
+    if (!("title" in section && "values" in section)) {
+      throw new Error(`Section:${section.title}, contents.json is broken.`);
+    }
+    if (section.values.length == 0) {
+      throw new Error(`Section:${section.title}, contents.json is broken.`);
+    }
+  }
+};
+
 // Get template.json which describe the layout of input form
 const getJson = async (url, inspector) => {
   const options = {
@@ -194,58 +205,6 @@ const generateReadme = (template, contents) => {
   return text;
 };
 
-// call at loaded
-getJson("/src/json/template.json", inspectTemplateJson)
-  .then((json) => {
-    templateJson = json;
-    generateForm(json, 0);
-  })
-  .catch((error) => {
-    console.error(error);
-  });
-
-getJson("/src/json/sample_contents.json", inspectContentsJson)
-  .then((json) => {
-    sampleContentsJson = json;
-  })
-  .catch((error) => {
-    console.error(error);
-  });
-
-// Submitボタンを押した時の処理
-document.getElementById("submit").addEventListener("click", () => {
-  if (inspectRequired(document.getElementsByClassName("infoBox"), 0) === 0) {
-    const contentsJson = createContentsJson();
-    console.log(contentsJson);
-    try {
-      if (Object.keys(templateJson).length === 0) {
-        throw new Error("template.json is empty.");
-      }
-      inspectContentsJson(contentsJson);
-      outputEle.innerHTML = marked(generateReadme(templateJson, contentsJson));
-    } catch (error) {
-      console.error(error);
-    }
-  } else {
-    // アラートを出す？
-  }
-
-  // とりあえず、サンプルのcontents.jsonから生成する
-  // try {
-  //   if (
-  //     Object.keys(templateJson).length === 0 ||
-  //     Object.keys(sampleContentsJson).length === 0
-  //   ) {
-  //     throw new Error("template.json or contents.json are empty.");
-  //   }
-  //   outputEle.innerHTML = marked(
-  //     generateReadme(templateJson, sampleContentsJson)
-  //   );
-  // } catch (error) {
-  //   console.error(error);
-  // }
-});
-
 const inspectRequired = (eleList, referNum) => {
   let returnNum = 0;
   if (eleList.length > referNum) {
@@ -284,14 +243,68 @@ const autoFill = () => {
   const params = getQueryStringParams(window.location.search);
   console.log(params);
   if (params.autofill !== "true") return;
-  getJson("/autofill", inspectContentsJson)
+  const url = `/getvalues?owner=${params.owner}&repo=${params.repo}&authToken=hello&secretToken=world`;
+  getJson(url, inspectAutoFillJson)
     .then((json) => {
       // auto fill されたcontents.jsonだよ。
       console.log(json);
+      // ここでオートフィルの処理が必要。
     })
     .catch((error) => {
       console.error(error);
     });
 };
 
+// call at loaded
+getJson("/src/json/template.json", inspectTemplateJson)
+  .then((json) => {
+    templateJson = json;
+    generateForm(json, 0);
+  })
+  .catch((error) => {
+    console.error(error);
+  });
+
+getJson("/src/json/sample_contents.json", inspectContentsJson)
+  .then((json) => {
+    sampleContentsJson = json;
+  })
+  .catch((error) => {
+    console.error(error);
+  });
+
 autoFill();
+
+// Submitボタンを押した時の処理
+document.getElementById("submit").addEventListener("click", () => {
+  if (inspectRequired(document.getElementsByClassName("infoBox"), 0) === 0) {
+    const contentsJson = createContentsJson();
+    console.log(contentsJson);
+    try {
+      if (Object.keys(templateJson).length === 0) {
+        throw new Error("template.json is empty.");
+      }
+      inspectContentsJson(contentsJson);
+      outputEle.innerHTML = marked(generateReadme(templateJson, contentsJson));
+    } catch (error) {
+      console.error(error);
+    }
+  } else {
+    // アラートを出す？
+  }
+
+  // とりあえず、サンプルのcontents.jsonから生成する
+  // try {
+  //   if (
+  //     Object.keys(templateJson).length === 0 ||
+  //     Object.keys(sampleContentsJson).length === 0
+  //   ) {
+  //     throw new Error("template.json or contents.json are empty.");
+  //   }
+  //   outputEle.innerHTML = marked(
+  //     generateReadme(templateJson, sampleContentsJson)
+  //   );
+  // } catch (error) {
+  //   console.error(error);
+  // }
+});
