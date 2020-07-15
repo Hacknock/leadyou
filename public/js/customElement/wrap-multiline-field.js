@@ -35,8 +35,7 @@ class WrapMultiField extends HTMLElement {
     const style = document.createElement("style");
     // console.log(style.isConnected);
     style.textContent = `
-        
-        .multiField {
+        input {
             width: 100%;
             height: 30%;
         }
@@ -45,7 +44,14 @@ class WrapMultiField extends HTMLElement {
             padding: 0 10%;
             height: 100%;
         }
-        
+
+        .style_alert {
+          border: solid 0.7px #f00;
+        }
+  
+        .style_normal {
+          border: solid 0.7px #000;
+        }
         `;
 
     // Append Child
@@ -58,7 +64,7 @@ class WrapMultiField extends HTMLElement {
     }
   }
   static get observedAttributes() {
-    return ["nameTitle", "descShort", "multiple"];
+    return ["nameTitle", "descShort", "multiple", "alert"];
   }
 
   attributeChangedCallback(attr, oldVal, newVal) {
@@ -81,6 +87,17 @@ class WrapMultiField extends HTMLElement {
         this.shadowRoot.insertBefore(newDivWrap, addButton);
       });
       this.shadowRoot.appendChild(addButton);
+    } else if (attr === "alert") {
+      let inputEles = this.shadowRoot.querySelectorAll(".column");
+      if (newVal === "true") {
+        for (var i = 0; i < inputEles.length; i++) {
+          inputEles[i].setAttribute("class", "column style_alert");
+        }
+      } else {
+        for (var i = 0; i < inputEles.length; i++) {
+          inputEles[i].setAttribute("class", "column style_normal");
+        }
+      }
     }
   }
 
@@ -89,7 +106,13 @@ class WrapMultiField extends HTMLElement {
     newDivWrap.setAttribute("class", "field");
     const inputF = document.createElement("input");
     inputF.setAttribute("type", "text");
-    inputF.setAttribute("class", "multiField column");
+    const statusLabel = this.getAttribute("alert");
+
+    if (statusLabel === "true") {
+      inputF.setAttribute("class", "column style_alert");
+    } else {
+      inputF.setAttribute("class", "column style_normal");
+    }
     newDivWrap.appendChild(inputF);
 
     return newDivWrap;
