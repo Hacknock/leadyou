@@ -33,17 +33,24 @@ app.get("/:path", (req, res) => {
       break;
     }
     case "getvalues": {
-      console.log(req.query);
-      let jsonReturn = customScript(
-        req.query.url,
-        req.query.authToken,
-        req.query.secretToken
-      );
-      console.log("debug");
-      console.log(typeof jsonReturn);
-
-      res.json(jsonReturn);
-      res.end();
+      const query = req.query;
+      console.log(query);
+      const repoUrl = `https://github.com/${query.owner}/${query.repo}`;
+      console.log(repoUrl);
+      customScript(repoUrl, query.authToken, query.secretToken)
+        .then((result) => {
+          console.log("debug");
+          for (let item of result) {
+            if ("title" in item && "values" in item) {
+              console.log(item.title, item.values);
+            }
+          }
+          res.json(result);
+          res.end();
+        })
+        .catch((err) => {
+          console.error(err);
+        });
       break;
     }
     default: {
@@ -176,14 +183,14 @@ const multiGetValues = async (
 };
 
 // customScriptの処理を確認するだけ。
-customScript("https://github.com/facebook/react", "", "")
-  .then((result) => {
-    for (let item of result) {
-      if ("title" in item && "values" in item) {
-        console.log(item.title, item.values);
-      }
-    }
-  })
-  .catch((err) => {
-    console.error(err);
-  });
+// customScript("https://github.com/facebook/react", "", "")
+//   .then((result) => {
+//     for (let item of result) {
+//       if ("title" in item && "values" in item) {
+//         console.log(item.title, item.values);
+//       }
+//     }
+//   })
+//   .catch((err) => {
+//     console.error(err);
+//   });
