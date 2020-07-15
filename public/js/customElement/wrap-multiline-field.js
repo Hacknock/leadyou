@@ -35,7 +35,6 @@ class WrapMultiField extends HTMLElement {
     const style = document.createElement("style");
     // console.log(style.isConnected);
     style.textContent = `
-        
         input {
             width: 100%;
             height: 30%;
@@ -53,7 +52,6 @@ class WrapMultiField extends HTMLElement {
         .style_normal {
           border: solid 0.7px #000;
         }
-        
         `;
 
     // Append Child

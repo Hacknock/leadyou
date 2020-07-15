@@ -25,7 +25,6 @@ class WrapOnelineField extends HTMLElement {
     const style = document.createElement("style");
     // console.log(style.isConnected);
     style.textContent = `
-    
       .style_alert {
         border: solid 0.7px #f00;
       }
@@ -33,7 +32,6 @@ class WrapOnelineField extends HTMLElement {
       .style_normal {
         border: solid 0.7px #000;
       }
-    
     `;
 
     // add input field button & its event
