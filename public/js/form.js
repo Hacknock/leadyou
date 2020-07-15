@@ -282,3 +282,28 @@ const inspectRequired = (eleList, referNum) => {
   }
   return returnNum;
 };
+
+const getQueryStringParams = (query) => {
+  const hoge = /^[?#]/.test(query) ? query.slice(1) : query;
+  return hoge.split("&").reduce((params, param) => {
+    let [key, value] = param.split("=");
+    params[key] = value ? decodeURIComponent(value.replace(/\+/g, " ")) : "";
+    return params;
+  }, {});
+};
+
+const autoFill = () => {
+  const params = getQueryStringParams(window.location.search);
+  console.log(params);
+  if (params.autofill !== "true") return;
+  getJson("/autofill", inspectContentsJson)
+    .then((json) => {
+      // auto fill されたcontents.jsonだよ。
+      console.log(json);
+    })
+    .catch((error) => {
+      console.error(error);
+    });
+};
+
+autoFill();

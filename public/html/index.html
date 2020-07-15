@@ -3,14 +3,20 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <link href="/src/css/index.css" rel="stylesheet" type="text/css" />
-    <!-- <script type="text/javascript" src="/src/js/index.js" defer></script> -->
+    <script type="text/javascript" src="/src/js/index.js" defer></script>
     <title>pullreq - me</title>
   </head>
-
   <body>
     <h1>Pullreq-me</h1>
-    <form action="/getGithub" method="POST">
-      <input type="text" />
+    <form id="generateForm">
+      <p>
+        Input GitHub repository URL:
+        <input type="text" class="url" name="url" />
+      </p>
+      <p>
+        <input type="checkbox" id="autoFill" name="autoFill" />
+        <label for="autoFill">Auto Fill</label>
+      </p>
       <input type="submit" />
     </form>
   </body>
