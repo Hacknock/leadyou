@@ -336,13 +336,13 @@ const putValueAuto = (contents, params) => {
 //     console.error(error);
 //   });
 
-getJson("/src/json/sample_contents.json", inspectContentsJson)
-  .then((json) => {
-    sampleContentsJson = json;
-  })
-  .catch((error) => {
-    console.error(error);
-  });
+// getJson("/src/json/sample_contents.json", inspectContentsJson)
+//   .then((json) => {
+//     sampleContentsJson = json;
+//   })
+//   .catch((error) => {
+//     console.error(error);
+//   });
 
 // autoFill();
 
