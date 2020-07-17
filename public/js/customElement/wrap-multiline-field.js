@@ -35,7 +35,7 @@ class WrapMultiField extends HTMLElement {
     const style = document.createElement("style");
     // console.log(style.isConnected);
     style.textContent = `
-    input[type=text] {
+    textarea {
         width: 80%;
         height: 160px;
     }
@@ -108,7 +108,7 @@ class WrapMultiField extends HTMLElement {
   addInputField = () => {
     const newDivWrap = document.createElement("div");
     newDivWrap.setAttribute("class", "field");
-    const inputF = document.createElement("input");
+    const inputF = document.createElement("textarea");
     inputF.setAttribute("type", "text");
     const statusLabel = this.getAttribute("alert");
 
