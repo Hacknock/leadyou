@@ -39,12 +39,12 @@ app.get("/:path", (req, res) => {
       console.log(repoUrl);
       customScript(repoUrl, query.authToken, query.secretToken)
         .then((result) => {
-          console.log("debug");
-          for (let item of result) {
-            if ("title" in item && "values" in item) {
-              console.log(item.title, item.values);
-            }
-          }
+          // console.log("debug");
+          // for (let item of result) {
+          //   if ("title" in item && "values" in item) {
+          //     console.log(item.title, item.values);
+          //   }
+          // }
           res.json(result);
           res.end();
         })

@@ -20,7 +20,7 @@ const inspectTemplateJson = (template) => {
       !("multiple" in section) ||
       !("component" in section) ||
       !("description" in section) ||
-      !("delimiter" in section) ||
+      !("format" in section) ||
       !("attributes" in section)
     ) {
       throw new Error(`${section.title} template.json is broken.`);
@@ -252,8 +252,8 @@ const generateReadme = (template, contents) => {
       continue;
     }
     const valueText = section.values.reduce((prev, current) => {
-      return prev + `${current}${templateSection.delimiter}`;
-    });
+      return prev + templateSection.format.replace("%s", current);
+    }, "");
     if (templateSection.hidden_title === false) {
       if (templateSection.replacement) {
         text += `# ${valueText}\n`;
@@ -381,6 +381,20 @@ renderForm()
     console.error(err);
   });
 
+const downloadMarkdown = (filename, md) => {
+  const blob = new Blob([md], {
+    type: "application/octet-stream",
+  });
+  const blobUrl = URL.createObjectURL(blob);
+  const element = document.createElement("a");
+  element.setAttribute("href", blobUrl);
+  element.setAttribute("download", filename);
+  element.style.display = "none";
+  document.body.appendChild(element);
+  element.click();
+  document.body.removeChild(element);
+};
+
 // Submitボタンを押した時の処理
 document.getElementById("submit").addEventListener("click", () => {
   if (inspectRequired(document.getElementsByClassName("infoBox"), 0) === 0) {
@@ -391,7 +405,9 @@ document.getElementById("submit").addEventListener("click", () => {
         throw new Error("template.json is empty.");
       }
       inspectContentsJson(contentsJson);
-      outputEle.innerHTML = marked(generateReadme(templateJson, contentsJson));
+      const md = generateReadme(templateJson, contentsJson);
+      outputEle.innerHTML = marked(md);
+      downloadMarkdown("README.md", md);
     } catch (error) {
       console.error(error);
     }
@@ -399,7 +415,7 @@ document.getElementById("submit").addEventListener("click", () => {
     // アラートを出す？
   }
 
-  // とりあえず、サンプルのcontents.jsonから生成する
+  // // とりあえず、サンプルのcontents.jsonから生成する
   // try {
   //   if (
   //     Object.keys(templateJson).length === 0 ||
