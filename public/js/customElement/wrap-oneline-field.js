@@ -56,7 +56,7 @@ class WrapOnelineField extends HTMLElement {
   }
 
   static get observedAttributes() {
-    return ["nameTitle", "descShort", "multiple", "alert"];
+    return ["nameTitle", "descShort", "multiple", "alert", "values"];
   }
 
   attributeChangedCallback(attr, oldVal, newVal) {
@@ -87,6 +87,8 @@ class WrapOnelineField extends HTMLElement {
           inputEles[i].setAttribute("class", "column style_normal");
         }
       }
+    } else if (attr === "values") {
+      console.log(JSON.parse(newVal));
     }
   }
 
