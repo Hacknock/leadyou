@@ -35,24 +35,28 @@ class WrapMultiField extends HTMLElement {
     const style = document.createElement("style");
     // console.log(style.isConnected);
     style.textContent = `
-        textarea {
-            width: 100%;
-            height: 30%;
-        }
+    textarea {
+        width: 80%;
+        height: 160px;
+    }
 
-        section {
-            padding: 0 10%;
-            height: 100%;
-        }
+    input[type=button] {
+      margin-top: 10px;
+    }
 
-        .style_alert {
-          border: solid 0.7px #f00;
-        }
-  
-        .style_normal {
-          border: solid 0.7px #000;
-        }
-        `;
+    section {
+        padding: 0 10%;
+        height: 100%;
+    }
+
+    .style_alert {
+      border: solid 0.7px #E53935;
+    }
+
+    .style_normal {
+      border: solid 0.7px #000000;
+    }
+    `;
 
     // Append Child
     shadow.appendChild(style);

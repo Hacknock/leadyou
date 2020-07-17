@@ -35,8 +35,18 @@ class WrapUploadFile extends HTMLElement {
     const style = document.createElement("style");
     // console.log(style.isConnected);
     style.textContent = `
+    input[type=text] {
+      margin-top: 10px;
+      width: 80%;
+      height: 160px;
+    }
+
+    input[type=button] {
+      margin-top: 10px;
+    }
+
     .style_alert {
-      border: solid 0.7px #f00;
+      border: solid 0.7px #E53935;
     }
 
     .style_normal {
@@ -96,6 +106,7 @@ class WrapUploadFile extends HTMLElement {
     newUpFile.setAttribute("type", "file");
     newUpFile.setAttribute("name", "image");
     newUpFile.setAttribute("class", "column");
+    const newBR = document.createElement("br");
     const newDescFile = document.createElement("input");
     newDescFile.setAttribute("type", "text");
     newDescFile.setAttribute("name", "text");
@@ -110,6 +121,7 @@ class WrapUploadFile extends HTMLElement {
     }
 
     newDivWrap.appendChild(newUpFile);
+    newDivWrap.appendChild(newBR);
     newDivWrap.appendChild(newDescFile);
 
     return newDivWrap;
