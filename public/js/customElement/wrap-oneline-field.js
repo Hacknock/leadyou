@@ -25,13 +25,21 @@ class WrapOnelineField extends HTMLElement {
     const style = document.createElement("style");
     // console.log(style.isConnected);
     style.textContent = `
-      .style_alert {
-        border: solid 0.7px #f00;
-      }
+    input[type=text] {
+      width: 60%;
+    }
 
-      .style_normal {
-        border: solid 0.7px #000;
-      }
+    input[type=button] {
+      margin-top: 10px;
+    }
+
+    .style_alert {
+      border: solid 0.7px #E53935;
+    }
+
+    .style_normal {
+      border: solid 0.7px #000000;
+    }
     `;
 
     // add input field button & its event
@@ -56,7 +64,7 @@ class WrapOnelineField extends HTMLElement {
   }
 
   static get observedAttributes() {
-    return ["nameTitle", "descShort", "multiple", "alert"];
+    return ["nameTitle", "descShort", "multiple", "alert", "values"];
   }
 
   attributeChangedCallback(attr, oldVal, newVal) {
@@ -87,6 +95,8 @@ class WrapOnelineField extends HTMLElement {
           inputEles[i].setAttribute("class", "column style_normal");
         }
       }
+    } else if (attr === "values") {
+      console.log(JSON.parse(newVal));
     }
   }
 

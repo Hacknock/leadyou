@@ -20,8 +20,7 @@
       "multiple": false,
       "component": "wrap-oneline-field",
       "description": "Please type project name.",
-      "settougo": " - ",
-      "delimiter": "  \n",
+      "format": "%s",
       "attributes": {
         "place_holder": "",
         "maxlength": 50
@@ -36,7 +35,7 @@
       "multiple": true,
       "component": "wrap-oneline-field",
       "description": "Please type badges.",
-      "delimiter": "\n",
+      "format": "%s\n",
       "attributes": {
         "place_holder": "",
         "maxlength": 300
@@ -51,7 +50,7 @@
       "multiple": true,
       "component": "wrap-oneline-field",
       "description": "タグ入れて",
-      "delimiter": " ",
+      "format": "`%s` ",
       "attributes": {
         "place_holder": "[タグ名]"
       }
@@ -64,7 +63,7 @@
       "multiple": false,
       "component": "wrap-multiline-field",
       "description": "短い説明文書いてください",
-      "delimiter": "  \n",
+      "format": "%s  \n",
       "attributes": {
         "place_holder": "具体例をあとで入れる",
         "maxlength": 300
@@ -79,7 +78,7 @@
       "multiple": true,
       "component": "wrap-upload-file",
       "description": "デモに必要な素材（画像/動画）と説明文をいれてね",
-      "delimiter": "\n\n",
+      "format": "%s\n\n",
       "attributes": {
         "kinds_of_file": ["image/*", "movie/*"],
         "place_holder": "具体例をあとで入れる"
@@ -93,7 +92,7 @@
       "multiple": false,
       "component": "wrap-multiline-field",
       "description": "利点を書いてね",
-      "delimiter": "  \n",
+      "format": "%s  \n",
       "attributes": {
         "place_holder": "具体例をあとで入れる"
       }
@@ -106,7 +105,7 @@
       "multiple": false,
       "component": "wrap-multiline-field",
       "description": "導入方法を記入",
-      "delimiter": "  \n",
+      "format": "%s  \n",
       "attributes": {
         "place_holder": "具体例をあとで入れる"
       }
@@ -119,7 +118,7 @@
       "multiple": false,
       "component": "wrap-multiline-field",
       "description": "デプロイ方法を記入",
-      "delimiter": "  \n",
+      "format": "%s  \n",
       "attributes": {
         "place_holder": "具体例をあとで入れる"
       }
@@ -132,7 +131,7 @@
       "multiple": false,
       "component": "wrap-multiline-field",
       "description": "サンプルコードとかを記入",
-      "delimiter": "  \n",
+      "format": "%s  \n",
       "attributes": {
         "place_holder": "具体例をあとで入れる"
       }
@@ -145,7 +144,7 @@
       "multiple": true,
       "component": "wrap-oneline-field",
       "description": "コントリビューターを記入",
-      "delimiter": "\n",
+      "format": " - %s\n",
       "attributes": {
         "place_holder": "Name<email-address>"
       },
@@ -159,7 +158,7 @@
       "multiple": true,
       "component": "wrap-oneline-field",
       "description": "OSSの利用者を記入",
-      "delimiter": "\n",
+      "format": " - %s\n",
       "attributes": {
         "place_holder": "Name<url>"
       }
