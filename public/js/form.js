@@ -352,11 +352,17 @@ const renderForm = async () => {
       "/src/json/template.json",
       inspectTemplateJson
     );
-    const params = getQueryStringParams(window.location.search);
-    console.log(params);
-    if (params.autofill !== "true") return;
-    const url = `/getvalues?owner=${params.owner}&repo=${params.repo}&authToken=hello&secretToken=world`;
-    const autoFillJson = await getJson(url, inspectAutoFillJson);
+    // const params = getQueryStringParams(window.location.search);
+    // console.log(params);
+    // if (params.autofill !== "true") return;
+    // const url = `/getvalues?owner=${params.owner}&repo=${params.repo}&authToken=hello&secretToken=world`;
+    // const autoFillJson = await getJson(url, inspectAutoFillJson);
+
+    const autoFillJson = await getJson(
+      "/src/json/sample_contents.json",
+      inspectContentsJson
+    );
+
     return Promise.resolve({
       temp: template,
       auto: autoFillJson,
@@ -368,7 +374,8 @@ const renderForm = async () => {
 
 renderForm()
   .then((obj) => {
-    generateForm(obj.temp, obj.auto, 0);
+    console.log(obj);
+    generateForm(obj.temp, obj.auto.sections, 0);
   })
   .catch((err) => {
     console.error(err);
