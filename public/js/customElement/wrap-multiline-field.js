@@ -35,24 +35,28 @@ class WrapMultiField extends HTMLElement {
     const style = document.createElement("style");
     // console.log(style.isConnected);
     style.textContent = `
-        input {
-            width: 100%;
-            height: 30%;
-        }
+    textarea {
+        width: 80%;
+        height: 160px;
+    }
 
-        section {
-            padding: 0 10%;
-            height: 100%;
-        }
+    input[type=button] {
+      margin-top: 10px;
+    }
 
-        .style_alert {
-          border: solid 0.7px #f00;
-        }
-  
-        .style_normal {
-          border: solid 0.7px #000;
-        }
-        `;
+    section {
+        padding: 0 10%;
+        height: 100%;
+    }
+
+    .style_alert {
+      border: solid 0.7px #E53935;
+    }
+
+    .style_normal {
+      border: solid 0.7px #000000;
+    }
+    `;
 
     // Append Child
     shadow.appendChild(style);
@@ -104,7 +108,7 @@ class WrapMultiField extends HTMLElement {
   addInputField = () => {
     const newDivWrap = document.createElement("div");
     newDivWrap.setAttribute("class", "field");
-    const inputF = document.createElement("input");
+    const inputF = document.createElement("textarea");
     inputF.setAttribute("type", "text");
     const statusLabel = this.getAttribute("alert");
 
