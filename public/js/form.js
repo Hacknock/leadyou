@@ -375,6 +375,7 @@ const renderForm = async () => {
 renderForm()
   .then((obj) => {
     console.log(obj);
+    templateJson = obj.temp;
     generateForm(obj.temp, obj.auto.sections, 0);
   })
   .catch((err) => {
