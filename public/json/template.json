@@ -33,13 +33,13 @@
       "hidden_title": true,
       "required": false,
       "replacement": false,
-      "multiple": false,
-      "component": "wrap-radio",
-      "description": "Do you need badge?",
+      "multiple": true,
+      "component": "wrap-oneline-field",
+      "description": "Please type badges.",
       "delimiter": "\n",
       "attributes": {
-        "values": ["", ""],
-        "labels": ["Yes", "No"]
+        "place_holder": "",
+        "maxlength": 300
       },
       "script": "getBadges.js"
     },
