@@ -88,7 +88,7 @@ class WrapOnelineField extends HTMLElement {
         }
       }
     } else if (attr === "values") {
-      console.log(newVal);
+      console.log(JSON.parse(newVal));
     }
   }
 
