@@ -104,12 +104,10 @@ class WrapOnelineField extends HTMLElement {
   }
 
   autoFill = (values, multiple, count) => {
-    // count++;
-    // if (count < 10) {
-    console.log(multiple);
+    // console.log(multiple);
     let inputEles = this.shadowRoot.querySelectorAll(".column");
     const addButton = this.shadowRoot.getElementById("addButton");
-    console.log(values);
+    // console.log(values);
     for (const [i, v] of values.entries()) {
       if (inputEles.length > i) {
         inputEles[i].value = v;
@@ -117,7 +115,7 @@ class WrapOnelineField extends HTMLElement {
         const newDivWrap = this.addInputField();
         this.shadowRoot.insertBefore(newDivWrap, addButton);
         inputEles = this.shadowRoot.querySelectorAll(".column");
-        console.log(inputEles[i]);
+        // console.log(inputEles[i]);
         inputEles[i].value = v;
       }
     }
