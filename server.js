@@ -53,6 +53,10 @@ app.get("/:path", (req, res) => {
         });
       break;
     }
+    case "oauth_callback": {
+      const query = req.query;
+      console.log(query);
+    }
     default: {
       res.writeHead(400, { "Content-Type": "text/plain" });
       res.write("400 Bad Request");
