@@ -68,7 +68,7 @@ class WrapMultiField extends HTMLElement {
     }
   }
   static get observedAttributes() {
-    return ["nameTitle", "descShort", "multiple", "alert"];
+    return ["nameTitle", "descShort", "multiple", "alert", "values"];
   }
 
   attributeChangedCallback(attr, oldVal, newVal) {
@@ -102,8 +102,30 @@ class WrapMultiField extends HTMLElement {
           inputEles[i].setAttribute("class", "column style_normal");
         }
       }
+    } else if (attr === "values") {
+      const values = JSON.parse(newVal);
+      let count = 0;
+      this.autoFill(values, this.getAttribute("multiple"), count);
     }
   }
+
+  autoFill = (values, multiple, count) => {
+    // console.log(multiple);
+    let inputEles = this.shadowRoot.querySelectorAll(".column");
+    const addButton = this.shadowRoot.getElementById("addButton");
+    // console.log(values);
+    for (const [i, v] of values.entries()) {
+      if (inputEles.length > i) {
+        inputEles[i].value = v;
+      } else {
+        const newDivWrap = this.addInputField();
+        this.shadowRoot.insertBefore(newDivWrap, addButton);
+        inputEles = this.shadowRoot.querySelectorAll(".column");
+        // console.log(inputEles[i]);
+        inputEles[i].value = v;
+      }
+    }
+  };
 
   addInputField = () => {
     const newDivWrap = document.createElement("div");
