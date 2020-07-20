@@ -78,6 +78,7 @@ class WrapOnelineField extends HTMLElement {
       const addButton = document.createElement("input");
       addButton.setAttribute("type", "button");
       addButton.setAttribute("value", "add");
+      addButton.setAttribute("id", "addButton");
       addButton.addEventListener("click", () => {
         const newDivWrap = this.addInputField();
 
@@ -96,9 +97,31 @@ class WrapOnelineField extends HTMLElement {
         }
       }
     } else if (attr === "values") {
-      console.log(JSON.parse(newVal));
+      const values = JSON.parse(newVal);
+      let count = 0;
+      this.autoFill(values, this.getAttribute("multiple"), count);
     }
   }
+
+  autoFill = (values, multiple, count) => {
+    // count++;
+    // if (count < 10) {
+    console.log(multiple);
+    let inputEles = this.shadowRoot.querySelectorAll(".column");
+    const addButton = this.shadowRoot.getElementById("addButton");
+    console.log(values);
+    for (const [i, v] of values.entries()) {
+      if (inputEles.length > i) {
+        inputEles[i].value = v;
+      } else {
+        const newDivWrap = this.addInputField();
+        this.shadowRoot.insertBefore(newDivWrap, addButton);
+        inputEles = this.shadowRoot.querySelectorAll(".column");
+        console.log(inputEles[i]);
+        inputEles[i].value = v;
+      }
+    }
+  };
 
   addInputField = () => {
     const newDivWrap = document.createElement("div");
