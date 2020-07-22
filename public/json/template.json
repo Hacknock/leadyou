@@ -144,7 +144,7 @@
       "multiple": true,
       "component": "wrap-oneline-field",
       "description": "コントリビューターを記入",
-      "format": " - %s\n",
+      "format": "- %s\n",
       "attributes": {
         "place_holder": "Name<email-address>"
       },
@@ -158,7 +158,7 @@
       "multiple": true,
       "component": "wrap-oneline-field",
       "description": "OSSの利用者を記入",
-      "format": " - %s\n",
+      "format": "- %s\n",
       "attributes": {
         "place_holder": "Name<url>"
       }

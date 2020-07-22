@@ -251,18 +251,20 @@ const generateReadme = (template, contents) => {
     if (typeof templateSection === "undefined") {
       continue;
     }
-    const valueText = section.values.reduce((prev, current) => {
-      return prev + templateSection.format.replace("%s", current);
-    }, "");
+    const valueText = section.values
+      .reduce((prev, current) => {
+        return prev + templateSection.format.replace("%s", current);
+      }, "")
+      .trimEnd();
     if (templateSection.hidden_title === false) {
       if (templateSection.replacement) {
         text += `# ${valueText}\n`;
       } else {
         text += `# ${section.title}\n`;
-        text += valueText;
+        text += `${valueText}\n`;
       }
     } else {
-      text += valueText;
+      text += `${valueText}\n`;
     }
     text += "\n";
   }
