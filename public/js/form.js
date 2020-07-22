@@ -322,18 +322,6 @@ const downloadMarkdown = (filename, md) => {
 document.getElementById("submit").addEventListener("click", () => {
   if (inspectRequired(document.getElementsByClassName("infoBox"), 0) === 0) {
     preview(true);
-    // const contentsJson = createContentsJson();
-    // try {
-    //   if (Object.keys(templateJson).length === 0) {
-    //     throw new Error("template.json is empty.");
-    //   }
-    //   inspectContentsJson(contentsJson);
-    //   const md = generateReadme(templateJson, contentsJson);
-    //   outputEle.innerHTML = marked(md);
-    //   downloadMarkdown("README.md", md);
-    // } catch (error) {
-    //   console.error(error);
-    // }
   } else {
     // アラートを出す？
   }
