@@ -87,8 +87,6 @@ const getJson = async (url, inspector) => {
 };
 
 const convertToId = (title) => {
-  // console.log(title)
-  // console.log(title.replace(' ', '_'));
   return title.replace(" ", "_");
 };
 
@@ -97,10 +95,6 @@ const generateForm = (tempJson, autoJson, index) => {
   // console.log(JSON.stringify(tempJson));
   // console.log(JSON.stringify(autoJson));
   for (const section of tempJson.sections) {
-    const templateSection = autoJson.find(
-      (element) => element.title == section.title
-    );
-
     const childElement = document.createElement(
       tempJson.sections[index].component
     );
@@ -142,63 +136,21 @@ const generateForm = (tempJson, autoJson, index) => {
       "value",
       convertToId(tempJson.sections[index].title)
     );
-    if (typeof templateSection === "undefined") {
-    } else {
-      childElement.setAttributeNS(
-        null,
-        "values",
-        JSON.stringify(templateSection.values)
+    if (Object.keys(autoJson).length > 0) {
+      const templateSection = autoJson.find(
+        (element) => element.title == section.title
       );
+      if (typeof templateSection !== "undefined") {
+        childElement.setAttributeNS(
+          null,
+          "values",
+          JSON.stringify(templateSection.values)
+        );
+      }
     }
     rootEle.appendChild(childElement);
     ++index;
   }
-  // if (tempJson.sections.length > index) {
-  //   const childElement = document.createElement(
-  //     tempJson.sections[index].component
-  //   );
-  //   childElement.setAttributeNS(
-  //     null,
-  //     "nameTitle",
-  //     tempJson.sections[index].title
-  //   );
-  //   childElement.setAttributeNS(
-  //     null,
-  //     "required",
-  //     tempJson.sections[index].required
-  //   );
-  //   childElement.setAttributeNS(
-  //     null,
-  //     "descShort",
-  //     tempJson.sections[index].description
-  //   );
-  //   childElement.setAttributeNS(
-  //     null,
-  //     "hiddenTitle",
-  //     tempJson.sections[index].hidden_title
-  //   );
-  //   childElement.setAttributeNS(
-  //     null,
-  //     "multiple",
-  //     tempJson.sections[index].multiple
-  //   );
-  //   childElement.setAttributeNS(null, "alert", "false");
-  //   childElement.setAttributeNS(null, "class", "infoBox");
-  //   childElement.setAttributeNS(
-  //     null,
-  //     "id",
-  //     convertToId(tempJson.sections[index].title)
-  //   );
-  //   childElement.setAttributeNS(
-  //     null,
-  //     "value",
-  //     convertToId(tempJson.sections[index].title)
-  //   );
-  //   rootEle.appendChild(childElement);
-  //   generateForm(tempJson, autoJson, ++index);
-  // } else {
-  //   // console.log("Finish read read_sections");
-  // }
 };
 
 const getColumnData = (listColumn, referNum) => {
@@ -307,66 +259,46 @@ const getQueryStringParams = (query) => {
   }, {});
 };
 
-// const autoFill = () => {
-//   const params = getQueryStringParams(window.location.search);
-//   console.log(params);
-//   if (params.autofill !== "true") return;
-//   const url = `/getvalues?owner=${params.owner}&repo=${params.repo}&authToken=hello&secretToken=world`;
-//   getJson(url, inspectAutoFillJson)
-//     .then((json) => {
-//       // auto fill されたcontents.jsonだよ。
-//       console.log(json);
-//       putValueAuto(json, params);
-//       // ここでオートフィルの処理が必要。
-//     })
-//     .catch((error) => {
-//       console.error(error);
-//     });
-// };
-
 const putValueAuto = (contents, params) => {
   console.log("put each value to custome element");
   console.log(contents);
   console.log(params);
 };
 
-// call at loaded
-// getJson("/src/json/template.json", inspectTemplateJson)
-//   .then((json) => {
-//     templateJson = json;
-//     generateForm(json, 0);
-//   })
-//   .catch((error) => {
-//     console.error(error);
-//   });
-
-// getJson("/src/json/sample_contents.json", inspectContentsJson)
-//   .then((json) => {
-//     sampleContentsJson = json;
-//   })
-//   .catch((error) => {
-//     console.error(error);
-//   });
-
-// autoFill();
+const inspectParams = (params) => {
+  if (!("owner" in params) || !("repo" in params) || !("autofill" in params)) {
+    throw new Error("Illegal Query");
+  }
+};
 
 const renderForm = async () => {
   try {
+    // template.jsonを取得
     const template = await getJson(
       "/src/json/template.json",
       inspectTemplateJson
     );
+
+    // auto fill用のcontents.jsonを取得
+    let autoFillJson = {};
+    const hasAPILife = true;
     const params = getQueryStringParams(window.location.search);
-    console.log(params);
-    if (params.autofill !== "true") return;
-    const url = `/getvalues?owner=${params.owner}&repo=${params.repo}&authToken=hello&secretToken=world`;
-    const autoFillJson = await getJson(url, inspectAutoFillJson);
+    inspectParams(params);
+    if (params.autofill !== "true")
+      return Promise.resolve({
+        temp: template,
+        auto: {},
+      });
 
-    // const autoFillJson = await getJson(
-    //   "/src/json/sample_contents.json",
-    //   inspectContentsJson
-    // );
-
+    if (hasAPILife) {
+      const url = `/getvalues?owner=${params.owner}&repo=${params.repo}&authToken=hello&secretToken=world`;
+      autoFillJson = await getJson(url, inspectAutoFillJson);
+    } else {
+      autoFillJson = await getJson(
+        "/src/json/sample_contents.json",
+        inspectContentsJson
+      );
+    }
     return Promise.resolve({
       temp: template,
       auto: autoFillJson,
@@ -379,11 +311,13 @@ const renderForm = async () => {
 renderForm()
   .then((obj) => {
     console.log(obj);
+    if (Object.keys(obj).length === 0) return;
     templateJson = obj.temp;
     generateForm(obj.temp, obj.auto, 0);
   })
   .catch((err) => {
     console.error(err);
+    alert(err);
   });
 
 const downloadMarkdown = (filename, md) => {
@@ -419,19 +353,4 @@ document.getElementById("submit").addEventListener("click", () => {
   } else {
     // アラートを出す？
   }
-
-  // // とりあえず、サンプルのcontents.jsonから生成する
-  // try {
-  //   if (
-  //     Object.keys(templateJson).length === 0 ||
-  //     Object.keys(sampleContentsJson).length === 0
-  //   ) {
-  //     throw new Error("template.json or contents.json are empty.");
-  //   }
-  //   outputEle.innerHTML = marked(
-  //     generateReadme(templateJson, sampleContentsJson)
-  //   );
-  // } catch (error) {
-  //   console.error(error);
-  // }
 });
