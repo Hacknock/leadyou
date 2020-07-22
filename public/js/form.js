@@ -87,8 +87,6 @@ const getJson = async (url, inspector) => {
 };
 
 const convertToId = (title) => {
-  // console.log(title)
-  // console.log(title.replace(' ', '_'));
   return title.replace(" ", "_");
 };
 
@@ -97,10 +95,6 @@ const generateForm = (tempJson, autoJson, index) => {
   // console.log(JSON.stringify(tempJson));
   // console.log(JSON.stringify(autoJson));
   for (const section of tempJson.sections) {
-    const templateSection = autoJson.find(
-      (element) => element.title == section.title
-    );
-
     const childElement = document.createElement(
       tempJson.sections[index].component
     );
@@ -142,13 +136,17 @@ const generateForm = (tempJson, autoJson, index) => {
       "value",
       convertToId(tempJson.sections[index].title)
     );
-    if (typeof templateSection === "undefined") {
-    } else {
-      childElement.setAttributeNS(
-        null,
-        "values",
-        JSON.stringify(templateSection.values)
+    if (Object.keys(autoJson).length > 0) {
+      const templateSection = autoJson.find(
+        (element) => element.title == section.title
       );
+      if (typeof templateSection !== "undefined") {
+        childElement.setAttributeNS(
+          null,
+          "values",
+          JSON.stringify(templateSection.values)
+        );
+      }
     }
     rootEle.appendChild(childElement);
     ++index;
@@ -261,29 +259,40 @@ const getQueryStringParams = (query) => {
   }, {});
 };
 
-const putValueAuto = (contents, params) => {
-  console.log("put each value to custome element");
-  console.log(contents);
-  console.log(params);
+const inspectParams = (params) => {
+  if (!("owner" in params) || !("repo" in params) || !("autofill" in params)) {
+    throw new Error("Illegal Query");
+  }
 };
 
 const renderForm = async () => {
   try {
+    // template.jsonを取得
     const template = await getJson(
       "/src/json/template.json",
       inspectTemplateJson
     );
+
+    // auto fill用のcontents.jsonを取得
+    let autoFillJson = {};
+    const hasAPILife = true;
     const params = getQueryStringParams(window.location.search);
-    console.log(params);
-    if (params.autofill !== "true") return;
-    const url = `/getvalues?owner=${params.owner}&repo=${params.repo}&authToken=hello&secretToken=world`;
-    const autoFillJson = await getJson(url, inspectAutoFillJson);
+    inspectParams(params);
+    if (params.autofill !== "true")
+      return Promise.resolve({
+        temp: template,
+        auto: {},
+      });
 
-    // const autoFillJson = await getJson(
-    //   "/src/json/sample_contents.json",
-    //   inspectContentsJson
-    // );
-
+    if (hasAPILife) {
+      const url = `/getvalues?owner=${params.owner}&repo=${params.repo}&authToken=hello&secretToken=world`;
+      autoFillJson = await getJson(url, inspectAutoFillJson);
+    } else {
+      autoFillJson = await getJson(
+        "/src/json/sample_contents.json",
+        inspectContentsJson
+      );
+    }
     return Promise.resolve({
       temp: template,
       auto: autoFillJson,
@@ -296,12 +305,14 @@ const renderForm = async () => {
 renderForm()
   .then((obj) => {
     console.log(obj);
+    if (Object.keys(obj).length === 0) return;
     templateJson = obj.temp;
     generateForm(obj.temp, obj.auto, 0);
     setInterval(preview, 1000);
   })
   .catch((err) => {
     console.error(err);
+    alert(err);
   });
 
 const downloadMarkdown = (filename, md) => {
