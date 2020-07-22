@@ -172,16 +172,27 @@ const getColumnData = (listColumn, referNum) => {
 const generateJson = (listEle, tempJson, index) => {
   let arraySec = new Array();
   if (typeof tempJson.sections[index] !== "undefined") {
+    const tmpFormat = tempJson.sections[index].format;
     const root = listEle[index].shadowRoot;
     let stackEles = root.querySelectorAll(".field");
     let secTitle = root.querySelector("h2").textContent;
-    let value = getColumnData(stackEles, 0);
-    if (value.length !== 1 || value[0].length !== 0) {
+    let values = getColumnData(stackEles, 0);
+    const lenValue = values.reduce((prev, current) => {
+      return prev + current.length;
+    }, 0);
+
+    if (lenValue !== 0 && values.length % countFormatS(tmpFormat) === 0) {
       arraySec.push({
         title: secTitle,
-        values: value,
+        values: values,
       });
     }
+    // if (values.length > countFormatS(tmpFormat) || values[0].length !== 0) {
+    //   arraySec.push({
+    //     title: secTitle,
+    //     values: values,
+    //   });
+    // }
     arraySec = arraySec.concat(generateJson(listEle, tempJson, ++index));
   }
   return arraySec;
@@ -364,7 +375,7 @@ document.getElementById("submit").addEventListener("click", () => {
 
 const preview = (flag) => {
   const contentsJson = createContentsJson();
-  // console.log(contentsJson);
+  console.log(contentsJson);
   try {
     if (Object.keys(templateJson).length === 0) {
       throw new Error("template.json is empty.");
