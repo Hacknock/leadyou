@@ -219,10 +219,12 @@ const generateJson = (listEle, tempJson, index) => {
     let stackEles = root.querySelectorAll(".field");
     let secTitle = root.querySelector("h2").textContent;
     let value = getColumnData(stackEles, 0);
-    arraySec.push({
-      title: secTitle,
-      values: value,
-    });
+    if (value.length != 1 || value[0].length != 0) {
+      arraySec.push({
+        title: secTitle,
+        values: value,
+      });
+    }
     arraySec = arraySec.concat(generateJson(listEle, tempJson, ++index));
   }
   return arraySec;
