@@ -171,7 +171,7 @@ const generateJson = (listEle, tempJson, index) => {
     let stackEles = root.querySelectorAll(".field");
     let secTitle = root.querySelector("h2").textContent;
     let value = getColumnData(stackEles, 0);
-    if (value.length != 1 || value[0].length != 0) {
+    if (value.length !== 1 || value[0].length !== 0) {
       arraySec.push({
         title: secTitle,
         values: value,
@@ -308,6 +308,7 @@ renderForm()
     if (Object.keys(obj).length === 0) return;
     templateJson = obj.temp;
     generateForm(obj.temp, obj.auto, 0);
+    setInterval(preview, 1000);
   })
   .catch((err) => {
     console.error(err);
@@ -331,20 +332,23 @@ const downloadMarkdown = (filename, md) => {
 // Submitボタンを押した時の処理
 document.getElementById("submit").addEventListener("click", () => {
   if (inspectRequired(document.getElementsByClassName("infoBox"), 0) === 0) {
-    const contentsJson = createContentsJson();
-    console.log(contentsJson);
-    try {
-      if (Object.keys(templateJson).length === 0) {
-        throw new Error("template.json is empty.");
-      }
-      inspectContentsJson(contentsJson);
-      const md = generateReadme(templateJson, contentsJson);
-      outputEle.innerHTML = marked(md);
-      downloadMarkdown("README.md", md);
-    } catch (error) {
-      console.error(error);
-    }
+    preview(true);
   } else {
     // アラートを出す？
   }
 });
+
+const preview = (flag) => {
+  const contentsJson = createContentsJson();
+  try {
+    if (Object.keys(templateJson).length === 0) {
+      throw new Error("template.json is empty.");
+    }
+    inspectContentsJson(contentsJson);
+    const md = generateReadme(templateJson, contentsJson);
+    outputEle.innerHTML = marked(md);
+    if (typeof flag !== "undefined" && flag) downloadMarkdown("README.md", md);
+  } catch (error) {
+    console.error(error);
+  }
+};
