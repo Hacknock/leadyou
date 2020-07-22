@@ -130,6 +130,11 @@ class WrapOnelineField extends HTMLElement {
 
     const statusLabel = this.getAttribute("alert");
 
+    // delete button add
+    const deleteButton = document.createElement("input");
+    deleteButton.setAttribute("type", "button");
+    deleteButton.setAttribute("value", "delete");
+
     if (statusLabel === "true") {
       newInputF.setAttribute("class", "column style_alert");
     } else {
