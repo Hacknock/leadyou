@@ -157,8 +157,12 @@ const generateForm = (tempJson, autoJson, index) => {
 const getColumnData = (listColumn, referNum) => {
   let arrayC = new Array();
   if (listColumn.length > referNum) {
-    content = listColumn[referNum].querySelector(".column").value;
-    arrayC.push(content);
+    const allColumns = listColumn[referNum].querySelectorAll(".column");
+    for (let i = 0; i < allColumns.length; i++) {
+      arrayC.push(allColumns[i].value);
+    }
+    // content = listColumn[referNum].querySelector(".column").value;
+    // arrayC.push(content);
     arrayC = arrayC.concat(getColumnData(listColumn, ++referNum));
   }
   return arrayC;
@@ -360,6 +364,7 @@ document.getElementById("submit").addEventListener("click", () => {
 
 const preview = (flag) => {
   const contentsJson = createContentsJson();
+  // console.log(contentsJson);
   try {
     if (Object.keys(templateJson).length === 0) {
       throw new Error("template.json is empty.");
