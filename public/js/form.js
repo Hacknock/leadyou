@@ -153,52 +153,6 @@ const generateForm = (tempJson, autoJson, index) => {
     rootEle.appendChild(childElement);
     ++index;
   }
-  // if (tempJson.sections.length > index) {
-  //   const childElement = document.createElement(
-  //     tempJson.sections[index].component
-  //   );
-  //   childElement.setAttributeNS(
-  //     null,
-  //     "nameTitle",
-  //     tempJson.sections[index].title
-  //   );
-  //   childElement.setAttributeNS(
-  //     null,
-  //     "required",
-  //     tempJson.sections[index].required
-  //   );
-  //   childElement.setAttributeNS(
-  //     null,
-  //     "descShort",
-  //     tempJson.sections[index].description
-  //   );
-  //   childElement.setAttributeNS(
-  //     null,
-  //     "hiddenTitle",
-  //     tempJson.sections[index].hidden_title
-  //   );
-  //   childElement.setAttributeNS(
-  //     null,
-  //     "multiple",
-  //     tempJson.sections[index].multiple
-  //   );
-  //   childElement.setAttributeNS(null, "alert", "false");
-  //   childElement.setAttributeNS(null, "class", "infoBox");
-  //   childElement.setAttributeNS(
-  //     null,
-  //     "id",
-  //     convertToId(tempJson.sections[index].title)
-  //   );
-  //   childElement.setAttributeNS(
-  //     null,
-  //     "value",
-  //     convertToId(tempJson.sections[index].title)
-  //   );
-  //   rootEle.appendChild(childElement);
-  //   generateForm(tempJson, autoJson, ++index);
-  // } else {
-  //   // console.log("Finish read read_sections");
-  // }
 };
 
 const getColumnData = (listColumn, referNum) => {
@@ -219,7 +173,7 @@ const generateJson = (listEle, tempJson, index) => {
     let stackEles = root.querySelectorAll(".field");
     let secTitle = root.querySelector("h2").textContent;
     let value = getColumnData(stackEles, 0);
-    if (value.length != 1 || value[0].length != 0) {
+    if (value.length !== 1 || value[0].length !== 0) {
       arraySec.push({
         title: secTitle,
         values: value,
@@ -307,48 +261,11 @@ const getQueryStringParams = (query) => {
   }, {});
 };
 
-// const autoFill = () => {
-//   const params = getQueryStringParams(window.location.search);
-//   console.log(params);
-//   if (params.autofill !== "true") return;
-//   const url = `/getvalues?owner=${params.owner}&repo=${params.repo}&authToken=hello&secretToken=world`;
-//   getJson(url, inspectAutoFillJson)
-//     .then((json) => {
-//       // auto fill されたcontents.jsonだよ。
-//       console.log(json);
-//       putValueAuto(json, params);
-//       // ここでオートフィルの処理が必要。
-//     })
-//     .catch((error) => {
-//       console.error(error);
-//     });
-// };
-
 const putValueAuto = (contents, params) => {
   console.log("put each value to custome element");
   console.log(contents);
   console.log(params);
 };
-
-// call at loaded
-// getJson("/src/json/template.json", inspectTemplateJson)
-//   .then((json) => {
-//     templateJson = json;
-//     generateForm(json, 0);
-//   })
-//   .catch((error) => {
-//     console.error(error);
-//   });
-
-// getJson("/src/json/sample_contents.json", inspectContentsJson)
-//   .then((json) => {
-//     sampleContentsJson = json;
-//   })
-//   .catch((error) => {
-//     console.error(error);
-//   });
-
-// autoFill();
 
 const renderForm = async () => {
   try {
@@ -381,6 +298,7 @@ renderForm()
     console.log(obj);
     templateJson = obj.temp;
     generateForm(obj.temp, obj.auto, 0);
+    setInterval(preview, 1000);
   })
   .catch((err) => {
     console.error(err);
@@ -403,35 +321,35 @@ const downloadMarkdown = (filename, md) => {
 // Submitボタンを押した時の処理
 document.getElementById("submit").addEventListener("click", () => {
   if (inspectRequired(document.getElementsByClassName("infoBox"), 0) === 0) {
-    const contentsJson = createContentsJson();
-    console.log(contentsJson);
-    try {
-      if (Object.keys(templateJson).length === 0) {
-        throw new Error("template.json is empty.");
-      }
-      inspectContentsJson(contentsJson);
-      const md = generateReadme(templateJson, contentsJson);
-      outputEle.innerHTML = marked(md);
-      downloadMarkdown("README.md", md);
-    } catch (error) {
-      console.error(error);
-    }
+    preview(true);
+    // const contentsJson = createContentsJson();
+    // try {
+    //   if (Object.keys(templateJson).length === 0) {
+    //     throw new Error("template.json is empty.");
+    //   }
+    //   inspectContentsJson(contentsJson);
+    //   const md = generateReadme(templateJson, contentsJson);
+    //   outputEle.innerHTML = marked(md);
+    //   downloadMarkdown("README.md", md);
+    // } catch (error) {
+    //   console.error(error);
+    // }
   } else {
     // アラートを出す？
   }
-
-  // // とりあえず、サンプルのcontents.jsonから生成する
-  // try {
-  //   if (
-  //     Object.keys(templateJson).length === 0 ||
-  //     Object.keys(sampleContentsJson).length === 0
-  //   ) {
-  //     throw new Error("template.json or contents.json are empty.");
-  //   }
-  //   outputEle.innerHTML = marked(
-  //     generateReadme(templateJson, sampleContentsJson)
-  //   );
-  // } catch (error) {
-  //   console.error(error);
-  // }
 });
+
+const preview = (flag) => {
+  const contentsJson = createContentsJson();
+  try {
+    if (Object.keys(templateJson).length === 0) {
+      throw new Error("template.json is empty.");
+    }
+    inspectContentsJson(contentsJson);
+    const md = generateReadme(templateJson, contentsJson);
+    outputEle.innerHTML = marked(md);
+    if (flag !== "undefined" && flag) downloadMarkdown("README.md", md);
+  } catch (error) {
+    console.error(error);
+  }
+};
