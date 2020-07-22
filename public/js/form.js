@@ -336,7 +336,7 @@ const preview = (flag) => {
     inspectContentsJson(contentsJson);
     const md = generateReadme(templateJson, contentsJson);
     outputEle.innerHTML = marked(md);
-    if (flag !== "undefined" && flag) downloadMarkdown("README.md", md);
+    if (typeof flag !== "undefined" && flag) downloadMarkdown("README.md", md);
   } catch (error) {
     console.error(error);
   }
