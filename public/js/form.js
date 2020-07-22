@@ -259,12 +259,6 @@ const getQueryStringParams = (query) => {
   }, {});
 };
 
-const putValueAuto = (contents, params) => {
-  console.log("put each value to custome element");
-  console.log(contents);
-  console.log(params);
-};
-
 const inspectParams = (params) => {
   if (!("owner" in params) || !("repo" in params) || !("autofill" in params)) {
     throw new Error("Illegal Query");
