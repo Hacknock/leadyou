@@ -52,6 +52,10 @@ class WrapUploadFile extends HTMLElement {
     .style_normal {
       border: none;
     }
+
+    #dataID {
+      display:none;
+    }
     `;
 
     // Append Child
@@ -100,12 +104,26 @@ class WrapUploadFile extends HTMLElement {
       }
     }
   }
+  handleFileSelect = (e) => {
+    var fileList = e.target.files;
+    console.log(e.target);
+    var blobUrl = window.URL.createObjectURL(fileList[0]);
+    console.log(blobUrl);
+
+    this.shadowRoot.getElementById("dataID").value = blobUrl;
+  };
   addInputField = () => {
     const newDivWrap = document.createElement("div");
     const newUpFile = document.createElement("input");
     newUpFile.setAttribute("type", "file");
     newUpFile.setAttribute("name", "image");
-    newUpFile.setAttribute("class", "column");
+    // newUpFile.setAttribute("class", "column");
+    const labelFile = document.createElement("input");
+    labelFile.setAttribute("class", "column");
+    labelFile.setAttribute("id", "dataID");
+
+    newUpFile.addEventListener("change", this.handleFileSelect);
+
     const newBR = document.createElement("br");
     const newDescFile = document.createElement("input");
     newDescFile.setAttribute("type", "text");
@@ -121,6 +139,7 @@ class WrapUploadFile extends HTMLElement {
     }
 
     newDivWrap.appendChild(newUpFile);
+    newDivWrap.appendChild(labelFile);
     newDivWrap.appendChild(newBR);
     newDivWrap.appendChild(newDescFile);
 
