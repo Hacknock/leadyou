@@ -136,6 +136,7 @@ const generateForm = (tempJson, autoJson, index) => {
       "value",
       convertToId(tempJson.sections[index].title)
     );
+
     if (Object.keys(autoJson).length > 0) {
       const templateSection = autoJson.find(
         (element) => element.title == section.title
@@ -199,6 +200,19 @@ const createContentsJson = () => {
   };
 };
 
+const countFormatS = (format) => {
+  return (format.match(/%s/g) || []).length;
+};
+
+const divideArraybyN = (array, n) => {
+  const newArray = [];
+  for (let i = 0; i < Math.ceil(array.length / n); i++) {
+    const j = i * n;
+    newArray.push(array.slice(j, j + n));
+  }
+  return newArray;
+};
+
 // ignoring child component
 const generateReadme = (template, contents) => {
   let text = "";
@@ -209,9 +223,14 @@ const generateReadme = (template, contents) => {
     if (typeof templateSection === "undefined") {
       continue;
     }
-    const valueText = section.values
+    const n = countFormatS(templateSection.format);
+    const valueText = divideArraybyN(section.values, n)
       .reduce((prev, current) => {
-        return prev + templateSection.format.replace("%s", current);
+        let text = templateSection.format;
+        for (const value of current) {
+          text = text.replace("%s", value);
+        }
+        return prev + text;
       }, "")
       .trimEnd();
     if (templateSection.hidden_title === false) {
@@ -282,20 +301,21 @@ const renderForm = async () => {
     const hasAPILife = true;
     const params = getQueryStringParams(window.location.search);
     inspectParams(params);
-    if (params.autofill !== "true")
+    if (params.autofill !== "true") {
       return Promise.resolve({
         temp: template,
         auto: {},
       });
-
+    }
     if (hasAPILife) {
       const url = `/getvalues?owner=${params.owner}&repo=${params.repo}&authToken=hello&secretToken=world`;
       autoFillJson = await getJson(url, inspectAutoFillJson);
     } else {
-      autoFillJson = await getJson(
+      const json = await getJson(
         "/src/json/sample_contents.json",
         inspectContentsJson
       );
+      autoFillJson = json.sections;
     }
     return Promise.resolve({
       temp: template,

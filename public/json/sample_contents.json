@@ -28,10 +28,10 @@
     {
       "title": "Demo",
       "values": [
-        {
-          "image": "https://kyome.io/images/article/e6d7a2ed-89c6-ead0-68ed-bf4dccf656db.gif",
-          "text": "↑ 基本的にはこんな感じで猫が走るアニメーションが無限に再生されるだけのアプリです。"
-        }
+        "https://kyome.io/images/article/e6d7a2ed-89c6-ead0-68ed-bf4dccf656db.gif",
+        "↑ 基本的にはこんな感じで猫が走るアニメーションが無限に再生されるだけのアプリです。",
+        "https://kyome.io/images/article/hoge.png",
+        "Hoge"
       ]
     },
     {
