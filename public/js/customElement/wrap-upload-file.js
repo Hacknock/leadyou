@@ -54,7 +54,7 @@ class WrapUploadFile extends HTMLElement {
     }
 
     #dataID {
-      display:none;
+      display: none;
     }
     `;
 
