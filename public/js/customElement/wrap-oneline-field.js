@@ -73,7 +73,14 @@ class WrapOnelineField extends HTMLElement {
   }
 
   static get observedAttributes() {
-    return ["nameTitle", "descShort", "multiple", "alert", "values"];
+    return [
+      "nameTitle",
+      "descShort",
+      "multiple",
+      "alert",
+      "values",
+      "place_holder",
+    ];
   }
 
   attributeChangedCallback(attr, oldVal, newVal) {
@@ -109,6 +116,11 @@ class WrapOnelineField extends HTMLElement {
       const values = JSON.parse(newVal);
       let count = 0;
       this.autoFill(values, this.getAttribute("multiple"), count);
+    } else if (attr === "place_holder") {
+      let allInputElement = this.shadowRoot.querySelectorAll(".column");
+      for (let i = 0; i < allInputElement.length; i++) {
+        allInputElement[i].setAttribute("placeholder", newVal);
+      }
     }
   }
 
@@ -156,11 +168,6 @@ class WrapOnelineField extends HTMLElement {
 
     // delete button add
     // Judge whether this inserts delte button or not
-    console.log(
-      "the length of input is " +
-        String(this.shadowRoot.querySelectorAll(".field").length)
-    );
-
     const deleteButton = document.createElement("input");
     deleteButton.setAttribute("type", "button");
     deleteButton.setAttribute("value", "delete");
@@ -172,8 +179,6 @@ class WrapOnelineField extends HTMLElement {
       const listDeleteButton = this.shadowRoot.querySelectorAll(
         ".deleteButton"
       );
-      console.log("listDeleteButton");
-      console.log(listDeleteButton);
       for (let i = 0; i < listDeleteButton.length; i++) {
         listDeleteButton[i].setAttribute(
           "class",
