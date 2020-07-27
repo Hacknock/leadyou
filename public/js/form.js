@@ -402,7 +402,7 @@ const downloadMarkdown = async (filename, md, templateJson) => {
   const resources = extractResourceLink(targetMD, templateJson);
   let zip = new JSZip();
   let folder = zip.folder(filename);
-  let resourceFolder = folder.folder("resource");
+  let resourceFolder = folder.folder("resources");
   for (const [index, link] of resources.links.entries()) {
     const response = await fetch(link);
     const content = await response.blob();
@@ -439,7 +439,7 @@ const preview = (flag) => {
     const md = generateReadme(templateJson, contentsJson);
     outputEle.innerHTML = marked(md);
     if (typeof flag !== "undefined" && flag)
-      downloadMarkdown("Gomi", md, templateJson);
+      downloadMarkdown("README", md, templateJson);
   } catch (error) {
     console.error(error);
   }
