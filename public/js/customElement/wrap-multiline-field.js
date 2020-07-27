@@ -176,6 +176,12 @@ class WrapMultiField extends HTMLElement {
     newDivWrap.setAttribute("class", "field");
     const inputF = document.createElement("textarea");
     inputF.setAttribute("type", "text");
+
+    // 今度確認する（今、multilineにaddがないから）
+    const maxlength = this.getAttribute("maxlength");
+    console.log(maxlength);
+    // if (Number(maxlength) > 0) {
+    // }
     const statusLabel = this.getAttribute("alert");
 
     // delete button add
