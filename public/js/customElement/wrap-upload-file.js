@@ -78,7 +78,7 @@ class WrapUploadFile extends HTMLElement {
   }
 
   static get observedAttributes() {
-    return ["nameTitle", "descShort", "multiple", "alert"];
+    return ["nameTitle", "descShort", "multiple", "alert", "place_holder"];
   }
 
   attributeChangedCallback(attr, oldVal, newVal) {
@@ -109,6 +109,13 @@ class WrapUploadFile extends HTMLElement {
       } else {
         for (var i = 0; i < inputEles.length; i++) {
           inputEles[i].setAttribute("class", "field style_normal");
+        }
+      }
+    } else if (attr == "place_holder") {
+      let allInputElement = this.shadowRoot.querySelectorAll(".column");
+      for (let i = 0; i < allInputElement.length; i++) {
+        if (allInputElement[i].getAttribute("type") === "text") {
+          allInputElement[i].setAttribute("placeholder", newVal);
         }
       }
     }
