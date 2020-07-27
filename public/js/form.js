@@ -375,7 +375,7 @@ document.getElementById("submit").addEventListener("click", () => {
 
 const preview = (flag) => {
   const contentsJson = createContentsJson();
-  console.log(contentsJson);
+  // console.log(contentsJson);
   try {
     if (Object.keys(templateJson).length === 0) {
       throw new Error("template.json is empty.");
