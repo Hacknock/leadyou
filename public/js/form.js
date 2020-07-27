@@ -268,7 +268,7 @@ const inspectRequired = (eleList, referNum) => {
   let returnNum = 0;
   if (eleList.length > referNum) {
     // console.log(eleList[referNum].shadowRoot.querySelector("h2").textContent);
-    console.log(eleList[referNum].getAttribute("required"));
+    // console.log(eleList[referNum].getAttribute("required"));
     if (eleList[referNum].getAttribute("required") === "true") {
       // console.log(eleList[referNum].shadowRoot.querySelector("h2").textContent);
       if (
@@ -355,10 +355,27 @@ renderForm()
     alert(err);
   });
 
-const downloadMarkdown = (filename, md) => {
-  const blob = new Blob([md], {
-    type: "application/octet-stream",
-  });
+const extractResourceLink = (md, templateJson) => {
+  const uploadSectionTitles = templateJson.sections
+    .filter((section) => {
+      return section.component === "wrap-upload-file";
+    })
+    .map((section) => {
+      return section.title;
+    });
+  let urlArray = new Array();
+  for (const title of uploadSectionTitles) {
+    const regex = new RegExp(String.raw`!\[${title}\]\(.+\)`, "g");
+    urlArray = urlArray.concat(
+      (md.match(regex) || new Array()).map((segment) => {
+        return segment.match(/\((.+)\)/)[1];
+      })
+    );
+  }
+  return urlArray;
+};
+
+const saveBlob = (blob, filename) => {
   const blobUrl = URL.createObjectURL(blob);
   const element = document.createElement("a");
   element.setAttribute("href", blobUrl);
@@ -367,6 +384,20 @@ const downloadMarkdown = (filename, md) => {
   document.body.appendChild(element);
   element.click();
   document.body.removeChild(element);
+};
+
+const downloadMarkdown = async (filename, md, templateJson) => {
+  const resourceLinks = extractResourceLink(md, templateJson);
+  let zip = new JSZip();
+  let folder = zip.folder(filename);
+  for (const [index, link] of resourceLinks.entries()) {
+    const response = await fetch(link);
+    const content = await response.blob();
+    const extension = content.type.split("/").slice(-1)[0];
+    folder.file(`file-${index}.${extension}`, content);
+  }
+  const zipBlob = await zip.generateAsync({ type: "blob" });
+  saveBlob(zipBlob, filename);
 };
 
 // Submitボタンを押した時の処理
@@ -388,7 +419,8 @@ const preview = (flag) => {
     inspectContentsJson(contentsJson);
     const md = generateReadme(templateJson, contentsJson);
     outputEle.innerHTML = marked(md);
-    if (typeof flag !== "undefined" && flag) downloadMarkdown("README.md", md);
+    if (typeof flag !== "undefined" && flag)
+      downloadMarkdown("Gomi", md, templateJson);
   } catch (error) {
     console.error(error);
   }
