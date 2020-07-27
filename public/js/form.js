@@ -375,12 +375,7 @@ const extractResourceLink = (md, templateJson) => {
   const nameArray = Array.from({ length: urlArray.length }).map(
     (_, index) => `file-${index}`
   );
-  for (const [index, url] of urlArray.entries()) {
-    // 拡張子がわからない！
-    md = md.replace(url, `resources/${nameArray[index]}`);
-  }
   return {
-    md: md,
     links: urlArray,
     names: nameArray,
   };
@@ -398,7 +393,8 @@ const saveBlob = (blob, filename) => {
 };
 
 const downloadMarkdown = async (filename, md, templateJson) => {
-  const resources = extractResourceLink(md, templateJson);
+  let targetMD = ("　" + md).slice(1);
+  const resources = extractResourceLink(targetMD, templateJson);
   let zip = new JSZip();
   let folder = zip.folder(filename);
   let resourceFolder = folder.folder("resource");
@@ -406,9 +402,11 @@ const downloadMarkdown = async (filename, md, templateJson) => {
     const response = await fetch(link);
     const content = await response.blob();
     const extension = content.type.split("/").slice(-1)[0];
-    resourceFolder.file(`${resources.names[index]}.${extension}`, content);
+    const imageName = `${resources.names[index]}.${extension}`;
+    targetMD = targetMD.replace(link, `resources/${imageName}`);
+    resourceFolder.file(imageName, content);
   }
-  const mdBlob = new Blob([resources.md], {
+  const mdBlob = new Blob([targetMD], {
     type: "application/octet-stream",
   });
   folder.file("README.md", mdBlob);
