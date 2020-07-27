@@ -122,6 +122,14 @@ class WrapRadio extends HTMLElement {
     }
   }
 
+  deleteField = (e) => {
+    // console.log("Get target element information");
+    // console.log(e.target);
+    // console.log("Get the parent node information of this element.");
+    // console.log(e.target.parentNode);
+    e.target.parentNode.remove();
+  };
+
   addInputField = () => {
     const newDivWrap = document.createElement("div");
     const radioY = document.createElement("input");
@@ -142,6 +150,12 @@ class WrapRadio extends HTMLElement {
 
     const statusLabel = this.getAttribute("alert");
 
+    // delete button add
+    const deleteButton = document.createElement("input");
+    deleteButton.setAttribute("type", "button");
+    deleteButton.setAttribute("value", "delete");
+    deleteButton.addEventListener("click", this.deleteField);
+
     if (statusLabel === "true") {
       newDivWrap.setAttribute("class", "field style_alert");
     } else {
@@ -152,6 +166,8 @@ class WrapRadio extends HTMLElement {
     newDivWrap.appendChild(labelY);
     newDivWrap.appendChild(radioN);
     newDivWrap.appendChild(labelN);
+    newDivWrap.appendChild(deleteButton);
+
     return newDivWrap;
   };
 }

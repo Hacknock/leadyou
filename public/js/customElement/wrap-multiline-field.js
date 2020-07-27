@@ -127,6 +127,14 @@ class WrapMultiField extends HTMLElement {
     }
   };
 
+  deleteField = (e) => {
+    // console.log("Get target element information");
+    // console.log(e.target);
+    // console.log("Get the parent node information of this element.");
+    // console.log(e.target.parentNode);
+    e.target.parentNode.remove();
+  };
+
   addInputField = () => {
     const newDivWrap = document.createElement("div");
     newDivWrap.setAttribute("class", "field");
@@ -134,12 +142,20 @@ class WrapMultiField extends HTMLElement {
     inputF.setAttribute("type", "text");
     const statusLabel = this.getAttribute("alert");
 
+    // delete button add
+    const deleteButton = document.createElement("input");
+    deleteButton.setAttribute("type", "button");
+    deleteButton.setAttribute("value", "delete");
+    deleteButton.addEventListener("click", this.deleteField);
+
     if (statusLabel === "true") {
       inputF.setAttribute("class", "column style_alert");
     } else {
       inputF.setAttribute("class", "column style_normal");
     }
+
     newDivWrap.appendChild(inputF);
+    newDivWrap.appendChild(deleteButton);
 
     return newDivWrap;
   };

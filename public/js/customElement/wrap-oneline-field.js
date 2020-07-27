@@ -122,10 +122,10 @@ class WrapOnelineField extends HTMLElement {
   };
 
   deleteField = (e) => {
-    console.log("Get target element information");
-    console.log(e.target);
-    console.log("Get the parent node information of this element.");
-    console.log(e.target.parentNode);
+    // console.log("Get target element information");
+    // console.log(e.target);
+    // console.log("Get the parent node information of this element.");
+    // console.log(e.target.parentNode);
     e.target.parentNode.remove();
   };
 
