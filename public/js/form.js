@@ -124,6 +124,11 @@ const generateForm = (tempJson, autoJson, index) => {
       "multiple",
       tempJson.sections[index].multiple
     );
+    childElement.setAttributeNS(
+      null,
+      "place_holder",
+      tempJson.sections[index].attributes.place_holder
+    );
     childElement.setAttributeNS(null, "alert", "false");
     childElement.setAttributeNS(null, "class", "infoBox");
     childElement.setAttributeNS(

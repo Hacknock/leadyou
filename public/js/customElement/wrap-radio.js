@@ -43,6 +43,14 @@ class WrapRadio extends HTMLElement {
     .style_normal {
       border: none;
     }
+
+    .display_delete {
+      display: inline-block;
+    }
+
+    .no_display_delete {
+      display: none;
+    }
     `;
 
     // console.log('hidden title', hiddenTitle)
@@ -122,6 +130,24 @@ class WrapRadio extends HTMLElement {
     }
   }
 
+  deleteField = (e) => {
+    e.target.parentNode.remove();
+    let listField = this.shadowRoot.querySelectorAll(".field");
+    if (this.getAttribute("multiple") === "true" && listField.length < 2) {
+      const listDeleteButton = this.shadowRoot.querySelectorAll(
+        ".deleteButton"
+      );
+      console.log("listDeleteButton");
+      console.log(listDeleteButton);
+      for (let i = 0; i < listDeleteButton.length; i++) {
+        listDeleteButton[i].setAttribute(
+          "class",
+          "deleteButton no_display_delete"
+        );
+      }
+    }
+  };
+
   addInputField = () => {
     const newDivWrap = document.createElement("div");
     const radioY = document.createElement("input");
@@ -142,6 +168,30 @@ class WrapRadio extends HTMLElement {
 
     const statusLabel = this.getAttribute("alert");
 
+    // delete button add
+    const deleteButton = document.createElement("input");
+    deleteButton.setAttribute("type", "button");
+    deleteButton.setAttribute("value", "delete");
+    deleteButton.addEventListener("click", this.deleteField);
+    let listField = this.shadowRoot.querySelectorAll(".field");
+    if (this.getAttribute("multiple") === "true" && listField.length > 0) {
+      deleteButton.setAttribute("class", "deleteButton display_delete");
+
+      const listDeleteButton = this.shadowRoot.querySelectorAll(
+        ".deleteButton"
+      );
+      console.log("listDeleteButton");
+      console.log(listDeleteButton);
+      for (let i = 0; i < listDeleteButton.length; i++) {
+        listDeleteButton[i].setAttribute(
+          "class",
+          "deleteButton display_delete"
+        );
+      }
+    } else {
+      deleteButton.setAttribute("class", "deleteButton no_display_delete");
+    }
+
     if (statusLabel === "true") {
       newDivWrap.setAttribute("class", "field style_alert");
     } else {
@@ -152,6 +202,8 @@ class WrapRadio extends HTMLElement {
     newDivWrap.appendChild(labelY);
     newDivWrap.appendChild(radioN);
     newDivWrap.appendChild(labelN);
+    newDivWrap.appendChild(deleteButton);
+
     return newDivWrap;
   };
 }
