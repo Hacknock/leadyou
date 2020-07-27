@@ -56,6 +56,15 @@ class WrapUploadFile extends HTMLElement {
     #dataID {
       display: none;
     }
+
+    .display_delete {
+      display: inline-block;
+    }
+
+    .no_display_delete {
+      display: none;
+    }
+
     `;
 
     // Append Child
@@ -69,7 +78,7 @@ class WrapUploadFile extends HTMLElement {
   }
 
   static get observedAttributes() {
-    return ["nameTitle", "descShort", "multiple", "alert"];
+    return ["nameTitle", "descShort", "multiple", "alert", "place_holder"];
   }
 
   attributeChangedCallback(attr, oldVal, newVal) {
@@ -102,16 +111,45 @@ class WrapUploadFile extends HTMLElement {
           inputEles[i].setAttribute("class", "field style_normal");
         }
       }
+    } else if (attr == "place_holder") {
+      let allInputElement = this.shadowRoot.querySelectorAll(".column");
+      for (let i = 0; i < allInputElement.length; i++) {
+        if (allInputElement[i].getAttribute("type") === "text") {
+          allInputElement[i].setAttribute("placeholder", newVal);
+        }
+      }
     }
   }
   handleFileSelect = (e) => {
     var fileList = e.target.files;
-    console.log(e.target);
     var blobUrl = window.URL.createObjectURL(fileList[0]);
-    console.log(blobUrl);
+    let childrenThisField = e.target.parentNode.children;
 
-    this.shadowRoot.getElementById("dataID").value = blobUrl;
+    for (let i = 0; i < childrenThisField.length; i++) {
+      if (childrenThisField[i].getAttribute("id") === "dataID") {
+        childrenThisField[i].value = blobUrl;
+      }
+    }
   };
+
+  deleteField = (e) => {
+    e.target.parentNode.remove();
+    let listField = this.shadowRoot.querySelectorAll(".field");
+    if (this.getAttribute("multiple") === "true" && listField.length < 2) {
+      const listDeleteButton = this.shadowRoot.querySelectorAll(
+        ".deleteButton"
+      );
+      console.log("listDeleteButton");
+      console.log(listDeleteButton);
+      for (let i = 0; i < listDeleteButton.length; i++) {
+        listDeleteButton[i].setAttribute(
+          "class",
+          "deleteButton no_display_delete"
+        );
+      }
+    }
+  };
+
   addInputField = () => {
     const newDivWrap = document.createElement("div");
     const newUpFile = document.createElement("input");
@@ -132,6 +170,30 @@ class WrapUploadFile extends HTMLElement {
 
     const statusLabel = this.getAttribute("alert");
 
+    // delete button add
+    const deleteButton = document.createElement("input");
+    deleteButton.setAttribute("type", "button");
+    deleteButton.setAttribute("value", "delete");
+    deleteButton.addEventListener("click", this.deleteField);
+    let listField = this.shadowRoot.querySelectorAll(".field");
+    if (this.getAttribute("multiple") === "true" && listField.length > 0) {
+      deleteButton.setAttribute("class", "deleteButton display_delete");
+
+      const listDeleteButton = this.shadowRoot.querySelectorAll(
+        ".deleteButton"
+      );
+      console.log("listDeleteButton");
+      console.log(listDeleteButton);
+      for (let i = 0; i < listDeleteButton.length; i++) {
+        listDeleteButton[i].setAttribute(
+          "class",
+          "deleteButton display_delete"
+        );
+      }
+    } else {
+      deleteButton.setAttribute("class", "deleteButton no_display_delete");
+    }
+
     if (statusLabel === "true") {
       newDivWrap.setAttribute("class", "field style_alert");
     } else {
@@ -142,6 +204,7 @@ class WrapUploadFile extends HTMLElement {
     newDivWrap.appendChild(labelFile);
     newDivWrap.appendChild(newBR);
     newDivWrap.appendChild(newDescFile);
+    newDivWrap.appendChild(deleteButton);
 
     return newDivWrap;
   };

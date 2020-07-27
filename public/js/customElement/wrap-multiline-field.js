@@ -56,6 +56,14 @@ class WrapMultiField extends HTMLElement {
     .style_normal {
       border: solid 0.7px #000000;
     }
+
+    .display_delete {
+      display: inline-block;
+    }
+
+    .no_display_delete {
+      display: none;
+    }
     `;
 
     // Append Child
@@ -68,7 +76,14 @@ class WrapMultiField extends HTMLElement {
     }
   }
   static get observedAttributes() {
-    return ["nameTitle", "descShort", "multiple", "alert", "values"];
+    return [
+      "nameTitle",
+      "descShort",
+      "multiple",
+      "alert",
+      "values",
+      "place_holder",
+    ];
   }
 
   attributeChangedCallback(attr, oldVal, newVal) {
@@ -106,6 +121,11 @@ class WrapMultiField extends HTMLElement {
       const values = JSON.parse(newVal);
       let count = 0;
       this.autoFill(values, this.getAttribute("multiple"), count);
+    } else if (attr === "place_holder") {
+      let allInputElement = this.shadowRoot.querySelectorAll(".column");
+      for (let i = 0; i < allInputElement.length; i++) {
+        allInputElement[i].setAttribute("placeholder", newVal);
+      }
     }
   }
 
@@ -127,6 +147,24 @@ class WrapMultiField extends HTMLElement {
     }
   };
 
+  deleteField = (e) => {
+    e.target.parentNode.remove();
+    let listField = this.shadowRoot.querySelectorAll(".field");
+    if (this.getAttribute("multiple") === "true" && listField.length < 2) {
+      const listDeleteButton = this.shadowRoot.querySelectorAll(
+        ".deleteButton"
+      );
+      console.log("listDeleteButton");
+      console.log(listDeleteButton);
+      for (let i = 0; i < listDeleteButton.length; i++) {
+        listDeleteButton[i].setAttribute(
+          "class",
+          "deleteButton no_display_delete"
+        );
+      }
+    }
+  };
+
   addInputField = () => {
     const newDivWrap = document.createElement("div");
     newDivWrap.setAttribute("class", "field");
@@ -134,12 +172,38 @@ class WrapMultiField extends HTMLElement {
     inputF.setAttribute("type", "text");
     const statusLabel = this.getAttribute("alert");
 
+    // delete button add
+    const deleteButton = document.createElement("input");
+    deleteButton.setAttribute("type", "button");
+    deleteButton.setAttribute("value", "delete");
+    deleteButton.addEventListener("click", this.deleteField);
+    let listField = this.shadowRoot.querySelectorAll(".field");
+    if (this.getAttribute("multiple") === "true" && listField.length > 0) {
+      deleteButton.setAttribute("class", "deleteButton display_delete");
+
+      const listDeleteButton = this.shadowRoot.querySelectorAll(
+        ".deleteButton"
+      );
+      console.log("listDeleteButton");
+      console.log(listDeleteButton);
+      for (let i = 0; i < listDeleteButton.length; i++) {
+        listDeleteButton[i].setAttribute(
+          "class",
+          "deleteButton display_delete"
+        );
+      }
+    } else {
+      deleteButton.setAttribute("class", "deleteButton no_display_delete");
+    }
+
     if (statusLabel === "true") {
       inputF.setAttribute("class", "column style_alert");
     } else {
       inputF.setAttribute("class", "column style_normal");
     }
+
     newDivWrap.appendChild(inputF);
+    newDivWrap.appendChild(deleteButton);
 
     return newDivWrap;
   };
