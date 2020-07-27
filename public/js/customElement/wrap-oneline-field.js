@@ -40,6 +40,15 @@ class WrapOnelineField extends HTMLElement {
     .style_normal {
       border: solid 0.7px #000000;
     }
+
+    .display_delete {
+      display: inline-block;
+    }
+
+    .no_display_delete {
+      display: none;
+    }
+
     `;
 
     // add input field button & its event
@@ -104,10 +113,8 @@ class WrapOnelineField extends HTMLElement {
   }
 
   autoFill = (values, multiple, count) => {
-    // console.log(multiple);
     let inputEles = this.shadowRoot.querySelectorAll(".column");
     const addButton = this.shadowRoot.getElementById("addButton");
-    // console.log(values);
     for (const [i, v] of values.entries()) {
       if (inputEles.length > i) {
         inputEles[i].value = v;
@@ -115,18 +122,27 @@ class WrapOnelineField extends HTMLElement {
         const newDivWrap = this.addInputField();
         this.shadowRoot.insertBefore(newDivWrap, addButton);
         inputEles = this.shadowRoot.querySelectorAll(".column");
-        // console.log(inputEles[i]);
         inputEles[i].value = v;
       }
     }
   };
 
   deleteField = (e) => {
-    // console.log("Get target element information");
-    // console.log(e.target);
-    // console.log("Get the parent node information of this element.");
-    // console.log(e.target.parentNode);
     e.target.parentNode.remove();
+    let listField = this.shadowRoot.querySelectorAll(".field");
+    if (this.getAttribute("multiple") === "true" && listField.length < 2) {
+      const listDeleteButton = this.shadowRoot.querySelectorAll(
+        ".deleteButton"
+      );
+      console.log("listDeleteButton");
+      console.log(listDeleteButton);
+      for (let i = 0; i < listDeleteButton.length; i++) {
+        listDeleteButton[i].setAttribute(
+          "class",
+          "deleteButton no_display_delete"
+        );
+      }
+    }
   };
 
   addInputField = () => {
@@ -139,10 +155,34 @@ class WrapOnelineField extends HTMLElement {
     const statusLabel = this.getAttribute("alert");
 
     // delete button add
+    // Judge whether this inserts delte button or not
+    console.log(
+      "the length of input is " +
+        String(this.shadowRoot.querySelectorAll(".field").length)
+    );
+
     const deleteButton = document.createElement("input");
     deleteButton.setAttribute("type", "button");
     deleteButton.setAttribute("value", "delete");
     deleteButton.addEventListener("click", this.deleteField);
+    let listField = this.shadowRoot.querySelectorAll(".field");
+    if (this.getAttribute("multiple") === "true" && listField.length > 0) {
+      deleteButton.setAttribute("class", "deleteButton display_delete");
+
+      const listDeleteButton = this.shadowRoot.querySelectorAll(
+        ".deleteButton"
+      );
+      console.log("listDeleteButton");
+      console.log(listDeleteButton);
+      for (let i = 0; i < listDeleteButton.length; i++) {
+        listDeleteButton[i].setAttribute(
+          "class",
+          "deleteButton display_delete"
+        );
+      }
+    } else {
+      deleteButton.setAttribute("class", "deleteButton no_display_delete");
+    }
 
     if (statusLabel === "true") {
       newInputF.setAttribute("class", "column style_alert");
