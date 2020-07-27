@@ -372,7 +372,18 @@ const extractResourceLink = (md, templateJson) => {
       })
     );
   }
-  return urlArray;
+  const nameArray = Array.from({ length: urlArray.length }).map(
+    (_, index) => `file-${index}`
+  );
+  for (const [index, url] of urlArray.entries()) {
+    // 拡張子がわからない！
+    md = md.replace(url, `resources/${nameArray[index]}`);
+  }
+  return {
+    md: md,
+    links: urlArray,
+    names: nameArray,
+  };
 };
 
 const saveBlob = (blob, filename) => {
@@ -387,15 +398,20 @@ const saveBlob = (blob, filename) => {
 };
 
 const downloadMarkdown = async (filename, md, templateJson) => {
-  const resourceLinks = extractResourceLink(md, templateJson);
+  const resources = extractResourceLink(md, templateJson);
   let zip = new JSZip();
   let folder = zip.folder(filename);
-  for (const [index, link] of resourceLinks.entries()) {
+  let resourceFolder = folder.folder("resource");
+  for (const [index, link] of resources.links.entries()) {
     const response = await fetch(link);
     const content = await response.blob();
     const extension = content.type.split("/").slice(-1)[0];
-    folder.file(`file-${index}.${extension}`, content);
+    resourceFolder.file(`${resources.names[index]}.${extension}`, content);
   }
+  const mdBlob = new Blob([resources.md], {
+    type: "application/octet-stream",
+  });
+  folder.file("README.md", mdBlob);
   const zipBlob = await zip.generateAsync({ type: "blob" });
   saveBlob(zipBlob, filename);
 };
