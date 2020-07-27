@@ -35,6 +35,12 @@ class WrapUploadFile extends HTMLElement {
     const style = document.createElement("style");
     // console.log(style.isConnected);
     style.textContent = `
+
+    textarea {
+      width: 80%;
+      height: 160px;
+    }
+
     input[type=text] {
       margin-top: 10px;
       width: 80%;
@@ -163,7 +169,7 @@ class WrapUploadFile extends HTMLElement {
     newUpFile.addEventListener("change", this.handleFileSelect);
 
     const newBR = document.createElement("br");
-    const newDescFile = document.createElement("input");
+    const newDescFile = document.createElement("textarea");
     newDescFile.setAttribute("type", "text");
     newDescFile.setAttribute("name", "text");
     newDescFile.setAttribute("class", "column");
