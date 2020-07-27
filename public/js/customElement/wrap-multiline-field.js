@@ -76,7 +76,14 @@ class WrapMultiField extends HTMLElement {
     }
   }
   static get observedAttributes() {
-    return ["nameTitle", "descShort", "multiple", "alert", "values"];
+    return [
+      "nameTitle",
+      "descShort",
+      "multiple",
+      "alert",
+      "values",
+      "place_holder",
+    ];
   }
 
   attributeChangedCallback(attr, oldVal, newVal) {
@@ -114,6 +121,11 @@ class WrapMultiField extends HTMLElement {
       const values = JSON.parse(newVal);
       let count = 0;
       this.autoFill(values, this.getAttribute("multiple"), count);
+    } else if (attr === "place_holder") {
+      let allInputElement = this.shadowRoot.querySelectorAll(".column");
+      for (let i = 0; i < allInputElement.length; i++) {
+        allInputElement[i].setAttribute("placeholder", newVal);
+      }
     }
   }
 
