@@ -56,6 +56,14 @@ class WrapMultiField extends HTMLElement {
     .style_normal {
       border: solid 0.7px #000000;
     }
+
+    .display_delete {
+      display: inline-block;
+    }
+
+    .no_display_delete {
+      display: none;
+    }
     `;
 
     // Append Child
@@ -128,11 +136,21 @@ class WrapMultiField extends HTMLElement {
   };
 
   deleteField = (e) => {
-    // console.log("Get target element information");
-    // console.log(e.target);
-    // console.log("Get the parent node information of this element.");
-    // console.log(e.target.parentNode);
     e.target.parentNode.remove();
+    let listField = this.shadowRoot.querySelectorAll(".field");
+    if (this.getAttribute("multiple") === "true" && listField.length < 2) {
+      const listDeleteButton = this.shadowRoot.querySelectorAll(
+        ".deleteButton"
+      );
+      console.log("listDeleteButton");
+      console.log(listDeleteButton);
+      for (let i = 0; i < listDeleteButton.length; i++) {
+        listDeleteButton[i].setAttribute(
+          "class",
+          "deleteButton no_display_delete"
+        );
+      }
+    }
   };
 
   addInputField = () => {
@@ -147,6 +165,24 @@ class WrapMultiField extends HTMLElement {
     deleteButton.setAttribute("type", "button");
     deleteButton.setAttribute("value", "delete");
     deleteButton.addEventListener("click", this.deleteField);
+    let listField = this.shadowRoot.querySelectorAll(".field");
+    if (this.getAttribute("multiple") === "true" && listField.length > 0) {
+      deleteButton.setAttribute("class", "deleteButton display_delete");
+
+      const listDeleteButton = this.shadowRoot.querySelectorAll(
+        ".deleteButton"
+      );
+      console.log("listDeleteButton");
+      console.log(listDeleteButton);
+      for (let i = 0; i < listDeleteButton.length; i++) {
+        listDeleteButton[i].setAttribute(
+          "class",
+          "deleteButton display_delete"
+        );
+      }
+    } else {
+      deleteButton.setAttribute("class", "deleteButton no_display_delete");
+    }
 
     if (statusLabel === "true") {
       inputF.setAttribute("class", "column style_alert");
