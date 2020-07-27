@@ -115,11 +115,14 @@ class WrapUploadFile extends HTMLElement {
   }
   handleFileSelect = (e) => {
     var fileList = e.target.files;
-    console.log(e.target);
     var blobUrl = window.URL.createObjectURL(fileList[0]);
-    console.log(blobUrl);
+    let childrenThisField = e.target.parentNode.children;
 
-    this.shadowRoot.getElementById("dataID").value = blobUrl;
+    for (let i = 0; i < childrenThisField.length; i++) {
+      if (childrenThisField[i].getAttribute("id") === "dataID") {
+        childrenThisField[i].value = blobUrl;
+      }
+    }
   };
 
   deleteField = (e) => {
