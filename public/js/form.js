@@ -124,6 +124,11 @@ const generateForm = (tempJson, autoJson, index) => {
       "multiple",
       tempJson.sections[index].multiple
     );
+    childElement.setAttributeNS(
+      null,
+      "place_holder",
+      tempJson.sections[index].attributes.place_holder
+    );
     childElement.setAttributeNS(null, "alert", "false");
     childElement.setAttributeNS(null, "class", "infoBox");
     childElement.setAttributeNS(
@@ -375,7 +380,7 @@ document.getElementById("submit").addEventListener("click", () => {
 
 const preview = (flag) => {
   const contentsJson = createContentsJson();
-  console.log(contentsJson);
+  // console.log(contentsJson);
   try {
     if (Object.keys(templateJson).length === 0) {
       throw new Error("template.json is empty.");
