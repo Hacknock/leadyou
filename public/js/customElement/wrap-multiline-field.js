@@ -83,6 +83,7 @@ class WrapMultiField extends HTMLElement {
       "alert",
       "values",
       "place_holder",
+      "maxlength",
     ];
   }
 
@@ -125,6 +126,11 @@ class WrapMultiField extends HTMLElement {
       let allInputElement = this.shadowRoot.querySelectorAll(".column");
       for (let i = 0; i < allInputElement.length; i++) {
         allInputElement[i].setAttribute("placeholder", newVal);
+      }
+    } else if (attr === "maxlength") {
+      let allInputElement = this.shadowRoot.querySelectorAll(".column");
+      for (let i = 0; i < allInputElement.length; i++) {
+        allInputElement[i].setAttribute("maxlength", newVal);
       }
     }
   }
