@@ -121,6 +121,14 @@ class WrapOnelineField extends HTMLElement {
     }
   };
 
+  deleteField = (e) => {
+    console.log("Get target element information");
+    console.log(e.target);
+    console.log("Get the parent node information of this element.");
+    console.log(e.target.parentNode);
+    e.target.parentNode.remove();
+  };
+
   addInputField = () => {
     const newDivWrap = document.createElement("div");
     newDivWrap.setAttribute("class", "field");
@@ -134,6 +142,7 @@ class WrapOnelineField extends HTMLElement {
     const deleteButton = document.createElement("input");
     deleteButton.setAttribute("type", "button");
     deleteButton.setAttribute("value", "delete");
+    deleteButton.addEventListener("click", this.deleteField);
 
     if (statusLabel === "true") {
       newInputF.setAttribute("class", "column style_alert");
@@ -141,6 +150,7 @@ class WrapOnelineField extends HTMLElement {
       newInputF.setAttribute("class", "column style_normal");
     }
     newDivWrap.appendChild(newInputF);
+    newDivWrap.appendChild(deleteButton);
 
     return newDivWrap;
   };
