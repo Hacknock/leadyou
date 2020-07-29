@@ -179,6 +179,8 @@ class WrapMultiField extends HTMLElement {
     const inputF = document.createElement("textarea");
     inputF.setAttribute("type", "text");
 
+    inputF.setAttribute("placeholder", this.getAttribute("place_holder"));
+
     // 今度確認する（今、multilineにaddがないから）
     const maxlength = this.getAttribute("maxlength");
     if (typeof newVal !== "undefined") {
