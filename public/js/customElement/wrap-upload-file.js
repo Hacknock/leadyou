@@ -200,6 +200,8 @@ class WrapUploadFile extends HTMLElement {
     newDescFile.setAttribute("name", "text");
     newDescFile.setAttribute("class", "column");
 
+    newDescFile.setAttribute("placeholder", this.getAttribute("place_holder"));
+
     const statusLabel = this.getAttribute("alert");
     if (typeof newVal !== "undefined") {
       const maxlength = this.getAttribute("maxlength");
