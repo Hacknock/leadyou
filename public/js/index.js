@@ -1,7 +1,7 @@
 const form = document.getElementById("generateForm");
 
 const options = {
-  mode: "cors",
+  mode: "no-cors",
   method: "GET",
 };
 
@@ -28,12 +28,9 @@ form.addEventListener("submit", (event) => {
         const repo = splitUrl[4];
         // console.log(`?owner=${owner}&repo=${repo}&autofill=${autoFill}`);
         window.location.href = `/makereadme?owner=${owner}&repo=${repo}&autofill=${autoFill}`;
+      } else {
+        throw new Error("Network response was not ok.");
       }
-      throw new Error("Network response was not ok.");
-    })
-    .then(function (myBlob) {
-      var objectURL = URL.createObjectURL(myBlob);
-      myImage.src = objectURL;
     })
     .catch(function (error) {
       console.log(
