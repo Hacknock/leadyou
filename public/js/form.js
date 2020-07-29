@@ -20,6 +20,7 @@ const inspectTemplateJson = (template) => {
       !("multiple" in section) ||
       !("component" in section) ||
       !("description" in section) ||
+      !("kinds_of_values" in section) ||
       !("format" in section) ||
       !("attributes" in section)
     ) {
@@ -194,7 +195,6 @@ const getColumnData = (listColumn, referNum) => {
 const generateJson = (listEle, tempJson, index) => {
   let arraySec = new Array();
   if (typeof tempJson.sections[index] !== "undefined") {
-    const tmpFormat = tempJson.sections[index].format;
     const root = listEle[index].shadowRoot;
     let stackEles = root.querySelectorAll(".field");
     let secTitle = root.querySelector("h2").textContent;
@@ -202,19 +202,13 @@ const generateJson = (listEle, tempJson, index) => {
     const lenValue = values.reduce((prev, current) => {
       return prev + current.length;
     }, 0);
-
-    if (lenValue !== 0 && values.length % countFormatS(tmpFormat) === 0) {
+    const kindsOfValues = tempJson.sections[index].kinds_of_values;
+    if (lenValue !== 0 && values.length % kindsOfValues.length === 0) {
       arraySec.push({
         title: secTitle,
         values: values,
       });
     }
-    // if (values.length > countFormatS(tmpFormat) || values[0].length !== 0) {
-    //   arraySec.push({
-    //     title: secTitle,
-    //     values: values,
-    //   });
-    // }
     arraySec = arraySec.concat(generateJson(listEle, tempJson, ++index));
   }
   return arraySec;
@@ -227,14 +221,10 @@ const createContentsJson = () => {
     0
   );
   return {
-    repository_url: "https://hacknock.com",
-    project_icon: "hogehoge.ico",
+    repository_url: "",
+    project_icon: "",
     sections: sectionsJson,
   };
-};
-
-const countFormatS = (format) => {
-  return (format.match(/%s/g) || []).length;
 };
 
 const divideArraybyN = (array, n) => {
@@ -256,7 +246,7 @@ const generateReadme = (template, contents) => {
     if (typeof templateSection === "undefined") {
       continue;
     }
-    const n = countFormatS(templateSection.format);
+    const n = templateSection.kinds_of_values.length;
     const valueText = divideArraybyN(section.values, n)
       .reduce((prev, current) => {
         let text = templateSection.format;
@@ -372,10 +362,10 @@ renderForm()
     alert(err);
   });
 
-const extractResourceLink = (md, templateJson) => {
+const extractResourcePath = (md, templateJson) => {
   const uploadSectionTitles = templateJson.sections
     .filter((section) => {
-      return section.component === "wrap-upload-file";
+      return section.kinds_of_values.includes("filepath");
     })
     .map((section) => {
       return section.title;
@@ -393,7 +383,7 @@ const extractResourceLink = (md, templateJson) => {
     (_, index) => `file-${index}`
   );
   return {
-    links: urlArray,
+    paths: urlArray,
     names: nameArray,
   };
 };
@@ -411,16 +401,16 @@ const saveBlob = (blob, filename) => {
 
 const downloadMarkdown = async (filename, md, templateJson) => {
   let targetMD = ("　" + md).slice(1);
-  const resources = extractResourceLink(targetMD, templateJson);
+  const resources = extractResourcePath(targetMD, templateJson);
   let zip = new JSZip();
   let folder = zip.folder(filename);
   let resourceFolder = folder.folder("resources");
-  for (const [index, link] of resources.links.entries()) {
-    const response = await fetch(link);
+  for (const [index, path] of resources.paths.entries()) {
+    const response = await fetch(path);
     const content = await response.blob();
     const extension = content.type.split("/").slice(-1)[0];
     const imageName = `${resources.names[index]}.${extension}`;
-    targetMD = targetMD.replace(link, `resources/${imageName}`);
+    targetMD = targetMD.replace(path, `resources/${imageName}`);
     resourceFolder.file(imageName, content);
   }
   const mdBlob = new Blob([targetMD], {
