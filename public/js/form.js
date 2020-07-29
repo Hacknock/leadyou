@@ -362,30 +362,48 @@ renderForm()
     alert(err);
   });
 
-const extractResourcePath = (md, templateJson) => {
-  const uploadSectionTitles = templateJson.sections
-    .filter((section) => {
-      return section.kinds_of_values.includes("filepath");
-    })
+const extractResourcePath = (template, contents) => {
+  const filepathArray = contents.sections
     .map((section) => {
-      return section.title;
+      const templateSection = template.sections.find((element) => {
+        return element.title === section.title;
+      });
+      return {
+        contentsSection: section,
+        templateSection: templateSection,
+      };
+    })
+    .filter(({ templateSection }) => {
+      return (
+        typeof templateSection !== "undefined" &&
+        templateSection.kinds_of_values.includes("filepath")
+      );
+    })
+    .flatMap(({ contentsSection, templateSection }) => {
+      const n = templateSection.kinds_of_values.length;
+      let array = new Array();
+      for (let i = 0; i < contentsSection.values.length; i++) {
+        if (templateSection.kinds_of_values[i % n] === "filepath") {
+          array.push(contentsSection.values[i]);
+        }
+      }
+      return array;
     });
-  let urlArray = new Array();
-  for (const title of uploadSectionTitles) {
-    const regex = new RegExp(String.raw`!\[${title}\]\(.+\)`, "g");
-    urlArray = urlArray.concat(
-      (md.match(regex) || new Array()).map((segment) => {
-        return segment.match(/\((.+)\)/)[1];
-      })
-    );
-  }
-  const nameArray = Array.from({ length: urlArray.length }).map(
+  const nameArray = Array.from({ length: filepathArray.length }).map(
     (_, index) => `file-${index}`
   );
   return {
-    paths: urlArray,
+    paths: filepathArray,
     names: nameArray,
   };
+};
+
+const replaceContentsPaths = (paths, newPaths, contents) => {
+  let jsonString = JSON.stringify(contents);
+  for (let i = 0; i < paths.length; i++) {
+    jsonString = jsonString.replace(paths[i], newPaths[i]);
+  }
+  return JSON.parse(jsonString);
 };
 
 const saveBlob = (blob, filename) => {
@@ -399,21 +417,27 @@ const saveBlob = (blob, filename) => {
   document.body.removeChild(element);
 };
 
-const downloadMarkdown = async (filename, md, templateJson) => {
-  let targetMD = ("　" + md).slice(1);
-  const resources = extractResourcePath(targetMD, templateJson);
+const downloadMarkdown = async (filename, templateJson, contentsJson) => {
+  const resources = extractResourcePath(templateJson, contentsJson);
   let zip = new JSZip();
   let folder = zip.folder(filename);
   let resourceFolder = folder.folder("resources");
+  let newPaths = new Array();
   for (const [index, path] of resources.paths.entries()) {
     const response = await fetch(path);
     const content = await response.blob();
     const extension = content.type.split("/").slice(-1)[0];
     const imageName = `${resources.names[index]}.${extension}`;
-    targetMD = targetMD.replace(path, `resources/${imageName}`);
+    newPaths.push(`resources/${imageName}`);
     resourceFolder.file(imageName, content);
   }
-  const mdBlob = new Blob([targetMD], {
+  const newContentsJson = replaceContentsPaths(
+    resources.paths,
+    newPaths,
+    contentsJson
+  );
+  const newMD = generateReadme(templateJson, newContentsJson);
+  const mdBlob = new Blob([newMD], {
     type: "application/octet-stream",
   });
   folder.file("README.md", mdBlob);
@@ -441,7 +465,7 @@ const preview = (flag) => {
     const md = generateReadme(templateJson, contentsJson);
     outputEle.innerHTML = marked(md);
     if (typeof flag !== "undefined" && flag)
-      downloadMarkdown("README", md, templateJson);
+      downloadMarkdown("README", templateJson, contentsJson);
   } catch (error) {
     console.error(error);
   }
