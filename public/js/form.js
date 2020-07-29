@@ -20,6 +20,7 @@ const inspectTemplateJson = (template) => {
       !("multiple" in section) ||
       !("component" in section) ||
       !("description" in section) ||
+      !("kinds_of_values" in section) ||
       !("format" in section) ||
       !("attributes" in section)
     ) {
@@ -194,7 +195,6 @@ const getColumnData = (listColumn, referNum) => {
 const generateJson = (listEle, tempJson, index) => {
   let arraySec = new Array();
   if (typeof tempJson.sections[index] !== "undefined") {
-    const tmpFormat = tempJson.sections[index].format;
     const root = listEle[index].shadowRoot;
     let stackEles = root.querySelectorAll(".field");
     let secTitle = root.querySelector("h2").textContent;
@@ -202,19 +202,13 @@ const generateJson = (listEle, tempJson, index) => {
     const lenValue = values.reduce((prev, current) => {
       return prev + current.length;
     }, 0);
-
-    if (lenValue !== 0 && values.length % countFormatS(tmpFormat) === 0) {
+    const kindsOfValues = tempJson.sections[index].kinds_of_values;
+    if (lenValue !== 0 && values.length % kindsOfValues.length === 0) {
       arraySec.push({
         title: secTitle,
         values: values,
       });
     }
-    // if (values.length > countFormatS(tmpFormat) || values[0].length !== 0) {
-    //   arraySec.push({
-    //     title: secTitle,
-    //     values: values,
-    //   });
-    // }
     arraySec = arraySec.concat(generateJson(listEle, tempJson, ++index));
   }
   return arraySec;
@@ -227,14 +221,10 @@ const createContentsJson = () => {
     0
   );
   return {
-    repository_url: "https://hacknock.com",
-    project_icon: "hogehoge.ico",
+    repository_url: "",
+    project_icon: "",
     sections: sectionsJson,
   };
-};
-
-const countFormatS = (format) => {
-  return (format.match(/%s/g) || []).length;
 };
 
 const divideArraybyN = (array, n) => {
@@ -256,7 +246,7 @@ const generateReadme = (template, contents) => {
     if (typeof templateSection === "undefined") {
       continue;
     }
-    const n = countFormatS(templateSection.format);
+    const n = templateSection.kinds_of_values.length;
     const valueText = divideArraybyN(section.values, n)
       .reduce((prev, current) => {
         let text = templateSection.format;
@@ -372,30 +362,48 @@ renderForm()
     alert(err);
   });
 
-const extractResourceLink = (md, templateJson) => {
-  const uploadSectionTitles = templateJson.sections
-    .filter((section) => {
-      return section.component === "wrap-upload-file";
-    })
+const extractResourcePath = (template, contents) => {
+  const filepathArray = contents.sections
     .map((section) => {
-      return section.title;
+      const templateSection = template.sections.find((element) => {
+        return element.title === section.title;
+      });
+      return {
+        contentsSection: section,
+        templateSection: templateSection,
+      };
+    })
+    .filter(({ templateSection }) => {
+      return (
+        typeof templateSection !== "undefined" &&
+        templateSection.kinds_of_values.includes("filepath")
+      );
+    })
+    .flatMap(({ contentsSection, templateSection }) => {
+      const n = templateSection.kinds_of_values.length;
+      let array = new Array();
+      for (let i = 0; i < contentsSection.values.length; i++) {
+        if (templateSection.kinds_of_values[i % n] === "filepath") {
+          array.push(contentsSection.values[i]);
+        }
+      }
+      return array;
     });
-  let urlArray = new Array();
-  for (const title of uploadSectionTitles) {
-    const regex = new RegExp(String.raw`!\[${title}\]\(.+\)`, "g");
-    urlArray = urlArray.concat(
-      (md.match(regex) || new Array()).map((segment) => {
-        return segment.match(/\((.+)\)/)[1];
-      })
-    );
-  }
-  const nameArray = Array.from({ length: urlArray.length }).map(
+  const nameArray = Array.from({ length: filepathArray.length }).map(
     (_, index) => `file-${index}`
   );
   return {
-    links: urlArray,
+    paths: filepathArray,
     names: nameArray,
   };
+};
+
+const replaceContentsPaths = (paths, newPaths, contents) => {
+  let jsonString = JSON.stringify(contents);
+  for (let i = 0; i < paths.length; i++) {
+    jsonString = jsonString.replace(paths[i], newPaths[i]);
+  }
+  return JSON.parse(jsonString);
 };
 
 const saveBlob = (blob, filename) => {
@@ -409,21 +417,27 @@ const saveBlob = (blob, filename) => {
   document.body.removeChild(element);
 };
 
-const downloadMarkdown = async (filename, md, templateJson) => {
-  let targetMD = ("　" + md).slice(1);
-  const resources = extractResourceLink(targetMD, templateJson);
+const downloadMarkdown = async (filename, templateJson, contentsJson) => {
+  const resources = extractResourcePath(templateJson, contentsJson);
   let zip = new JSZip();
   let folder = zip.folder(filename);
   let resourceFolder = folder.folder("resources");
-  for (const [index, link] of resources.links.entries()) {
-    const response = await fetch(link);
+  let newPaths = new Array();
+  for (const [index, path] of resources.paths.entries()) {
+    const response = await fetch(path);
     const content = await response.blob();
     const extension = content.type.split("/").slice(-1)[0];
     const imageName = `${resources.names[index]}.${extension}`;
-    targetMD = targetMD.replace(link, `resources/${imageName}`);
+    newPaths.push(`resources/${imageName}`);
     resourceFolder.file(imageName, content);
   }
-  const mdBlob = new Blob([targetMD], {
+  const newContentsJson = replaceContentsPaths(
+    resources.paths,
+    newPaths,
+    contentsJson
+  );
+  const newMD = generateReadme(templateJson, newContentsJson);
+  const mdBlob = new Blob([newMD], {
     type: "application/octet-stream",
   });
   folder.file("README.md", mdBlob);
@@ -451,7 +465,7 @@ const preview = (flag) => {
     const md = generateReadme(templateJson, contentsJson);
     outputEle.innerHTML = marked(md);
     if (typeof flag !== "undefined" && flag)
-      downloadMarkdown("README", md, templateJson);
+      downloadMarkdown("README", templateJson, contentsJson);
   } catch (error) {
     console.error(error);
   }
