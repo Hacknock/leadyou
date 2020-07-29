@@ -128,9 +128,11 @@ class WrapMultiField extends HTMLElement {
         allInputElement[i].setAttribute("placeholder", newVal);
       }
     } else if (attr === "maxlength") {
-      let allInputElement = this.shadowRoot.querySelectorAll(".column");
-      for (let i = 0; i < allInputElement.length; i++) {
-        allInputElement[i].setAttribute("maxlength", newVal);
+      if (typeof newVal !== "undefined") {
+        let allInputElement = this.shadowRoot.querySelectorAll(".column");
+        for (let i = 0; i < allInputElement.length; i++) {
+          allInputElement[i].setAttribute("maxlength", newVal);
+        }
       }
     }
   }
@@ -179,9 +181,15 @@ class WrapMultiField extends HTMLElement {
 
     // 今度確認する（今、multilineにaddがないから）
     const maxlength = this.getAttribute("maxlength");
-    console.log(maxlength);
-    // if (Number(maxlength) > 0) {
-    // }
+    if (typeof newVal !== "undefined") {
+      console.log(maxlength);
+      if (Number(maxlength) > 0) {
+        let allInputElement = this.shadowRoot.querySelectorAll(".column");
+        for (let i = 0; i < allInputElement.length; i++) {
+          allInputElement[i].setAttribute("maxlength", Number(maxlength));
+        }
+      }
+    }
     const statusLabel = this.getAttribute("alert");
 
     // delete button add
