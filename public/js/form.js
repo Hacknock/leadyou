@@ -129,11 +129,14 @@ const generateForm = (tempJson, autoJson, index) => {
       "place_holder",
       tempJson.sections[index].attributes.place_holder
     );
-    childElement.setAttributeNS(
-      null,
-      "maxlength",
-      tempJson.sections[index].attributes.maxlength
-    );
+
+    if (typeof tempJson.sections[index].attributes.maxlength !== "undefined") {
+      childElement.setAttributeNS(
+        null,
+        "maxlength",
+        tempJson.sections[index].attributes.maxlength
+      );
+    }
     childElement.setAttributeNS(null, "alert", "false");
     childElement.setAttributeNS(null, "class", "infoBox");
     childElement.setAttributeNS(
