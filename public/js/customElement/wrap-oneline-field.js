@@ -80,6 +80,7 @@ class WrapOnelineField extends HTMLElement {
       "alert",
       "values",
       "place_holder",
+      "maxlength",
     ];
   }
 
@@ -120,6 +121,13 @@ class WrapOnelineField extends HTMLElement {
       let allInputElement = this.shadowRoot.querySelectorAll(".column");
       for (let i = 0; i < allInputElement.length; i++) {
         allInputElement[i].setAttribute("placeholder", newVal);
+      }
+    } else if (attr === "maxlength") {
+      if (typeof newVal !== "undefined") {
+        let allInputElement = this.shadowRoot.querySelectorAll(".column");
+        for (let i = 0; i < allInputElement.length; i++) {
+          allInputElement[i].setAttribute("maxlength", newVal);
+        }
       }
     }
   }
@@ -196,7 +204,16 @@ class WrapOnelineField extends HTMLElement {
     }
     newDivWrap.appendChild(newInputF);
     newDivWrap.appendChild(deleteButton);
-
+    if (typeof newVal !== "undefined") {
+      const maxlength = this.getAttribute("maxlength");
+      console.log(maxlength);
+      if (Number(maxlength) > 0) {
+        let allInputElement = this.shadowRoot.querySelectorAll(".column");
+        for (let i = 0; i < allInputElement.length; i++) {
+          allInputElement[i].setAttribute("maxlength", Number(maxlength));
+        }
+      }
+    }
     return newDivWrap;
   };
 }

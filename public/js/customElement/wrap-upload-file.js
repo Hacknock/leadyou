@@ -84,7 +84,14 @@ class WrapUploadFile extends HTMLElement {
   }
 
   static get observedAttributes() {
-    return ["nameTitle", "descShort", "multiple", "alert", "place_holder"];
+    return [
+      "nameTitle",
+      "descShort",
+      "multiple",
+      "alert",
+      "place_holder",
+      "maxlength",
+    ];
   }
 
   attributeChangedCallback(attr, oldVal, newVal) {
@@ -117,12 +124,19 @@ class WrapUploadFile extends HTMLElement {
           inputEles[i].setAttribute("class", "field style_normal");
         }
       }
-    } else if (attr == "place_holder") {
+    } else if (attr === "place_holder") {
       let allInputElement = this.shadowRoot.querySelectorAll(".column");
       for (let i = 0; i < allInputElement.length; i++) {
         if (allInputElement[i].getAttribute("type") === "text") {
           allInputElement[i].setAttribute("placeholder", newVal);
         }
+      }
+    } else if (attr === "maxlength") {
+      if (typeof newVal !== "undefined") {
+        const textareas = this.shadowRoot.querySelectorAll("textarea");
+        textareas.forEach((element) =>
+          element.setAttribute("maxlength", newVal)
+        );
       }
     }
   }
@@ -175,6 +189,14 @@ class WrapUploadFile extends HTMLElement {
     newDescFile.setAttribute("class", "column");
 
     const statusLabel = this.getAttribute("alert");
+    if (typeof newVal !== "undefined") {
+      const maxlength = this.getAttribute("maxlength");
+      newDescFile.setAttribute("maxlength", maxlength);
+      const textareas = this.shadowRoot.querySelectorAll("textarea");
+      textareas.forEach((element) =>
+        element.setAttribute("maxlength", maxlength)
+      );
+    }
 
     // delete button add
     const deleteButton = document.createElement("input");
