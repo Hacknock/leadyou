@@ -137,6 +137,15 @@ const generateForm = (tempJson, autoJson, index) => {
         tempJson.sections[index].attributes.maxlength
       );
     }
+    if (
+      typeof tempJson.sections[index].attributes.kinds_of_file !== "undefined"
+    ) {
+      childElement.setAttributeNS(
+        null,
+        "kinds_of_file",
+        tempJson.sections[index].attributes.kinds_of_file.join(",")
+      );
+    }
     childElement.setAttributeNS(null, "alert", "false");
     childElement.setAttributeNS(null, "class", "infoBox");
     childElement.setAttributeNS(
