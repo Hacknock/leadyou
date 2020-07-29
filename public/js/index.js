@@ -1,7 +1,7 @@
 const form = document.getElementById("generateForm");
 
 const options = {
-  mode: "no-cors",
+  mode: "cors",
   method: "GET",
 };
 
