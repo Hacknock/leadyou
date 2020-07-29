@@ -174,6 +174,8 @@ class WrapOnelineField extends HTMLElement {
 
     const statusLabel = this.getAttribute("alert");
 
+    newInputF.setAttribute("placeholder", this.getAttribute("place_holder"));
+
     // delete button add
     // Judge whether this inserts delte button or not
     const deleteButton = document.createElement("input");
