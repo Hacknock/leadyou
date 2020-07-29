@@ -80,7 +80,7 @@
       "description": "デモに必要な素材（画像/動画）と説明文をいれてね",
       "format": "\n![Demo](%s)\n\n%s  \n",
       "attributes": {
-        "kinds_of_file": ["image/*"],
+        "kinds_of_file": ["image/png", "image/jpg", "image/gif"],
         "place_holder": "具体例をあとで入れる"
       }
     },
