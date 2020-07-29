@@ -91,6 +91,7 @@ class WrapUploadFile extends HTMLElement {
       "alert",
       "place_holder",
       "maxlength",
+      "kinds_of_file",
     ];
   }
 
@@ -138,6 +139,17 @@ class WrapUploadFile extends HTMLElement {
           element.setAttribute("maxlength", newVal)
         );
       }
+    } else if (attr === "kinds_of_file") {
+      console.log("kinds_of_file");
+      console.log(newVal);
+      const inputFiles = this.shadowRoot.querySelectorAll("input");
+      console.log(inputFiles);
+      inputFiles.forEach((element) => {
+        console.log(element);
+        if (element.getAttribute("type") === "file") {
+          element.setAttribute("accept", newVal);
+        }
+      });
     }
   }
   handleFileSelect = (e) => {
