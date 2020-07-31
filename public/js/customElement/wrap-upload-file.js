@@ -152,7 +152,7 @@ class WrapUploadFile extends HTMLElement {
       });
     }
   }
-  handleFileSelect = (e) => {
+  handleFileSelect(e) {
     var fileList = e.target.files;
     var blobUrl = window.URL.createObjectURL(fileList[0]);
     let childrenThisField = e.target.parentNode.children;
@@ -162,9 +162,9 @@ class WrapUploadFile extends HTMLElement {
         childrenThisField[i].value = blobUrl;
       }
     }
-  };
+  }
 
-  deleteField = (e) => {
+  deleteField(e) {
     e.target.parentNode.remove();
     let listField = this.shadowRoot.querySelectorAll(".field");
     if (this.getAttribute("multiple") === "true" && listField.length < 2) {
@@ -180,9 +180,9 @@ class WrapUploadFile extends HTMLElement {
         );
       }
     }
-  };
+  }
 
-  addInputField = () => {
+  addInputField() {
     const newDivWrap = document.createElement("div");
     const newUpFile = document.createElement("input");
     newUpFile.setAttribute("type", "file");
@@ -249,7 +249,7 @@ class WrapUploadFile extends HTMLElement {
     newDivWrap.appendChild(deleteButton);
 
     return newDivWrap;
-  };
+  }
 }
 
 // Define the new element
