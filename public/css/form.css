@@ -23,13 +23,20 @@ div.contents {
 div.edit-area {
   width: 48%;
   height: auto;
+}
+
+div.edit-inner {
+  padding: 15px;
   border: 1px solid;
 }
 
 div.preview-area {
-  padding: 15px;
   width: 48%;
   height: auto;
+}
+
+div.preview-inner {
+  padding: 15px;
   text-align: left;
   border: 1px dashed;
 }
