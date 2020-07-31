@@ -55,3 +55,14 @@ form.addEventListener("submit", (event) => {
         "このリポジトリはプライベートリポジトリであるか存在しません。";
     });
 });
+
+const getTextLength = () => {
+  console.log(document.getElementById("url_column").value.length);
+  if (document.getElementById("url_column").value.length > 0) {
+    document.getElementById("autoFill").removeAttribute("disabled");
+  } else if (document.getElementById("url_column").value.length === 0) {
+    document.getElementById("autoFill").setAttribute("disabled", "disabled");
+  }
+};
+
+document.getElementById("url_column").addEventListener("input", getTextLength);
