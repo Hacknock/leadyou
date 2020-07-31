@@ -35,10 +35,14 @@ class WrapUploadFile extends HTMLElement {
     const style = document.createElement("style");
     // console.log(style.isConnected);
     style.textContent = `
+    input[type=file] {
+      margin-bottom: 10px;
+    }
 
     textarea {
       width: 80%;
       height: 160px;
+      resize: vertical;
     }
 
     input[type=text] {
@@ -49,6 +53,11 @@ class WrapUploadFile extends HTMLElement {
 
     input[type=button] {
       margin-top: 10px;
+      padding: 3px 8px;
+      color: #ECEFF1;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
     }
 
     .style_alert {
@@ -63,6 +72,11 @@ class WrapUploadFile extends HTMLElement {
       display: none;
     }
 
+    .deleteButton {
+      margin-left: 8px;
+      background-color: #F44336;
+    }
+
     .display_delete {
       display: inline-block;
     }
@@ -71,6 +85,9 @@ class WrapUploadFile extends HTMLElement {
       display: none;
     }
 
+    #addButton {
+      background-color: #00897B;
+    }
     `;
 
     // Append Child
@@ -108,6 +125,7 @@ class WrapUploadFile extends HTMLElement {
       const addButton = document.createElement("input");
       addButton.setAttribute("type", "button");
       addButton.setAttribute("value", "add");
+      addButton.setAttribute("id", "addButton");
       addButton.addEventListener("click", () => {
         const newDivWrap = this.addInputField();
 

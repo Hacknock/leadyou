@@ -38,10 +38,16 @@ class WrapMultiField extends HTMLElement {
     textarea {
         width: 80%;
         height: 160px;
+        resize: vertical;
     }
 
     input[type=button] {
       margin-top: 10px;
+      padding: 3px 8px;
+      color: #ECEFF1;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
     }
 
     section {
@@ -57,12 +63,21 @@ class WrapMultiField extends HTMLElement {
       border: solid 0.7px #000000;
     }
 
+    .deleteButton {
+      margin-left: 8px;
+      background-color: #F44336;
+    }
+
     .display_delete {
       display: inline-block;
     }
 
     .no_display_delete {
       display: none;
+    }
+
+    #addButton {
+      background-color: #00897B;
     }
     `;
 

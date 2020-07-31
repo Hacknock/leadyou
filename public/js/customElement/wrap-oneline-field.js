@@ -27,10 +27,16 @@ class WrapOnelineField extends HTMLElement {
     style.textContent = `
     input[type=text] {
       width: 60%;
+      padding: 3px;
     }
 
     input[type=button] {
       margin-top: 10px;
+      padding: 3px 8px;
+      color: #ECEFF1;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
     }
 
     .style_alert {
@@ -41,6 +47,11 @@ class WrapOnelineField extends HTMLElement {
       border: solid 0.7px #000000;
     }
 
+    .deleteButton {
+      margin-left: 8px;
+      background-color: #F44336;
+    }
+
     .display_delete {
       display: inline-block;
     }
@@ -49,6 +60,9 @@ class WrapOnelineField extends HTMLElement {
       display: none;
     }
 
+    #addButton {
+      background-color: #00897B;
+    }
     `;
 
     // add input field button & its event
