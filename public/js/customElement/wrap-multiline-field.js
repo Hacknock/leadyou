@@ -137,7 +137,7 @@ class WrapMultiField extends HTMLElement {
     }
   }
 
-  autoFill = (values, multiple, count) => {
+  autoFill(values) {
     // console.log(multiple);
     let inputEles = this.shadowRoot.querySelectorAll(".column");
     const addButton = this.shadowRoot.getElementById("addButton");
@@ -153,9 +153,9 @@ class WrapMultiField extends HTMLElement {
         inputEles[i].value = v;
       }
     }
-  };
+  }
 
-  deleteField = (e) => {
+  deleteField(e) {
     e.target.parentNode.remove();
     let listField = this.shadowRoot.querySelectorAll(".field");
     if (this.getAttribute("multiple") === "true" && listField.length < 2) {
@@ -171,9 +171,9 @@ class WrapMultiField extends HTMLElement {
         );
       }
     }
-  };
+  }
 
-  addInputField = () => {
+  addInputField() {
     const newDivWrap = document.createElement("div");
     newDivWrap.setAttribute("class", "field");
     const inputF = document.createElement("textarea");
@@ -228,7 +228,7 @@ class WrapMultiField extends HTMLElement {
     newDivWrap.appendChild(deleteButton);
 
     return newDivWrap;
-  };
+  }
 }
 // Define the new element
 customElements.define("wrap-multiline-field", WrapMultiField);
