@@ -137,7 +137,7 @@ class WrapMultiField extends HTMLElement {
     }
   }
 
-  autoFill(values, multiple, count) {
+  autoFill(values) {
     // console.log(multiple);
     let inputEles = this.shadowRoot.querySelectorAll(".column");
     const addButton = this.shadowRoot.getElementById("addButton");
