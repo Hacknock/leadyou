@@ -249,11 +249,13 @@ const generateReadme = (template, contents) => {
     const n = templateSection.kinds_of_values.length;
     const valueText = divideArraybyN(section.values, n)
       .reduce((prev, current) => {
+        let length = 0;
         let text = templateSection.format;
         for (const value of current) {
+          length += value.length;
           text = text.replace("%s", value);
         }
-        return prev + text;
+        return length === 0 ? prev : prev + text;
       }, "")
       .trimEnd();
     if (templateSection.hidden_title === false) {
