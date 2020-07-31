@@ -35,11 +35,18 @@ class WrapUploadFile extends HTMLElement {
     const style = document.createElement("style");
     // console.log(style.isConnected);
     style.textContent = `
+    .field {
+      padding: 10px 0px;
+      text-align: left;
+    }
+
     input[type=file] {
       margin-bottom: 10px;
+      margin-left: 10%;
     }
 
     textarea {
+      margin-left: 10%;
       width: 80%;
       height: 160px;
       resize: vertical;
@@ -73,12 +80,13 @@ class WrapUploadFile extends HTMLElement {
     }
 
     .deleteButton {
-      margin-left: 8px;
+      margin-left: auto;
+      margin-right: calc(10% - 5px);
       background-color: #F44336;
     }
 
     .display_delete {
-      display: inline-block;
+      display: block;
     }
 
     .no_display_delete {
@@ -210,7 +218,9 @@ class WrapUploadFile extends HTMLElement {
     labelFile.setAttribute("class", "column");
     labelFile.setAttribute("id", "dataID");
 
-    newUpFile.addEventListener("change", this.handleFileSelect);
+    newUpFile.addEventListener("change", (e) => {
+      this.handleFileSelect(e);
+    });
 
     const newBR = document.createElement("br");
     const newDescFile = document.createElement("textarea");
@@ -234,7 +244,9 @@ class WrapUploadFile extends HTMLElement {
     const deleteButton = document.createElement("input");
     deleteButton.setAttribute("type", "button");
     deleteButton.setAttribute("value", "delete");
-    deleteButton.addEventListener("click", this.deleteField);
+    deleteButton.addEventListener("click", (e) => {
+      this.deleteField(e);
+    });
     let listField = this.shadowRoot.querySelectorAll(".field");
     if (this.getAttribute("multiple") === "true" && listField.length > 0) {
       deleteButton.setAttribute("class", "deleteButton display_delete");
@@ -261,10 +273,10 @@ class WrapUploadFile extends HTMLElement {
     }
 
     newDivWrap.appendChild(newUpFile);
-    newDivWrap.appendChild(deleteButton);
     newDivWrap.appendChild(labelFile);
     newDivWrap.appendChild(newBR);
     newDivWrap.appendChild(newDescFile);
+    newDivWrap.appendChild(deleteButton);
 
     return newDivWrap;
   }
