@@ -2,7 +2,7 @@
 
 // Define root element which hold all custome elements.
 const rootEle = document.getElementById("areaForm");
-const outputEle = document.getElementById("output");
+const outputEle = document.getElementById("areaPreview");
 let templateJson = new Object();
 let sampleContentsJson = new Object();
 
