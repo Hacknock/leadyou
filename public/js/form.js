@@ -325,8 +325,13 @@ const renderForm = async () => {
     let autoFillJson = {};
     const hasAPILife = true;
     const params = getQueryStringParams(window.location.search);
-    inspectParams(params);
-    if (params.autofill !== "true") {
+
+    if (
+      !("owner" in params) ||
+      !("repo" in params) ||
+      !("autofill" in params) ||
+      params.autofill !== "true"
+    ) {
       return Promise.resolve({
         temp: template,
         auto: {},
