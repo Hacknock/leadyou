@@ -130,7 +130,7 @@ class WrapRadio extends HTMLElement {
     }
   }
 
-  deleteField = (e) => {
+  deleteField(e) {
     e.target.parentNode.remove();
     let listField = this.shadowRoot.querySelectorAll(".field");
     if (this.getAttribute("multiple") === "true" && listField.length < 2) {
@@ -146,9 +146,9 @@ class WrapRadio extends HTMLElement {
         );
       }
     }
-  };
+  }
 
-  addInputField = () => {
+  addInputField() {
     const newDivWrap = document.createElement("div");
     const radioY = document.createElement("input");
     const labelY = document.createElement("label");
@@ -205,7 +205,7 @@ class WrapRadio extends HTMLElement {
     newDivWrap.appendChild(deleteButton);
 
     return newDivWrap;
-  };
+  }
 }
 // Define the new element
 customElements.define("wrap-radio", WrapRadio);

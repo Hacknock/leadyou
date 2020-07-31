@@ -146,7 +146,7 @@ class WrapOnelineField extends HTMLElement {
     }
   }
 
-  autoFill = (values, multiple, count) => {
+  autoFill(values) {
     let inputEles = this.shadowRoot.querySelectorAll(".column");
     const addButton = this.shadowRoot.getElementById("addButton");
     for (const [i, v] of values.entries()) {
@@ -159,9 +159,9 @@ class WrapOnelineField extends HTMLElement {
         inputEles[i].value = v;
       }
     }
-  };
+  }
 
-  deleteField = (e) => {
+  deleteField(e) {
     e.target.parentNode.remove();
     let listField = this.shadowRoot.querySelectorAll(".field");
     if (this.getAttribute("multiple") === "true" && listField.length < 2) {
@@ -177,9 +177,9 @@ class WrapOnelineField extends HTMLElement {
         );
       }
     }
-  };
+  }
 
-  addInputField = () => {
+  addInputField() {
     const newDivWrap = document.createElement("div");
     newDivWrap.setAttribute("class", "field");
     const newInputF = document.createElement("input");
@@ -231,7 +231,7 @@ class WrapOnelineField extends HTMLElement {
       }
     }
     return newDivWrap;
-  };
+  }
 }
 
 // Define the new element
