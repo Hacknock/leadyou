@@ -39,12 +39,6 @@ app.get("/:path", (req, res) => {
       console.log(repoUrl);
       customScript(repoUrl, query.authToken, query.secretToken)
         .then((result) => {
-          // console.log("debug");
-          // for (let item of result) {
-          //   if ("title" in item && "values" in item) {
-          //     console.log(item.title, item.values);
-          //   }
-          // }
           res.json(result);
           res.end();
         })
@@ -124,26 +118,8 @@ const responseFileSupport = (res, path, type) => {
   }
 };
 
-// const existFile = (filePath) => {
-//   try {
-//     fs.statSync(filePath);
-//     return true;
-//   } catch (err) {
-//     return false;
-//   }
-// };
-
-// const getLocalJson = (filePath) => {
-//   if (existFile(filePath)) {
-//     const json = JSON.parse(fs.readFileSync(filePath, "utf8"));
-//     return json;
-//   }
-//   return "cannot read the json file";
-// };
-
 const customScript = async (repoUrl, authToken, secretToken) => {
   // get file list of script
-
   try {
     const files = fs.readdirSync("./public/js/customScript/");
     let maps = Array.prototype.map;
@@ -188,16 +164,3 @@ const multiGetValues = async (
   }
   return new Promise((resolve, _) => resolve(stack));
 };
-
-// customScriptの処理を確認するだけ。
-// customScript("https://github.com/facebook/react", "", "")
-//   .then((result) => {
-//     for (let item of result) {
-//       if ("title" in item && "values" in item) {
-//         console.log(item.title, item.values);
-//       }
-//     }
-//   })
-//   .catch((err) => {
-//     console.error(err);
-//   });
