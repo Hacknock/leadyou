@@ -56,6 +56,13 @@ form.addEventListener("submit", (event) => {
     });
 });
 
-document.getElementById("url_column").addEventListener("onChange");
+const getTextLength = () => {
+  console.log(document.getElementById("url_column").value.length);
+  if (document.getElementById("url_column").value.length > 0) {
+    document.getElementById("autoFill").removeAttribute("disabled");
+  } else if (document.getElementById("url_column").value.length === 0) {
+    document.getElementById("autoFill").setAttribute("disabled", "disabled");
+  }
+};
 
-const getTextLength = () => {};
+document.getElementById("url_column").addEventListener("input", getTextLength);
