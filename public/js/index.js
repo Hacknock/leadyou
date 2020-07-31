@@ -13,6 +13,7 @@ form.addEventListener("submit", (event) => {
   const autoFill = form.elements["autoFill"].checked;
   if (url.length === 0) {
     console.log("url is empty");
+    window.location.href = "/makereadme";
     return;
   }
   // githubのurl以外がきたら弾く;

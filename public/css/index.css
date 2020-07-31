@@ -9,19 +9,29 @@ body {
 }
 
 input[type="text"].url {
+  padding: 3px;
   width: 300px;
 }
 
 .alert_repo {
-  border: 1px solid #f00;
+  border: 1px solid #f44336;
   border-radius: 0.27em;
 }
 
 .normal_repo {
-  border: 1px solid #000;
+  border: 1px solid black;
   border-radius: 0.27em;
 }
 
-.display_alert {
-  color: #f00;
+.alert_message {
+  color: #f44336;
+}
+
+input[type="submit"] {
+  background-color: #00897b;
+  padding: 3px 8px;
+  color: #eceff1;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
 }
