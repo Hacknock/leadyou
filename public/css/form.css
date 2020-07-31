@@ -11,6 +11,12 @@ body {
 
 input#submit {
   margin: 20px auto 30px;
+  background-color: #00897b;
+  padding: 3px 8px;
+  color: #eceff1;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
 }
 
 div.contents {
