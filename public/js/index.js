@@ -54,3 +54,7 @@ form.addEventListener("submit", (event) => {
         "このリポジトリはプライベートリポジトリであるか存在しません。";
     });
 });
+
+document.getElementById("url_column").addEventListener("onChange");
+
+const getTextLength = () => {};
