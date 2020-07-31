@@ -46,6 +46,11 @@ form.addEventListener("submit", (event) => {
         "There has been a problem with your fetch operation: ",
         error.message
       );
-      alert("レポジトリが存在しません。");
+      // alert("レポジトリが存在しません。");
+      document
+        .getElementById("url_column")
+        .setAttribute("class", "url alert_repo");
+      document.getElementById("alert_text").textContent =
+        "このリポジトリはプライベートリポジトリであるか存在しません。";
     });
 });

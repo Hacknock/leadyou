@@ -11,3 +11,17 @@ body {
 input[type="text"].url {
   width: 300px;
 }
+
+.alert_repo {
+  border: 1px solid #f00;
+  border-radius: 0.27em;
+}
+
+.normal_repo {
+  border: 1px solid #000;
+  border-radius: 0.27em;
+}
+
+.display_alert {
+  color: #f00;
+}
