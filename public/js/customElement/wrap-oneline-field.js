@@ -195,7 +195,9 @@ class WrapOnelineField extends HTMLElement {
     const deleteButton = document.createElement("input");
     deleteButton.setAttribute("type", "button");
     deleteButton.setAttribute("value", "delete");
-    deleteButton.addEventListener("click", this.deleteField);
+    deleteButton.addEventListener("click", (e) => {
+      this.deleteField(e);
+    });
     let listField = this.shadowRoot.querySelectorAll(".field");
     if (this.getAttribute("multiple") === "true" && listField.length > 0) {
       deleteButton.setAttribute("class", "deleteButton display_delete");

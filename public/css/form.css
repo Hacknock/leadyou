@@ -22,12 +22,12 @@ input#submit {
 div.contents {
   display: flex;
   justify-content: space-between;
-  margin: 50px auto;
+  margin: 20px auto;
   width: 90%;
 }
 
 div.edit-area {
-  width: 48%;
+  width: 49%;
   height: auto;
 }
 
@@ -37,7 +37,7 @@ div.edit-inner {
 }
 
 div.preview-area {
-  width: 48%;
+  width: 49%;
   height: auto;
 }
 
