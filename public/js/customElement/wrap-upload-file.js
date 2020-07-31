@@ -261,10 +261,10 @@ class WrapUploadFile extends HTMLElement {
     }
 
     newDivWrap.appendChild(newUpFile);
+    newDivWrap.appendChild(deleteButton);
     newDivWrap.appendChild(labelFile);
     newDivWrap.appendChild(newBR);
     newDivWrap.appendChild(newDescFile);
-    newDivWrap.appendChild(deleteButton);
 
     return newDivWrap;
   }
