@@ -50,7 +50,7 @@ form.addEventListener("submit", (event) => {
       document
         .getElementById("url_column")
         .setAttribute("class", "url alert_repo");
+      document.getElementById("alert_text").textContent =
+        "このリポジトリはプライベートリポジトリであるか存在しません。";
     });
-  document.getElementById("alert_text").textContent =
-    "このリポジトリはプライベートリポジトリであるか存在しません。";
 });
