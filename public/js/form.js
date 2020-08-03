@@ -286,6 +286,8 @@ const inspectRequired = (eleList, referNum) => {
           .querySelector(".column").value === ""
       ) {
         eleList[referNum].setAttribute("alert", "true");
+        document.getElementById("fill_alert").textContent =
+          "赤枠は必須項目なので、入力してください。";
         returnNum = -1 + inspectRequired(eleList, ++referNum);
       } else {
         eleList[referNum].setAttribute("alert", "false");
@@ -455,6 +457,8 @@ const downloadMarkdown = async (filename, templateJson, contentsJson) => {
 // Submitボタンを押した時の処理
 document.getElementById("submit").addEventListener("click", () => {
   if (inspectRequired(document.getElementsByClassName("infoBox"), 0) === 0) {
+    document.getElementById("fill_alert").textContent = "";
+
     preview(true);
   } else {
     // アラートを出す？
