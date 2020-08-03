@@ -273,12 +273,6 @@ const generateReadme = (template, contents) => {
   return text;
 };
 
-const requiredAlert = (ele) => {
-  ele.setAttribute("alert", "true");
-  document.getElementById("fill_alert").textContent =
-    "赤枠は必須項目なので、入力してください。";
-};
-
 const inspectRequired = (eleList, referNum) => {
   let returnNum = 0;
   if (eleList.length > referNum) {
@@ -291,10 +285,14 @@ const inspectRequired = (eleList, referNum) => {
           .querySelector(".field")
           .querySelector(".column").value === ""
       ) {
-        requiredAlert(eleList[referNum]);
+        eleList[referNum].setAttribute("alert", "true");
+        document.getElementById("fill_alert").textContent =
+          "赤枠は必須項目なので、入力してください。";
         returnNum = -1 + inspectRequired(eleList, ++referNum);
       } else {
-        requiredAlert(eleList[referNum]);
+        eleList[referNum].setAttribute("alert", "false");
+        document.getElementById("fill_alert").textContent =
+          "赤枠は必須項目なので、入力してください。";
         returnNum = 0 + inspectRequired(eleList, ++referNum);
       }
     } else {
