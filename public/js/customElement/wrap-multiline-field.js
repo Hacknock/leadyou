@@ -102,7 +102,7 @@ class WrapMultiField extends HTMLElement {
     ];
   }
 
-  attributeChangedCallback(attr, oldVal, newVal) {
+  attributeChangedCallback(attr, _, newVal) {
     // console.log('my-el attribute changed', attr);
     // console.log('new value is ', newVal);
 

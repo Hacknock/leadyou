@@ -98,7 +98,7 @@ class WrapOnelineField extends HTMLElement {
     ];
   }
 
-  attributeChangedCallback(attr, oldVal, newVal) {
+  attributeChangedCallback(attr, _, newVal) {
     if (attr === "nameTitle") {
       // Create title holder
       this.shadowRoot.querySelector(".subTitle").textContent = newVal;
