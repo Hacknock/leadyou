@@ -10,13 +10,19 @@ body {
 }
 
 input#submit {
-  margin: 20px auto 30px;
+  margin: 20px auto 0;
   background-color: #00897b;
   padding: 3px 8px;
   color: #eceff1;
   border: none;
   border-radius: 4px;
   cursor: pointer;
+}
+
+p.alert_text {
+  color: #f00;
+  margin-top: 8px;
+  margin-bottom: 0;
 }
 
 div.contents {
