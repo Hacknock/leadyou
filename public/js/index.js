@@ -30,24 +30,22 @@ form.addEventListener("submit", (event) => {
   const requestURL = `https://api.github.com/repos/${splitRepoUrl[3]}/${splitRepoUrl[4]}/contributors`;
 
   fetch(requestURL, options)
-    .then(function (response) {
+    .then((response) => {
       if (response.ok) {
         console.log("Valid URL");
         const owner = splitUrl[3];
         const repo = splitUrl[4];
         console.log(`?owner=${owner}&repo=${repo}&autofill=${autoFill}`);
         window.location.href = `/makereadme?owner=${owner}&repo=${repo}&autofill=${autoFill}`;
-        return;
       } else {
         throw new Error("Network response was not ok.");
       }
     })
-    .catch(function (error) {
+    .catch((error) => {
       console.log(
         "There has been a problem with your fetch operation: ",
         error.message
       );
-      // alert("レポジトリが存在しません。");
       document
         .getElementById("url_column")
         .setAttribute("class", "url alert_repo");
