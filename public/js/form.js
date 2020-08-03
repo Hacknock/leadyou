@@ -6,7 +6,7 @@ const outputEle = document.getElementById("areaPreview");
 let templateJson = new Object();
 let sampleContentsJson = new Object();
 
-// Inspect format of json
+// ★★★ Inspect format of JSON file ★★★
 const inspectTemplateJson = (template) => {
   if (!("sections" in template)) {
     throw new Error("template.json is broken.");
@@ -276,10 +276,7 @@ const generateReadme = (template, contents) => {
 const inspectRequired = (eleList, referNum) => {
   let returnNum = 0;
   if (eleList.length > referNum) {
-    // console.log(eleList[referNum].shadowRoot.querySelector("h2").textContent);
-    // console.log(eleList[referNum].getAttribute("required"));
     if (eleList[referNum].getAttribute("required") === "true") {
-      // console.log(eleList[referNum].shadowRoot.querySelector("h2").textContent);
       if (
         eleList[referNum].shadowRoot
           .querySelector(".field")
@@ -340,7 +337,7 @@ const renderForm = async () => {
       });
     }
     if (hasAPILife) {
-      const url = `/getvalues?owner=${params.owner}&repo=${params.repo}&authToken=hello&secretToken=world`;
+      const url = `/getvalues?owner=${params.owner}&repo=${params.repo}`;
       autoFillJson = await getJson(url, inspectAutoFillJson);
     } else {
       const json = await getJson(
@@ -358,19 +355,7 @@ const renderForm = async () => {
   }
 };
 
-renderForm()
-  .then((obj) => {
-    console.log(obj);
-    if (Object.keys(obj).length === 0) return;
-    templateJson = obj.temp;
-    generateForm(obj.temp, obj.auto, 0);
-    setInterval(preview, 1000);
-  })
-  .catch((err) => {
-    console.error(err);
-    alert(err);
-  });
-
+// ★★★ Preview & Save README.md ★★★
 const extractResourcePath = (template, contents) => {
   const filepathArray = contents.sections
     .map((section) => {
@@ -454,20 +439,8 @@ const downloadMarkdown = async (filename, templateJson, contentsJson) => {
   saveBlob(zipBlob, filename);
 };
 
-// Submitボタンを押した時の処理
-document.getElementById("submit").addEventListener("click", () => {
-  if (inspectRequired(document.getElementsByClassName("infoBox"), 0) === 0) {
-    document.getElementById("fill_alert").textContent = "";
-
-    preview(true);
-  } else {
-    // アラートを出す？
-  }
-});
-
 const preview = (flag) => {
   const contentsJson = createContentsJson();
-  // console.log(contentsJson);
   try {
     if (Object.keys(templateJson).length === 0) {
       throw new Error("template.json is empty.");
@@ -481,3 +454,27 @@ const preview = (flag) => {
     console.error(error);
   }
 };
+
+// ★★★ Calling Method ★★★
+renderForm()
+  .then((obj) => {
+    console.log(obj);
+    if (Object.keys(obj).length === 0) return;
+    templateJson = obj.temp;
+    generateForm(obj.temp, obj.auto, 0);
+    setInterval(preview, 1000);
+  })
+  .catch((err) => {
+    console.error(err);
+    alert(err);
+  });
+
+// Submitボタンを押した時の処理
+document.getElementById("submit").addEventListener("click", () => {
+  if (inspectRequired(document.getElementsByClassName("infoBox"), 0) === 0) {
+    document.getElementById("fill_alert").textContent = "";
+    preview(true);
+  } else {
+    // アラートを出す？
+  }
+});

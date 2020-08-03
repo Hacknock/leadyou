@@ -22,7 +22,7 @@ app.get("/", (req, res) => {
 
 app.get("/:path", (req, res) => {
   const path = String(req.params.path).toLocaleLowerCase();
-  console.log(path);
+  console.log(`get: ${path}`);
   switch (path) {
     case "favicon.ico": {
       responseFileSupport(res, "./public/favicon.ico", "image/x-icon");
@@ -34,10 +34,8 @@ app.get("/:path", (req, res) => {
     }
     case "getvalues": {
       const query = req.query;
-      console.log(query);
       const repoUrl = `https://github.com/${query.owner}/${query.repo}`;
-      console.log(repoUrl);
-      customScript(repoUrl, query.authToken, query.secretToken)
+      customScript(repoUrl)
         .then((result) => {
           res.json(result);
           res.end();
@@ -46,13 +44,6 @@ app.get("/:path", (req, res) => {
           console.error(err);
         });
       break;
-    }
-    case "oauth_callback": {
-      const query = req.query;
-      console.log(query);
-      res.writeHead(200, { "Content-Type": "text/plain" });
-      res.write(JSON.stringify(query));
-      res.end();
     }
     default: {
       res.writeHead(400, { "Content-Type": "text/plain" });
@@ -65,7 +56,7 @@ app.get("/:path", (req, res) => {
 app.get("/src/:dir/:file", (req, res) => {
   const dir = String(req.params.dir).toLocaleLowerCase();
   const file = String(req.params.file).toLocaleLowerCase();
-  console.log(`${dir}, ${file}`);
+  console.log(`get: ${dir}, ${file}`);
   switch (dir) {
     case "css": {
       responseFileSupport(res, `./public/css/${file}`, "text/css");
@@ -102,10 +93,7 @@ app.get("/src/:dir/:file", (req, res) => {
 const responseFileSupport = (res, path, type) => {
   try {
     fs.readFile(path, (err, data) => {
-      if (err) {
-        console.err(path);
-        throw err;
-      }
+      if (err) throw err;
       res.writeHead(200, { "Content-Type": type });
       res.write(data);
       res.end();
@@ -118,44 +106,30 @@ const responseFileSupport = (res, path, type) => {
   }
 };
 
-const customScript = async (repoUrl, authToken, secretToken) => {
+const customScript = async (repoUrl) => {
   // get file list of script
   try {
     const files = fs.readdirSync("./public/js/customScript/");
     let maps = Array.prototype.map;
-    let customScriptList = maps.call(files, function (x) {
-      return "./public/js/customScript/" + x;
+    let customScriptList = maps.call(files, (x) => {
+      return `./public/js/customScript/${x}`;
     });
 
     let customScripts = customScriptList.map(require);
-    return await multiGetValues(customScripts, repoUrl, authToken, secretToken);
+    return await multiGetValues(customScripts, repoUrl);
   } catch (err) {
     return new Promise((_, reject) => reject(err));
   }
 };
 
-const multiGetValues = async (
-  customScripts,
-  repoUrl,
-  authToken,
-  secretToken
-) => {
+const multiGetValues = async (customScripts, repoUrl) => {
   let stack = new Array();
   if (customScripts.length > 0) {
     try {
-      let values = await customScripts[0].getValues(
-        repoUrl,
-        authToken,
-        secretToken
-      );
+      let values = await customScripts[0].getValues(repoUrl);
       stack.push(values);
       customScripts.shift();
-      let recursiveStack = await multiGetValues(
-        customScripts,
-        repoUrl,
-        authToken,
-        secretToken
-      );
+      let recursiveStack = await multiGetValues(customScripts, repoUrl);
       stack = stack.concat(recursiveStack);
       return new Promise((resolve, _) => resolve(stack));
     } catch (err) {

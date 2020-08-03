@@ -1,6 +1,6 @@
 const fetch = require("node-fetch");
 
-module.exports.getValues = (repoUrl, authToken, secretToken) => {
+module.exports.getValues = (repoUrl) => {
   const errorPromise = (message) => {
     return new Promise((_, reject) => reject(new Error(message)));
   };
