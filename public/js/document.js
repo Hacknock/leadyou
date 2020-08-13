@@ -1,3 +1,5 @@
+const outputEle = document.getElementById("documentArea");
+
 const getQueryStringParams = (query) => {
   const hoge = /^[?#]/.test(query) ? query.slice(1) : query;
   return hoge.split("&").reduce((params, param) => {
@@ -7,7 +9,7 @@ const getQueryStringParams = (query) => {
   }, {});
 };
 
-const getMarkdown = async (url, inspector) => {
+const getMarkdown = async (url) => {
   const options = {
     mode: "cors",
     headers: {
@@ -15,16 +17,33 @@ const getMarkdown = async (url, inspector) => {
     },
   };
   try {
-    return await fetch(url, options);
-  } catch (error) {
-    throw error;
+    const response = await fetch(url, options);
+    const text = await response.text();
+    if (response.ok) {
+      return text;
+    } else {
+      throw new Error("404 とかで md がないよ");
+    }
+  } catch (err) {
+    throw err;
   }
 };
 
-const loadMarkdown = async () => {
+const loadMarkdown = () => {
   const params = getQueryStringParams(window.location.search);
-  if (!("page" in params)) {
-    alert("そんなページないよ！！");
-    return;
+  if (!("md" in params)) {
+    console.error(new Error("query に md がないよ"));
+    alert("query に md がないよ");
   }
+  getMarkdown(`/srs/md/${params.md}.md`)
+    .then((md) => {
+      outputEle.innerHTML = marked(md);
+    })
+    .catch((err) => {
+      console.error(err);
+      // ページがなかった時の処理を何かする。
+      alert("ページがなかったよ");
+    });
 };
+
+loadMarkdown();
