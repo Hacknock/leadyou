@@ -13,7 +13,7 @@ class WrapUploadFile extends HTMLElement {
     subtitle.textContent = titleSub;
 
     // Create description holder
-    const description = document.createElement("p");
+    const description = document.createElement("span");
     description.setAttribute("class", "shortDescription");
     const descShort = this.getAttribute("descShort");
     description.textContent = descShort;
@@ -35,6 +35,14 @@ class WrapUploadFile extends HTMLElement {
     const style = document.createElement("style");
     // console.log(style.isConnected);
     style.textContent = `
+    .shortDescription {
+      display: inline-block;
+      margin: 0px auto 15px;
+      max-width: 80%;
+      text-align: left;
+      hyphens: auto;
+    }
+
     .field {
       padding: 10px 0px;
       text-align: left;
