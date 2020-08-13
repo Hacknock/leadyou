@@ -35,7 +35,7 @@ const loadMarkdown = () => {
     console.error(new Error("query に md がないよ"));
     alert("query に md がないよ");
   }
-  getMarkdown(`/srs/md/${params.md}.md`)
+  getMarkdown(`/src/md/${params.md}.md`)
     .then((md) => {
       outputEle.innerHTML = marked(md);
     })
