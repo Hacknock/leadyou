@@ -7,18 +7,28 @@
     <title>pullreq - me</title>
   </head>
   <body>
-    <h1>Pullreq-me</h1>
+    <h1>LEADYOU</h1>
+    <h3>README.md Generator for OSS</h3>
     <form id="generateForm">
-      <p>
-        Input GitHub repository URL:
-        <input type="text" class="url normal_repo" name="url" id="url_column" />
+      <div>
+        <input
+          type="text"
+          class="url normal_repo"
+          name="url"
+          id="url_column"
+          placeholder="Input an url of your public GitHub repository"
+        />
         <p id="alert_text" class="alert_message"></p>
-      </p>
-      <p>
+      </div>
+      <div class="checkbox_area">
         <input type="checkbox" id="autoFill" name="autoFill" disabled />
-        <label for="autoFill">Auto Fill</label>
-      </p>
-      <input type="submit" />
+        <label for="autoFill" class="checkbox_label">Auto Fill</label>
+        <p class="checkbox_description">
+          Fill in some forms automatically based on the information of the
+          repository.
+        </p>
+      </div>
+      <input type="submit" value="Next Step" />
     </form>
   </body>
 </html>
