@@ -9,8 +9,10 @@ body {
 }
 
 input[type="text"].url {
-  padding: 3px;
-  width: 300px;
+  padding: 3px 6px;
+  width: 400px;
+  line-height: 25px;
+  font-size: medium;
 }
 
 .alert_repo {
@@ -27,9 +29,26 @@ input[type="text"].url {
   color: #f44336;
 }
 
+.checkbox_area {
+  text-align: left;
+  width: 400px;
+  margin: 0 auto;
+}
+
+.checkbox_label {
+  font-weight: bolder;
+}
+
+.checkbox_description {
+  margin: 0px 25px 0px;
+  hyphens: auto;
+}
+
 input[type="submit"] {
+  margin-top: 20px;
   background-color: #00897b;
-  padding: 3px 8px;
+  padding: 5px 12px;
+  font-size: large;
   color: #eceff1;
   border: none;
   border-radius: 4px;
