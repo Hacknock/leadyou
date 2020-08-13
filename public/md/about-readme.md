@@ -1,6 +1,11 @@
 # What is README?
 
-README とは、あなたが作成したオープンソースやライブラリなどを外部の人が使う際に参照する仕様書のようなものです。"You can add a README file to your repository to tell other people why your project is useful, what they can do with your project, and how they can use it."(https://docs.github.com/en/github/creating-cloning-and-archiving-repositories/about-readmes)と Github が述べているように、README はあなたのプロジェクトの有用性や何ができるのか、どのように使えばいいのかを示すものであると言えます。  
+README とは、あなたが作成したオープンソースやライブラリなどを外部の人が使う際に参照する仕様書のようなものです。
+
+> You can add a README file to your repository to tell other people why your project is useful, what they can do with your project, and how they can use it.  
+> (Quote it from [About READMEs](https://docs.github.com/en/github/creating-cloning-and-archiving-repositories/about-readmes) written by Github.com)
+
+と Github が述べているように、README はあなたのプロジェクトの有用性や何ができるのか、どのように使えばいいのかを示すものであると言えます。  
 Github では以下の 5 点が一般的に含まれていると示しています。
 
 - What the project does
