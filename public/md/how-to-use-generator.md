@@ -5,9 +5,9 @@ LEADYOU の README Generator はあなたが公開するリポジトリ情報を
 あなたは、以下の３ステップを行うことで、必要事項が記載された README.md を生成することが可能です。
 
 1. Access to README Generator
-2. Put url you want to make README.md and a checkmark to "Auto Fill"
+2. Put your public repository url you want to make README.md and a checkmark to "Auto Fill"
 3. Fill out all required column on README Generator
-4. Download README.md you make using README Generator
+4. Download README.md you made using README Generator
 5. Upload README.md to your repository
 
 ## Access to README Generator
@@ -15,7 +15,7 @@ LEADYOU の README Generator はあなたが公開するリポジトリ情報を
 README Generator は web application です。
 [README Generator](https://leadyou.hacknock.com)へアクセスしてください。
 
-## Put url you want to make README.md and a check to "Auto Fill"
+## Put your public repository url you want to make README.md and a check to "Auto Fill"
 
 README Generator の入力欄にあなたが README.md を作りたい公開リポジトリの URL を入力してください。次に、"Auto Fill" にチェックを入れます。
 その後、"Next Step"を押してください。
@@ -34,7 +34,7 @@ README Generator の入力欄にあなたが README.md を作りたい公開リ�
 Demo には gif を含む画像ファイルを挿入することができます。
 選択されたファイルは LEADYOU のサーバーへアップロードされることはありません。
 
-## Download README.md you make using README Generator
+## Download README.md you made using README Generator
 
 全ての必須項目を埋めたら、submit ボタンを押してください。
 自動的に README.md が生成され、ダウンロードされます。
