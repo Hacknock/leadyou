@@ -1,7 +1,5 @@
 # New README.md format proposal
 
-<!-- ここに、GithubとかBitbucketではこういうことをいわれているので、自分たちはこういうことレイアウトを提案します -->
-
 ## What GitHub and Bitbucket mentioned about README.md
 
 私たちが[What is README?](https://leadyou.hacknock.com)でも触れましたが、Github では README.md について以下のように述べています。
