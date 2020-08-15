@@ -116,7 +116,7 @@ _Example_
 
 あなたのプロジェクトを利用しているユーザーがいれば記載してください。
 この情報は、ユーザーがあなたのプロジェクトの信頼性を判断する助けになると思います。
-この項目は[README Generator](https://generator.hacknock.com)では必須項目ではなく推奨項目になっています。
+この項目は[README Generator](https://generator.hacknock.com)では推奨項目になっています。
 
 ## Edit History
 
