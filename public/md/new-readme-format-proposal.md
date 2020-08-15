@@ -66,17 +66,46 @@ Short Description はあなたのプロジェクトの全体像を簡潔にユ�
 特にユーザーインターフェイスを含む場合は、画像で動作の様子を表示することを推奨しています。
 この項目は[README Generator](https://generator.hacknock.com)では必須項目ではなく推奨項目になっています。
 
-### Advantages
+### Advantages (Required)
 
-### Installation
+ユーザーがあなたのプロジェクトの有用性を判断するために重要です。
+開発者はこの項目に、他のオープンソースやフレームワークと比較して、あなたのプロジェクトをユーザーが利用するメリットを記載してください。
+開発者は箇条書きで簡潔に記載すると、ユーザーは分かりやすいです。
+この項目は[README Generator](https://generator.hacknock.com)では必須項目になっています。
+
+### Installation (Required)
+
+ユーザーがあなたのプロジェクトを導入するために必要な情報です。
+具体的に導入する方法を記載してください。
+再現性のある書き方を心がけてください。つまり、動作する環境や導入に際して必要な依存環境、導入に必要なシェルなどのスクリプトを書いてください。
+この項目は[README Generator](https://generator.hacknock.com)では必須項目になっています。
 
 ### Deployment
 
-### Minimal Example
+ユーザーがあなたのプロジェクトをデプロイするために必要な情報です。
+全てのプロジェクトに必要であるとは限りませんが、必要な依存環境と連携するなど、デプロイに必要なコードや手順があれば書いてください。
+この項目は[README Generator](https://generator.hacknock.com)では必須項目ではなく推奨項目になっています。
 
-### Contributors
+### Minimal Example (Required)
+
+ユーザーがあなたのプロジェクトを利用する方法を簡単に知るための重要な情報です。
+この項目を見て、利用のしやすさや実際に利用する時のコードを確認します。
+また、この項目はユーザーのデバッグにも用いることができます。
+例えば、あなたのプロジェクトをユーザーが導入する時に、Hello World として、この項目のコードを実行することが考えられます。
+この項目は[README Generator](https://generator.hacknock.com)では必須項目になっています。
+
+### Contributors (Required)
+
+多くの大規模なプロジェクトや良く利用されるプロジェクトは、複数人の Contributors が存在します。
+誰があなたのプロジェクトに関わったかという情報は、Contributors の貢献を称えるために重要です。
+私たちは Contributors の努力を報いることで、オープンソースの発展が期待されると考えています。
+この項目は[README Generator](https://generator.hacknock.com)では必須項目になっています。
 
 ### Users
+
+あなたのプロジェクトを利用しているユーザーがいれば記載してください。
+この情報は、ユーザーがあなたのプロジェクトの信頼性を判断する助けになると思います。
+この項目は[README Generator](https://generator.hacknock.com)では必須項目ではなく推奨項目になっています。
 
 ## Edit History
 
