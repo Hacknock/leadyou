@@ -6,6 +6,31 @@ body {
   text-align: center;
   margin: 0;
   padding: 0;
+  font-family: "Roboto", sans-serif;
+  background-color: #fafafa;
+}
+
+.wrap {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.top {
+  display: flex;
+  margin: 30px auto 0;
+}
+
+.icon {
+  margin-right: 8px;
+  width: 32px;
+  height: 32px;
+}
+
+.title {
+  margin-top: 1px;
+  line-height: 32px;
+  font-size: 32px;
 }
 
 input[type="text"].url {
@@ -53,4 +78,38 @@ input[type="submit"] {
   border: none;
   border-radius: 4px;
   cursor: pointer;
+}
+
+footer {
+  margin-top: auto;
+  display: flex;
+  padding: 16px 0;
+  color: white;
+  background-color: #616161;
+}
+
+.child {
+  text-align: left;
+}
+
+.child h1 {
+  margin-top: 16px;
+}
+
+.child a {
+  color: white;
+  text-decoration: none;
+}
+
+.child a:hover {
+  color: #e0e0e0;
+}
+
+.left-child {
+  margin-left: 50px;
+  margin-right: auto;
+}
+
+.right-child {
+  margin-right: 50px;
 }
