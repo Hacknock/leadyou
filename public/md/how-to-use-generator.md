@@ -1,5 +1,6 @@
 # How to use README Generator
 
+README に必要事項を全てを記載するという開発者の負担を軽減するために、あなたのリポジトリの情報を自動的に取得し、README を作成する README Generator を開発しました。
 LEADYOU の README Generator はあなたが公開するリポジトリ情報を自動的に読み取り、README.md に必要な事項を auto fill します。
 あなたは、以下の３ステップを行うことで、必要事項が記載された README.md を生成することが可能です。
 
