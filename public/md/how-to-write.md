@@ -17,13 +17,13 @@ Github の [About READMEs](https://docs.github.com/en/github/creating-cloning-an
 - Where users can get help with your project
 - Who maintains and contributes to the project
 
-また、上記に加えて repository license、contribution guideline、code of conduct を定義することも重要であると述べています。  
+また、上記に加えて repository license、contribution guideline、code of conduct を定義することも重要であると述べています。
 この際に、これらを別のファイルで示す場合、README.md はこれらのファイルの参照を容易にする役割もになっています。
 
 ## The way you write README.md
 
-一般的には、README.md は Markdown であなた自身が白紙の状態から記載する必要があります。  
-ところが、Github.com では license 情報や最低限の README.md のフォーマット、とは言ってもタイトルのみが挿入された README.md のテンプレートファイルをリポジトリを新しく作成する時に、自動的に含むことが可能です。  
-このテンプレートファイルを元に、書き換えるのが最も一般的な方法の一つと言えると思います。  
-これまでは、あなたが全てを README.md に入力する必要がありました。  
+一般的には、README.md は Markdown であなた自身が白紙の状態から記載する必要があります。
+ところが、Github.com では license 情報や最低限の README.md のフォーマット、とは言ってもタイトルのみが挿入された README.md のテンプレートファイルをリポジトリを新しく作成する時に、自動的に含むことが可能です。
+このテンプレートファイルを元に、書き換えるのが最も一般的な方法の一つと言えると思います。
+これまでは、あなたが全てを README.md に入力する必要がありました。
 そこで新たな README.md の作成方法として、LEADYOU では、あなたの公開レポジトリの情報を自動で取得し、入力できる項目は自動で入力できる README.md Generator を開発し提供しています。
