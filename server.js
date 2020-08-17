@@ -73,7 +73,7 @@ app.get("/src/:dir/:file", (req, res) => {
     case "customdom": {
       responseFileSupport(
         res,
-        `./public/js/customElement/${file}`,
+        `./public/js/custom-elements/${file}`,
         "text/javascript"
       );
       break;
@@ -82,8 +82,8 @@ app.get("/src/:dir/:file", (req, res) => {
       responseFileSupport(res, `./public/json/${file}`, "application/json");
       break;
     }
-    case "img": {
-      responseFileSupport(res, `./public/img/${file}`, "image/*");
+    case "images": {
+      responseFileSupport(res, `./public/images/${file}`, "image/*");
       break;
     }
     case "md": {
@@ -117,10 +117,10 @@ const responseFileSupport = (res, path, type) => {
 const customScript = async (repoUrl) => {
   // get file list of script
   try {
-    const files = fs.readdirSync("./public/js/customScript/");
+    const files = fs.readdirSync("./public/js/custom-scripts/");
     let maps = Array.prototype.map;
     let customScriptList = maps.call(files, (x) => {
-      return `./public/js/customScript/${x}`;
+      return `./public/js/custom-scripts/${x}`;
     });
 
     let customScripts = customScriptList.map(require);

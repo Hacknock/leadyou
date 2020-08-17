@@ -41,31 +41,31 @@ input[type="text"].url {
   font-size: medium;
 }
 
-.alert_repo {
+.alert-repo {
   border: 1px solid #f44336;
   border-radius: 0.27em;
 }
 
-.normal_repo {
+.normal-repo {
   border: 1px solid black;
   border-radius: 0.27em;
 }
 
-.alert_message {
+.alert-message {
   color: #f44336;
 }
 
-.checkbox_area {
+.checkbox-area {
   text-align: left;
   width: 400px;
   margin: 0 auto;
 }
 
-.checkbox_label {
+.checkbox-label {
   font-weight: bolder;
 }
 
-.checkbox_description {
+.checkbox-description {
   margin: 0px 25px 0px;
   hyphens: auto;
 }

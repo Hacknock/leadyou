@@ -1,4 +1,4 @@
-const outputEle = document.getElementById("documentArea");
+const outputEle = document.getElementById("document-area");
 
 const getQueryStringParams = (query) => {
   const hoge = /^[?#]/.test(query) ? query.slice(1) : query;

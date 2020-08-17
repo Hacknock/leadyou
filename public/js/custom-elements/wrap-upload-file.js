@@ -8,14 +8,14 @@ class WrapUploadFile extends HTMLElement {
 
     // Create title holder
     const subtitle = document.createElement("h2");
-    subtitle.setAttribute("class", "subTitle");
-    const titleSub = this.getAttribute("nameTitle");
+    subtitle.setAttribute("class", "sub-title");
+    const titleSub = this.getAttribute("name-title");
     subtitle.textContent = titleSub;
 
     // Create description holder
     const description = document.createElement("span");
-    description.setAttribute("class", "shortDescription");
-    const descShort = this.getAttribute("descShort");
+    description.setAttribute("class", "short-description");
+    const descShort = this.getAttribute("desc-short");
     description.textContent = descShort;
 
     // Create form
@@ -35,7 +35,7 @@ class WrapUploadFile extends HTMLElement {
     const style = document.createElement("style");
     // console.log(style.isConnected);
     style.textContent = `
-    .shortDescription {
+    .short-description {
       display: inline-block;
       margin: 0px auto 15px;
       max-width: 80%;
@@ -75,33 +75,33 @@ class WrapUploadFile extends HTMLElement {
       cursor: pointer;
     }
 
-    .style_alert {
+    .style-alert {
       border: solid 0.7px #E53935;
     }
 
-    .style_normal {
+    .style-normal {
       border: none;
     }
 
-    #dataID {
+    #data-id {
       display: none;
     }
 
-    .deleteButton {
+    .delete-button {
       margin-left: auto;
       margin-right: calc(10% - 5px);
       background-color: #F44336;
     }
 
-    .display_delete {
+    .display-delete {
       display: block;
     }
 
-    .no_display_delete {
+    .no-display-delete {
       display: none;
     }
 
-    #addButton {
+    #add-button {
       background-color: #00897B;
     }
     `;
@@ -118,30 +118,30 @@ class WrapUploadFile extends HTMLElement {
 
   static get observedAttributes() {
     return [
-      "nameTitle",
-      "descShort",
+      "name-title",
+      "desc-short",
       "multiple",
       "alert",
-      "place_holder",
+      "placeholder",
       "maxlength",
-      "kinds_of_file",
+      "kindsOfFile",
     ];
   }
 
   attributeChangedCallback(attr, _, newVal) {
     // console.log('my-el attribute changed', attr);
     // console.log('new value is ', newVal);
-    if (attr === "nameTitle") {
+    if (attr === "name-title") {
       // Create title holder
-      this.shadowRoot.querySelector(".subTitle").textContent = newVal;
-    } else if (attr === "descShort") {
+      this.shadowRoot.querySelector(".sub-title").textContent = newVal;
+    } else if (attr === "desc-short") {
       // Create description holder
-      this.shadowRoot.querySelector(".shortDescription").textContent = newVal;
+      this.shadowRoot.querySelector(".short-description").textContent = newVal;
     } else if (attr === "multiple" && newVal === "true") {
       const addButton = document.createElement("input");
       addButton.setAttribute("type", "button");
       addButton.setAttribute("value", "add");
-      addButton.setAttribute("id", "addButton");
+      addButton.setAttribute("id", "add-button");
       addButton.addEventListener("click", () => {
         const newDivWrap = this.addInputField();
 
@@ -152,14 +152,14 @@ class WrapUploadFile extends HTMLElement {
       let inputEles = this.shadowRoot.querySelectorAll(".field");
       if (newVal === "true") {
         for (var i = 0; i < inputEles.length; i++) {
-          inputEles[i].setAttribute("class", "field style_alert");
+          inputEles[i].setAttribute("class", "field style-alert");
         }
       } else {
         for (var i = 0; i < inputEles.length; i++) {
-          inputEles[i].setAttribute("class", "field style_normal");
+          inputEles[i].setAttribute("class", "field style-normal");
         }
       }
-    } else if (attr === "place_holder") {
+    } else if (attr === "placeholder") {
       let allInputElement = this.shadowRoot.querySelectorAll(".column");
       for (let i = 0; i < allInputElement.length; i++) {
         if (allInputElement[i].getAttribute("type") === "text") {
@@ -173,8 +173,8 @@ class WrapUploadFile extends HTMLElement {
           element.setAttribute("maxlength", newVal)
         );
       }
-    } else if (attr === "kinds_of_file") {
-      console.log("kinds_of_file");
+    } else if (attr === "kindsOfFile") {
+      console.log("kindsOfFile");
       console.log(newVal);
       const inputFiles = this.shadowRoot.querySelectorAll("input");
       console.log(inputFiles);
@@ -192,7 +192,7 @@ class WrapUploadFile extends HTMLElement {
     let childrenThisField = e.target.parentNode.children;
 
     for (let i = 0; i < childrenThisField.length; i++) {
-      if (childrenThisField[i].getAttribute("id") === "dataID") {
+      if (childrenThisField[i].getAttribute("id") === "data-id") {
         childrenThisField[i].value = blobUrl;
       }
     }
@@ -203,14 +203,14 @@ class WrapUploadFile extends HTMLElement {
     let listField = this.shadowRoot.querySelectorAll(".field");
     if (this.getAttribute("multiple") === "true" && listField.length < 2) {
       const listDeleteButton = this.shadowRoot.querySelectorAll(
-        ".deleteButton"
+        ".delete-button"
       );
       console.log("listDeleteButton");
       console.log(listDeleteButton);
       for (let i = 0; i < listDeleteButton.length; i++) {
         listDeleteButton[i].setAttribute(
           "class",
-          "deleteButton no_display_delete"
+          "delete-button no-display-delete"
         );
       }
     }
@@ -224,7 +224,7 @@ class WrapUploadFile extends HTMLElement {
     // newUpFile.setAttribute("class", "column");
     const labelFile = document.createElement("input");
     labelFile.setAttribute("class", "column");
-    labelFile.setAttribute("id", "dataID");
+    labelFile.setAttribute("id", "data-id");
 
     newUpFile.addEventListener("change", (e) => {
       this.handleFileSelect(e);
@@ -236,7 +236,7 @@ class WrapUploadFile extends HTMLElement {
     newDescFile.setAttribute("name", "text");
     newDescFile.setAttribute("class", "column");
 
-    newDescFile.setAttribute("placeholder", this.getAttribute("place_holder"));
+    newDescFile.setAttribute("placeholder", this.getAttribute("placeholder"));
 
     const statusLabel = this.getAttribute("alert");
     if (typeof newVal !== "undefined") {
@@ -257,27 +257,27 @@ class WrapUploadFile extends HTMLElement {
     });
     let listField = this.shadowRoot.querySelectorAll(".field");
     if (this.getAttribute("multiple") === "true" && listField.length > 0) {
-      deleteButton.setAttribute("class", "deleteButton display_delete");
+      deleteButton.setAttribute("class", "delete-button display-delete");
 
       const listDeleteButton = this.shadowRoot.querySelectorAll(
-        ".deleteButton"
+        ".delete-button"
       );
       console.log("listDeleteButton");
       console.log(listDeleteButton);
       for (let i = 0; i < listDeleteButton.length; i++) {
         listDeleteButton[i].setAttribute(
           "class",
-          "deleteButton display_delete"
+          "delete-button display-delete"
         );
       }
     } else {
-      deleteButton.setAttribute("class", "deleteButton no_display_delete");
+      deleteButton.setAttribute("class", "delete-button no-display-delete");
     }
 
     if (statusLabel === "true") {
-      newDivWrap.setAttribute("class", "field style_alert");
+      newDivWrap.setAttribute("class", "field style-alert");
     } else {
-      newDivWrap.setAttribute("class", "field style_normal");
+      newDivWrap.setAttribute("class", "field style-normal");
     }
 
     newDivWrap.appendChild(newUpFile);

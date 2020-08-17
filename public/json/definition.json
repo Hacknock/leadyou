@@ -11,7 +11,7 @@
         "component": "wrap-multiline-field",
         "description": "Please type project name.",
         "maxlength": 200,
-        "place_holder": ""
+        "placeholder": ""
       },
       "child_content": [
         {
