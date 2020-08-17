@@ -124,14 +124,14 @@ class WrapUploadFile extends HTMLElement {
       "alert",
       "placeholder",
       "maxlength",
-      "kinds-of-file",
+      "kindsOfFile",
     ];
   }
 
   attributeChangedCallback(attr, _, newVal) {
     // console.log('my-el attribute changed', attr);
     // console.log('new value is ', newVal);
-    if (attr === "nameTitle") {
+    if (attr === "name-title") {
       // Create title holder
       this.shadowRoot.querySelector(".sub-title").textContent = newVal;
     } else if (attr === "desc-short") {
@@ -173,8 +173,8 @@ class WrapUploadFile extends HTMLElement {
           element.setAttribute("maxlength", newVal)
         );
       }
-    } else if (attr === "kinds-of-file") {
-      console.log("kinds-of-file");
+    } else if (attr === "kindsOfFile") {
+      console.log("kindsOfFile");
       console.log(newVal);
       const inputFiles = this.shadowRoot.querySelectorAll("input");
       console.log(inputFiles);

@@ -14,13 +14,13 @@ const inspectTemplateJson = (template) => {
   for (const section of template.sections) {
     if (
       !("title" in section) ||
-      !("hidden-title" in section) ||
+      !("hiddenTitle" in section) ||
       !("required" in section) ||
       !("replacement" in section) ||
       !("multiple" in section) ||
       !("component" in section) ||
       !("description" in section) ||
-      !("kinds-of-values" in section) ||
+      !("kindsOfValues" in section) ||
       !("format" in section) ||
       !("attributes" in section)
     ) {
@@ -117,8 +117,8 @@ const generateForm = (tempJson, autoJson, index) => {
     );
     childElement.setAttributeNS(
       null,
-      "hidden-title",
-      tempJson.sections[index]["hidden-title"]
+      "hiddenTitle",
+      tempJson.sections[index]["hiddenTitle"]
     );
     childElement.setAttributeNS(
       null,
@@ -138,11 +138,11 @@ const generateForm = (tempJson, autoJson, index) => {
         tempJson.sections[index].attributes["maxlength"]
       );
     }
-    if ("kinds-of-file" in tempJson.sections[index].attributes) {
+    if ("kindsOfFile" in tempJson.sections[index].attributes) {
       childElement.setAttributeNS(
         null,
-        "kinds-of-file",
-        tempJson.sections[index].attributes["kinds-of-file"].join(",")
+        "kindsOfFile",
+        tempJson.sections[index].attributes["kindsOfFile"].join(",")
       );
     }
     childElement.setAttributeNS(null, "alert", "false");
@@ -200,7 +200,7 @@ const generateJson = (listEle, tempJson, index) => {
     const lenValue = values.reduce((prev, current) => {
       return prev + current.length;
     }, 0);
-    const kindsOfValues = tempJson.sections[index]["kinds-of-values"];
+    const kindsOfValues = tempJson.sections[index]["kindsOfValues"];
     if (lenValue !== 0 && values.length % kindsOfValues.length === 0) {
       arraySec.push({
         title: secTitle,
@@ -244,7 +244,7 @@ const generateReadme = (template, contents) => {
     if (typeof templateSection === "undefined") {
       continue;
     }
-    const n = templateSection["kinds-of-values"].length;
+    const n = templateSection["kindsOfValues"].length;
     const valueText = divideArraybyN(section.values, n)
       .reduce((prev, current) => {
         let length = 0;
@@ -256,7 +256,7 @@ const generateReadme = (template, contents) => {
         return length === 0 ? prev : prev + text;
       }, "")
       .trimEnd();
-    if (templateSection["hidden-title"] === false) {
+    if (templateSection["hiddenTitle"] === false) {
       if (templateSection.replacement) {
         text += `# ${valueText}\n`;
       } else {
@@ -368,14 +368,14 @@ const extractResourcePath = (template, contents) => {
     .filter(({ templateSection }) => {
       return (
         typeof templateSection !== "undefined" &&
-        templateSection["kinds-of-values"].includes("filepath")
+        templateSection["kindsOfValues"].includes("filepath")
       );
     })
     .flatMap(({ contentsSection, templateSection }) => {
-      const n = templateSection["kinds-of-values"].length;
+      const n = templateSection["kindsOfValues"].length;
       let array = new Array();
       for (let i = 0; i < contentsSection.values.length; i++) {
-        if (templateSection["kinds-of-values"][i % n] === "filepath") {
+        if (templateSection["kindsOfValues"][i % n] === "filepath") {
           array.push(contentsSection.values[i]);
         }
       }
