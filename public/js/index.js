@@ -1,4 +1,4 @@
-const form = document.getElementById("generateForm");
+const form = document.getElementById("generate-form");
 
 const options = {
   mode: "cors",
@@ -10,7 +10,7 @@ const options = {
 form.addEventListener("submit", (event) => {
   event.preventDefault();
   const url = form.elements["url"].value;
-  const autoFill = form.elements["autoFill"].checked;
+  const autoFill = form.elements["auto-fill"].checked;
   if (url.length === 0) {
     console.log("url is empty");
     window.location.href = "/makereadme";
@@ -47,20 +47,20 @@ form.addEventListener("submit", (event) => {
         error.message
       );
       document
-        .getElementById("url_column")
-        .setAttribute("class", "url alert_repo");
-      document.getElementById("alert_text").textContent =
+        .getElementById("url-column")
+        .setAttribute("class", "url alert-repo");
+      document.getElementById("alert-text").textContent =
         "このリポジトリはプライベートリポジトリであるか存在しません。";
     });
 });
 
 const getTextLength = () => {
-  console.log(document.getElementById("url_column").value.length);
-  if (document.getElementById("url_column").value.length > 0) {
-    document.getElementById("autoFill").removeAttribute("disabled");
-  } else if (document.getElementById("url_column").value.length === 0) {
-    document.getElementById("autoFill").setAttribute("disabled", "disabled");
+  console.log(document.getElementById("url-column").value.length);
+  if (document.getElementById("url-column").value.length > 0) {
+    document.getElementById("auto-fill").removeAttribute("disabled");
+  } else if (document.getElementById("url-column").value.length === 0) {
+    document.getElementById("auto-fill").setAttribute("disabled", "disabled");
   }
 };
 
-document.getElementById("url_column").addEventListener("input", getTextLength);
+document.getElementById("url-column").addEventListener("input", getTextLength);
