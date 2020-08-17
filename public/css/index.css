@@ -16,6 +16,7 @@ body {
   min-height: 100vh;
 }
 
+/* ☆☆☆☆☆ Main Contents ☆☆☆☆☆ */
 .top {
   display: flex;
   margin: 30px auto 0;
@@ -80,6 +81,7 @@ input[type="submit"] {
   cursor: pointer;
 }
 
+/* ☆☆☆☆☆ Footer ☆☆☆☆☆ */
 footer {
   margin-top: auto;
   display: flex;
