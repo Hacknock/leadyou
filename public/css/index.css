@@ -6,11 +6,39 @@ body {
   text-align: center;
   margin: 0;
   padding: 0;
+  font-family: "Roboto", sans-serif;
+  background-color: #fafafa;
+}
+
+.wrap {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* ☆☆☆☆☆ Main Contents ☆☆☆☆☆ */
+.top {
+  display: flex;
+  margin: 30px auto 0;
+}
+
+.icon {
+  margin-right: 8px;
+  width: 32px;
+  height: 32px;
+}
+
+.title {
+  margin-top: 1px;
+  line-height: 32px;
+  font-size: 32px;
 }
 
 input[type="text"].url {
-  padding: 3px;
-  width: 300px;
+  padding: 3px 6px;
+  width: 400px;
+  line-height: 25px;
+  font-size: medium;
 }
 
 .alert_repo {
@@ -27,11 +55,63 @@ input[type="text"].url {
   color: #f44336;
 }
 
+.checkbox_area {
+  text-align: left;
+  width: 400px;
+  margin: 0 auto;
+}
+
+.checkbox_label {
+  font-weight: bolder;
+}
+
+.checkbox_description {
+  margin: 0px 25px 0px;
+  hyphens: auto;
+}
+
 input[type="submit"] {
+  margin-top: 20px;
   background-color: #00897b;
-  padding: 3px 8px;
+  padding: 5px 12px;
+  font-size: large;
   color: #eceff1;
   border: none;
   border-radius: 4px;
   cursor: pointer;
+}
+
+/* ☆☆☆☆☆ Footer ☆☆☆☆☆ */
+footer {
+  margin-top: auto;
+  display: flex;
+  padding: 16px 0;
+  color: white;
+  background-color: #616161;
+}
+
+.child {
+  text-align: left;
+}
+
+.child h1 {
+  margin-top: 16px;
+}
+
+.child a {
+  color: white;
+  text-decoration: none;
+}
+
+.child a:hover {
+  color: #e0e0e0;
+}
+
+.left-child {
+  margin-left: 50px;
+  margin-right: auto;
+}
+
+.right-child {
+  margin-right: 50px;
 }

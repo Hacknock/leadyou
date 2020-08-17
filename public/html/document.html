@@ -7,37 +7,13 @@
       href="https://fonts.googleapis.com/css2?family=Roboto:wght@500&display=swap"
       rel="stylesheet"
     />
-    <link href="/src/css/form.css" rel="stylesheet" type="text/css" />
+    <link href="/src/css/document.css" rel="stylesheet" type="text/css" />
     <link href="/src/css/marked.css" rel="stylesheet" type="text/css" />
-    <script
-      type="text/javascript"
-      src="/src/customdom/wrap-multiline-field.js"
-      defer
-    ></script>
-    <script
-      type="text/javascript"
-      src="/src/customdom/wrap-oneline-field.js"
-      defer
-    ></script>
-    <script
-      type="text/javascript"
-      src="/src/customdom/wrap-radio.js"
-      defer
-    ></script>
-    <script
-      type="text/javascript"
-      src="/src/customdom/wrap-upload-file.js"
-      defer
-    ></script>
     <script
       type="text/javascript"
       src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"
     ></script>
-    <script
-      type="text/javascript"
-      src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.5.0/jszip.min.js"
-    ></script>
-    <script type="text/javascript" src="/src/js/form.js" defer></script>
+    <script type="text/javascript" src="/src/js/document.js" defer></script>
     <title>LEADYOU</title>
   </head>
   <body>
@@ -45,22 +21,10 @@
       <header>
         <img src="/src/img/icon_white.png" class="icon" />
         <span class="title">LEADYOU</span>
-        <span class="sub-title">README Generator for OSS</span>
-        <a href="/page?md=how-to-use-generator">How To Use</a>
+        <a href="/">README Generator for OSS</a>
       </header>
       <div class="dummy-header"></div>
-      <div class="contents">
-        <div class="edit-area">
-          <h1>Input Form</h1>
-          <div class="edit-inner" id="areaForm"></div>
-          <input type="button" id="submit" value="Generate" />
-          <p class="alert_text" id="fill_alert"></p>
-        </div>
-        <div class="preview-area">
-          <h1>Preview README</h1>
-          <div class="md_content" id="areaPreview"></div>
-        </div>
-      </div>
+      <div class="md_content" id="documentArea"></div>
       <footer>
         <div class="child left-child">
           <h1>LEADYOU</h1>
