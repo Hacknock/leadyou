@@ -11,15 +11,15 @@ class WrapRadio extends HTMLElement {
 
     // Create title holder
     const subtitle = document.createElement("h2");
-    subtitle.setAttribute("class", "subTitle");
-    const titleSub = this.getAttribute("nameTitle");
-    const hiddenTitle = this.getAttribute("hiddenTitle");
+    subtitle.setAttribute("class", "sub-title");
+    const titleSub = this.getAttribute("name-title");
+    const hiddenTitle = this.getAttribute("hidden-title");
     subtitle.textContent = titleSub;
 
     // Create description holder
     const description = document.createElement("span");
-    description.setAttribute("class", "shortDescription");
-    const descShort = this.getAttribute("descShort");
+    description.setAttribute("class", "short-description");
+    const descShort = this.getAttribute("desc-short");
     description.textContent = descShort;
 
     // add column button
@@ -36,7 +36,7 @@ class WrapRadio extends HTMLElement {
     const style = document.createElement("style");
     // console.log(style.isConnected);
     style.textContent = `
-    .shortDescription {
+    .short-description {
       display: inline-block;
       margin: 0px auto 15px;
       max-width: 80%;
@@ -44,19 +44,19 @@ class WrapRadio extends HTMLElement {
       hyphens: auto;
     }
 
-    .style_alert {
+    .style-alert {
       border: solid 0.7px #f00;
     }
 
-    .style_normal {
+    .style-normal {
       border: none;
     }
 
-    .display_delete {
+    .display-delete {
       display: inline-block;
     }
 
-    .no_display_delete {
+    .no-display-delete {
       display: none;
     }
     `;
@@ -67,10 +67,10 @@ class WrapRadio extends HTMLElement {
       style.textContent =
         style.textContent +
         `
-                h2 {
-                    display: none;
-                }
-            `;
+        h2 {
+            display: none;
+        }
+        `;
     }
 
     // Append Child
@@ -85,19 +85,19 @@ class WrapRadio extends HTMLElement {
   }
 
   static get observedAttributes() {
-    return ["nameTitle", "hiddenTitle", "descShort", "multiple", "alert"];
+    return ["name-title", "hidden-title", "desc-short", "multiple", "alert"];
   }
 
   attributeChangedCallback(attr, _, newVal) {
     // console.log('my-el attribute changed', attr);
     // console.log('new value is ', newVal);
-    if (attr === "nameTitle") {
+    if (attr === "name-title") {
       // Create title holder
-      this.shadowRoot.querySelector(".subTitle").textContent = newVal;
-    } else if (attr === "descShort") {
+      this.shadowRoot.querySelector(".sub-title").textContent = newVal;
+    } else if (attr === "desc-short") {
       // Create description holder
-      this.shadowRoot.querySelector(".shortDescription").textContent = newVal;
-    } else if (attr === "hiddenTitle") {
+      this.shadowRoot.querySelector(".short-description").textContent = newVal;
+    } else if (attr === "hidden-title") {
       // console.log('hidden title nyao');
       this.updateStyle(this);
     } else if (attr === "multiple" && newVal === "true") {
@@ -114,11 +114,11 @@ class WrapRadio extends HTMLElement {
       let inputEles = this.shadowRoot.querySelectorAll(".field");
       if (newVal === "true") {
         for (var i = 0; i < inputEles.length; i++) {
-          inputEles[i].setAttribute("class", "field style_alert");
+          inputEles[i].setAttribute("class", "field style-alert");
         }
       } else {
         for (var i = 0; i < inputEles.length; i++) {
-          inputEles[i].setAttribute("class", "field style_normal");
+          inputEles[i].setAttribute("class", "field style-normal");
         }
       }
     }
@@ -143,14 +143,14 @@ class WrapRadio extends HTMLElement {
     let listField = this.shadowRoot.querySelectorAll(".field");
     if (this.getAttribute("multiple") === "true" && listField.length < 2) {
       const listDeleteButton = this.shadowRoot.querySelectorAll(
-        ".deleteButton"
+        ".delete-button"
       );
       console.log("listDeleteButton");
       console.log(listDeleteButton);
       for (let i = 0; i < listDeleteButton.length; i++) {
         listDeleteButton[i].setAttribute(
           "class",
-          "deleteButton no_display_delete"
+          "delete-button no-display-delete"
         );
       }
     }
@@ -183,27 +183,27 @@ class WrapRadio extends HTMLElement {
     deleteButton.addEventListener("click", this.deleteField);
     let listField = this.shadowRoot.querySelectorAll(".field");
     if (this.getAttribute("multiple") === "true" && listField.length > 0) {
-      deleteButton.setAttribute("class", "deleteButton display_delete");
+      deleteButton.setAttribute("class", "delete-button display-delete");
 
       const listDeleteButton = this.shadowRoot.querySelectorAll(
-        ".deleteButton"
+        ".delete-button"
       );
       console.log("listDeleteButton");
       console.log(listDeleteButton);
       for (let i = 0; i < listDeleteButton.length; i++) {
         listDeleteButton[i].setAttribute(
           "class",
-          "deleteButton display_delete"
+          "delete-button display-delete"
         );
       }
     } else {
-      deleteButton.setAttribute("class", "deleteButton no_display_delete");
+      deleteButton.setAttribute("class", "delete-button no-display-delete");
     }
 
     if (statusLabel === "true") {
-      newDivWrap.setAttribute("class", "field style_alert");
+      newDivWrap.setAttribute("class", "field style-alert");
     } else {
-      newDivWrap.setAttribute("class", "field style_normal");
+      newDivWrap.setAttribute("class", "field style-normal");
     }
 
     newDivWrap.appendChild(radioY);

@@ -1,8 +1,8 @@
 // Control general acrivity on index.html
 
 // Define root element which hold all custome elements.
-const rootEle = document.getElementById("areaForm");
-const outputEle = document.getElementById("areaPreview");
+const rootEle = document.getElementById("area-form");
+const outputEle = document.getElementById("area-preview");
 let templateJson = new Object();
 let sampleContentsJson = new Object();
 
@@ -14,13 +14,13 @@ const inspectTemplateJson = (template) => {
   for (const section of template.sections) {
     if (
       !("title" in section) ||
-      !("hidden_title" in section) ||
+      !("hidden-title" in section) ||
       !("required" in section) ||
       !("replacement" in section) ||
       !("multiple" in section) ||
       !("component" in section) ||
       !("description" in section) ||
-      !("kinds_of_values" in section) ||
+      !("kinds-of-values" in section) ||
       !("format" in section) ||
       !("attributes" in section)
     ) {
@@ -45,7 +45,7 @@ const inspectTemplateJson = (template) => {
 };
 
 const inspectContentsJson = (contents) => {
-  if (!("repository_url" in contents && "sections" in contents)) {
+  if (!("repository-url" in contents && "sections" in contents)) {
     throw new Error("contents.json is broken");
   }
   for (const section of contents.sections) {
@@ -88,7 +88,7 @@ const getJson = async (url, inspector) => {
 };
 
 const convertToId = (title) => {
-  return title.replace(" ", "_");
+  return title.replace(" ", "-");
 };
 
 // function which generate the form user input information.
@@ -102,53 +102,51 @@ const generateForm = (tempJson, autoJson, index) => {
 
     childElement.setAttributeNS(
       null,
-      "nameTitle",
-      tempJson.sections[index].title
+      "name-title",
+      tempJson.sections[index]["title"]
     );
     childElement.setAttributeNS(
       null,
       "required",
-      tempJson.sections[index].required
+      tempJson.sections[index]["required"]
     );
     childElement.setAttributeNS(
       null,
-      "descShort",
-      tempJson.sections[index].description
+      "desc-short",
+      tempJson.sections[index]["description"]
     );
     childElement.setAttributeNS(
       null,
-      "hiddenTitle",
-      tempJson.sections[index].hidden_title
+      "hidden-title",
+      tempJson.sections[index]["hidden-title"]
     );
     childElement.setAttributeNS(
       null,
       "multiple",
-      tempJson.sections[index].multiple
+      tempJson.sections[index]["multiple"]
     );
     childElement.setAttributeNS(
       null,
-      "place_holder",
-      tempJson.sections[index].attributes.place_holder
+      "placeholder",
+      tempJson.sections[index].attributes["placeholder"]
     );
 
-    if (typeof tempJson.sections[index].attributes.maxlength !== "undefined") {
+    if ("maxlength" in tempJson.sections[index].attributes) {
       childElement.setAttributeNS(
         null,
         "maxlength",
-        tempJson.sections[index].attributes.maxlength
+        tempJson.sections[index].attributes["maxlength"]
       );
     }
-    if (
-      typeof tempJson.sections[index].attributes.kinds_of_file !== "undefined"
-    ) {
+    if ("kinds-of-file" in tempJson.sections[index].attributes) {
       childElement.setAttributeNS(
         null,
-        "kinds_of_file",
-        tempJson.sections[index].attributes.kinds_of_file.join(",")
+        "kinds-of-file",
+        tempJson.sections[index].attributes["kinds-of-file"].join(",")
       );
     }
     childElement.setAttributeNS(null, "alert", "false");
-    childElement.setAttributeNS(null, "class", "infoBox");
+    childElement.setAttributeNS(null, "class", "info-box");
     childElement.setAttributeNS(
       null,
       "id",
@@ -202,7 +200,7 @@ const generateJson = (listEle, tempJson, index) => {
     const lenValue = values.reduce((prev, current) => {
       return prev + current.length;
     }, 0);
-    const kindsOfValues = tempJson.sections[index].kinds_of_values;
+    const kindsOfValues = tempJson.sections[index]["kinds-of-values"];
     if (lenValue !== 0 && values.length % kindsOfValues.length === 0) {
       arraySec.push({
         title: secTitle,
@@ -216,13 +214,13 @@ const generateJson = (listEle, tempJson, index) => {
 
 const createContentsJson = () => {
   const sectionsJson = generateJson(
-    document.getElementsByClassName("infoBox"),
+    document.getElementsByClassName("info-box"),
     templateJson,
     0
   );
   return {
-    repository_url: "",
-    project_icon: "",
+    "repository-url": "",
+    "project-icon": "",
     sections: sectionsJson,
   };
 };
@@ -246,7 +244,7 @@ const generateReadme = (template, contents) => {
     if (typeof templateSection === "undefined") {
       continue;
     }
-    const n = templateSection.kinds_of_values.length;
+    const n = templateSection["kinds-of-values"].length;
     const valueText = divideArraybyN(section.values, n)
       .reduce((prev, current) => {
         let length = 0;
@@ -258,7 +256,7 @@ const generateReadme = (template, contents) => {
         return length === 0 ? prev : prev + text;
       }, "")
       .trimEnd();
-    if (templateSection.hidden_title === false) {
+    if (templateSection["hidden-title"] === false) {
       if (templateSection.replacement) {
         text += `# ${valueText}\n`;
       } else {
@@ -283,7 +281,7 @@ const inspectRequired = (eleList, referNum) => {
           .querySelector(".column").value === ""
       ) {
         eleList[referNum].setAttribute("alert", "true");
-        document.getElementById("fill_alert").textContent =
+        document.getElementById("fill-alert").textContent =
           "赤枠は必須項目なので、入力してください。";
         returnNum = -1 + inspectRequired(eleList, ++referNum);
       } else {
@@ -341,7 +339,7 @@ const renderForm = async () => {
       autoFillJson = await getJson(url, inspectAutoFillJson);
     } else {
       const json = await getJson(
-        "/src/json/sample_contents.json",
+        "/src/json/sample-contents.json",
         inspectContentsJson
       );
       autoFillJson = json.sections;
@@ -370,14 +368,14 @@ const extractResourcePath = (template, contents) => {
     .filter(({ templateSection }) => {
       return (
         typeof templateSection !== "undefined" &&
-        templateSection.kinds_of_values.includes("filepath")
+        templateSection["kinds-of-values"].includes("filepath")
       );
     })
     .flatMap(({ contentsSection, templateSection }) => {
-      const n = templateSection.kinds_of_values.length;
+      const n = templateSection["kinds-of-values"].length;
       let array = new Array();
       for (let i = 0; i < contentsSection.values.length; i++) {
-        if (templateSection.kinds_of_values[i % n] === "filepath") {
+        if (templateSection["kinds-of-values"][i % n] === "filepath") {
           array.push(contentsSection.values[i]);
         }
       }
@@ -471,8 +469,8 @@ renderForm()
 
 // Submitボタンを押した時の処理
 document.getElementById("submit").addEventListener("click", () => {
-  if (inspectRequired(document.getElementsByClassName("infoBox"), 0) === 0) {
-    document.getElementById("fill_alert").textContent = "";
+  if (inspectRequired(document.getElementsByClassName("info-box"), 0) === 0) {
+    document.getElementById("fill-alert").textContent = "";
     preview(true);
   } else {
     // アラートを出す？

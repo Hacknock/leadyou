@@ -11,21 +11,21 @@ class WrapOnelineField extends HTMLElement {
 
     // Create title holder
     const subtitle = document.createElement("h2");
-    subtitle.setAttribute("class", "subTitle");
-    const titleSub = this.getAttribute("nameTitle");
+    subtitle.setAttribute("class", "sub-title");
+    const titleSub = this.getAttribute("name-title");
     subtitle.textContent = titleSub;
 
     // Create description holder
     const description = document.createElement("span");
-    description.setAttribute("class", "shortDescription");
-    const descShort = this.getAttribute("descShort");
+    description.setAttribute("class", "short-description");
+    const descShort = this.getAttribute("desc-short");
     description.textContent = descShort;
 
     // Create some CSS to apply to the shadow dom
     const style = document.createElement("style");
     // console.log(style.isConnected);
     style.textContent = `
-    .shortDescription {
+    .short-description {
       display: inline-block;
       margin: 0px auto 15px;
       max-width: 80%;
@@ -47,28 +47,28 @@ class WrapOnelineField extends HTMLElement {
       cursor: pointer;
     }
 
-    .style_alert {
+    .style-alert {
       border: solid 0.7px #E53935;
     }
 
-    .style_normal {
+    .style-normal {
       border: solid 0.7px #000000;
     }
 
-    .deleteButton {
+    .delete-button {
       margin-left: 8px;
       background-color: #F44336;
     }
 
-    .display_delete {
+    .display-delete {
       display: inline-block;
     }
 
-    .no_display_delete {
+    .no-display-delete {
       display: none;
     }
 
-    #addButton {
+    #add-button {
       background-color: #00897B;
     }
     `;
@@ -96,28 +96,28 @@ class WrapOnelineField extends HTMLElement {
 
   static get observedAttributes() {
     return [
-      "nameTitle",
-      "descShort",
+      "name-title",
+      "desc-short",
       "multiple",
       "alert",
       "values",
-      "place_holder",
+      "placeholder",
       "maxlength",
     ];
   }
 
   attributeChangedCallback(attr, _, newVal) {
-    if (attr === "nameTitle") {
+    if (attr === "name-title") {
       // Create title holder
-      this.shadowRoot.querySelector(".subTitle").textContent = newVal;
-    } else if (attr === "descShort") {
+      this.shadowRoot.querySelector(".sub-title").textContent = newVal;
+    } else if (attr === "desc-short") {
       // Create description holder
-      this.shadowRoot.querySelector(".shortDescription").textContent = newVal;
+      this.shadowRoot.querySelector(".short-description").textContent = newVal;
     } else if (attr === "multiple" && newVal === "true") {
       const addButton = document.createElement("input");
       addButton.setAttribute("type", "button");
       addButton.setAttribute("value", "add");
-      addButton.setAttribute("id", "addButton");
+      addButton.setAttribute("id", "add-button");
       addButton.addEventListener("click", () => {
         const newDivWrap = this.addInputField();
 
@@ -128,18 +128,18 @@ class WrapOnelineField extends HTMLElement {
       let inputEles = this.shadowRoot.querySelectorAll(".column");
       if (newVal === "true") {
         for (var i = 0; i < inputEles.length; i++) {
-          inputEles[i].setAttribute("class", "column style_alert");
+          inputEles[i].setAttribute("class", "column style-alert");
         }
       } else {
         for (var i = 0; i < inputEles.length; i++) {
-          inputEles[i].setAttribute("class", "column style_normal");
+          inputEles[i].setAttribute("class", "column style-normal");
         }
       }
     } else if (attr === "values") {
       const values = JSON.parse(newVal);
       let count = 0;
       this.autoFill(values, this.getAttribute("multiple"), count);
-    } else if (attr === "place_holder") {
+    } else if (attr === "placeholder") {
       let allInputElement = this.shadowRoot.querySelectorAll(".column");
       for (let i = 0; i < allInputElement.length; i++) {
         allInputElement[i].setAttribute("placeholder", newVal);
@@ -156,7 +156,7 @@ class WrapOnelineField extends HTMLElement {
 
   autoFill(values) {
     let inputEles = this.shadowRoot.querySelectorAll(".column");
-    const addButton = this.shadowRoot.getElementById("addButton");
+    const addButton = this.shadowRoot.getElementById("add-button");
     for (const [i, v] of values.entries()) {
       if (inputEles.length > i) {
         inputEles[i].value = v;
@@ -174,14 +174,14 @@ class WrapOnelineField extends HTMLElement {
     let listField = this.shadowRoot.querySelectorAll(".field");
     if (this.getAttribute("multiple") === "true" && listField.length < 2) {
       const listDeleteButton = this.shadowRoot.querySelectorAll(
-        ".deleteButton"
+        ".delete-button"
       );
       console.log("listDeleteButton");
       console.log(listDeleteButton);
       for (let i = 0; i < listDeleteButton.length; i++) {
         listDeleteButton[i].setAttribute(
           "class",
-          "deleteButton no_display_delete"
+          "delete-button no-display-delete"
         );
       }
     }
@@ -196,7 +196,7 @@ class WrapOnelineField extends HTMLElement {
 
     const statusLabel = this.getAttribute("alert");
 
-    newInputF.setAttribute("placeholder", this.getAttribute("place_holder"));
+    newInputF.setAttribute("placeholder", this.getAttribute("placeholder"));
 
     // delete button add
     // Judge whether this inserts delte button or not
@@ -208,25 +208,25 @@ class WrapOnelineField extends HTMLElement {
     });
     let listField = this.shadowRoot.querySelectorAll(".field");
     if (this.getAttribute("multiple") === "true" && listField.length > 0) {
-      deleteButton.setAttribute("class", "deleteButton display_delete");
+      deleteButton.setAttribute("class", "delete-button display-delete");
 
       const listDeleteButton = this.shadowRoot.querySelectorAll(
-        ".deleteButton"
+        ".delete-button"
       );
       for (let i = 0; i < listDeleteButton.length; i++) {
         listDeleteButton[i].setAttribute(
           "class",
-          "deleteButton display_delete"
+          "delete-button display-delete"
         );
       }
     } else {
-      deleteButton.setAttribute("class", "deleteButton no_display_delete");
+      deleteButton.setAttribute("class", "delete-button no-display-delete");
     }
 
     if (statusLabel === "true") {
-      newInputF.setAttribute("class", "column style_alert");
+      newInputF.setAttribute("class", "column style-alert");
     } else {
-      newInputF.setAttribute("class", "column style_normal");
+      newInputF.setAttribute("class", "column style-normal");
     }
     newDivWrap.appendChild(newInputF);
     newDivWrap.appendChild(deleteButton);

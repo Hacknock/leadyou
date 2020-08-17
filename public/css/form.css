@@ -77,7 +77,7 @@ input#submit {
   cursor: pointer;
 }
 
-p.alert_text {
+p.alert-text {
   color: #f00;
   margin-top: 8px;
   margin-bottom: 0;
@@ -106,7 +106,7 @@ div.preview-area {
   height: auto;
 }
 
-div.md_content {
+div.md-content {
   padding: 16px;
   text-align: left;
   border: 1px dashed;
