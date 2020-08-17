@@ -16,7 +16,7 @@ app.listen(port, () => {
 });
 
 // ★★★ File Serve & Rooting API Request ★★★
-app.get("/", (req, res) => {
+app.get("/", (_, res) => {
   responseFileSupport(res, "./public/html/index.html", "text/html");
 });
 
@@ -30,6 +30,10 @@ app.get("/:path", (req, res) => {
     }
     case "makereadme": {
       responseFileSupport(res, "./public/html/form.html", "text/html");
+      break;
+    }
+    case "page": {
+      responseFileSupport(res, "./public/html/document.html", "text/html");
       break;
     }
     case "getvalues": {
@@ -80,6 +84,10 @@ app.get("/src/:dir/:file", (req, res) => {
     }
     case "img": {
       responseFileSupport(res, `./public/img/${file}`, "image/*");
+      break;
+    }
+    case "md": {
+      responseFileSupport(res, `./public/md/${file}`, "text/markdown");
       break;
     }
     default: {

@@ -3,16 +3,10 @@ html {
 }
 
 body {
-  text-align: center;
+  /* text-align: center; */
   margin: 0;
   padding: 0;
   font-family: "Roboto", sans-serif;
-}
-
-.wrap {
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
 }
 
 /* ☆☆☆☆☆ Header ☆☆☆☆☆ */
@@ -40,17 +34,10 @@ header span.title {
   align-self: center;
 }
 
-header span.sub-title {
-  margin-top: 4px;
-  margin-right: auto;
-  font-size: 24px;
-  align-self: center;
-}
-
 header a {
-  margin-top: 6px;
+  margin-top: 4px;
   margin-right: 50px;
-  font-size: 20px;
+  font-size: 24px;
   align-self: center;
   color: white;
   text-decoration: none;
@@ -67,49 +54,9 @@ div.dummy-header {
 }
 
 /* ☆☆☆☆☆ Main Contents ☆☆☆☆☆ */
-input#submit {
-  margin: 20px auto 0;
-  background-color: #00897b;
-  padding: 5px 12px;
-  color: #eceff1;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-p.alert_text {
-  color: #f00;
-  margin-top: 8px;
-  margin-bottom: 0;
-}
-
-div.contents {
-  display: flex;
-  justify-content: space-between;
-  margin: 20px auto;
-  width: 90%;
-  min-width: 750px;
-}
-
-div.edit-area {
-  width: 49%;
-  height: auto;
-}
-
-div.edit-inner {
-  padding: 15px;
-  border: 1px solid;
-}
-
-div.preview-area {
-  width: 49%;
-  height: auto;
-}
-
 div.md_content {
-  padding: 16px;
+  padding: 32px;
   text-align: left;
-  border: 1px dashed;
 }
 
 /* ☆☆☆☆☆ Footer ☆☆☆☆☆ */
