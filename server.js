@@ -25,7 +25,11 @@ app.get("/:path", (req, res) => {
   console.log(`get: ${path}`);
   switch (path) {
     case "favicon.ico": {
-      responseFileSupport(res, "./public/favicon.ico", "image/x-icon");
+      responseFileSupport(
+        res,
+        "./public/images/favicon-black.ico",
+        "image/x-icon"
+      );
       break;
     }
     case "makereadme": {
