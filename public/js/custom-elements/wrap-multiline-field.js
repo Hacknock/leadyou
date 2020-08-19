@@ -10,10 +10,17 @@ class WrapMultiField extends HTMLElement {
     const wrapper = this.addInputField();
 
     // Create title holder
-    const subtitle = document.createElement("h2");
-    const titleSub = this.getAttribute("name-title");
+    const blockSubTitle = document.createElement("div");
+    blockSubTitle.setAttribute("class", "block-subtitle");
+    const subtitle = document.createElement("span");
     subtitle.setAttribute("class", "sub-title");
+    const titleSub = this.getAttribute("name-title");
     subtitle.textContent = titleSub;
+    const markRequired = document.createElement("span");
+    markRequired.setAttribute("class", "mark-required display-optional");
+    markRequired.textContent = "*";
+    blockSubTitle.appendChild(subtitle);
+    blockSubTitle.appendChild(markRequired);
 
     // Create description holder
     const description = document.createElement("span");
@@ -33,7 +40,6 @@ class WrapMultiField extends HTMLElement {
 
     // Create some CSS to apply to the shadow dom
     const style = document.createElement("style");
-    // console.log(style.isConnected);
     style.textContent = `
     .short-description {
       display: inline-block;
@@ -87,11 +93,24 @@ class WrapMultiField extends HTMLElement {
     #add-button {
       background-color: #00897B;
     }
+
+    .block-subtitle {
+      margin: 0.83em 0;
+      font-size: 1.5em;
+    }
+
+    .display-optional {
+      display: none;
+    }
+
+    .display-required {
+      color: red;
+    }
     `;
 
     // Append Child
     shadow.appendChild(style);
-    shadow.appendChild(subtitle);
+    shadow.appendChild(blockSubTitle);
     shadow.appendChild(description);
     shadow.appendChild(wrapper);
     if (this.getAttribute("multiple") === true) {
@@ -107,13 +126,11 @@ class WrapMultiField extends HTMLElement {
       "values",
       "placeholder",
       "maxlength",
+      "required",
     ];
   }
 
   attributeChangedCallback(attr, _, newVal) {
-    // console.log('my-el attribute changed', attr);
-    // console.log('new value is ', newVal);
-
     if (attr === "name-title") {
       // Create title holder
       this.shadowRoot.querySelector(".sub-title").textContent = newVal;
@@ -157,14 +174,19 @@ class WrapMultiField extends HTMLElement {
           allInputElement[i].setAttribute("maxlength", newVal);
         }
       }
+    } else if (attr === "required") {
+      if (newVal === "true") {
+        let allMarks = this.shadowRoot.querySelectorAll(".mark-required");
+        for (let i = 0; i < allMarks.length; i++) {
+          allMarks[i].setAttribute("class", "mark-required display-required");
+        }
+      }
     }
   }
 
   autoFill(values) {
-    // console.log(multiple);
     let inputEles = this.shadowRoot.querySelectorAll(".column");
     const addButton = this.shadowRoot.getElementById("add-button");
-    // console.log(values);
     for (const [i, v] of values.entries()) {
       if (inputEles.length > i) {
         inputEles[i].value = v;
@@ -172,7 +194,6 @@ class WrapMultiField extends HTMLElement {
         const newDivWrap = this.addInputField();
         this.shadowRoot.insertBefore(newDivWrap, addButton);
         inputEles = this.shadowRoot.querySelectorAll(".column");
-        // console.log(inputEles[i]);
         inputEles[i].value = v;
       }
     }
@@ -185,8 +206,6 @@ class WrapMultiField extends HTMLElement {
       const listDeleteButton = this.shadowRoot.querySelectorAll(
         ".delete-button"
       );
-      console.log("list-delete-button");
-      console.log(listDeleteButton);
       for (let i = 0; i < listDeleteButton.length; i++) {
         listDeleteButton[i].setAttribute(
           "class",
@@ -207,7 +226,6 @@ class WrapMultiField extends HTMLElement {
     // 今度確認する（今、multilineにaddがないから）
     const maxlength = this.getAttribute("maxlength");
     if (typeof newVal !== "undefined") {
-      console.log(maxlength);
       if (Number(maxlength) > 0) {
         let allInputElement = this.shadowRoot.querySelectorAll(".column");
         for (let i = 0; i < allInputElement.length; i++) {
@@ -231,8 +249,6 @@ class WrapMultiField extends HTMLElement {
       const listDeleteButton = this.shadowRoot.querySelectorAll(
         ".delete-button"
       );
-      console.log("list-delete-button");
-      console.log(listDeleteButton);
       for (let i = 0; i < listDeleteButton.length; i++) {
         listDeleteButton[i].setAttribute(
           "class",

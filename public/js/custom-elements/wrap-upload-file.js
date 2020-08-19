@@ -7,10 +7,17 @@ class WrapUploadFile extends HTMLElement {
     const shadow = this.attachShadow({ mode: "open" });
 
     // Create title holder
-    const subtitle = document.createElement("h2");
+    const blockSubTitle = document.createElement("div");
+    blockSubTitle.setAttribute("class", "block-subtitle");
+    const subtitle = document.createElement("span");
     subtitle.setAttribute("class", "sub-title");
     const titleSub = this.getAttribute("name-title");
     subtitle.textContent = titleSub;
+    const markRequired = document.createElement("span");
+    markRequired.setAttribute("class", "mark-required display-optional");
+    markRequired.textContent = "*";
+    blockSubTitle.appendChild(subtitle);
+    blockSubTitle.appendChild(markRequired);
 
     // Create description holder
     const description = document.createElement("span");
@@ -33,7 +40,6 @@ class WrapUploadFile extends HTMLElement {
 
     // Create some CSS to apply to the shadow dom
     const style = document.createElement("style");
-    // console.log(style.isConnected);
     style.textContent = `
     .short-description {
       display: inline-block;
@@ -104,11 +110,24 @@ class WrapUploadFile extends HTMLElement {
     #add-button {
       background-color: #00897B;
     }
+
+    .block-subtitle {
+      margin: 0.83em 0;
+      font-size: 1.5em;
+    }
+
+    .display-optional {
+      display: none;
+    }
+
+    .display-required {
+      color: red;
+    }
     `;
 
     // Append Child
     shadow.appendChild(style);
-    shadow.appendChild(subtitle);
+    shadow.appendChild(blockSubTitle);
     shadow.appendChild(description);
     shadow.appendChild(divWrap);
     if (this.getAttribute("multiple") === true) {
@@ -125,12 +144,11 @@ class WrapUploadFile extends HTMLElement {
       "placeholder",
       "maxlength",
       "kindsOfFile",
+      "required",
     ];
   }
 
   attributeChangedCallback(attr, _, newVal) {
-    // console.log('my-el attribute changed', attr);
-    // console.log('new value is ', newVal);
     if (attr === "name-title") {
       // Create title holder
       this.shadowRoot.querySelector(".sub-title").textContent = newVal;
@@ -174,16 +192,19 @@ class WrapUploadFile extends HTMLElement {
         );
       }
     } else if (attr === "kindsOfFile") {
-      console.log("kindsOfFile");
-      console.log(newVal);
       const inputFiles = this.shadowRoot.querySelectorAll("input");
-      console.log(inputFiles);
       inputFiles.forEach((element) => {
-        console.log(element);
         if (element.getAttribute("type") === "file") {
           element.setAttribute("accept", newVal);
         }
       });
+    } else if (attr === "required") {
+      if (newVal === "true") {
+        let allMarks = this.shadowRoot.querySelectorAll(".mark-required");
+        for (let i = 0; i < allMarks.length; i++) {
+          allMarks[i].setAttribute("class", "mark-required display-required");
+        }
+      }
     }
   }
   handleFileSelect(e) {
@@ -205,8 +226,6 @@ class WrapUploadFile extends HTMLElement {
       const listDeleteButton = this.shadowRoot.querySelectorAll(
         ".delete-button"
       );
-      console.log("listDeleteButton");
-      console.log(listDeleteButton);
       for (let i = 0; i < listDeleteButton.length; i++) {
         listDeleteButton[i].setAttribute(
           "class",
@@ -262,8 +281,7 @@ class WrapUploadFile extends HTMLElement {
       const listDeleteButton = this.shadowRoot.querySelectorAll(
         ".delete-button"
       );
-      console.log("listDeleteButton");
-      console.log(listDeleteButton);
+
       for (let i = 0; i < listDeleteButton.length; i++) {
         listDeleteButton[i].setAttribute(
           "class",
