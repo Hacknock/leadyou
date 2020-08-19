@@ -22,7 +22,7 @@ const getMarkdown = async (url) => {
     if (response.ok) {
       return text;
     } else {
-      throw new Error("404 とかで md がないよ");
+      throw new Error(`${url.replace("/src/md/", "")} is not found.`);
     }
   } catch (err) {
     throw err;
@@ -32,8 +32,10 @@ const getMarkdown = async (url) => {
 const loadMarkdown = () => {
   const params = getQueryStringParams(window.location.search);
   if (!("md" in params)) {
-    console.error(new Error("query に md がないよ"));
-    alert("query に md がないよ");
+    const err = new Error("The page is not specified.");
+    console.error(err);
+    outputEle.innerHTML = `<p>${err}</p>`;
+    return;
   }
   getMarkdown(`/src/md/${params.md}.md`)
     .then((md) => {
@@ -41,8 +43,7 @@ const loadMarkdown = () => {
     })
     .catch((err) => {
       console.error(err);
-      // ページがなかった時の処理を何かする。
-      alert("ページがなかったよ");
+      outputEle.innerHTML = `<p>${err}</p>`;
     });
 };
 
