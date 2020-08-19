@@ -69,12 +69,13 @@ div.dummy-header {
 /* ☆☆☆☆☆ Main Contents ☆☆☆☆☆ */
 input#submit {
   margin: 20px auto 0;
-  background-color: #00897b;
+  background-color: #0277bd;
   padding: 5px 12px;
   color: #eceff1;
   border: none;
   border-radius: 4px;
   cursor: pointer;
+  font-size: large;
 }
 
 p.alert-text {
