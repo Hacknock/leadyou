@@ -10,7 +10,6 @@ const getQueryStringParams = (query) => {
 };
 
 const getMarkdown = async (url) => {
-  console.log(url);
   const options = {
     mode: "cors",
     headers: {
