@@ -88,7 +88,8 @@ class WrapOnelineField extends HTMLElement {
     }
 
     .display-required {
-      color: red;
+      color: #F44336;
+      margin-left: 4px;
     }
 
     `;
