@@ -195,7 +195,7 @@ const generateJson = (listEle, tempJson, index) => {
   if (typeof tempJson.sections[index] !== "undefined") {
     const root = listEle[index].shadowRoot;
     let stackEles = root.querySelectorAll(".field");
-    let secTitle = root.querySelector("h2").textContent;
+    let secTitle = root.querySelector(".sub-title").textContent;
     let values = getColumnData(stackEles, 0);
     const lenValue = values.reduce((prev, current) => {
       return prev + current.length;
