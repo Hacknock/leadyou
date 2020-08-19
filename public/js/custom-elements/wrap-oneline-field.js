@@ -10,10 +10,17 @@ class WrapOnelineField extends HTMLElement {
     const wrapper = this.addInputField();
 
     // Create title holder
-    const subtitle = document.createElement("h2");
+    const blockSubTitle = document.createElement("div");
+    blockSubTitle.setAttribute("class", "block-subtitle");
+    const subtitle = document.createElement("span");
     subtitle.setAttribute("class", "sub-title");
     const titleSub = this.getAttribute("name-title");
     subtitle.textContent = titleSub;
+    const markRequired = document.createElement("span");
+    markRequired.setAttribute("class", "mark-required display-optional");
+    markRequired.textContent = "*";
+    blockSubTitle.appendChild(subtitle);
+    blockSubTitle.appendChild(markRequired);
 
     // Create description holder
     const description = document.createElement("span");
@@ -23,7 +30,6 @@ class WrapOnelineField extends HTMLElement {
 
     // Create some CSS to apply to the shadow dom
     const style = document.createElement("style");
-    // console.log(style.isConnected);
     style.textContent = `
     .short-description {
       display: inline-block;
@@ -71,6 +77,21 @@ class WrapOnelineField extends HTMLElement {
     #add-button {
       background-color: #00897B;
     }
+
+    .block-subtitle {
+      margin: 0.83em 0;
+      font-size: 1.5em;
+    }
+
+    .display-optional {
+      display: none;
+    }
+
+    .display-required {
+      color: #F44336;
+      margin-left: 4px;
+    }
+
     `;
 
     // add input field button & its event
@@ -85,7 +106,7 @@ class WrapOnelineField extends HTMLElement {
 
     // Append Child
     shadow.appendChild(style);
-    shadow.appendChild(subtitle);
+    shadow.appendChild(blockSubTitle);
     shadow.appendChild(description);
     shadow.appendChild(wrapper);
 
@@ -103,6 +124,7 @@ class WrapOnelineField extends HTMLElement {
       "values",
       "placeholder",
       "maxlength",
+      "required",
     ];
   }
 
@@ -151,6 +173,13 @@ class WrapOnelineField extends HTMLElement {
           allInputElement[i].setAttribute("maxlength", newVal);
         }
       }
+    } else if (attr === "required") {
+      if (newVal === "true") {
+        let allMarks = this.shadowRoot.querySelectorAll(".mark-required");
+        for (let i = 0; i < allMarks.length; i++) {
+          allMarks[i].setAttribute("class", "mark-required display-required");
+        }
+      }
     }
   }
 
@@ -176,8 +205,6 @@ class WrapOnelineField extends HTMLElement {
       const listDeleteButton = this.shadowRoot.querySelectorAll(
         ".delete-button"
       );
-      console.log("listDeleteButton");
-      console.log(listDeleteButton);
       for (let i = 0; i < listDeleteButton.length; i++) {
         listDeleteButton[i].setAttribute(
           "class",
@@ -232,7 +259,6 @@ class WrapOnelineField extends HTMLElement {
     newDivWrap.appendChild(deleteButton);
     if (typeof newVal !== "undefined") {
       const maxlength = this.getAttribute("maxlength");
-      console.log(maxlength);
       if (Number(maxlength) > 0) {
         let allInputElement = this.shadowRoot.querySelectorAll(".column");
         for (let i = 0; i < allInputElement.length; i++) {
