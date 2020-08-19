@@ -104,12 +104,10 @@ app.get("/src/:dir/:file", (req, res) => {
 
 const responseFileSupport = (res, path, type) => {
   try {
-    fs.readFile(path, (err, data) => {
-      if (err) throw err;
-      res.writeHead(200, { "Content-Type": type });
-      res.write(data);
-      res.end();
-    });
+    const data = fs.readFileSync(path);
+    res.writeHead(200, { "Content-Type": type });
+    res.write(data);
+    res.end();
   } catch (err) {
     console.error(err);
     res.writeHead(404, { "Content-Type": "text/plain" });
