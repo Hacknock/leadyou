@@ -9,6 +9,12 @@ body {
   font-family: "Roboto", sans-serif;
 }
 
+.wrap {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
 /* ☆☆☆☆☆ Header ☆☆☆☆☆ */
 header {
   position: fixed;
