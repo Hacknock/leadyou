@@ -456,7 +456,6 @@ const preview = (flag) => {
 // ★★★ Calling Method ★★★
 renderForm()
   .then((obj) => {
-    console.log(obj);
     if (Object.keys(obj).length === 0) return;
     templateJson = obj.temp;
     generateForm(obj.temp, obj.auto, 0);
