@@ -30,7 +30,6 @@ class WrapOnelineField extends HTMLElement {
 
     // Create some CSS to apply to the shadow dom
     const style = document.createElement("style");
-    // console.log(style.isConnected);
     style.textContent = `
     .short-description {
       display: inline-block;
@@ -174,9 +173,7 @@ class WrapOnelineField extends HTMLElement {
         }
       }
     } else if (attr === "required") {
-      console.log("required");
       if (newVal === "true") {
-        console.log("Required is true");
         let allMarks = this.shadowRoot.querySelectorAll(".mark-required");
         for (let i = 0; i < allMarks.length; i++) {
           allMarks[i].setAttribute("class", "mark-required display-required");
@@ -207,8 +204,6 @@ class WrapOnelineField extends HTMLElement {
       const listDeleteButton = this.shadowRoot.querySelectorAll(
         ".delete-button"
       );
-      console.log("listDeleteButton");
-      console.log(listDeleteButton);
       for (let i = 0; i < listDeleteButton.length; i++) {
         listDeleteButton[i].setAttribute(
           "class",
@@ -263,7 +258,6 @@ class WrapOnelineField extends HTMLElement {
     newDivWrap.appendChild(deleteButton);
     if (typeof newVal !== "undefined") {
       const maxlength = this.getAttribute("maxlength");
-      console.log(maxlength);
       if (Number(maxlength) > 0) {
         let allInputElement = this.shadowRoot.querySelectorAll(".column");
         for (let i = 0; i < allInputElement.length; i++) {
