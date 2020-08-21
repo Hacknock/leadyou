@@ -56,7 +56,7 @@ You can disable cookies in your browser settings. As a result, some of the servi
 # About Cookies
 
 Hacknock uses cookies to make our services more useful to our users.
-Hacknock uses cookies primarily for the following purposes
+Hacknock uses cookies primarily for the following purposes.
 
 - To help Hacknock provide a more personalised service to our users.
 - To perform analytical work to understand the activities of users of Hacknock's services.
