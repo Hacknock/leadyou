@@ -1,4 +1,4 @@
-# New README.md format proposal
+# New README format proposal
 
 ## What GitHub and Bitbucket mentioned about README.
 
