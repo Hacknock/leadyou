@@ -1,21 +1,21 @@
-# New README.md format proposal
+# New README format proposal
 
-## What GitHub and Bitbucket mentioned about README.md
+## What GitHub and Bitbucket mentioned about README.
 
-私たちが[What is README?](https://leadyou.hacknock.com)でも触れましたが、Github では README.md について以下のように述べています。
+As we mentioned in [What is README?](https://leadyou.hacknock.com), Github has this to say about README.
 
 > You can add a README file to your repository to tell other people why your project is useful, what they can do with your project, and how they can use it.  
 > (Quote it from [About READMEs](https://docs.github.com/en/github/creating-cloning-and-archiving-repositories/about-readmes) written by GitHub)
 
-また、Bitbucket では、README.md について同様に、以下のように述べられています。
+Bitbucket also says the following about README as well.
 
 > A README is a reference for other users visiting your repository and documents steps for them to get your application up and running. You can either add and edit your README file locally or straight from Bitbucket Cloud.  
 > (Quote it from [README content](https://support.atlassian.com/bitbucket-cloud/docs/readme-content/) written by Bitbucket)
 
-Github によると README は、あなたのプロジェクトでユーザーが何をすることができるか、どのように使用できるのか、なぜ有用であるのかを記述する必要があると述べています。
-Bitbucket では、README はユーザーのためのリファレンスであり、ユーザーがあなたのプロジェクトを利用する時に、どのようにアプリケーションを起動し実行するのかという手順を文書化したものであると述べています。
-これらのことから README は、あなたが公開したリポジトリを他のユーザーが利用する際に、他のプロジェクトでは実現できていない課題を解決することや、今まで実現できていないことが実現できるということなど有用性を示すことで、ユーザーがあなたのプロジェクトを利用したり貢献したりする動機付けを提供するとともに、あなたのプロジェクトを利用する方法を記述した概要であると言えます。
-これらを示すために GitHub は以下の 5 つのコンテンツを含むべきであると示しています。
+Github says a README should describe what users can do with your project, how they can use it, and why it's useful.
+Bitbucket states that a README is a reference for users, documenting the steps of how to get your application up and running when they use your project.
+The README is therefore an overview of how to use your project, as well as providing an incentive for users to use and contribute to your project by demonstrating its usefulness to other users of your public repository, including the ability to solve problems that have not been solved in other projects and to achieve things that have not been possible before.
+To indicate this, GitHub indicates that it should include the following five pieces of content.
 
 - What the project does
 - Why the project is useful
@@ -25,98 +25,98 @@ Bitbucket では、README はユーザーのためのリファレンスであり
 
 ## The reason why we proposed new README format
 
-前の節で述べた内容を、ほとんどのプロジェクトでは達成できていないのが現状です。
-具体的な名前は挙げませんが、私たちが良く利用しているオープンソースでさえ、README に前の節で述べた内容を満たす十分な情報が書かれていません。
-従って、開発者は README から必要な情報を得ることが出来ていないという現状があると言えます。
-これは、README を書くための統一的なフォーマットが普及していないことが原因であるのではないかと私たちは考えました。
-そこで、私たちは GitHub や Bitbucket が述べている README の推奨要件を満たすような統一的なフォーマットを知識の共有方法の一つである論文の記述方法を参考に提案します。
+Most projects fail to achieve what I have described in the previous section.
+Even the open source projects we use frequently, which I won't name specifically, do not have enough information in their READMEs to fulfill the previous section.
+Therefore, developers do not get the information they need to use the open source from its README in many cases.
+We wondered if this was due to the lack of a unified format for writing READMEs.
+Therefore, we propose a unified format that meets the recommended requirements for READMEs as stated by GitHub and Bitbucket, based on the ways of writing papers as a way of sharing knowledge.
 
 ## Our proposed README format
 
-以下に私たちが提案する RADME に入れるべき具体的な内容について説明をします。
+Here are some of the specifics that we propose to include in our README.
 
 ### Project Name (Required)
 
-あなたのプロジェクトの名は、ユーザーにどのように呼んで欲しいかというブランドでもあり重要です。
-この項目は[README Generator](https://generator.hacknock.com)では必須項目になっています。
+The name of your project is important because it is how you want your users to call you, as well as your brand.
+This field is required in [README Generator](https://generator.hacknock.com).
 
 ### Badges
 
-あなたのプロジェクトの状態を一目で分かるようにするために、[Shields IO](https://shields.io/)が提供するバッジを表示することを推奨しています。
-この項目は[README Generator](https://generator.hacknock.com)では必須項目ではなく推奨項目になっています。
+To give developers an at-a-glance view of your project's status, it is recommended that you display the badges provided by [Shields IO](https://shields.io/).
+This item is recommended in [README Generator](https://generator.hacknock.com).
 
 ### Tags (Required)
 
-Tags はあなたのプロジェクトのキーワードです。
-ユーザーがあなたのプロジェクトで用いている言語やフレームワークなどを一眼で分かるようにするために重要な情報です。
-この項目は[README Generator](https://generator.hacknock.com)では必須項目になっています。
+Tags are keywords for your project.
+It is important for users to know the language and framework used in your project at a glance.
+This field is required in the [README Generator](https://generator.hacknock.com).
 
 ### Short Description (Required)
 
-Short Description はあなたのプロジェクトの全体像を簡潔にユーザーが理解するために重要です。
-含めるべき内容としては、「あなたのプロジェクトが開発され公開された経緯（今存在しているフレームワークやオープンソースの課題や達成されていないことなど）」、「それを解決するアイデア」、「あなたのプロジェクトで出来ること」3 つです。
+A Short Description is important for users to understand the big picture of your project in a concise way.
+There are three things you should include: how your project was developed and published (what frameworks and open source issues exist and what hasn't been accomplished), your idea for solving it, and what your project can do.
 
 _Example_
 
-> hogehoge という処理を行うために、公式で提供されているフレームワークのみを用いるとユーザーが書くコードが煩雑になってしまうという課題があります。
-> この課題を解決するために、これらのコードをラップし hogehoge の処理を行うためのシンプルなインターフェイスを提供することが、私のアイデアです。
-> 私のプロジェクトが提供するラッパーライブラリをあなたが用いることで、hogehoge の処理を行うシンプルなコード記述を可能にします。
+> The challenge is that using only the official framework for handling hogehoge is cumbersome for users to write.
+> My idea is to solve this problem by providing a simple interface to wrap these codes and handle the hogehoge process.
+> My project provides a wrapper library that you can use to write simple code to handle hogehoge.
 
-この項目は[README Generator](https://generator.hacknock.com)では必須項目になっています。
+This field is required in the [README Generator](https://generator.hacknock.com).
 
 ### Demo
 
-ユーザーがあなたのプロジェクトの動作を確認するための情報です。
-特にユーザーインターフェイスを含む場合は、画像で動作の様子を表示することを推奨しています。
-この項目は[README Generator](https://generator.hacknock.com)では必須項目ではなく推奨項目になっています。
+This information is for the developer to see your project in action.
+We recommend that you show them how it works with images, especially if it includes a user interface.
+This field is required in the [README Generator](https://generator.hacknock.com).
 
 ### Advantages (Required)
 
-ユーザーがあなたのプロジェクトの有用性を判断するために重要です。
-開発者はこの項目に、他のオープンソースやフレームワークと比較して、あなたのプロジェクトをユーザーが利用するメリットを記載してください。
-開発者は箇条書きで簡潔に記載すると、ユーザーは分かりやすいです。
+It is important for developers to determine the usefulness of your project.
+You should describe in this section the benefits of your project to users compared to other open source and frameworks.
+You should use bullet points to make it concise and easy for developers to understand.
 
 _Example_
 
-> - 簡潔なコード記述が可能です。
-> - 他のライブラリとの依存関係がなく、本プロジェクトを導入するだけで利用が可能です。
-> - 公式のフレームワークの API を用いているため、動作が高速です。
+> - Concise code description is possible.
+> - There are no dependencies with other libraries, and you only need to install this project to use it.
+> - It uses the APIs of the official frameworks, so it works fast.
 
-この項目は[README Generator](https://generator.hacknock.com)では必須項目になっています。
+This field is required in the [README Generator](https://generator.hacknock.com).
 
 ### Installation (Required)
 
-ユーザーがあなたのプロジェクトを導入するために必要な情報です。
-具体的に導入する方法を記載してください。
-再現性のある書き方を心がけてください。つまり、動作する環境や導入に際して必要な依存環境、導入に必要なシェルなどのスクリプトを書いてください。
-この項目は[README Generator](https://generator.hacknock.com)では必須項目になっています。
+This is the information developers need to implement your project.
+Describe the specific ways to implement it.
+Try to write in a reproducible manner. In other words, write scripts for the environment in which you will be running, the dependencies you will need to implement, and the shells you will need to install.
+This field is required in the [README Generator](https://generator.hacknock.com).
 
 ### Deployment
 
-ユーザーがあなたのプロジェクトをデプロイするために必要な情報です。
-全てのプロジェクトに必要であるとは限りませんが、必要な依存環境と連携するなど、デプロイに必要なコードや手順があれば書いてください。
-この項目は[README Generator](https://generator.hacknock.com)では推奨項目になっています。
+This is the information developers will need to deploy your project.
+This may not be necessary for all projects, but please write any code or procedures you need to deploy, such as working with the necessary dependencies.
+This section is recommended in [README Generator](https://generator.hacknock.com).
 
 ### Minimal Example (Required)
 
-ユーザーがあなたのプロジェクトを利用する方法を簡単に知るための重要な情報です。
-この項目を見て、利用のしやすさや実際に利用する時のコードを確認します。
-また、この項目はユーザーが導入に成功しているかを確認するためにも用いることができます。
-あなたのプロジェクトをユーザーが導入する時に、チュートリアルとして、この項目を参照することが考えられます。
-この項目は[README Generator](https://generator.hacknock.com)では必須項目になっています。
+This is important information to make it easy for developers to know how to use your project.
+Look at this section to see how easy it is to use and the code for the actual use of the project.
+This section can also be used to verify that your uses are successful in implementing your project.
+It is likely that your users will refer to this section as a tutorial when they are deploying your project.
+This field is required by [README Generator](https://generator.hacknock.com).
 
 ### Contributors (Required)
 
-多くの大規模なプロジェクトや良く利用されるプロジェクトは、複数人の Contributors が存在します。
-誰があなたのプロジェクトに関わったかという情報は、Contributors の貢献を称えるために重要です。
-私たちは Contributors の努力を報いることで、オープンソースの発展が期待されると考えています。
-この項目は[README Generator](https://generator.hacknock.com)では必須項目になっています。
+Many large and popular projects have several contributors.
+It is important to know who is involved in your project so that we can recognize the contributions of your project' contributors.
+We believe that rewarding contributors' efforts will help open source to grow.
+This field is required in [README Generator](https://generator.hacknock.com).
 
 ### Users
 
-あなたのプロジェクトを利用しているユーザーがいれば記載してください。
-この情報は、ユーザーがあなたのプロジェクトの信頼性を判断する助けになると思います。
-この項目は[README Generator](https://generator.hacknock.com)では推奨項目になっています。
+Please list any users who use your project.
+This information will help users determine the reliability of your project.
+This is a recommended field in [README Generator](https://generator.hacknock.com).
 
 ## Edit History
 
