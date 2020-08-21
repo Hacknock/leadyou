@@ -2,7 +2,7 @@
 
 # Article 1 (Purpose)
 
-1. These Terms of Service (hereinafter referred to as "Terms of Service") set forth terms and conditions applicable to all services (hereinafter referred to as “Service”) provided by Hacknock.
+1. These Terms of Service (hereinafter referred to as "Terms of Service") set forth terms and conditions applicable to all services (hereinafter referred to as "Service") provided by Hacknock.
 2. Users of the Service (hereinafter referred to as "User(s)") shall use the Service pursuant to the Terms of Service.
    If Users do not agree to all of the Terms, Users cannot use this service.
 
@@ -22,19 +22,19 @@ The Users shall provide User information to Hacknock as necessary when using the
 
 # Article 5 (Prohibited acts)
 
-Hacknock の提供するサービスにあたっては、以下の各号に定める行為を禁止事項とします。
+In the service provided by Hacknock, the acts specified in the following items are prohibited.
 
-1. 本利用規約の定めに違反する行為
-2. Hacknock の提供するサービスの一部または全部について、リバースエンジニアリング、逆コンパイル、逆アセンブル、ハッキング、無効化、改竄、分解、変更、コピー、変換、破壊、ミラーサイト構築、その他これに類似する行為をすること
-3. スクレイピングやクローリングなどの手段によって通常の利用範囲を超えた特殊なアクセスを行う行為または Hacknock の提供するサービスに関する情報を取得する行為
-4. 大量のリクエストを Hacknock の提供するサービスに対して行い、システムに対する負荷をかける行為
-5. ユーザーの利用する国及び日本国の法令に違反する行為
-6. Hacknock または第三者の著作権、特許権などの知的財産権を侵害する行為
-7. 公序良俗に反する行為
-8. 社会的に不適切な行動と介される行為
-9. その他、Hacknock が不適切と判断する行為
+1. Violating the Terms of Service.
+2. Reverse engineering, decompiling, disassembling, hacking, invalidating, interfering, breaking down, modifying, copying, converting, destructing, creating mirror sites, or conducting any similar activities, with respect to part or all of the Service.
+3. Accessing or collecting information of Hacknock in a way that deviates from the scope of normal use, using scraping, crawling (crawler, robot, spider or other programs) or similar methods.
+4. Overloading the system by issuing numerous requests to the Service provided by Hacknock.
+5. Violating Japanese laws or regulations.
+6. Infringing upon copyrights, patent rights or any other intellectual property rights of Hacknock or third parties.
+7. Acting contrary to public order or morality.
+8. Acting what is considered socially inappropriate.
+9. Carrying out any other acts deemed inappropriate by Hacknock.
 
-Hacknock の提供するサービスを利用するユーザーが上記各号に定める行為を行った場合、Hacknock から行為の禁止に関する通知を行うとともに、状況に応じては事前通知なく法的措置を講じることがあります。
+When the User performs any of the acts specified in the above items, Hacknock may notify the User of the prohibition of the act and may take legal action without prior notice depending on the situation.
 
 # Article 6 (Disclaimer)
 
@@ -96,7 +96,7 @@ Hacknock の提供するサービスにあたっては、以下の各号に定�
 2. Hacknock の提供するサービスの一部または全部について、リバースエンジニアリング、逆コンパイル、逆アセンブル、ハッキング、無効化、改竄、分解、変更、コピー、変換、破壊、ミラーサイト構築、その他これに類似する行為をすること
 3. スクレイピングやクローリングなどの手段によって通常の利用範囲を超えた特殊なアクセスを行う行為または Hacknock の提供するサービスに関する情報を取得する行為
 4. 大量のリクエストを Hacknock の提供するサービスに対して行い、システムに対する負荷をかける行為
-5. ユーザーの利用する国及び日本国の法令に違反する行為
+5. 日本国の法令に違反する行為
 6. Hacknock または第三者の著作権、特許権などの知的財産権を侵害する行為
 7. 公序良俗に反する行為
 8. 社会的に不適切な行動と介される行為
