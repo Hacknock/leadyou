@@ -1,13 +1,13 @@
 # New README.md format proposal
 
-## What GitHub and Bitbucket mentioned about README.md
+## What GitHub and Bitbucket mentioned about README.
 
-As we mentioned in [What is README?](https://leadyou.hacknock.com), Github has this to say about README.md
+As we mentioned in [What is README?](https://leadyou.hacknock.com), Github has this to say about README.
 
 > You can add a README file to your repository to tell other people why your project is useful, what they can do with your project, and how they can use it.  
 > (Quote it from [About READMEs](https://docs.github.com/en/github/creating-cloning-and-archiving-repositories/about-readmes) written by GitHub)
 
-Bitbucket also says the following about README.md as well
+Bitbucket also says the following about README as well.
 
 > A README is a reference for other users visiting your repository and documents steps for them to get your application up and running. You can either add and edit your README file locally or straight from Bitbucket Cloud.  
 > (Quote it from [README content](https://support.atlassian.com/bitbucket-cloud/docs/readme-content/) written by Bitbucket)
@@ -15,7 +15,7 @@ Bitbucket also says the following about README.md as well
 Github says a README should describe what users can do with your project, how they can use it, and why it's useful.
 Bitbucket states that a README is a reference for users, documenting the steps of how to get your application up and running when they use your project.
 The README is therefore an overview of how to use your project, as well as providing an incentive for users to use and contribute to your project by demonstrating its usefulness to other users of your public repository, including the ability to solve problems that have not been solved in other projects and to achieve things that have not been possible before.
-To indicate this, GitHub indicates that it should include the following five pieces of content
+To indicate this, GitHub indicates that it should include the following five pieces of content.
 
 - What the project does
 - Why the project is useful
@@ -33,7 +33,7 @@ Therefore, we propose a unified format that meets the recommended requirements f
 
 ## Our proposed README format
 
-Here are some of the specifics that we propose to include in our README
+Here are some of the specifics that we propose to include in our README.
 
 ### Project Name (Required)
 
