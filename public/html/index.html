@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <base target="_blank" />
+    <link
+      id="favicon"
+      rel="shortcut icon"
+      type="image/x-icon"
+      href="/src/images/favicon-black.ico"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@500&display=swap"
+      rel="stylesheet"
+    />
+    <link href="/src/css/index.css" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src="/src/js/favicon.js" defer></script>
+    <script type="text/javascript" src="/src/js/index.js" defer></script>
+    <script
+      type="text/javascript"
+      src="/src/js/tag-google-analytics.js"
+    ></script>
+    <title>LEADYOU</title>
+  </head>
+  <body>
+    <div class="wrap">
+      <div class="top">
+        <img src="/src/images/icon-black.png" class="icon" />
+        <span class="title">LEADYOU</span>
+      </div>
+      <h3>README Generator for OSS</h3>
+      <form id="generate-form">
+        <div>
+          <input
+            type="text"
+            class="url normal-repo"
+            name="url"
+            id="url-column"
+            placeholder="Input an url of your public GitHub repository"
+          />
+          <p id="alert-text" class="alert-message"></p>
+        </div>
+        <div class="checkbox-area">
+          <input type="checkbox" id="auto-fill" name="auto-fill" disabled />
+          <label for="auto-fill" class="checkbox-label">Auto Fill</label>
+          <p class="checkbox-description">
+            Fill in some forms automatically based on the information of the
+            repository.
+          </p>
+        </div>
+        <input type="submit" value="Next Step" />
+      </form>
+      <footer>
+        <div class="child left-child">
+          <h1>LEADYOU</h1>
+          <p>© 2020 Hcknock</p>
+        </div>
+        <div class="child middle-child">
+          <p><a href="/page?md=about-readme">About README</a></p>
+          <p><a href="/page?md=how-to-use-generator">How to Use</a></p>
+          <p><a href="/page?md=new-readme-format-proposal">Proposal</a></p>
+        </div>
+        <div class="child right-child">
+          <p><a href="https://hacknock.com/team/">About Us</a></p>
+          <p><a href="/page?md=terms-of-service">Terms of Service</a></p>
+          <p><a href="/page?md=privacy-policy">Privacy Policy</a></p>
+          <!-- <p><a href="/page?md=how-to-contribute">How to Contribute</a></p> -->
+          <p><a href="/page?md=contact">Contact</a></p>
+          <p><a href="/page?md=help">Help</a></p>
+        </div>
+      </footer>
+    </div>
+  </body>
+</html>

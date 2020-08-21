@@ -1,0 +1,34 @@
+{
+  "name": "api_pillreq-me",
+  "version": "1.0.0",
+  "private": "true",
+  "description": "This code is for pull req me project",
+  "main": "server.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/KASHIHARAAkira/api_pillreq-me.git"
+  },
+  "keywords": [
+    "Github"
+  ],
+  "author": "Akira Kashihara, Takuto Nakamura",
+  "bugs": {
+    "url": "https://github.com/KASHIHARAAkira/api_pillreq-me/issues"
+  },
+  "homepage": "https://github.com/KASHIHARAAkira/api_pillreq-me#readme",
+  "dependencies": {
+    "basic-auth": "^2.0.1",
+    "body-parser": "^1.19.0",
+    "config": "^3.3.0",
+    "ejs": "^3.0.1",
+    "express": "^4.17.1",
+    "fs": "0.0.1-security",
+    "http": "0.0.0",
+    "mongodb": "^3.5.5",
+    "node-fetch": "^2.6.0",
+    "pm2": "^4.2.3",
+    "request": "^2.88.2",
+    "request-promise": "^4.2.5"
+  },
+  "devDependencies": {}
+}
