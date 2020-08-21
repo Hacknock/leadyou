@@ -1,15 +1,17 @@
 # Contact Us
 
-LEADYOU に関する問い合わせ、ご意見はメールで受け付けております。
-以下のメールアドレスに件名を「問い合わせ」とした上で、本文に以下のように「氏名」と「問い合わせ内容」を記載した上で、送信してください。
+We welcome your questions and comments about LEADYOU by email.
+Please send an email to the following email address with "Inquiry" in the subject line and "Name" and "Content of Inquiry" in the body of the email as follows.
 
-## メール本文フォーマット
+## Contact Email Format
 
 ```
-氏名：〜〜ここにあなたの氏名を書いてください〜〜
-問い合わせ内容：〜〜あなたの問い合わせ内容を書いてください〜〜
+Name: ~~ Please write your name here ~~.
+Content of inquiry: ~~ Please write your inquiry
 ```
 
-## 問い合わせ先メール
+## Contact Email Address
 
-contact@leadyou.hacknock.com
+contact [at] leadyou.hacknock.com
+
+\* Please replace [at] to "@".
