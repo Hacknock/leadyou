@@ -12,4 +12,6 @@ Content of inquiry: ~~ Please write your inquiry
 
 ## Contact Email Address
 
-contact@leadyou.hacknock.com
+contact [at] leadyou.hacknock.com
+
+\* Please replace [at] to "@".
