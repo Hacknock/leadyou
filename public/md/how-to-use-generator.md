@@ -1,55 +1,59 @@
 # How to use README Generator
 
-README に必要事項を全てを記載するという開発者の負担を軽減するために、あなたのリポジトリの情報を自動的に取得し、README を作成する README Generator を開発しました。
-LEADYOU の README Generator はあなたが公開するリポジトリ情報を自動的に読み取り、README.md に必要な事項を auto fill します。
-あなたは、以下の３ステップを行うことで、必要事項が記載された README.md を生成することが可能です。
+To reduce the cost of developers to fill out a README with all the necessary information, we are developing the README Generator that fetches your repository information and creates a README automatically.
+You can generate README.md with the necessary information by following five steps.
 
 1. Access to README Generator
-2. Put your public repository url you want to make README.md and a checkmark to "Auto Fill"
+2. Put your public repository URL and check "Auto Fill"
 3. Fill out all required column on README Generator
 4. Download README.md you made using README Generator
 5. Upload README.md to your repository
 
 ## Access to README Generator
 
-README Generator は web application です。
-[README Generator](https://leadyou.hacknock.com)へアクセスしてください。
+README Generator is a web application.
+Please access the [README Generator](https://leadyou.hacknock.com).
 
-## Put your public repository url you want to make README.md and a check to "Auto Fill"
+## Put your public repository URL and check "Auto Fill"
 
-README Generator の入力欄にあなたが README.md を作りたい公開リポジトリの URL を入力してください。次に、"Auto Fill" にチェックを入れます。
-その後、"Next Step"を押してください。
-次のステップへ移動します。
-しかし、これらの項目はオプションであり、以下を参照して URL の入力や "Auto Fill"へのチェックを外すことが可能です。
+Put your public repository URL in which you want to make README.md for the input field.
+Next, check "Auto Fill".
+Then press "Next Step".
 
-1. 公開リポジトリ URL を指定せず、単純にフォームを利用して README.md を作成したい。  
-   この場合は、URL を入力せず "Auto Fill" にもチェックを入れずに"Next Step"を押してください。
-2. 公開リポジトリを指定して、Auto Fill をせずに、0 から README Generator を利用して README.md を作成したい。  
-   この場合は URL のみを入力して、"Auto Fill"にチェックを入れずに"Next Step"を押してください。
+Go to the next step.
+However, these items are optional and you can enter the URL or uncheck "Auto Fill" as shown below.
+
+1. If you want to create README.md simply by using the form without specifying the public repository URL.<br />
+   In this case, do not input the URL and do not check "Auto Fill".
+   You only have to press "Next Step".
+
+2. If you want to create a README.md from scratch by using README Generator without auto-filling by specifying a public repository.<br />
+   In this case, input the URL, do not check "Auto Fill" and press "Next Step".
 
 ## Fill out all required column on README Generator
 
-"Auto Fill"にチェックを入れても多くの場合、全ての必須項目が埋まることはありません。
-特に Tags, Advantages, Installation、Minimal Example については、あなたが埋める必要があります。
-Demo には gif を含む画像ファイルを挿入することができます。
-選択されたファイルは LEADYOU のサーバーへアップロードされることはありません。
+In many cases, the auto-filling does not fill all the necessary information.
+Especially for Tags, Advantages, Installation, and Minimal Example, you need to fill out.
+The information required to fill out is marked with a red asterisk.
+You can insert an image file (including GIF) into the Demo.
+The files you select will not be uploaded to LEADYOU's servers.
 
 ## Download README.md you made using README Generator
 
-全ての必須項目を埋めたら、submit ボタンを押してください。
-自動的に README.md が生成され、ダウンロードされます。
-ダウンロードされた zip ファイルを解凍すると、README.md と添付されたリソースファイル一式が正しいディレクトリ 構造で展開されます。
+Once you have filled out all the necessary information, press the "Generate" button.
+README.md is automatically generated and downloaded.
+Unzip the downloaded file and the README.md and a set of attached resource files will be expanded in the correct directory structure.
 
 ## Upload README.md to your repository
 
-前のステップでダウンロードした README.md をアップロードしましょう。
-ファイルのアップロード方法は二つあります。
-以下のお好みの方法でダウンロードした zip ファイルにある README.md と resources フォルダをリポジトリのルートディレクトリにアップロードしてください。
+Upload the README.md that you downloaded in the previous step to the repository.
+There are two ways to upload files.
+Upload the README.md and resources to the root directory of your repository using the following preferred method.
 
-1. リポジトリをクローンし、push する方法
+1. Cloning the repository and pushing the files
 
 ```
-git clone [Your repository url or ssh]
+git clone [Your repository URL or ssh]
 
 cd [Your repository name]
 
@@ -62,5 +66,5 @@ git commit -m "Updated README.md"
 git push origin [your branch name]
 ```
 
-2. ブラウザからファイルをアップロードする方法  
-   [Adding a file to a repository](https://docs.github.com/en/github/managing-files-in-a-repository/adding-a-file-to-a-repository) を参照して、ダウンロードしたファイルを入れてください。
+2. Uploading the files through the browser<br />
+   Refer to ["Adding a file to a repository"](https://docs.github.com/en/github/managing-files-in-a-repository/adding-a-file-to-a-repository) and upload the files.
