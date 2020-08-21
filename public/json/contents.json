@@ -1,0 +1,29 @@
+{
+  "repository_url": "https://github.com/user/repo_name",
+  "project_icon": "icon.png",
+  "sections": [
+    {
+      "title": "Title",
+      "values": [""],
+      "child_content": [
+        {
+          "title": "Title",
+          "value": [""]
+        }
+      ]
+    },
+    {
+      "title": "Title",
+      "value": [""]
+    },
+    {
+      "title": "Demo",
+      "values": [
+        {
+          "image": "URL",
+          "text": "Text"
+        }
+      ]
+    }
+  ]
+}
