@@ -1,7 +1,7 @@
 # Privacy Policy
 
 In operating LEADYOU, Hacknock will comply with the Act on the Protection of Personal Information, the guidelines established by the Japanese government, and other related laws and regulations, and will handle the information provided by users as follows.
-By starting to use LEADYOU, the user agrees to be bound by this privacy policy.
+By starting to use LEADYOU, the user agrees to be bound by this Privacy Policy.
 
 # Hacknock's Privacy Policy
 
@@ -65,9 +65,9 @@ You can disable cookies through your browser settings. As a result, some of the 
 
 # Contact
 
-If you have any comments or questions about this privacy policy, please contact us at the email address below.
+If you have any comments or questions about this Privacy Policy, please contact us at the email address below.
 contact@leadyou.hacknock.com
 
-# 編集履歴
+# Revision history
 
-2020-08-17 First version
+- 2020-08-17 First edition
