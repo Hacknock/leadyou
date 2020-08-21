@@ -85,6 +85,9 @@ input[type="submit"] {
 footer {
   margin-top: auto;
   display: flex;
+  width: 100%;
+  min-width: 750px;
+  height: auto;
   padding: 16px 0;
   color: white;
   background-color: #616161;
@@ -110,6 +113,10 @@ footer {
 .left-child {
   margin-left: 50px;
   margin-right: auto;
+}
+
+.middle-child {
+  margin-right: 32px;
 }
 
 .right-child {
