@@ -18,7 +18,7 @@ Hacknock will use your personal information for the following purposes.
 - To enable the service operator to identify the user in the inquiry.
 - Detecting and preventing crime.
 - Maintenance and monitoring of services.
-- Service Improvement
+- Service Improvement.
 
 # What personal information does Hacknock collect?
 
@@ -28,8 +28,8 @@ The personal information collected from users and the way we collect personal in
 
 ### Types of personal information
 
-- Combination of user's name and email address
-- User Inquiries to Hacknock
+- Combination of user's name and email address.
+- User Inquiries to Hacknock.
 
 ### Purpose of use
 
@@ -37,14 +37,14 @@ When we receive an inquiry from a user, we collect the above information. Your i
 
 ## What personal information does Hacknock automatically collect from you and how is it used?
 
-When a user visits a Hacknock site, the following information is automatically collected
+When a user visits a Hacknock site, the following information is automatically collected.
 
 ### Types of personal information
 
 - The device the user is using, such as a computer or smartphone, to view the browser
-- Browsing activity (e.g., users' use of Hacknock sites, frequency of use, time spent on the site) and patterns of them
-- Sites visited by users before visiting Hacknock's sites
-- Technical information about the type of browser and OS, natural language, IP address, and domain name used by the user
+- Browsing activity (e.g., users' use of Hacknock sites, frequency of use, time spent on the site) and patterns of them.
+- Sites visited by users before visiting Hacknock's sites.
+- Technical information about the type of browser and OS, natural language, IP address, and domain name used by the user.
 
 ### Purpose of use
 
@@ -58,12 +58,10 @@ You can disable cookies in your browser settings. As a result, some of the servi
 Hacknock uses cookies to make our services more useful to our users.
 Hacknock uses cookies primarily for the following purposes
 
-- To help Hacknock provide a more personalised service to our users
-- To perform analytical work to understand the activities of users of Hacknock's services
+- To help Hacknock provide a more personalised service to our users.
+- To perform analytical work to understand the activities of users of Hacknock's services.
 
 You can disable cookies through your browser settings. As a result, some of the services provided by Hacknock may not be available to you.
-
-Translated with www.DeepL.com/Translator (free version)
 
 # Contact
 
