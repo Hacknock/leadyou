@@ -1,73 +1,75 @@
 # Privacy Policy
 
-Hacknock は、LEADYOU の運営に関し、個人情報の保護に関する法律、日本政府が設定したガイドラインその他の関係法令を遵守し、ユーザーの皆様からご提供いただいた情報を以下の通り取り扱います。
-LEADYOU のご利用を開始に伴い、ユーザーはこのプライバシーポリシーに同意したものとします。
+In operating LEADYOU, Hacknock will comply with the Act on the Protection of Personal Information, the guidelines established by the Japanese government, and other related laws and regulations, and will handle the information provided by users as follows.
+By starting to use LEADYOU, the user agrees to be bound by this privacy policy.
 
-# Hacknock の個人情報保護方針
+# Hacknock's Privacy Policy
 
-1. Hacknock は提供するサービスに応じて、そのサービスを運営または改善するために必要最小限の適切な個人情報を取得し、利用し、提供します。
-2. Hacknock は、個人情報の利用目的を特定し、個人情報の利用がその目的を逸脱しない方法でユーザーの個人情報を取り扱います。
-3. Hacknock は、個人情報の漏洩、紛失、消去または毀損を防ぐ安全対策措置を講じます。
-4. Hacknock が運営するサービスにおいて万が一、個人情報の漏洩、紛失、消去または毀損が発生した際には、その事故に対する適切な対応方法及び被害拡大防止を準備します。
-5. Hacknock は社会状況に応じて、本プライバシーポリシーを適時見直すことにより、適切に改善を図ります。
+1. Hacknock collects and uses the minimum necessary your personal information to operate or improve the services it provides.
+2. Hacknock will specify the purposes for which personal information is used and will use your personal information in a manner that does not conflict with the purposes for which it is used.
+3. Hacknock will take security measures to protect against the disclosure, loss, erasure or damage of personal information.
+4. In the unlikely event of a breach, loss, erasure or damage to personal information on Hacknock's services, Hacknock will take appropriate measures to respond to the breach, loss, erasure or damage and to prevent further damage.
+5. Hacknock will review and revise this Privacy Policy from time to time to reflect social conditions as they arise.
 
-## Hacknock の個人情報取り扱いの目的
+## Purposes of Hacknock's handling of personal information
 
-Hacknock は、ユーザーの個人情報を次の目的のために取り扱います。
+Hacknock will use your personal information for the following purposes.
 
-- 問合せいただいた内容にサービス運営者が問い合わせいただいたユーザを特定すること
-- 犯罪を察知し防止すること
-- サービスのメンテナンスやモニタリングをすること
-- サービスの向上
+- To enable the service operator to identify the user in the inquiry.
+- Detecting and preventing crime.
+- Maintenance and monitoring of services.
+- Service Improvement
 
-# Hacknock が収集する個人情報とは？
+# What personal information does Hacknock collect?
 
-ユーザーから収集する個人情報及びお客様に関する個人情報の収集方法は、次の通りです。
+The personal information collected from users and the way we collect personal information about you is as follows.
 
-## ユーザーが Hacknock に提供する個人情報と利用用途
+## The personal information you provide to Hacknock and how it is used
 
-### 個人情報の種類
+### Types of personal information
 
-- ユーザーの氏名、メールアドレスの組み合わせ
-- ユーザーが Hacknock に対して問合せた内容
+- Combination of user's name and email address
+- User Inquiries to Hacknock
 
-### 利用用途
+### Purpose of use
 
-ユーザーからの問合せを受け付ける時点で、上記の内容を収集します。いただいた内容は Hacknock が提供するサービスの開発者にのみ共有し、利用用途は、ユーザーからの問合せ内容について回答し、Hacknock が提供するサービスの改善に用います。日本政府の法令で定められた例外を除き、第三者に提供することはありません。
+When we receive an inquiry from a user, we collect the above information. Your information will be shared only with the developers of Hacknock's services and will be used to respond to your inquiry and improve Hacknock's services. We will not share your information with any third parties, except as required by Japanese law.
 
-## Hacknock がユーザーから自動的に収集する個人情報と利用用途
+## What personal information does Hacknock automatically collect from you and how is it used?
 
-ユーザーが Hacknock の運営するサイトを開く時には、次の情報が自動的に収集されます。
+When a user visits a Hacknock site, the following information is automatically collected
 
-### 個人情報の種類
+### Types of personal information
 
-- ユーザーの利用しているパソコンやスマートフォンなどのブラウザを閲覧している機器
-- ブラウジング行為（ユーザーの Hacknock 運営サイトの利用状況、利用頻度、滞在時間など）とパターン
-- Hacknock の運営するサイトの閲覧前にユーザーが閲覧したサイト
-- ユーザーの利用しているブラウザや OS の種類、自然言語の種類、IP アドレス、及びドメインネームに関する技術情報
+- The device the user is using, such as a computer or smartphone, to view the browser
+- Browsing activity (e.g., users' use of Hacknock sites, frequency of use, time spent on the site) and patterns of them
+- Sites visited by users before visiting Hacknock's sites
+- Technical information about the type of browser and OS, natural language, IP address, and domain name used by the user
 
-### 利用用途
+### Purpose of use
 
-Hacknock が運営するサービスの改善にのみ利用します。
-氏名やメールアドレスなど、個人を特定する情報と紐付けることはありません。
+We will only use this information to improve the services operated by Hacknock.
+It is not linked to any personally identifiable information, such as name or email address.
 
-ユーザーはブラウザの設定により、クッキーの機能を無効にすることができます。その結果、Hacknock が提供するサービスの一部が利用できなくなる場合があります。
+You can disable cookies in your browser settings. As a result, some of the services provided by Hacknock may not be available to you.
 
-# クッキーについて
+# About Cookies
 
-ユーザーが Hacknock の運営するサービスを便利に使っていただけるようにするために、クッキーを利用しています。
-Hacknock は、主として次の目的にクッキーを利用します。
+Hacknock uses cookies to make our services more useful to our users.
+Hacknock uses cookies primarily for the following purposes
 
-- Hacknock がユーザー一人ひとりに適したサービスを提供するため
-- Hacknock が運営するサービスを利用するユーザーの活動を理解する分析作業のため
+- To help Hacknock provide a more personalised service to our users
+- To perform analytical work to understand the activities of users of Hacknock's services
 
-ユーザーはブラウザの設定により、クッキーの機能を無効にすることができます。その結果、Hacknock が提供するサービスの一部が利用できなくなる場合があります。
+You can disable cookies through your browser settings. As a result, some of the services provided by Hacknock may not be available to you.
 
-# 問い合わせ先
+Translated with www.DeepL.com/Translator (free version)
 
-本プライバシーポリシーについて、ご意見や不明点などある場合は以下のメールアドレスまで問い合わせください。
+# Contact
+
+If you have any comments or questions about this privacy policy, please contact us at the email address below.
 contact@leadyou.hacknock.com
 
 # 編集履歴
 
-2020-08-17 初版
+2020-08-17 First version
