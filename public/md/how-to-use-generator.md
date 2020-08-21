@@ -1,7 +1,7 @@
 # How to use README Generator
 
 To reduce the cost of developers to fill out a README with all the necessary information, we are developing the README Generator that fetches your repository information and creates a README automatically.
-You can generate README.md with the necessary information by following 3 steps.
+You can generate README.md with the necessary information by following five steps.
 
 1. Access to README Generator
 2. Put your public repository URL and check "Auto Fill"
@@ -34,6 +34,7 @@ However, these items are optional and you can enter the URL or uncheck "Auto Fil
 
 In many cases, the auto-filling does not fill all the necessary information.
 Especially for Tags, Advantages, Installation, and Minimal Example, you need to fill out.
+The information required to fill out is marked with a red asterisk.
 You can insert an image file (including GIF) into the Demo.
 The files you select will not be uploaded to LEADYOU's servers.
 
