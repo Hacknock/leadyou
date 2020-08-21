@@ -32,24 +32,24 @@ However, these items are optional and you can enter the URL or uncheck "Auto Fil
 
 ## Fill out all required column on README Generator
 
-"Auto Fill"にチェックを入れても多くの場合、全ての必須項目が埋まることはありません。
-特に Tags, Advantages, Installation、Minimal Example については、あなたが埋める必要があります。
-Demo には gif を含む画像ファイルを挿入することができます。
-選択されたファイルは LEADYOU のサーバーへアップロードされることはありません。
+In many cases, the auto-filling does not fill all the necessary information.
+Especially for Tags, Advantages, Installation, and Minimal Example, you need to fill out.
+You can insert an image file (including GIF) into the Demo.
+The files you select will not be uploaded to LEADYOU's servers.
 
 ## Download README.md you made using README Generator
 
-全ての必須項目を埋めたら、submit ボタンを押してください。
-自動的に README.md が生成され、ダウンロードされます。
-ダウンロードされた zip ファイルを解凍すると、README.md と添付されたリソースファイル一式が正しいディレクトリ 構造で展開されます。
+Once you have filled out all the necessary information, press the "Generate" button.
+README.md is automatically generated and downloaded.
+Unzip the downloaded file and the README.md and a set of attached resource files will be expanded in the correct directory structure.
 
 ## Upload README.md to your repository
 
-前のステップでダウンロードした README.md をアップロードしましょう。
-ファイルのアップロード方法は二つあります。
-以下のお好みの方法でダウンロードした zip ファイルにある README.md と resources フォルダをリポジトリのルートディレクトリにアップロードしてください。
+Upload the README.md that you downloaded in the previous step to the repository.
+There are two ways to upload files.
+Upload the README.md and resources to the root directory of your repository using the following preferred method.
 
-1. リポジトリをクローンし、push する方法
+1. Cloning the repository and pushing the files
 
 ```
 git clone [Your repository URL or ssh]
@@ -65,5 +65,5 @@ git commit -m "Updated README.md"
 git push origin [your branch name]
 ```
 
-2. ブラウザからファイルをアップロードする方法
-   [Adding a file to a repository](https://docs.github.com/en/github/managing-files-in-a-repository/adding-a-file-to-a-repository) を参照して、ダウンロードしたファイルを入れてください。
+2. Uploading the files through the browser<br />
+   Refer to ["Adding a file to a repository"](https://docs.github.com/en/github/managing-files-in-a-repository/adding-a-file-to-a-repository) and upload the files.
