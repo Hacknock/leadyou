@@ -2,18 +2,18 @@
 
 # Article 1 (Purpose)
 
-1. These Terms of Service (hereinafter referred to as "Terms of Service") set forth terms and conditions applicable to all services (hereinafter referred to as "Service") provided by Hacknock.
+1. These Terms of Service (hereinafter referred to as "Terms of Service") set forth terms and conditions applicable to all Services (hereinafter referred to as "Service") provided by Hacknock.
 2. Users of the Service (hereinafter referred to as "User(s)") shall use the Service pursuant to the Terms of Service.
-   If Users do not agree to all of the Terms, Users cannot use this service.
+   If Users do not agree to all of the Terms, Users cannot use this Service.
 
 # Article 2 (Definitions)
 
-1. "User(s)" means people who use the services operated by Hacknock.
-2. "User Data" means all information that is collected or provided when you use the services operated by Hacknock, including personally identifiable information that you identify and what you enter.
+1. "User(s)" means people who use the Services operated by Hacknock.
+2. "User Data" means all information that is collected or provided when you use the Services operated by Hacknock, including personally identifiable information that you identify and what you enter.
 
 # Article 3 (Provision User Information)
 
-The Users shall provide User information to Hacknock as necessary when using the service operated by Hacknock.
+The Users shall provide User information to Hacknock as necessary when using the Service operated by Hacknock.
 
 # Article 4 (Notice and communication)
 
@@ -22,7 +22,7 @@ The Users shall provide User information to Hacknock as necessary when using the
 
 # Article 5 (Prohibited acts)
 
-In the service provided by Hacknock, the acts specified in the following items are prohibited.
+In the Service provided by Hacknock, the acts specified in the following items are prohibited.
 
 1. Violating the Terms of Service.
 2. Reverse engineering, decompiling, disassembling, hacking, invalidating, interfering, breaking down, modifying, copying, converting, destructing, creating mirror sites, or conducting any similar activities, with respect to part or all of the Service.
@@ -38,14 +38,16 @@ When the User performs any of the acts specified in the above items, Hacknock ma
 
 # Article 6 (Disclaimer)
 
-1. Hacknock は提供するサービスの欠陥や当該サービスの提供の停止及び終了、情報の削除及び変更を予告なく行ったことによって発生したユーザーまたは第三者への損害に対して、Hacknock の故意である場合を除き一切の責任を負いません。
-2. Hacknock は、本サービスを監視する義務をおいません。本サービスをユーザーが利用したことによって発生したユーザーまたは第三者への損害に対して、故意である場合を除き一切の責任を負いません。
-3. 禁止事項を行ったユーザーの情報に対して、情報開示や削除を行う場合があります。その際に、ユーザーは Hacknock が行った処置に対して異議申し立てできないこととします。
-4. 本規約に関して、Hacknock がユーザーに対して負う損害賠償責任の範囲は、その原因に関わらず、その事由が発生した日から属する月の前月末日を起算日として過去１ヶ月に当該ユーザーが Hacknock に対して本サービスの利用料を支払った金額を上限とします。
+1. Hacknock shall not be liable for any damages to Users or third parties resulting from defects in the Service, suspension or termination of the Service, or deletion or alteration of information made without notice, except in cases where Hacknock has acted intentionally.
+2. Hacknock has no obligation to monitor the Service.
+   Hacknock shall not be liable for any damages to User or any third party resulting from your use of the Service, except in cases of willful misconduct.
+3. Hacknock reserves the right to disclose or delete any information from Users who have engaged in prohibited activities.
+   In such cases, Users will not be able to contest any action taken by Hacknock.
+4. Hacknock's liability to the User for damages in connection with this agreement is limited to the amount paid by the User to Hacknock for the Service during the past month beginning on the last day of the month prior to the month in which the event occurs, regardless of the cause.
 
 # Article 7 (Change to Terms of Service)
 
-The Terms of Service may be changed without notice due to changes in the type and nature of services provided by Hacknock.
+The Terms of Service may be changed without notice due to changes in the type and nature of Services provided by Hacknock.
 
 # Article 8 (Governing law)
 
@@ -106,8 +108,8 @@ Hacknock の提供するサービスを利用するユーザーが上記各号�
 
 # 第 7 条（免責事項）
 
-1. Hacknock は提供するサービスの欠陥や当該サービスの提供の停止及び終了、情報の削除及び変更を予告なく行ったことによって発生したユーザーまたは第三者への損害に対して、Hacknock の故意である場合を除き一切の責任を負いません。
-2. Hacknock は、本サービスを監視する義務をおいません。本サービスをユーザーが利用したことによって発生したユーザーまたは第三者への損害に対して、故意である場合を除き一切の責任を負いません。
+1. Hacknock は、提供するサービスの欠陥、当該サービスの提供の停止及び終了、予告なく行った情報の削除及び変更に起因するユーザーまたは第三者への損害に対して、Hacknock の故意である場合を除き、一切の責任を負いません。
+2. Hacknock は、本サービスを監視する義務を負いません。本サービスをユーザーが利用したことによって発生したユーザーまたは第三者への損害に対して、故意である場合を除き一切の責任を負いません。
 3. 禁止事項を行ったユーザーの情報に対して、情報開示や削除を行う場合があります。その際に、ユーザーは Hacknock が行った処置に対して異議申し立てできないこととします。
 4. 本規約に関して、Hacknock がユーザーに対して負う損害賠償責任の範囲は、その原因に関わらず、その事由が発生した日から属する月の前月末日を起算日として過去１ヶ月に当該ユーザーが Hacknock に対して本サービスの利用料を支払った金額を上限とします。
 
