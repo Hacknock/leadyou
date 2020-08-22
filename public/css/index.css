@@ -34,6 +34,10 @@ body {
   font-size: 32px;
 }
 
+.sub-title {
+  margin-bottom: 0;
+}
+
 input[type="text"].url {
   padding: 3px 6px;
   width: 400px;
@@ -53,12 +57,14 @@ input[type="text"].url {
 
 .alert-message {
   color: #f44336;
+  height: 20px;
+  margin-bottom: 8px;
 }
 
 .checkbox-area {
   text-align: left;
   width: 400px;
-  margin: 0 auto;
+  margin: 16px auto;
 }
 
 .checkbox-label {
@@ -71,7 +77,7 @@ input[type="text"].url {
 }
 
 input[type="submit"] {
-  margin-top: 20px;
+  margin-top: 8px;
   background-color: #0277bd;
   padding: 5px 12px;
   font-size: large;
