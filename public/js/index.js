@@ -19,7 +19,11 @@ form.addEventListener("submit", (event) => {
   // githubのurl以外がきたら弾く;
   const splitUrl = url.split("/");
   if (!url.startsWith("https://github.com/") || splitUrl.length < 5) {
-    console.log("url is not github repository");
+    document
+      .getElementById("url-column")
+      .setAttribute("class", "url alert-repo");
+    document.getElementById("alert-text").textContent =
+      "This repository is a private repository or does not exist.";
     return;
   }
 
@@ -50,12 +54,11 @@ form.addEventListener("submit", (event) => {
         .getElementById("url-column")
         .setAttribute("class", "url alert-repo");
       document.getElementById("alert-text").textContent =
-        "このリポジトリはプライベートリポジトリであるか存在しません。";
+        "This repository is a private repository or does not exist.";
     });
 });
 
 const getTextLength = () => {
-  console.log(document.getElementById("url-column").value.length);
   if (document.getElementById("url-column").value.length > 0) {
     document.getElementById("auto-fill").removeAttribute("disabled");
   } else if (document.getElementById("url-column").value.length === 0) {
