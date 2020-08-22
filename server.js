@@ -54,9 +54,7 @@ app.get("/:path", (req, res) => {
       break;
     }
     default: {
-      res.writeHead(400, { "Content-Type": "text/plain" });
-      res.write("400 Bad Request");
-      res.end();
+      errorSupport(res, 400);
     }
   }
 });
@@ -95,9 +93,7 @@ app.get("/src/:dir/:file", (req, res) => {
       break;
     }
     default: {
-      res.writeHead(400, { "Content-Type": "text/plain" });
-      res.write("400 Bad Request");
-      res.end();
+      errorSupport(res, 400);
     }
   }
 });
@@ -109,9 +105,20 @@ const responseFileSupport = (res, path, type) => {
     res.write(data);
     res.end();
   } catch (err) {
+    errorSupport(res, 404);
+  }
+};
+
+const errorSupport = (res, code) => {
+  try {
+    const data = fs.readFileSync("./public/html/error.html");
+    res.writeHead(code, { "Content-Type": "text/html" });
+    res.write(data);
+    res.end();
+  } catch (err) {
     console.error(err);
-    res.writeHead(404, { "Content-Type": "text/plain" });
-    res.write("404 Not Found");
+    res.writeHead(500, { "Content-Type": "text/plain" });
+    res.write("500 Internal Server Error");
     res.end();
   }
 };
