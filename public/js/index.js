@@ -24,7 +24,6 @@ form.addEventListener("submit", (event) => {
       .setAttribute("class", "url alert-repo");
     document.getElementById("alert-text").textContent =
       "This repository is a private repository or does not exist.";
-    // console.log("url is not github repository");
     return;
   }
 
