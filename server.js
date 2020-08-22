@@ -85,7 +85,11 @@ app.get("/src/:dir/:file", (req, res) => {
       break;
     }
     case "images": {
-      responseFileSupport(res, `./public/images/${file}`, "image/*");
+      if (file.endsWith(".svg")) {
+        responseFileSupport(res, `./public/images/${file}`, "image/svg+xml");
+      } else {
+        responseFileSupport(res, `./public/images/${file}`, "image/*");
+      }
       break;
     }
     case "md": {

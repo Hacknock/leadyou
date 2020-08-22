@@ -3,7 +3,6 @@ html {
 }
 
 body {
-  /* text-align: center; */
   margin: 0;
   padding: 0;
   font-family: "Roboto", sans-serif;
@@ -69,12 +68,41 @@ div.error-content {
   background-position: center center;
 }
 
-p#error-message {
-  padding-top: 50px;
-  padding-left: 70px;
-  font-size: 40px;
-  color: white;
-  text-shadow: 5px 5px 5px #000000ac;
+div.error-pop {
+  display: inline-block;
+  position: relative;
+  margin: 50px auto 0 10%;
+  padding: 16px 32px;
+  background: white;
+  border-radius: 16px;
+  font-size: 32px;
+}
+
+div.error-pop:before {
+  content: "";
+  position: absolute;
+  width: 13px;
+  height: 12px;
+  right: -40px;
+  bottom: -13px;
+  background: white;
+  border-radius: 50%;
+}
+
+div.error-pop:after {
+  content: "";
+  position: absolute;
+  width: 20px;
+  height: 18px;
+  right: -24px;
+  bottom: -5px;
+  background: white;
+  border-radius: 50%;
+}
+
+div.error-pop p {
+  margin: 0;
+  padding: 0;
 }
 
 /* ☆☆☆☆☆ Footer ☆☆☆☆☆ */
