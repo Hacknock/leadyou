@@ -19,19 +19,22 @@ body {
 /* ☆☆☆☆☆ Main Contents ☆☆☆☆☆ */
 .top {
   display: flex;
-  margin: 30px auto 0;
+  margin: 120px auto 0;
 }
 
 .icon {
   margin-right: 8px;
-  width: 32px;
-  height: 32px;
+  width: 64px;
+  height: 64px;
 }
 
 .title {
-  margin-top: 1px;
-  line-height: 32px;
-  font-size: 32px;
+  line-height: 64px;
+  font-size: 64px;
+}
+
+.sub-title {
+  margin-bottom: 0;
 }
 
 input[type="text"].url {
@@ -53,12 +56,14 @@ input[type="text"].url {
 
 .alert-message {
   color: #f44336;
+  height: 20px;
+  margin-bottom: 8px;
 }
 
 .checkbox-area {
   text-align: left;
   width: 400px;
-  margin: 0 auto;
+  margin: 16px auto;
 }
 
 .checkbox-label {
@@ -71,7 +76,7 @@ input[type="text"].url {
 }
 
 input[type="submit"] {
-  margin-top: 20px;
+  margin-top: 8px;
   background-color: #0277bd;
   padding: 5px 12px;
   font-size: large;
