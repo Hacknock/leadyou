@@ -27,7 +27,7 @@ module.exports.getValues = (repoUrl) => {
       };
       let arrayValue = new Array();
       for (const user of res) {
-        arrayValue = arrayValue.concat(user.login);
+        arrayValue = arrayValue.concat(`[${user.login}](${user.html_url})`);
       }
       returnJson.values = arrayValue;
       return returnJson;
