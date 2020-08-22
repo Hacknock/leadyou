@@ -55,7 +55,7 @@
       "kindsOfValues": ["plain"],
       "format": "`%s` ",
       "attributes": {
-        "placeholder": "Plain text without prefix."
+        "placeholder": "Plain text without prefix"
       }
     },
     {
