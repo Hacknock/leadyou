@@ -24,14 +24,13 @@ body {
 
 .icon {
   margin-right: 8px;
-  width: 32px;
-  height: 32px;
+  width: 64px;
+  height: 64px;
 }
 
 .title {
-  margin-top: 1px;
-  line-height: 32px;
-  font-size: 32px;
+  line-height: 64px;
+  font-size: 64px;
 }
 
 .sub-title {
