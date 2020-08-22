@@ -28,9 +28,10 @@
         <img src="/src/images/icon-black.png" class="icon" />
         <span class="title">LEADYOU</span>
       </div>
-      <h3>README Generator for OSS</h3>
+      <h3 class="sub-title">README Generator for OSS</h3>
       <form id="generate-form">
         <div>
+          <p id="alert-text" class="alert-message"></p>
           <input
             type="text"
             class="url normal-repo"
@@ -38,7 +39,6 @@
             id="url-column"
             placeholder="Input an url of your public GitHub repository"
           />
-          <p id="alert-text" class="alert-message"></p>
         </div>
         <div class="checkbox-area">
           <input type="checkbox" id="auto-fill" name="auto-fill" disabled />
