@@ -282,7 +282,7 @@ const inspectRequired = (eleList, referNum) => {
       ) {
         eleList[referNum].setAttribute("alert", "true");
         document.getElementById("fill-alert").textContent =
-          "赤枠は必須項目なので、入力してください。";
+          "Red input boxes are required fields.";
         returnNum = -1 + inspectRequired(eleList, ++referNum);
       } else {
         eleList[referNum].setAttribute("alert", "false");
