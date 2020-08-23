@@ -139,9 +139,10 @@
       "multiple": false,
       "component": "wrap-upload-file",
       "description": "Please illustrate a minimal implementation.",
-      "kindsOfValues": ["plain"],
-      "format": "%s  \n",
+      "kindsOfValues": ["filepath", "plain"],
+      "format": "\n![Minimal Example](%s)\n\n%s  \n",
       "attributes": {
+        "kindsOfFile": ["image/png", "image/jpg", "image/gif"],
         "placeholder": "Your should include:\n- Any example code\n- How to run them\n- The result (attach an image if necessary)"
       }
     },
