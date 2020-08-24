@@ -278,7 +278,7 @@ const inspectRequired = (eleList, referNum) => {
       ) {
         eleList[referNum].setAttribute("alert", "true");
         document.getElementById("fill-alert").textContent =
-          "Red frames indicate its field is required.";
+          "⚠️ Red frames indicate its fields are required.";
         returnNum = -1 + inspectRequired(eleList, ++referNum);
       } else {
         eleList[referNum].setAttribute("alert", "false");
@@ -468,6 +468,10 @@ document.getElementById("submit").addEventListener("click", () => {
     document.getElementById("fill-alert").textContent = "";
     preview(true);
   } else {
-    // アラートを出す？
+    const confirmText =
+      "Some required fields are not filled out. Is it OK to generate the README as it is?";
+    if (confirm(confirmText)) {
+      preview(true);
+    }
   }
 });
