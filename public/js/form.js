@@ -93,8 +93,6 @@ const convertToId = (title) => {
 
 // function which generate the form user input information.
 const generateForm = (tempJson, autoJson, index) => {
-  // console.log(JSON.stringify(tempJson));
-  // console.log(JSON.stringify(autoJson));
   for (const section of tempJson.sections) {
     const childElement = document.createElement(
       tempJson.sections[index].component
@@ -182,8 +180,6 @@ const getColumnData = (listColumn, referNum) => {
     for (let i = 0; i < allColumns.length; i++) {
       arrayC.push(allColumns[i].value);
     }
-    // content = listColumn[referNum].querySelector(".column").value;
-    // arrayC.push(content);
     arrayC = arrayC.concat(getColumnData(listColumn, ++referNum));
   }
   return arrayC;
