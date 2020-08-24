@@ -93,8 +93,6 @@ const convertToId = (title) => {
 
 // function which generate the form user input information.
 const generateForm = (tempJson, autoJson, index) => {
-  // console.log(JSON.stringify(tempJson));
-  // console.log(JSON.stringify(autoJson));
   for (const section of tempJson.sections) {
     const childElement = document.createElement(
       tempJson.sections[index].component
@@ -182,8 +180,6 @@ const getColumnData = (listColumn, referNum) => {
     for (let i = 0; i < allColumns.length; i++) {
       arrayC.push(allColumns[i].value);
     }
-    // content = listColumn[referNum].querySelector(".column").value;
-    // arrayC.push(content);
     arrayC = arrayC.concat(getColumnData(listColumn, ++referNum));
   }
   return arrayC;
@@ -282,7 +278,7 @@ const inspectRequired = (eleList, referNum) => {
       ) {
         eleList[referNum].setAttribute("alert", "true");
         document.getElementById("fill-alert").textContent =
-          "Red frames indicate its field is required.";
+          "⚠️ Red frames indicate its fields are required.";
         returnNum = -1 + inspectRequired(eleList, ++referNum);
       } else {
         eleList[referNum].setAttribute("alert", "false");
@@ -472,6 +468,10 @@ document.getElementById("submit").addEventListener("click", () => {
     document.getElementById("fill-alert").textContent = "";
     preview(true);
   } else {
-    // アラートを出す？
+    const confirmText =
+      "Some required fields are not filled out. Is it OK to generate the README as it is?";
+    if (confirm(confirmText)) {
+      preview(true);
+    }
   }
 });
