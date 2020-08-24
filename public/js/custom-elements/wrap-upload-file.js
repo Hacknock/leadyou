@@ -124,6 +124,22 @@ class WrapUploadFile extends HTMLElement {
       color: #F44336;
       margin-left: 4px;
     }
+    
+    input.clear-button {
+      color: #000;
+      margin: 0;
+      margin-right: calc(10% - 5px);
+      vertical-align: top;
+      padding: 0;
+      width: 27px;
+      height: 27px;
+      background: url(/src/images/close.png) no-repeat;
+      background-color: #fff;
+      background-position: center center
+    }
+
+    input.clear-button:hover {
+      background-color: #ECEFF1;
     `;
 
     // Append Child
@@ -241,6 +257,7 @@ class WrapUploadFile extends HTMLElement {
     const newUpFile = document.createElement("input");
     newUpFile.setAttribute("type", "file");
     newUpFile.setAttribute("name", "image");
+    newUpFile.setAttribute("id", "up-file-element");
     // newUpFile.setAttribute("class", "column");
     const labelFile = document.createElement("input");
     labelFile.setAttribute("class", "column");
@@ -248,6 +265,17 @@ class WrapUploadFile extends HTMLElement {
 
     newUpFile.addEventListener("change", (e) => {
       this.handleFileSelect(e);
+    });
+
+    const clearButton = document.createElement("input");
+    clearButton.setAttribute("type", "button");
+    // clearButton.setAttribute("value", "×");
+    clearButton.setAttribute("class", "clear-button");
+    clearButton.addEventListener("click", () => {
+      const clearFileEle = this.shadowRoot.getElementById("up-file-element");
+      const clearDataId = this.shadowRoot.getElementById("data-id");
+      clearFileEle.value = "";
+      clearDataId.value = "";
     });
 
     const newBR = document.createElement("br");
@@ -301,6 +329,7 @@ class WrapUploadFile extends HTMLElement {
 
     newDivWrap.appendChild(newUpFile);
     newDivWrap.appendChild(labelFile);
+    newDivWrap.appendChild(clearButton);
     newDivWrap.appendChild(newBR);
     newDivWrap.appendChild(newDescFile);
     newDivWrap.appendChild(deleteButton);
