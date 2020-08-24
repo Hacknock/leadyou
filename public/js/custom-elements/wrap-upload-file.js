@@ -271,7 +271,6 @@ class WrapUploadFile extends HTMLElement {
 
     const clearButton = document.createElement("input");
     clearButton.setAttribute("type", "button");
-    // clearButton.setAttribute("value", "×");
     clearButton.setAttribute("class", "clear-button");
     clearButton.addEventListener("click", (e) => {
       let childrenThisField = e.target.parentNode.children;
