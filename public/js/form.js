@@ -276,11 +276,13 @@ const inspectRequired = (eleList, referNum) => {
   let returnNum = 0;
   if (eleList.length > referNum) {
     if (eleList[referNum].getAttribute("required") === "true") {
-      if (
-        eleList[referNum].shadowRoot
-          .querySelector(".field")
-          .querySelector(".column").value === ""
-      ) {
+      const columns = eleList[referNum].shadowRoot
+        .querySelector(".field")
+        .querySelectorAll(".column");
+      const valuesLength = [...columns].reduce((prev, current) => {
+        return prev + current.value.length;
+      }, 0);
+      if (valuesLength === 0) {
         eleList[referNum].setAttribute("alert", "true");
         document.getElementById("fill-alert").textContent =
           "Red frames indicate its field is required.";
