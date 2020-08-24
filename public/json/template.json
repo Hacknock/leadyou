@@ -29,6 +29,22 @@
       "script": "getProjectName.js"
     },
     {
+      "title": "Short Description",
+      "hiddenTitle": true,
+      "required": true,
+      "replacement": false,
+      "multiple": false,
+      "component": "wrap-multiline-field",
+      "description": "Please write down a short description of the project. (in 500 characters or less)",
+      "kindsOfValues": ["plain"],
+      "formats": ["%s  \n"],
+      "attributes": {
+        "placeholder": "You should include: \n- Motivation for this project (issues)\n- Your ideas for solving issues\n- Achievement",
+        "maxlength": 500
+      },
+      "script": "getShortDescription.js"
+    },
+    {
       "title": "Badges",
       "hiddenTitle": true,
       "required": false,
@@ -57,22 +73,6 @@
       "attributes": {
         "placeholder": "Plain text without prefix"
       }
-    },
-    {
-      "title": "Short Description",
-      "hiddenTitle": false,
-      "required": true,
-      "replacement": false,
-      "multiple": false,
-      "component": "wrap-multiline-field",
-      "description": "Please write down a short description of the project. (in 500 characters or less)",
-      "kindsOfValues": ["plain"],
-      "formats": ["%s  \n"],
-      "attributes": {
-        "placeholder": "You should include: \n- Motivation for this project (issues)\n- Your ideas for solving issues\n- Achievement",
-        "maxlength": 500
-      },
-      "script": "getShortDescription.js"
     },
     {
       "title": "Demo",
