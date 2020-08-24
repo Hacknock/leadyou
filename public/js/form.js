@@ -21,7 +21,7 @@ const inspectTemplateJson = (template) => {
       !("component" in section) ||
       !("description" in section) ||
       !("kindsOfValues" in section) ||
-      !("format" in section) ||
+      !("formats" in section) ||
       !("attributes" in section)
     ) {
       throw new Error(`${section.title} template.json is broken.`);
@@ -247,13 +247,14 @@ const generateReadme = (template, contents) => {
     const n = templateSection["kindsOfValues"].length;
     const valueText = divideArraybyN(section.values, n)
       .reduce((prev, current) => {
-        let length = 0;
-        let text = templateSection.format;
-        for (const value of current) {
-          length += value.length;
-          text = text.replace("%s", value);
+        let text = "";
+        let formats = templateSection.formats;
+        for (const i in formats) {
+          if (0 < current[i].length) {
+            text += formats[i].replace("%s", current[i]);
+          }
         }
-        return length === 0 ? prev : prev + text;
+        return prev + text;
       }, "")
       .trimEnd();
     if (templateSection["hiddenTitle"] === false) {
