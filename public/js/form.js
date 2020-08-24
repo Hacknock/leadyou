@@ -378,7 +378,10 @@ const extractResourcePath = (template, contents) => {
       const n = templateSection["kindsOfValues"].length;
       let array = new Array();
       for (let i = 0; i < contentsSection.values.length; i++) {
-        if (templateSection["kindsOfValues"][i % n] === "filepath") {
+        if (
+          templateSection["kindsOfValues"][i % n] === "filepath" &&
+          contentsSection.values[i].length > 0
+        ) {
           array.push(contentsSection.values[i]);
         }
       }
