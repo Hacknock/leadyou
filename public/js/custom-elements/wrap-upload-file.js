@@ -273,11 +273,18 @@ class WrapUploadFile extends HTMLElement {
     clearButton.setAttribute("type", "button");
     // clearButton.setAttribute("value", "×");
     clearButton.setAttribute("class", "clear-button");
-    clearButton.addEventListener("click", () => {
-      const clearFileEle = this.shadowRoot.getElementById("up-file-element");
-      const clearDataId = this.shadowRoot.getElementById("data-id");
-      clearFileEle.value = "";
-      clearDataId.value = "";
+    clearButton.addEventListener("click", (e) => {
+      let childrenThisField = e.target.parentNode.children;
+
+      for (let i = 0; i < childrenThisField.length; i++) {
+        if (childrenThisField[i].getAttribute("id") === "data-id") {
+          childrenThisField[i].value = "";
+        } else if (
+          childrenThisField[i].getAttribute("id") === "up-file-element"
+        ) {
+          childrenThisField[i].value = "";
+        }
+      }
     });
 
     const newBR = document.createElement("br");
