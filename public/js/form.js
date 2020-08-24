@@ -21,7 +21,7 @@ const inspectTemplateJson = (template) => {
       !("component" in section) ||
       !("description" in section) ||
       !("kindsOfValues" in section) ||
-      !("format" in section) ||
+      !("formats" in section) ||
       !("attributes" in section)
     ) {
       throw new Error(`${section.title} template.json is broken.`);
@@ -243,13 +243,14 @@ const generateReadme = (template, contents) => {
     const n = templateSection["kindsOfValues"].length;
     const valueText = divideArraybyN(section.values, n)
       .reduce((prev, current) => {
-        let length = 0;
-        let text = templateSection.format;
-        for (const value of current) {
-          length += value.length;
-          text = text.replace("%s", value);
+        let text = "";
+        let formats = templateSection.formats;
+        for (const i in formats) {
+          if (0 < current[i].length) {
+            text += formats[i].replace("%s", current[i]);
+          }
         }
-        return length === 0 ? prev : prev + text;
+        return prev + text;
       }, "")
       .trimEnd();
     if (templateSection["hiddenTitle"] === false) {
@@ -271,11 +272,13 @@ const inspectRequired = (eleList, referNum) => {
   let returnNum = 0;
   if (eleList.length > referNum) {
     if (eleList[referNum].getAttribute("required") === "true") {
-      if (
-        eleList[referNum].shadowRoot
-          .querySelector(".field")
-          .querySelector(".column").value === ""
-      ) {
+      const columns = eleList[referNum].shadowRoot
+        .querySelector(".field")
+        .querySelectorAll(".column");
+      const valuesLength = [...columns].reduce((prev, current) => {
+        return prev + current.value.length;
+      }, 0);
+      if (valuesLength === 0) {
         eleList[referNum].setAttribute("alert", "true");
         document.getElementById("fill-alert").textContent =
           "⚠️ Red frames indicate its fields are required.";
@@ -371,7 +374,10 @@ const extractResourcePath = (template, contents) => {
       const n = templateSection["kindsOfValues"].length;
       let array = new Array();
       for (let i = 0; i < contentsSection.values.length; i++) {
-        if (templateSection["kindsOfValues"][i % n] === "filepath") {
+        if (
+          templateSection["kindsOfValues"][i % n] === "filepath" &&
+          contentsSection.values[i].length > 0
+        ) {
           array.push(contentsSection.values[i]);
         }
       }
