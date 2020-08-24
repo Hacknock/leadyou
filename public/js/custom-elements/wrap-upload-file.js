@@ -124,22 +124,24 @@ class WrapUploadFile extends HTMLElement {
       color: #F44336;
       margin-left: 4px;
     }
-    
+
     input.clear-button {
-      color: #000;
+      color: black;
       margin: 0;
-      margin-right: calc(10% - 5px);
-      vertical-align: top;
+      margin-left: 8px;
+      vertical-align: middle;
       padding: 0;
-      width: 27px;
-      height: 27px;
+      width: 20px;
+      height: 20px;
       background: url(/src/images/close.png) no-repeat;
-      background-color: #fff;
-      background-position: center center
+      background-color: white;
+      background-position: center center;
+      background-size: 20px 20px;
     }
 
     input.clear-button:hover {
-      background-color: #ECEFF1;
+      background-color: #EFEFEF;
+    }
     `;
 
     // Append Child
