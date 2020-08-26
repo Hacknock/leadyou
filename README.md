@@ -8,21 +8,24 @@ The README Generator offers an open source README format and a form application 
 [![Github license](https://img.shields.io/github/license/Hacknock/readme-generator-plugins)](https://github.com/Hacknock/readme-generator-plugins/)
 
 # Tags
+
 `README` `JavaScript` `WebComponents` `CSS` `custom elements `
 
 # Advantages
+
 - You don't need to consider form application structure, just only edit javascript, json and markdown files.
 
 # Installation
+
 You just fork this project and clone it.
 
 # Minimal Example
 
 ![Demo](resources/file-0.png)
 
-For example, current README generator consists of four custom elements and four custom scripts.
+For example, current README generator consists of three custom elements and four custom scripts.
 
 # Contributors
+
 - [KASHIHARAAkira](https://github.com/KASHIHARAAkira)
 - [Kyome22](https://github.com/Kyome22)
-
