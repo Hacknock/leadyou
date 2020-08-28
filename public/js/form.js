@@ -170,6 +170,9 @@ const generateForm = (tempJson, autoJson, index) => {
       }
     }
     rootEle.appendChild(childElement);
+    const eleBorder = document.createElement("hr");
+    eleBorder.setAttribute("class", "separate-form");
+    if (index !== tempJson.sections.length - 1) rootEle.appendChild(eleBorder);
     ++index;
   }
 };
