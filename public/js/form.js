@@ -469,7 +469,7 @@ renderForm()
   });
 
 // Submitボタンを押した時の処理
-document.getElementById("submit").addEventListener("click", () => {
+document.getElementById("generate-readme").addEventListener("click", () => {
   if (inspectRequired(document.getElementsByClassName("info-box"), 0) === 0) {
     document.getElementById("fill-alert").textContent = "";
     preview(true);

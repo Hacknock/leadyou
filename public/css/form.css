@@ -67,7 +67,7 @@ div.dummy-header {
 }
 
 /* ☆☆☆☆☆ Main Contents ☆☆☆☆☆ */
-input#submit {
+input#generate-readme {
   margin: 20px auto 0;
   background-color: #0277bd;
   padding: 5px 12px;
