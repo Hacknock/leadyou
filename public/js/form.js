@@ -443,6 +443,18 @@ const downloadMarkdown = async (filename, templateJson, contentsJson) => {
   saveBlob(zipBlob, filename);
 };
 
+const countUp = () => {
+  try {
+    fetch("/countup")
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data.result);
+      });
+  } catch (error) {
+    console.error(error);
+  }
+};
+
 const preview = (flag) => {
   const contentsJson = createContentsJson();
   try {
@@ -453,8 +465,10 @@ const preview = (flag) => {
     const md = generateReadme(templateJson, contentsJson);
     if (previousMarkdown !== md) outputEle.innerHTML = marked(md);
     previousMarkdown = md;
-    if (typeof flag !== "undefined" && flag)
+    if (typeof flag !== "undefined" && flag) {
+      countUp();
       downloadMarkdown("README", templateJson, contentsJson);
+    }
   } catch (error) {
     console.error(error);
   }

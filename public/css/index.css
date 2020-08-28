@@ -83,3 +83,8 @@ input[type="submit"] {
   border-radius: 4px;
   cursor: pointer;
 }
+
+/* ☆☆☆☆☆ Footer ☆☆☆☆☆ */
+span#counter {
+  font-size: medium;
+}
