@@ -35,7 +35,7 @@
       "replacement": false,
       "multiple": false,
       "component": "wrap-multiline-field",
-      "description": "Please write down a short description of the project. (in 500 characters or less)",
+      "description": "Please write down a short description of the project.",
       "kindsOfValues": ["plain"],
       "formats": ["%s  \n"],
       "attributes": {

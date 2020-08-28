@@ -27,6 +27,13 @@ class WrapMultiField extends HTMLElement {
     description.setAttribute("class", "short-description");
     const descShort = this.getAttribute("desc-short");
     description.textContent = descShort;
+    const spanMaxlength = document.createElement("span");
+    const valueMaxlength = spanMaxlength.getAttribute(
+      "class",
+      "show-maxlength"
+    );
+    if (valueMaxlength !== null)
+      description.textContent = `${descShort} (in ${valueMaxlength} characters or less)`;
 
     // add input field button & its event
     const addButton = document.createElement("input");
@@ -170,6 +177,12 @@ class WrapMultiField extends HTMLElement {
       }
     } else if (attr === "maxlength") {
       if (typeof newVal !== "undefined") {
+        const descEle = this.shadowRoot.querySelector(".short-description");
+        let desc = descEle.textContent;
+        console.log(desc);
+        const valueMaxlength = newVal;
+        descEle.textContent = `${desc} (in ${valueMaxlength} characters or less)`;
+        // this.shadowRoot.insertBefore(spanMaxlength, headField);
         let allInputElement = this.shadowRoot.querySelectorAll(".column");
         for (let i = 0; i < allInputElement.length; i++) {
           allInputElement[i].setAttribute("maxlength", newVal);
