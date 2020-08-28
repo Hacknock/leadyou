@@ -405,7 +405,7 @@ const saveBlob = (blob, filename) => {
   const blobUrl = URL.createObjectURL(blob);
   const element = document.createElement("a");
   element.setAttribute("href", blobUrl);
-  element.setAttribute("download", filename);
+  element.setAttribute("download", `${filename}.zip`);
   element.style.display = "none";
   document.body.appendChild(element);
   element.click();
