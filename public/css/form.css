@@ -55,3 +55,9 @@ div.md-content {
   text-align: left;
   border: 1px dashed;
 }
+
+.separate-form {
+  border: 0;
+  border-bottom: 1px solid #d0d0d0;
+  margin: 32px 0;
+}
