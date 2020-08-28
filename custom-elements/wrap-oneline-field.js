@@ -28,6 +28,14 @@ class WrapOnelineField extends HTMLElement {
     const descShort = this.getAttribute("desc-short");
     description.textContent = descShort;
 
+    const spanMaxlength = document.createElement("span");
+    const valueMaxlength = spanMaxlength.getAttribute(
+      "class",
+      "show-maxlength"
+    );
+    if (valueMaxlength !== null)
+      description.textContent = `${descShort} (in ${valueMaxlength} characters or less)`;
+
     // Create some CSS to apply to the shadow dom
     const style = document.createElement("style");
     style.textContent = `
@@ -167,6 +175,11 @@ class WrapOnelineField extends HTMLElement {
         allInputElement[i].setAttribute("placeholder", newVal);
       }
     } else if (attr === "maxlength") {
+      const descEle = this.shadowRoot.querySelector(".short-description");
+      let desc = descEle.textContent;
+      console.log(desc);
+      const valueMaxlength = newVal;
+      descEle.textContent = `${desc} (in ${valueMaxlength} characters or less)`;
       if (typeof newVal !== "undefined") {
         let allInputElement = this.shadowRoot.querySelectorAll(".column");
         for (let i = 0; i < allInputElement.length; i++) {

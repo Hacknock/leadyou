@@ -179,7 +179,6 @@ class WrapMultiField extends HTMLElement {
       if (typeof newVal !== "undefined") {
         const descEle = this.shadowRoot.querySelector(".short-description");
         let desc = descEle.textContent;
-        console.log(desc);
         const valueMaxlength = newVal;
         descEle.textContent = `${desc} (in ${valueMaxlength} characters or less)`;
         // this.shadowRoot.insertBefore(spanMaxlength, headField);
