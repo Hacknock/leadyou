@@ -5,6 +5,7 @@ const rootEle = document.getElementById("area-form");
 const outputEle = document.getElementById("area-preview");
 let templateJson = new Object();
 let sampleContentsJson = new Object();
+let previousMarkdown;
 
 // ★★★ Inspect format of JSON file ★★★
 const inspectTemplateJson = (template) => {
@@ -447,7 +448,8 @@ const preview = (flag) => {
     }
     inspectContentsJson(contentsJson);
     const md = generateReadme(templateJson, contentsJson);
-    outputEle.innerHTML = marked(md);
+    if (previousMarkdown !== md) outputEle.innerHTML = marked(md);
+    previousMarkdown = md;
     if (typeof flag !== "undefined" && flag)
       downloadMarkdown("README", templateJson, contentsJson);
   } catch (error) {
