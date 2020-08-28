@@ -43,6 +43,7 @@ div.edit-area {
 div.edit-inner {
   padding: 15px;
   border: 1px solid;
+  padding-bottom: 32px;
 }
 
 div.preview-area {
