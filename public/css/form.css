@@ -43,6 +43,7 @@ div.edit-area {
 div.edit-inner {
   padding: 15px;
   border: 1px solid;
+  padding-bottom: 32px;
 }
 
 div.preview-area {
@@ -54,4 +55,10 @@ div.md-content {
   padding: 16px;
   text-align: left;
   border: 1px dashed;
+}
+
+.separate-form {
+  border: 0;
+  border-bottom: 1px solid #d0d0d0;
+  margin: 32px 0;
 }
