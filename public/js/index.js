@@ -1,4 +1,8 @@
 const form = document.getElementById("generate-form");
+const urlColumn = document.getElementById("url-column");
+const alertText = document.getElementById("alert-text");
+const autoFillCheck = document.getElementById("auto-fill");
+const counter = document.getElementById("counter");
 
 const options = {
   mode: "cors",
@@ -19,10 +23,8 @@ form.addEventListener("submit", (event) => {
   // githubのurl以外がきたら弾く;
   const splitUrl = url.split("/");
   if (!url.startsWith("https://github.com/") || splitUrl.length < 5) {
-    document
-      .getElementById("url-column")
-      .setAttribute("class", "url alert-repo");
-    document.getElementById("alert-text").textContent =
+    urlColumn.setAttribute("class", "url alert-repo");
+    alertText.textContent =
       "This repository is a private repository or does not exist.";
     return;
   }
@@ -50,20 +52,32 @@ form.addEventListener("submit", (event) => {
         "There has been a problem with your fetch operation: ",
         error.message
       );
-      document
-        .getElementById("url-column")
-        .setAttribute("class", "url alert-repo");
-      document.getElementById("alert-text").textContent =
+      urlColumn.setAttribute("class", "url alert-repo");
+      alertText.textContent =
         "This repository is a private repository or does not exist.";
     });
 });
 
 const getTextLength = () => {
-  if (document.getElementById("url-column").value.length > 0) {
-    document.getElementById("auto-fill").removeAttribute("disabled");
-  } else if (document.getElementById("url-column").value.length === 0) {
-    document.getElementById("auto-fill").setAttribute("disabled", "disabled");
+  if (urlColumn.value.length > 0) {
+    autoFillCheck.removeAttribute("disabled");
+  } else if (urlColumn.value.length === 0) {
+    autoFillCheck.setAttribute("disabled", "disabled");
   }
 };
 
-document.getElementById("url-column").addEventListener("input", getTextLength);
+urlColumn.addEventListener("input", getTextLength);
+
+(function () {
+  try {
+    fetch("/getcount")
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.result === "success") {
+          counter.textContent = ` +${data.count.toLocaleString()}`;
+        }
+      });
+  } catch (error) {
+    console.error(error);
+  }
+})();
