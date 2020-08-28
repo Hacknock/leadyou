@@ -24,6 +24,13 @@ class WrapUploadFile extends HTMLElement {
     description.setAttribute("class", "short-description");
     const descShort = this.getAttribute("desc-short");
     description.textContent = descShort;
+    const spanMaxlength = document.createElement("span");
+    const valueMaxlength = spanMaxlength.getAttribute(
+      "class",
+      "show-maxlength"
+    );
+    if (valueMaxlength !== null)
+      description.textContent = `${descShort} (in ${valueMaxlength} characters or less)`;
 
     // Create form
     const divWrap = this.addInputField();
@@ -204,6 +211,10 @@ class WrapUploadFile extends HTMLElement {
         }
       }
     } else if (attr === "maxlength") {
+      const descEle = this.shadowRoot.querySelector(".short-description");
+      let desc = descEle.textContent;
+      const valueMaxlength = newVal;
+      descEle.textContent = `${desc} (in ${valueMaxlength} characters or less)`;
       if (typeof newVal !== "undefined") {
         const textareas = this.shadowRoot.querySelectorAll("textarea");
         textareas.forEach((element) =>
