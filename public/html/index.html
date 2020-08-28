@@ -14,6 +14,7 @@
       rel="stylesheet"
     />
     <link href="/src/css/index.css" rel="stylesheet" type="text/css" />
+    <link href="/src/css/header_footer.css" rel="stylesheet" type="text/css" />
     <script type="text/javascript" src="/src/js/favicon.js" defer></script>
     <script type="text/javascript" src="/src/js/index.js" defer></script>
     <script
@@ -24,32 +25,34 @@
   </head>
   <body>
     <div class="wrap">
-      <div class="top">
-        <img src="/src/images/leadyou_icon.png" class="icon" />
-        <span class="title">LEADYOU</span>
-      </div>
-      <h2 class="sub-title">README Generator for OSS</h2>
-      <form id="generate-form">
-        <div>
-          <p id="alert-text" class="alert-message"></p>
-          <input
-            type="text"
-            class="url normal-repo"
-            name="url"
-            id="url-column"
-            placeholder="Input an url of your public GitHub repository"
-          />
+      <main>
+        <div class="top">
+          <img src="/src/images/leadyou_icon.png" class="icon" />
+          <span class="title">LEADYOU</span>
         </div>
-        <div class="checkbox-area">
-          <input type="checkbox" id="auto-fill" name="auto-fill" disabled />
-          <label for="auto-fill" class="checkbox-label">Auto Fill</label>
-          <p class="checkbox-description">
-            Fill in some forms automatically based on the information of the
-            repository.
-          </p>
-        </div>
-        <input type="submit" value="Next" />
-      </form>
+        <h2 class="sub-title">README Generator for OSS</h2>
+        <form id="generate-form">
+          <div>
+            <p id="alert-text" class="alert-message"></p>
+            <input
+              type="text"
+              class="url normal-repo"
+              name="url"
+              id="url-column"
+              placeholder="Input an url of your public GitHub repository"
+            />
+          </div>
+          <div class="checkbox-area">
+            <input type="checkbox" id="auto-fill" name="auto-fill" disabled />
+            <label for="auto-fill" class="checkbox-label">Auto Fill</label>
+            <p class="checkbox-description">
+              Fill in some forms automatically based on the information of the
+              repository.
+            </p>
+          </div>
+          <input type="submit" value="Next" />
+        </form>
+      </main>
       <footer>
         <div class="child left-child">
           <h1>LEADYOU</h1>
