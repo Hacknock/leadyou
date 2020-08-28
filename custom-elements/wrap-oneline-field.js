@@ -177,7 +177,6 @@ class WrapOnelineField extends HTMLElement {
     } else if (attr === "maxlength") {
       const descEle = this.shadowRoot.querySelector(".short-description");
       let desc = descEle.textContent;
-      console.log(desc);
       const valueMaxlength = newVal;
       descEle.textContent = `${desc} (in ${valueMaxlength} characters or less)`;
       if (typeof newVal !== "undefined") {
