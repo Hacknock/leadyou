@@ -174,7 +174,7 @@ const countUp = (res) => {
   try {
     const data = fs.readFileSync(path);
     const count = parseInt(data.toString().trim());
-    fs.writeFileSync(path, count + 1);
+    fs.writeFileSync(path, (count + 1).toString());
     res.json({ result: "success" });
   } catch (err) {
     console.error(err);
