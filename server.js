@@ -53,6 +53,14 @@ app.get("/:path", (req, res) => {
         });
       break;
     }
+    case "getcount": {
+      getCount(res);
+      break;
+    }
+    case "countup": {
+      countUp(res);
+      break;
+    }
     default: {
       errorSupport(res, 400);
     }
@@ -158,4 +166,30 @@ const multiGetValues = async (customScripts, repoUrl) => {
     }
   }
   return new Promise((resolve, _) => resolve(stack));
+};
+
+const countUp = (res) => {
+  console.log("called me");
+  const path = "./public/md/count-data.md";
+  try {
+    const data = fs.readFileSync(path);
+    const count = parseInt(data.toString().trim());
+    fs.writeFileSync(path, count + 1);
+    res.json({ result: "success" });
+  } catch (err) {
+    console.error(err);
+    res.json({ result: "failed" });
+  }
+};
+
+const getCount = (res) => {
+  const path = "./public/md/count-data.md";
+  try {
+    const data = fs.readFileSync(path);
+    const count = parseInt(data.toString().trim());
+    res.json({ result: "success", count: count });
+  } catch (err) {
+    console.error(err);
+    res.json({ result: "failed" });
+  }
 };
