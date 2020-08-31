@@ -11,10 +11,11 @@ module.exports.getValues = (repoUrl) => {
 
   const sieldsUrl = "https://img.shields.io/github";
   const badgeInfoList = [
-    { name: "issues", jumpKey: "issues" },
-    { name: "forks", jumpKey: "network/members" },
-    { name: "stars", jumpKey: "stargazers" },
-    { name: "license", jumpKey: "" },
+    { name: "issues", path: "issues", jumpKey: "issues" },
+    { name: "forks", path: "forks", jumpKey: "network/members" },
+    { name: "stars", path: "stars", jumpKey: "stargazers" },
+    { name: "top language", path: "languages/top", jumpKey: "" },
+    { name: "license", path: "license", jumpKey: "" },
   ];
   let returnJson = {
     title: "Badges",
@@ -23,7 +24,7 @@ module.exports.getValues = (repoUrl) => {
   let arrayValue = new Array();
   for (const info of badgeInfoList) {
     arrayValue = arrayValue.concat(
-      `[![Github ${info.name}](${sieldsUrl}/${info.name}/${splitRepoUrl[3]}/${splitRepoUrl[4]})](${repoUrl}/${info.jumpKey})`
+      `[![Github ${info.name}](${sieldsUrl}/${info.path}/${splitRepoUrl[3]}/${splitRepoUrl[4]})](${repoUrl}/${info.jumpKey})`
     );
   }
   returnJson.values = arrayValue;
