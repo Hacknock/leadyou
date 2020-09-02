@@ -81,7 +81,7 @@ app.get("/:path", (req, res) => {
         .then(() => {
           res.json({ result: "success" });
         })
-        .catch((err) => {
+        .catch(() => {
           res.json({ result: "failed" });
         });
       break;
