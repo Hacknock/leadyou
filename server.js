@@ -10,6 +10,7 @@ const express = require("express");
 const app = express();
 const mariadb = require("mariadb");
 const config = require("config");
+const { resolve } = require("path");
 
 const dbConfig = config.get("mariaDB");
 console.log(dbConfig);
@@ -73,15 +74,17 @@ app.get("/:path", (req, res) => {
     case "countup": {
       // get query
       const query = req.query;
-      countUp(query.owner, query.repo, res)
-        .then((records) => {
-          console.error("Success to log generate");
-          uniqueCountUp(query.owner, query.repo, res);
-        })
-        .catch((err) => {
-          console.error(err);
-          uniqueCountUp(query.owner, query.repo, res);
-        });
+      //const [insertRes, uniqueInsertRes] = await
+      Promise.all([
+        insertGeneratedRepository(query.owner, query.repo),
+        uniqueInsertGeneratedRepository(query.owner, query.repo),
+      ]).then((insertRes, uniqueInsertRes) => {
+        if (insertRes === 0 && uniqueInsertRes === 0) {
+          res.json({ result: "success" });
+        } else {
+          res.json({ result: "failed" });
+        }
+      });
       break;
     }
     default: {
@@ -191,18 +194,18 @@ const multiGetValues = async (customScripts, repoUrl) => {
   return new Promise((resolve, _) => resolve(stack));
 };
 
-const countUp = async (user, repo, res) => {
+const insertGeneratedRepository = async (user, repo) => {
   console.log("Insert generate log to mariaDB.");
   let conn;
   try {
     conn = await pool.getConnection();
     await conn.query("use leadyou");
-    const sectionValues = await conn.query(
-      "insert into generate(user,repository) values (?,?)",
-      [user, repo]
-    );
+    await conn.query("insert into generate(user,repository) values (?,?)", [
+      user,
+      repo,
+    ]);
     console.log("sucess to count up");
-    return sectionValues;
+    return 0;
   } catch (err) {
     console.error(err);
     throw err;
@@ -211,7 +214,7 @@ const countUp = async (user, repo, res) => {
   }
 };
 
-const uniqueCountUp = async (user, repo, res) => {
+const uniqueInsertGeneratedRepository = async (user, repo) => {
   console.log("Insert generate log to mariaDB unique.");
   let conn;
   try {
@@ -232,20 +235,19 @@ const uniqueCountUp = async (user, repo, res) => {
               user,
               repo,
             ])
-            .then((records) => {
-              res.json({ result: "success" });
+            .then(() => {
+              return 0;
             })
             .catch((err) => {
-              res.json({ result: "failed" });
+              return err;
             });
         } else {
           console.log("duplicated");
-          res.json({ result: "success" });
+          return 0;
         }
       });
   } catch (err) {
-    console.error(err);
-    res.json({ result: "failed" });
+    return err;
   } finally {
     if (conn) conn.release();
   }
@@ -259,8 +261,6 @@ const getCount = async (res) => {
     await conn.query("use leadyou");
     const sectionValues = await conn.query("select * from uniqueGene");
     delete sectionValues.meta;
-    console.log(sectionValues);
-    console.log(Object.keys(sectionValues).length);
     res.json({ result: "success", count: Object.keys(sectionValues).length });
   } catch (err) {
     console.error(err);
