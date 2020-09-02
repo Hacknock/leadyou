@@ -65,6 +65,10 @@ app.get("/:path", (req, res) => {
       countUp(res);
       break;
     }
+    case "getlist": {
+      getList(res);
+      break;
+    }
     default: {
       errorSupport(res, 400);
     }
@@ -196,4 +200,16 @@ const getCount = (res) => {
     console.error(err);
     res.json({ result: "failed" });
   }
+};
+
+const getList = (res) => {
+  // 最新の9件にする？？
+  const list = [
+    { user: "Kyome22", repo: "menubar_runcat" },
+    { user: "Kyome22", repo: "RunCat_for_windows" },
+    { user: "Kyome22", repo: "GitGrass" },
+    { user: "Kyome22", repo: "SerialGate" },
+    { user: "Kyome22", repo: "OpenMultitouchSupport" },
+  ];
+  res.json({ length: 5, list: list });
 };
