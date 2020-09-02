@@ -208,7 +208,7 @@ const insertGeneratedRepository = async (user, repo) => {
     return 0;
   } catch (err) {
     console.error(err);
-    throw err;
+    return err;
   } finally {
     if (conn) conn.release();
   }
