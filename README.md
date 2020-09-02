@@ -29,12 +29,6 @@ Next step, you make new tables and database.
 Congratulations 🍻
 You success to get all developmental environment and dependencies.
 
-## Lint
-
-fource lint -->
-`$ npm run lint`
-コードの見た目をいい感じにしてくれる(メンテした)
-
 ## SQL close
 
 If you want to leave sql console, please run the following.
