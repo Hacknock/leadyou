@@ -24,7 +24,7 @@ attention Actually, this shell script I strongly do not recommend you use becaus
 
 Next step, you make new tables and database.
 
-`$ source setting.sql`
+`mysql> source setting.sql`
 
 Congratulations 🍻
 You success to get all developmental environment and dependencies.
@@ -34,3 +34,13 @@ You success to get all developmental environment and dependencies.
 fource lint -->
 `$ npm run lint`
 コードの見た目をいい感じにしてくれる(メンテした)
+
+## SQL close
+
+If you want to leave sql console, please run the following.
+
+`mysql> exit`
+
+If you want to stop sql server, please run the below code.
+
+`$ mysql.server stop`
