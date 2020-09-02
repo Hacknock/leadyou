@@ -78,13 +78,13 @@ app.get("/:path", (req, res) => {
       Promise.all([
         insertGeneratedRepository(query.owner, query.repo),
         uniqueInsertGeneratedRepository(query.owner, query.repo),
-      ]).then((insertRes, uniqueInsertRes) => {
-        if (insertRes === 0 && uniqueInsertRes === 0) {
+      ])
+        .then(() => {
           res.json({ result: "success" });
-        } else {
+        })
+        .catch((err) => {
           res.json({ result: "failed" });
-        }
-      });
+        });
       break;
     }
     default: {
@@ -205,10 +205,9 @@ const insertGeneratedRepository = async (user, repo) => {
       repo,
     ]);
     console.log("sucess to count up");
-    return 0;
   } catch (err) {
     console.error(err);
-    return err;
+    throw err;
   } finally {
     if (conn) conn.release();
   }
@@ -220,7 +219,7 @@ const uniqueInsertGeneratedRepository = async (user, repo) => {
   try {
     conn = await pool.getConnection();
     await conn.query("use leadyou");
-    conn
+    return conn
       .query("select * from uniqueGene where user = ? and repository = ?", [
         user,
         repo,
@@ -230,24 +229,18 @@ const uniqueInsertGeneratedRepository = async (user, repo) => {
         console.log(user, repo);
         console.log("number of select is " + Object.keys(records).length);
         if (Object.keys(records).length === 0) {
-          conn
+          return conn
             .query("insert into uniqueGene(user,repository) values (?,?)", [
               user,
               repo,
             ])
-            .then(() => {
-              return 0;
-            })
             .catch((err) => {
-              return err;
+              throw err;
             });
-        } else {
-          console.log("duplicated");
-          return 0;
         }
       });
   } catch (err) {
-    return err;
+    throw err;
   } finally {
     if (conn) conn.release();
   }
