@@ -1,5 +1,8 @@
 {
-  "AuthGithub": {
-    "kyomechan": "40589521dd7257dbbfa4f905051908bc2017d0e6"
+  "mariaDB": {
+    "host": "localhost",
+    "user": "generator",
+    "password": "Hf%3k@9LfU",
+    "connectionLimit": 5
   }
 }
