@@ -40,6 +40,10 @@ app.get("/:path", (req, res) => {
       responseFileSupport(res, "./public/html/document.html", "text/html");
       break;
     }
+    case "catalog": {
+      responseFileSupport(res, "./public/html/catalog.html", "text/html");
+      break;
+    }
     case "getvalues": {
       const query = req.query;
       const repoUrl = `https://github.com/${query.owner}/${query.repo}`;
