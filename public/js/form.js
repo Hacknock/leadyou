@@ -444,8 +444,9 @@ const downloadMarkdown = async (filename, templateJson, contentsJson) => {
 };
 
 const countUp = () => {
+  const params = getQueryStringParams(window.location.search);
   try {
-    fetch("/countup")
+    fetch(`/countup?owner=${params.owner}&repo=${params.repo}`)
       .then((res) => res.json())
       .then((data) => {
         console.log(data.result);
