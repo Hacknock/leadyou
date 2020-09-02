@@ -8,6 +8,27 @@ You need to install node.js and mongoDB. You can get these the following page.
 
 `$ npm install`
 
+You will deploy mariaDB scheme and install dummy data. I made a script for each. Before that, you need to enter your mariaDB console. You start mariaDB server
+
+`$ mysql.server start`
+
+and run the following code.
+
+`$ mysql`
+
+Perhaps, depends on your environment, you need 'sudo'.
+
+`$ sudo mysql`
+
+attention Actually, this shell script I strongly do not recommend you use because you use admin right using 'sudo'. You have another way to connect mariaDB, I recommend you use it.
+
+Next step, you make new tables and database.
+
+`$ source setting.sql`
+
+Congratulations 🍻
+You success to get all developmental environment and dependencies.
+
 ## Lint
 
 fource lint -->

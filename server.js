@@ -10,7 +10,6 @@ const express = require("express");
 const app = express();
 const mariadb = require("mariadb");
 const config = require("config");
-const { resolve } = require("path");
 
 const dbConfig = config.get("mariaDB");
 console.log(dbConfig);
