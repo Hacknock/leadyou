@@ -235,7 +235,7 @@ const divideArraybyN = (array, n) => {
 };
 
 // ignoring child component
-const generateReadme = (template, contents) => {
+const generateReadme = (template, contents, needTag) => {
   let text = "";
   for (const section of contents.sections) {
     const templateSection = template.sections.find((element) => {
@@ -268,6 +268,10 @@ const generateReadme = (template, contents) => {
       text += `${valueText}\n`;
     }
     text += "\n";
+  }
+  if (typeof needTag !== "undefined" && needTag) {
+    text += "<!-- Please do not delete the below comment. -->";
+    text += "\n<!-- CREATED_BY_LEADYOU_README_GENERATOR -->";
   }
   return text;
 };
@@ -434,7 +438,7 @@ const downloadMarkdown = async (filename, templateJson, contentsJson) => {
     newPaths,
     contentsJson
   );
-  const newMD = generateReadme(templateJson, newContentsJson);
+  const newMD = generateReadme(templateJson, newContentsJson, true);
   const mdBlob = new Blob([newMD], {
     type: "application/octet-stream",
   });
