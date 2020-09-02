@@ -8,6 +8,19 @@
 const fs = require("fs");
 const express = require("express");
 const app = express();
+const mariadb = require("mariadb");
+const config = require("config");
+
+const dbConfig = config.get("mariaDB");
+console.log(dbConfig);
+
+// *** MariaDB connection information *** //
+const pool = mariadb.createPool({
+  host: dbConfig.host,
+  user: dbConfig.user,
+  password: dbConfig.password,
+  connectionLimit: dbConfig.connectionLimit,
+});
 
 // ★★★ Initial Process ★★★
 const port = process.env.port || 3000;
@@ -58,7 +71,19 @@ app.get("/:path", (req, res) => {
       break;
     }
     case "countup": {
-      countUp(res);
+      // get query
+      const query = req.query;
+      //const [insertRes, uniqueInsertRes] = await
+      Promise.all([
+        insertGeneratedRepository(query.owner, query.repo),
+        uniqueInsertGeneratedRepository(query.owner, query.repo),
+      ])
+        .then(() => {
+          res.json({ result: "success" });
+        })
+        .catch(() => {
+          res.json({ result: "failed" });
+        });
       break;
     }
     default: {
@@ -168,28 +193,71 @@ const multiGetValues = async (customScripts, repoUrl) => {
   return new Promise((resolve, _) => resolve(stack));
 };
 
-const countUp = (res) => {
-  console.log("called me");
-  const path = "./public/md/count-data.md";
+const insertGeneratedRepository = async (user, repo) => {
+  console.log("Insert generate log to mariaDB.");
+  let conn;
   try {
-    const data = fs.readFileSync(path);
-    const count = parseInt(data.toString().trim());
-    fs.writeFileSync(path, (count + 1).toString());
-    res.json({ result: "success" });
+    conn = await pool.getConnection();
+    await conn.query("use leadyou");
+    await conn.query("insert into generate(user,repository) values (?,?)", [
+      user,
+      repo,
+    ]);
+    console.log("sucess to count up");
   } catch (err) {
     console.error(err);
-    res.json({ result: "failed" });
+    throw err;
+  } finally {
+    if (conn) conn.release();
   }
 };
 
-const getCount = (res) => {
-  const path = "./public/md/count-data.md";
+const uniqueInsertGeneratedRepository = async (user, repo) => {
+  console.log("Insert generate log to mariaDB unique.");
+  let conn;
   try {
-    const data = fs.readFileSync(path);
-    const count = parseInt(data.toString().trim());
-    res.json({ result: "success", count: count });
+    conn = await pool.getConnection();
+    await conn.query("use leadyou");
+    return conn
+      .query("select * from uniqueGene where user = ? and repository = ?", [
+        user,
+        repo,
+      ])
+      .then((records) => {
+        delete records.meta;
+        console.log(user, repo);
+        console.log("number of select is " + Object.keys(records).length);
+        if (Object.keys(records).length === 0) {
+          return conn
+            .query("insert into uniqueGene(user,repository) values (?,?)", [
+              user,
+              repo,
+            ])
+            .catch((err) => {
+              throw err;
+            });
+        }
+      });
+  } catch (err) {
+    throw err;
+  } finally {
+    if (conn) conn.release();
+  }
+};
+
+const getCount = async (res) => {
+  console.log("Insert generate log to mariaDB.");
+  let conn;
+  try {
+    conn = await pool.getConnection();
+    await conn.query("use leadyou");
+    const sectionValues = await conn.query("select * from uniqueGene");
+    delete sectionValues.meta;
+    res.json({ result: "success", count: Object.keys(sectionValues).length });
   } catch (err) {
     console.error(err);
     res.json({ result: "failed" });
+  } finally {
+    if (conn) conn.release();
   }
 };
