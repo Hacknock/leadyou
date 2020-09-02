@@ -172,8 +172,11 @@ const countUp = (res) => {
   console.log("called me");
   const path = "./public/md/count-data.md";
   try {
-    const data = fs.readFileSync(path);
-    const count = parseInt(data.toString().trim());
+    let count = 0;
+    if (fs.existsSync(path)) {
+      const data = fs.readFileSync(path);
+      count = parseInt(data.toString().trim());
+    }
     fs.writeFileSync(path, (count + 1).toString());
     res.json({ result: "success" });
   } catch (err) {
@@ -185,8 +188,11 @@ const countUp = (res) => {
 const getCount = (res) => {
   const path = "./public/md/count-data.md";
   try {
-    const data = fs.readFileSync(path);
-    const count = parseInt(data.toString().trim());
+    let count = 0;
+    if (fs.existsSync(path)) {
+      const data = fs.readFileSync(path);
+      count = parseInt(data.toString().trim());
+    }
     res.json({ result: "success", count: count });
   } catch (err) {
     console.error(err);
