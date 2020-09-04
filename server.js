@@ -85,7 +85,8 @@ app.get("/:path", (req, res) => {
         .then(() => {
           res.json({ result: "success" });
         })
-        .catch(() => {
+        .catch((err) => {
+          console.error(err);
           res.json({ result: "failed" });
         });
       break;
@@ -215,7 +216,6 @@ const insertGeneratedRepository = async (user, repo) => {
     ]);
     console.log("sucess to count up");
   } catch (err) {
-    console.error(err);
     throw err;
   } finally {
     if (conn) conn.release();
@@ -253,7 +253,6 @@ const uniqueInsertGeneratedRepository = async (user, repo) => {
               [user, repo]
             )
             .catch((err) => {
-              console.error(err);
               throw err;
             });
         }
