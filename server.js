@@ -77,11 +77,11 @@ app.get("/:path", (req, res) => {
     }
     case "countup": {
       // get query
-      const query = req.query;
-      //const [insertRes, uniqueInsertRes] = await
+      const owner = req.query.owmer.toLowerCase();
+      const repo = req.query.repo.toLowerCase();
       Promise.all([
-        insertGeneratedRepository(query.owner, query.repo),
-        uniqueInsertGeneratedRepository(query.owner, query.repo),
+        insertGeneratedRepository(owner, repo),
+        uniqueInsertGeneratedRepository(owner, repo),
       ])
         .then(() => {
           res.json({ result: "success" });
