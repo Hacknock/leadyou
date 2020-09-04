@@ -53,6 +53,10 @@ app.get("/:path", (req, res) => {
       responseFileSupport(res, "./public/html/document.html", "text/html");
       break;
     }
+    case "catalog": {
+      responseFileSupport(res, "./public/html/catalog.html", "text/html");
+      break;
+    }
     case "getvalues": {
       const query = req.query;
       const repoUrl = `https://github.com/${query.owner}/${query.repo}`;
@@ -84,6 +88,10 @@ app.get("/:path", (req, res) => {
         .catch(() => {
           res.json({ result: "failed" });
         });
+      break;
+    }
+    case "getlist": {
+      getList(res);
       break;
     }
     default: {
@@ -260,4 +268,16 @@ const getCount = async (res) => {
   } finally {
     if (conn) conn.release();
   }
+};
+
+const getList = (res) => {
+  // 最新の9件にする？？
+  const list = [
+    { user: "Kyome22", repo: "menubar_runcat" },
+    { user: "Kyome22", repo: "RunCat_for_windows" },
+    { user: "Kyome22", repo: "GitGrass" },
+    { user: "Kyome22", repo: "SerialGate" },
+    { user: "Kyome22", repo: "OpenMultitouchSupport" },
+  ];
+  res.json({ length: 5, list: list });
 };
