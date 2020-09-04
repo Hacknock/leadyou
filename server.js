@@ -85,13 +85,16 @@ app.get("/:path", (req, res) => {
         .then(() => {
           res.json({ result: "success" });
         })
-        .catch(() => {
+        .catch((err) => {
+          console.error(err);
           res.json({ result: "failed" });
         });
       break;
     }
     case "getlist": {
-      getList(res);
+      getList(res).catch((err) => {
+        console.log(err);
+      });
       break;
     }
     default: {
@@ -213,7 +216,6 @@ const insertGeneratedRepository = async (user, repo) => {
     ]);
     console.log("sucess to count up");
   } catch (err) {
-    console.error(err);
     throw err;
   } finally {
     if (conn) conn.release();
@@ -244,6 +246,15 @@ const uniqueInsertGeneratedRepository = async (user, repo) => {
             .catch((err) => {
               throw err;
             });
+        } else {
+          return conn
+            .query(
+              "update uniqueGene set ts = current_timestamp where user = ? and repository = ?",
+              [user, repo]
+            )
+            .catch((err) => {
+              throw err;
+            });
         }
       });
   } catch (err) {
@@ -270,14 +281,20 @@ const getCount = async (res) => {
   }
 };
 
-const getList = (res) => {
-  // 最新の9件にする？？
-  const list = [
-    { user: "Kyome22", repo: "menubar_runcat" },
-    { user: "Kyome22", repo: "RunCat_for_windows" },
-    { user: "Kyome22", repo: "GitGrass" },
-    { user: "Kyome22", repo: "SerialGate" },
-    { user: "Kyome22", repo: "OpenMultitouchSupport" },
-  ];
-  res.json({ length: 5, list: list });
+const getList = async (res) => {
+  let conn;
+  try {
+    conn = await pool.getConnection();
+    await conn.query("use leadyou");
+    const records = await conn.query(
+      "select * from uniqueGene order by ts desc limit 12"
+    );
+    delete records.meta;
+    res.json(records);
+  } catch (err) {
+    res.json({ result: "error" });
+    throw err;
+  } finally {
+    if (conn) conn.release();
+  }
 };
