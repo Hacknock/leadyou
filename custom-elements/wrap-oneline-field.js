@@ -74,6 +74,8 @@ class WrapOnelineField extends HTMLElement {
       border: none;
       border-radius: 4px;
       cursor: pointer;
+      -webkit-appearance: none;
+      -moz-appearance: none;
       appearance: none;
     }
 
