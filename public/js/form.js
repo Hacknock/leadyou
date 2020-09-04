@@ -270,8 +270,7 @@ const generateReadme = (template, contents, needTag) => {
     text += "\n";
   }
   if (typeof needTag !== "undefined" && needTag) {
-    text += "<!-- Please do not delete the below comment. -->";
-    text += "\n<!-- CREATED_BY_LEADYOU_README_GENERATOR -->";
+    text += "<!-- CREATED_BY_LEADYOU_README_GENERATOR -->";
   }
   return text;
 };
