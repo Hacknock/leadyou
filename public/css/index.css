@@ -82,6 +82,7 @@ input[type="submit"] {
   border: none;
   border-radius: 4px;
   cursor: pointer;
+  appearance: none;
 }
 
 /* ☆☆☆☆☆ Footer ☆☆☆☆☆ */
