@@ -19,6 +19,7 @@ input#generate-readme {
   border-radius: 4px;
   cursor: pointer;
   font-size: large;
+  appearance: none;
 }
 
 p.alert-text {
