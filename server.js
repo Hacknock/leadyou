@@ -291,6 +291,7 @@ const getList = async (res) => {
     delete records.meta;
     res.json(records);
   } catch (err) {
+    res.json({ result: "error" });
     throw err;
   } finally {
     if (conn) conn.release();
