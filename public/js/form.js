@@ -261,10 +261,11 @@ const generateReadme = (template, contents, needTag) => {
       if (templateSection.replacement) {
         text += `# ${valueText}\n`;
       } else {
-        text += `# ${section.title}\n`;
+        text += `# ${section.title}\n\n`;
         text += `${valueText}\n`;
       }
     } else {
+      text += `<!-- # ${section.title} -->\n\n`;
       text += `${valueText}\n`;
     }
     text += "\n";
