@@ -44,20 +44,26 @@ const getGeneratedReadmes = () => {
         const div = document.createElement("div");
         div.setAttribute("class", "readme");
 
+        const wrapDiv = document.createElement("div");
+        wrapDiv.setAttribute("class", "wrap-iframe");
+
         let html = `<html><head><style>${stylesheet}</style></head><body>`;
         html += `<div class="md-content">${marked(text)}</div></body></html>`;
         const blob = new Blob([html], { type: "text/html" });
         const iframe = document.createElement("iframe");
         iframe.setAttribute("title", path);
-        iframe.setAttribute("scrolling", "no");
         iframe.src = URL.createObjectURL(blob);
 
         const p = document.createElement("p");
+        const img = document.createElement("img");
+        img.src = "/src/images/github-icon.png";
         const a = document.createElement("a");
         a.href = `https://github.com/${path}`;
         a.innerText = path;
 
-        div.appendChild(iframe);
+        div.appendChild(wrapDiv);
+        wrapDiv.appendChild(iframe);
+        p.appendChild(img);
         p.appendChild(a);
         div.appendChild(p);
         catalogArea.appendChild(div);
