@@ -11,7 +11,7 @@ body {
 
 /* ☆☆☆☆☆ Main Contents ☆☆☆☆☆ */
 input#generate-readme {
-  margin: 20px auto 0;
+  margin: 20px auto 32px;
   background-color: #0277bd;
   padding: 5px 12px;
   color: #eceff1;
@@ -61,4 +61,8 @@ div.md-content {
   border: 0;
   border-bottom: 1px solid #d0d0d0;
   margin: 32px 0;
+}
+
+p.proviso {
+  text-align: left;
 }
