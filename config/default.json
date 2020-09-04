@@ -4,5 +4,8 @@
     "user": "generator",
     "password": "Hf%3k@9LfU",
     "connectionLimit": 5
+  },
+  "GitHub": {
+    "clientToken": "40589521dd7257dbbfa4f905051908bc2017d0e6"
   }
 }
