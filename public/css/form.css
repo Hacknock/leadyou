@@ -19,6 +19,8 @@ input#generate-readme {
   border-radius: 4px;
   cursor: pointer;
   font-size: large;
+  -webkit-appearance: none;
+  -moz-appearance: none;
   appearance: none;
 }
 
