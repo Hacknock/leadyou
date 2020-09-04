@@ -15,7 +15,7 @@
  */
 const fetch = require("node-fetch");
 
-module.exports.getValues = (repoUrl) => {
+module.exports.getValues = (repoUrl, token) => {
   const errorPromise = (message) => {
     return new Promise((_, reject) => reject(new Error(message)));
   };
@@ -32,6 +32,7 @@ module.exports.getValues = (repoUrl) => {
     mode: "cors",
     headers: {
       "Content-Type": "application/json; charset=utf-8",
+      Authorization: `token ${token}`,
     },
   };
   return fetch(requestURL, options)
