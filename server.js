@@ -60,7 +60,8 @@ app.get("/:path", (req, res) => {
     case "getvalues": {
       const query = req.query;
       const repoUrl = `https://github.com/${query.owner}/${query.repo}`;
-      customScript(repoUrl)
+      const token = config.get("GitHub.clientToken");
+      customScript(repoUrl, token)
         .then((result) => {
           res.json(result);
           res.end();
@@ -171,7 +172,7 @@ const errorSupport = (res, code) => {
   }
 };
 
-const customScript = async (repoUrl) => {
+const customScript = async (repoUrl, token) => {
   // get file list of script
   try {
     const files = fs.readdirSync("./public/plugins/custom-scripts/");
@@ -181,20 +182,20 @@ const customScript = async (repoUrl) => {
     });
 
     let customScripts = customScriptList.map(require);
-    return await multiGetValues(customScripts, repoUrl);
+    return await multiGetValues(customScripts, repoUrl, token);
   } catch (err) {
     return new Promise((_, reject) => reject(err));
   }
 };
 
-const multiGetValues = async (customScripts, repoUrl) => {
+const multiGetValues = async (customScripts, repoUrl, token) => {
   let stack = new Array();
   if (customScripts.length > 0) {
     try {
-      let values = await customScripts[0].getValues(repoUrl);
+      let values = await customScripts[0].getValues(repoUrl, token);
       stack.push(values);
       customScripts.shift();
-      let recursiveStack = await multiGetValues(customScripts, repoUrl);
+      let recursiveStack = await multiGetValues(customScripts, repoUrl, token);
       stack = stack.concat(recursiveStack);
       return new Promise((resolve, _) => resolve(stack));
     } catch (err) {
