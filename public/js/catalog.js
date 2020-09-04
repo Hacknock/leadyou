@@ -64,8 +64,12 @@ const convertRelativeToAbsolute = (path, md) => {
 (() => {
   Promise.all([getStylesheet(), getGeneratedReadmes()])
     .then(([stylesheet, list]) => {
+      let cnt = 0;
       list.forEach(({ path, text }) => {
-        if (text.indexOf("<!-- CREATED_BY_LEADYOU_README_GENERATOR -->") < 0)
+        if (
+          text.indexOf("<!-- CREATED_BY_LEADYOU_README_GENERATOR -->") < 0 ||
+          12 <= cnt
+        )
           return;
 
         const div = document.createElement("div");
@@ -97,6 +101,7 @@ const convertRelativeToAbsolute = (path, md) => {
         p.appendChild(a);
         div.appendChild(p);
         catalogArea.appendChild(div);
+        cnt += 1;
       });
     })
     .catch((err) => {
