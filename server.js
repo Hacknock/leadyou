@@ -244,6 +244,16 @@ const uniqueInsertGeneratedRepository = async (user, repo) => {
             .catch((err) => {
               throw err;
             });
+        } else {
+          return conn
+            .query(
+              "update uniqueGene set ts = current_timestamp where user = ? and repository = ?",
+              [user, repo]
+            )
+            .catch((err) => {
+              console.error(err);
+              throw err;
+            });
         }
       });
   } catch (err) {
