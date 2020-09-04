@@ -84,6 +84,7 @@ class WrapMultiField extends HTMLElement {
       border: none;
       border-radius: 4px;
       cursor: pointer;
+      appearance: none;
     }
 
     section {
