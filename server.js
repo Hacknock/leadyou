@@ -280,14 +280,19 @@ const getCount = async (res) => {
   }
 };
 
-const getList = (res) => {
-  // 最新の9件にする？？
-  const list = [
-    { user: "Kyome22", repo: "menubar_runcat" },
-    { user: "Kyome22", repo: "RunCat_for_windows" },
-    { user: "Kyome22", repo: "GitGrass" },
-    { user: "Kyome22", repo: "SerialGate" },
-    { user: "Kyome22", repo: "OpenMultitouchSupport" },
-  ];
-  res.json({ length: 5, list: list });
+const getList = async (res) => {
+  let conn;
+  try {
+    conn = await pool.getConnection();
+    await conn.query("use leadyou");
+    const records = await conn.query(
+      "select * from uniqueGene order by ts desc limit 12"
+    );
+    delete records.meta;
+    res.json(records);
+  } catch (err) {
+    throw err;
+  } finally {
+    if (conn) conn.release();
+  }
 };

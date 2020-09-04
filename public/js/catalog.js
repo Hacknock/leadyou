@@ -18,7 +18,7 @@ const getGeneratedReadmes = () => {
     .then((json) => {
       let promises = [];
       for (let i = 0; i < json.length; i++) {
-        const path = `${json.list[i].user}/${json.list[i].repo}`;
+        const path = `${json[i].user}/${json[i].repository}`;
         promises.push(
           fetch(`https://raw.githubusercontent.com/${path}/master/README.md`)
             .then((res) => res.text())
