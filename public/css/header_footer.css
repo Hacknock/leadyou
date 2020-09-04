@@ -13,6 +13,7 @@ header {
   height: 60px;
   color: white;
   background-color: #0277bd;
+  z-index: 2;
 }
 
 header img.icon {

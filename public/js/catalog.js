@@ -37,30 +37,71 @@ const getGeneratedReadmes = () => {
     });
 };
 
+const convertRelativeToAbsolute = (path, md) => {
+  let text = md;
+  const regex = /http(s)?:\/\/.+/;
+  const array = text.match(/\[([^\[\]\(\)]*?)\]\(([^\[\]\(\)]*?)\)/g);
+  for (const tag of array) {
+    const item = tag.match(/^\[.*?\]\((.*?)\)$/)[1];
+    if (regex.test(item)) {
+      const newTag = tag.replace(
+        `://github.com/${path}/blob/master/`,
+        `://github.com/${path}/raw/master/`
+      );
+      text = text.replace(tag, newTag);
+    } else {
+      const after = item.match(/^\.*\/*(.+)/)[1];
+      const newTag = tag.replace(
+        item,
+        `https://github.com/${path}/raw/master/${after}`
+      );
+      text = text.replace(tag, newTag);
+    }
+  }
+  return text;
+};
+
 (() => {
   Promise.all([getStylesheet(), getGeneratedReadmes()])
     .then(([stylesheet, list]) => {
+      let cnt = 0;
       list.forEach(({ path, text }) => {
+        if (
+          text.indexOf("<!-- CREATED_BY_LEADYOU_README_GENERATOR -->") < 0 ||
+          12 <= cnt
+        )
+          return;
+
         const div = document.createElement("div");
         div.setAttribute("class", "readme");
 
+        const wrapDiv = document.createElement("div");
+        wrapDiv.setAttribute("class", "wrap-iframe");
+
+        const newText = convertRelativeToAbsolute(path, text);
         let html = `<html><head><style>${stylesheet}</style></head><body>`;
-        html += `<div class="md-content">${marked(text)}</div></body></html>`;
+        html += `<div class="md-content">${marked(
+          newText
+        )}</div></body></html>`;
         const blob = new Blob([html], { type: "text/html" });
         const iframe = document.createElement("iframe");
         iframe.setAttribute("title", path);
-        iframe.setAttribute("scrolling", "no");
         iframe.src = URL.createObjectURL(blob);
 
         const p = document.createElement("p");
+        const img = document.createElement("img");
+        img.src = "/src/images/github-icon.png";
         const a = document.createElement("a");
         a.href = `https://github.com/${path}`;
         a.innerText = path;
 
-        div.appendChild(iframe);
+        div.appendChild(wrapDiv);
+        wrapDiv.appendChild(iframe);
+        p.appendChild(img);
         p.appendChild(a);
         div.appendChild(p);
         catalogArea.appendChild(div);
+        cnt += 1;
       });
     })
     .catch((err) => {
