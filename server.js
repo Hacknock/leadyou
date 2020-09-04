@@ -91,7 +91,9 @@ app.get("/:path", (req, res) => {
       break;
     }
     case "getlist": {
-      getList(res);
+      getList(res).catch((err) => {
+        console.log(err);
+      });
       break;
     }
     default: {
