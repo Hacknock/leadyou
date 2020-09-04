@@ -37,6 +37,30 @@ const getGeneratedReadmes = () => {
     });
 };
 
+const convertRelativeToAbsolute = (path, md) => {
+  let text = md;
+  const regex = /http(s)?:\/\/.+/;
+  const array = text.match(/\[([^\[\]\(\)]*?)\]\(([^\[\]\(\)]*?)\)/g);
+  for (const tag of array) {
+    const item = tag.match(/^\[.*?\]\((.*?)\)$/)[1];
+    if (regex.test(item)) {
+      const newTag = tag.replace(
+        `://github.com/${path}/blob/master/`,
+        `://github.com/${path}/raw/master/`
+      );
+      text = text.replace(tag, newTag);
+    } else {
+      const after = item.match(/^\.*\/*(.+)/)[1];
+      const newTag = tag.replace(
+        item,
+        `https://github.com/${path}/raw/master/${after}`
+      );
+      text = text.replace(tag, newTag);
+    }
+  }
+  return text;
+};
+
 (() => {
   Promise.all([getStylesheet(), getGeneratedReadmes()])
     .then(([stylesheet, list]) => {
@@ -47,8 +71,11 @@ const getGeneratedReadmes = () => {
         const wrapDiv = document.createElement("div");
         wrapDiv.setAttribute("class", "wrap-iframe");
 
+        const newText = convertRelativeToAbsolute(path, text);
         let html = `<html><head><style>${stylesheet}</style></head><body>`;
-        html += `<div class="md-content">${marked(text)}</div></body></html>`;
+        html += `<div class="md-content">${marked(
+          newText
+        )}</div></body></html>`;
         const blob = new Blob([html], { type: "text/html" });
         const iframe = document.createElement("iframe");
         iframe.setAttribute("title", path);
