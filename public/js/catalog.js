@@ -65,6 +65,9 @@ const convertRelativeToAbsolute = (path, md) => {
   Promise.all([getStylesheet(), getGeneratedReadmes()])
     .then(([stylesheet, list]) => {
       list.forEach(({ path, text }) => {
+        if (text.indexOf("<!-- CREATED_BY_LEADYOU_README_GENERATOR -->") < 0)
+          return;
+
         const div = document.createElement("div");
         div.setAttribute("class", "readme");
 
