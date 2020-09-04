@@ -77,7 +77,7 @@ app.get("/:path", (req, res) => {
     }
     case "countup": {
       // get query
-      const owner = req.query.owmer.toLowerCase();
+      const owner = req.query.owner.toLowerCase();
       const repo = req.query.repo.toLowerCase();
       Promise.all([
         insertGeneratedRepository(owner, repo),
