@@ -78,15 +78,14 @@ const convertRelativeToAbsolute = (path, md) => {
         const wrapDiv = document.createElement("div");
         wrapDiv.setAttribute("class", "wrap-iframe");
 
+        const iframe = document.createElement("iframe");
+        iframe.setAttribute("title", path);
         const newText = convertRelativeToAbsolute(path, text);
         let html = `<html><head><style>${stylesheet}</style></head><body>`;
         html += `<div class="md-content">${marked(
           newText
         )}</div></body></html>`;
-        const blob = new Blob([html], { type: "text/html" });
-        const iframe = document.createElement("iframe");
-        iframe.setAttribute("title", path);
-        iframe.src = URL.createObjectURL(blob);
+        iframe.srcdoc = html;
 
         const p = document.createElement("p");
         const img = document.createElement("img");
