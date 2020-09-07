@@ -32,9 +32,12 @@ module.exports.getValues = (repoUrl, token) => {
     mode: "cors",
     headers: {
       "Content-Type": "application/json; charset=utf-8",
-      Authorization: `token ${token}`,
     },
   };
+
+  if (typeof token === "undifined")
+    options.headers["Authorization"] = `token ${token}`;
+
   return fetch(requestURL, options)
     .then((res) => res.json())
     .then((res) => {
