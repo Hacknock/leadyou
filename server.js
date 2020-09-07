@@ -301,6 +301,28 @@ const getList = async (res) => {
   }
 };
 
+checkExistReadme = async (record, conn) => {
+  const path = `${record.user}/${record.repository}`;
+  fetch(`https://raw.githubusercontent.com/${path}/master/README.md`)
+    .then((res) => res.text())
+    .then((text) => {
+      if (text.indexOf("<!-- CREATED_BY_LEADYOU_README_GENERATOR -->") < 0) {
+        return conn.query(
+          "update uniqueGene set uploaded = 0 where user = ? and repository = ?",
+          [record.user, record.repository]
+        );
+      } else {
+        return conn.query(
+          "update uniqueGene set uploaded = 1 where user = ? and repository = ?",
+          [record.user, record.repository]
+        );
+      }
+    })
+    .catch((err) => {
+      throw err;
+    });
+};
+
 const checkUpdated = async () => {
   let conn;
   try {
@@ -310,37 +332,12 @@ const checkUpdated = async () => {
       "select * from uniqueGene order by ts desc limit 24"
     );
     delete records.meta;
-    records.forEach((record) => {
-      const path = `${record.user}/${record.repository}`;
-      fetch(`https://raw.githubusercontent.com/${path}/master/README.md`)
-        .then((res) => res.text())
-        .then((text) => {
-          if (
-            text.indexOf("<!-- CREATED_BY_LEADYOU_README_GENERATOR -->") < 0
-          ) {
-            conn
-              .query(
-                "update uniqueGene set uploaded = 0 where user = ? and repository = ?",
-                [record.user, record.repository]
-              )
-              .catch((err) => {
-                console.error(err);
-              });
-          } else {
-            conn
-              .query(
-                "update uniqueGene set uploaded = 1 where user = ? and repository = ?",
-                [record.user, record.repository]
-              )
-              .catch((err) => {
-                console.error(err);
-              });
-          }
-        })
-        .catch((err) => {
-          console.error(err);
-        });
-      console.log(record);
+    records.forEach(async (record) => {
+      try {
+        await checkExistReadme(record, conn);
+      } catch (err) {
+        console.error(err);
+      }
     });
   } catch (err) {
     console.error(err);
@@ -348,3 +345,5 @@ const checkUpdated = async () => {
     if (conn) conn.release();
   }
 };
+
+checkUpdated();
