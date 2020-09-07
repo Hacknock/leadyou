@@ -10,6 +10,7 @@ const express = require("express");
 const app = express();
 const mariadb = require("mariadb");
 const config = require("config");
+const fetch = require("node-fetch");
 
 const dbConfig = config.get("mariaDB");
 console.log(dbConfig);
@@ -295,6 +296,54 @@ const getList = async (res) => {
   } catch (err) {
     res.json({ result: "error" });
     throw err;
+  } finally {
+    if (conn) conn.release();
+  }
+};
+
+const checkUpdated = async () => {
+  let conn;
+  try {
+    conn = await pool.getConnection();
+    await conn.query("use leadyou");
+    const records = await conn.query(
+      "select * from uniqueGene order by ts desc limit 24"
+    );
+    delete records.meta;
+    records.forEach((record) => {
+      const path = `${record.user}/${record.repository}`;
+      fetch(`https://raw.githubusercontent.com/${path}/master/README.md`)
+        .then((res) => res.text())
+        .then((text) => {
+          if (
+            text.indexOf("<!-- CREATED_BY_LEADYOU_README_GENERATOR -->") < 0
+          ) {
+            conn
+              .query(
+                "update uniqueGene set uploaded = 0 where user = ? and repository = ?",
+                [record.user, record.repository]
+              )
+              .catch((err) => {
+                console.error(err);
+              });
+          } else {
+            conn
+              .query(
+                "update uniqueGene set uploaded = 1 where user = ? and repository = ?",
+                [record.user, record.repository]
+              )
+              .catch((err) => {
+                console.error(err);
+              });
+          }
+        })
+        .catch((err) => {
+          console.error(err);
+        });
+      console.log(record);
+    });
+  } catch (err) {
+    console.error(err);
   } finally {
     if (conn) conn.release();
   }
