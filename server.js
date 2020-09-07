@@ -345,5 +345,3 @@ const checkUpdated = async () => {
     if (conn) conn.release();
   }
 };
-
-checkUpdated();
