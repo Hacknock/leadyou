@@ -121,12 +121,9 @@ const loadCatalog = () => {
   Promise.all([getStylesheet(), getGeneratedReadmes()])
     .then(([stylesheet, list]) => {
       let cnt = 0;
+      const identifier = "<!-- CREATED_BY_LEADYOU_README_GENERATOR -->";
       list.forEach(({ path, text }) => {
-        if (
-          text.indexOf("<!-- CREATED_BY_LEADYOU_README_GENERATOR -->") < 0 ||
-          12 <= cnt
-        )
-          return;
+        if (text.indexOf(identifier) < 0 || 12 <= cnt) return;
 
         const div = document.createElement("div");
         div.setAttribute("class", "readme");
@@ -137,7 +134,10 @@ const loadCatalog = () => {
         const iframe = document.createElement("iframe");
         iframe.setAttribute("title", path);
         const newText = convertRelativeToAbsolute(path, text);
-        let html = `<html><head><style>${stylesheet}</style></head><body>`;
+
+        let style = ".md-content { padding: 16px; text-align: left; }";
+        style += stylesheet;
+        let html = `<html><head><style>${style}</style></head><body>`;
         html += `<div class="md-content">${marked(
           newText
         )}</div></body></html>`;
