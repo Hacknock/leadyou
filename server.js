@@ -301,7 +301,7 @@ const getList = async (res) => {
   }
 };
 
-const checkExistReadme = async (record, conn) => {
+const checkExistReadme = (record, conn) => {
   const path = `${record.user}/${record.repository}`;
   return fetch(`https://raw.githubusercontent.com/${path}/master/README.md`)
     .then((res) => res.text())
