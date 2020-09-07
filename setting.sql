@@ -15,5 +15,6 @@ create table leadyou.generate
         ts TIMESTAMP,
         user varchar
         (256), repository varchar
-        (256)
+        (256),
+        uploaded int;
         );
