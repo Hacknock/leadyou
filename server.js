@@ -303,7 +303,7 @@ const getList = async (res) => {
 
 const checkExistReadme = async (record, conn) => {
   const path = `${record.user}/${record.repository}`;
-  fetch(`https://raw.githubusercontent.com/${path}/master/README.md`)
+  return fetch(`https://raw.githubusercontent.com/${path}/master/README.md`)
     .then((res) => res.text())
     .then((text) => {
       if (text.indexOf("<!-- CREATED_BY_LEADYOU_README_GENERATOR -->") < 0) {
