@@ -21,6 +21,11 @@
     />
     <link href="/src/css/index.css" rel="stylesheet" type="text/css" />
     <link href="/src/css/header_footer.css" rel="stylesheet" type="text/css" />
+    <link href="/src/css/marked.css" rel="stylesheet" type="text/css" />
+    <script
+      type="text/javascript"
+      src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"
+    ></script>
     <script type="text/javascript" src="/src/js/favicon.js" defer></script>
     <script type="text/javascript" src="/src/js/index.js" defer></script>
     <script
@@ -58,6 +63,8 @@
           </div>
           <input type="submit" value="Next" />
         </form>
+        <p class="readmes-title">New Generated READMEs</p>
+        <div id="catalog-area"></div>
       </main>
       <footer>
         <div class="child left-child">
@@ -68,7 +75,6 @@
           <p><a href="/page?md=about-readme">About README</a></p>
           <p><a href="/page?md=how-to-use-generator">How to Use</a></p>
           <p><a href="/page?md=new-readme-format-proposal">Proposal</a></p>
-          <p><a href="/catalog">Generated READMEs</a></p>
           <p><a href="/page?md=help">Help</a></p>
         </div>
         <div class="child right-child">
