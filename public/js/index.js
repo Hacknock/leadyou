@@ -43,9 +43,27 @@ const validationURL = () => {
 
 // ☆☆☆☆☆ Catalog ☆☆☆☆☆
 const getStylesheet = () => {
-  return fetch("/src/css/marked.css").then((res) => {
-    return res.text();
-  });
+  return fetch("/src/css/marked.css").then((res) => res.text());
+};
+
+const getDefaultBranch = (path) => {
+  return fetch(`https://api.github.com/repos/${path}`)
+    .then((res) => res.json())
+    .then((json) => json.default_branch);
+};
+
+const getGeneratedReadme = async (path) => {
+  try {
+    const branch = await getDefaultBranch(path);
+    const request = `https://raw.githubusercontent.com/${path}/${branch}/README.md`;
+    return fetch(request)
+      .then((res) => res.text())
+      .then((text) => {
+        return { path: path, branch: branch, text: text };
+      });
+  } catch (err) {
+    throw err;
+  }
 };
 
 const getGeneratedReadmes = () => {
@@ -61,25 +79,13 @@ const getGeneratedReadmes = () => {
       let promises = [];
       for (let i = 0; i < json.length; i++) {
         const path = `${json[i].user}/${json[i].repository}`;
-        promises.push(
-          fetch(`https://raw.githubusercontent.com/${path}/master/README.md`)
-            .then((res) => res.text())
-            .then((text) => {
-              return { path: path, text: text };
-            })
-            .catch((err) => {
-              console.error(err);
-            })
-        );
+        promises.push(getGeneratedReadme(path));
       }
       return Promise.all(promises);
-    })
-    .then((res) => {
-      return res;
     });
 };
 
-const convertRelativeToAbsolute = (path, md) => {
+const convertRelativeToAbsolute = (path, branch, md) => {
   let text = md;
   const regex = /http(s)?:\/\/.+/;
   const array = text.match(/\[([^\[\]\(\)]*?)\]\(([^\[\]\(\)]*?)\)/g);
@@ -87,15 +93,15 @@ const convertRelativeToAbsolute = (path, md) => {
     const item = tag.match(/^\[.*?\]\((.*?)\)$/)[1];
     if (regex.test(item)) {
       const newTag = tag.replace(
-        `://github.com/${path}/blob/master/`,
-        `://github.com/${path}/raw/master/`
+        `://github.com/${path}/blob/${branch}/`,
+        `://github.com/${path}/raw/${branch}/`
       );
       text = text.replace(tag, newTag);
     } else {
       const after = item.match(/^\.*\/*(.+)/)[1];
       const newTag = tag.replace(
         item,
-        `https://github.com/${path}/raw/master/${after}`
+        `https://github.com/${path}/raw/${branch}/${after}`
       );
       text = text.replace(tag, newTag);
     }
@@ -122,7 +128,7 @@ const loadCatalog = () => {
     .then(([stylesheet, list]) => {
       let cnt = 0;
       const identifier = "<!-- CREATED_BY_LEADYOU_README_GENERATOR -->";
-      list.forEach(({ path, text }) => {
+      list.forEach(({ path, branch, text }) => {
         if (text.indexOf(identifier) < 0 || 12 <= cnt) return;
 
         const div = document.createElement("div");
@@ -133,7 +139,7 @@ const loadCatalog = () => {
 
         const iframe = document.createElement("iframe");
         iframe.setAttribute("title", path);
-        const newText = convertRelativeToAbsolute(path, text);
+        const newText = convertRelativeToAbsolute(path, branch, text);
 
         let style = ".md-content { padding: 16px; text-align: left; }";
         style += stylesheet;
