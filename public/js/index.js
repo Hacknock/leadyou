@@ -46,24 +46,13 @@ const getStylesheet = () => {
   return fetch("/src/css/marked.css").then((res) => res.text());
 };
 
-const getDefaultBranch = (path) => {
-  return fetch(`https://api.github.com/repos/${path}`)
-    .then((res) => res.json())
-    .then((json) => json.default_branch);
-};
-
-const getGeneratedReadme = async (path) => {
-  try {
-    const branch = await getDefaultBranch(path);
-    const request = `https://raw.githubusercontent.com/${path}/${branch}/README.md`;
-    return fetch(request)
-      .then((res) => res.text())
-      .then((text) => {
-        return { path: path, branch: branch, text: text };
-      });
-  } catch (err) {
-    throw err;
-  }
+const getGeneratedReadme = async (path, branch) => {
+  const request = `https://raw.githubusercontent.com/${path}/${branch}/README.md`;
+  return fetch(request)
+    .then((res) => res.text())
+    .then((text) => {
+      return { path: path, branch: branch, text: text };
+    });
 };
 
 const getGeneratedReadmes = () => {
@@ -73,13 +62,17 @@ const getGeneratedReadmes = () => {
       "Content-Type": "application/json; charset=utf-8",
     },
   };
+  // default branch name が master から main に変わった日
+  const mmDate = new Date(2020, 10, 1);
   return fetch("/getlist", options)
     .then((res) => res.json())
     .then((json) => {
       let promises = [];
       for (let i = 0; i < json.length; i++) {
+        const date = new Date(json[i].ts);
+        const branch = date.getTime() < mmDate.getTime() ? "master" : "main";
         const path = `${json[i].user}/${json[i].repository}`;
-        promises.push(getGeneratedReadme(path));
+        promises.push(getGeneratedReadme(path, branch));
       }
       return Promise.all(promises);
     });
