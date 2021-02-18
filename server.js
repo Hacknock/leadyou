@@ -285,7 +285,7 @@ const getList = async (res) => {
     conn = await pool.getConnection();
     await conn.query("use leadyou");
     const records = await conn.query(
-      "select * from uniqueGene order by ts desc limit 24"
+      "select * from uniqueGene order by ts desc limit 9"
     );
     delete records.meta;
     res.json(records);
