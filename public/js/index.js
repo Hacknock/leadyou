@@ -61,7 +61,7 @@ const getGeneratedReadme = async (owner, repo) => {
           return {
             path: `${owner}/${repo}`,
             branch: json.url.split("?ref=")[1],
-            text: decodeURIComponent(atob(json.content)),
+            text: decodeURIComponent(escape(atob(json.content))),
           };
         } else {
           throw new Error("readme not found");
