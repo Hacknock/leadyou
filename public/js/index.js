@@ -58,7 +58,6 @@ const getGeneratedReadme = async (owner, repo) => {
     .then((res) => {
       return res.json().then((json) => {
         if (res.ok) {
-          console.log(json.url);
           return {
             path: `${owner}/${repo}`,
             branch: json.url.split("?ref=")[1],
