@@ -46,12 +46,35 @@ const getStylesheet = () => {
   return fetch("/src/css/marked.css").then((res) => res.text());
 };
 
-const getGeneratedReadme = async (path, branch) => {
-  const request = `https://raw.githubusercontent.com/${path}/${branch}/README.md`;
-  return fetch(request)
-    .then((res) => res.text())
-    .then((text) => {
-      return { path: path, branch: branch, text: text };
+const getGeneratedReadme = async (owner, repo) => {
+  const options = {
+    method: "GET",
+    headers: {
+      Accept: "application/vnd.github.v3+json",
+    },
+  };
+  const request = `https://api.github.com/repos/${owner}/${repo}/readme`;
+  return fetch(request, options)
+    .then((res) => {
+      return res.json().then((json) => {
+        if (res.ok) {
+          return {
+            path: `${owner}/${repo}`,
+            branch: json.url.split("?ref=")[1],
+            text: decodeURIComponent(atob(json.content)),
+          };
+        } else {
+          throw new Error("readme not found");
+        }
+      });
+    })
+    .catch((err) => {
+      console.error(err);
+      return {
+        path: "",
+        branch: "",
+        text: "",
+      };
     });
 };
 
@@ -62,18 +85,12 @@ const getGeneratedReadmes = () => {
       "Content-Type": "application/json; charset=utf-8",
     },
   };
-  // default branch name が master から main に変わった日
-  const mmDate = new Date(2020, 10, 1);
   return fetch("/getlist", options)
     .then((res) => res.json())
     .then((json) => {
-      let promises = [];
-      for (let i = 0; i < json.length; i++) {
-        const date = new Date(json[i].ts);
-        const branch = date.getTime() < mmDate.getTime() ? "master" : "main";
-        const path = `${json[i].user}/${json[i].repository}`;
-        promises.push(getGeneratedReadme(path, branch));
-      }
+      const promises = json.map((item) => {
+        return getGeneratedReadme(item.user, item.repository);
+      });
       return Promise.all(promises);
     });
 };
@@ -85,13 +102,15 @@ const convertRelativeToAbsolute = (path, branch, md) => {
   for (const tag of array) {
     const item = tag.match(/^\[.*?\]\((.*?)\)$/)[1];
     if (regex.test(item)) {
+      // httpsにマッチした場合
       const newTag = tag.replace(
-        `://github.com/${path}/blob/${branch}/`,
-        `://github.com/${path}/raw/${branch}/`
+        `://github.com/${path}/blob/`,
+        `://github.com/${path}/raw/`
       );
       text = text.replace(tag, newTag);
     } else {
-      const after = item.match(/^\.*\/*(.+)/)[1];
+      // 相対パスだった場合
+      const after = item.match(/^(\.\/)*(.+)/)[2];
       const newTag = tag.replace(
         item,
         `https://github.com/${path}/raw/${branch}/${after}`
@@ -122,18 +141,15 @@ const loadCatalog = () => {
       let cnt = 0;
       const identifier = "<!-- CREATED_BY_LEADYOU_README_GENERATOR -->";
       list.forEach(({ path, branch, text }) => {
-        if (text.indexOf(identifier) < 0 || 12 <= cnt) return;
-
+        if (path === "") return;
+        if (text.indexOf(identifier) < 0 || 9 <= cnt) return;
         const div = document.createElement("div");
         div.setAttribute("class", "readme");
-
         const wrapDiv = document.createElement("div");
         wrapDiv.setAttribute("class", "wrap-iframe");
-
         const iframe = document.createElement("iframe");
         iframe.setAttribute("title", path);
         const newText = convertRelativeToAbsolute(path, branch, text);
-
         let style = ".md-content { padding: 16px; text-align: left; }";
         style += stylesheet;
         let html = `<html><head><style>${style}</style></head><body>`;
@@ -141,14 +157,12 @@ const loadCatalog = () => {
           newText
         )}</div></body></html>`;
         iframe.srcdoc = html;
-
         const p = document.createElement("p");
         const img = document.createElement("img");
         img.src = "/src/images/github-icon.png";
         const a = document.createElement("a");
         a.href = `https://github.com/${path}`;
         a.innerText = path;
-
         div.appendChild(wrapDiv);
         wrapDiv.appendChild(iframe);
         p.appendChild(img);
