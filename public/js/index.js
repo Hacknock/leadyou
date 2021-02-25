@@ -47,26 +47,32 @@ const getStylesheet = () => {
 };
 
 const getGeneratedReadme = async (owner, repo) => {
-  const options = {
-    method: "GET",
-    headers: {
-      Accept: "application/vnd.github.v3+json",
-    },
-  };
-  const request = `https://api.github.com/repos/${owner}/${repo}/readme`;
-  return fetch(request, options)
-    .then((res) => {
-      return res.json().then((json) => {
-        if (res.ok) {
+  return fetch(`https://github.com/${owner}/${repo}`)
+    .then((res) => res.text())
+    .then((html) => {
+      const parser = new DOMParser();
+      const doc = parser.parseFromString(html, "text/html");
+      const defaultBranch = Array.prototype.slice
+        .call(doc.getElementsByTagName("a"))
+        .filter((item) => {
+          const regex = RegExp("find");
+          return regex.test(item.href);
+        })[0]
+        .href.split("/")
+        .pop();
+      return defaultBranch;
+    })
+    .then((branch) => {
+      const request = `https://raw.githubusercontent.com/${owner}/${repo}/${branch}/README.md`;
+      return fetch(request)
+        .then((res) => res.text())
+        .then((text) => {
           return {
             path: `${owner}/${repo}`,
-            branch: json.url.split("?ref=")[1],
-            text: decodeURIComponent(escape(atob(json.content))),
+            branch: branch,
+            text: text,
           };
-        } else {
-          throw new Error("readme not found");
-        }
-      });
+        });
     })
     .catch((err) => {
       console.error(err);
