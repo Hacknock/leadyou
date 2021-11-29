@@ -153,7 +153,7 @@ const loadCatalog = () => {
         let style = ".md-content { padding: 16px; text-align: left; }";
         style += stylesheet;
         let html = `<html><head><style>${style}</style></head><body>`;
-        html += `<div class="md-content">${marked(
+        html += `<div class="md-content">${marked.parse(
           newText
         )}</div></body></html>`;
         iframe.srcdoc = html;
