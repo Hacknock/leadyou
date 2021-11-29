@@ -5,14 +5,18 @@ grant select,update,insert on leadyou.* to 'generator'@'localhost';
 create table leadyou.generate
 (
   ts TIMESTAMP,
-  usr VARCHAR(256),
-  repository VARCHAR(256)
+  user VARCHAR
+  (256),
+  repository VARCHAR
+  (256)
 );
 
-create table leadyou.uniqueGene
-(
-  ts TIMESTAMP,
-  usr VARCHAR(256),
-  repository VARCHAR(256),
+  create table leadyou.uniqueGene
+  (
+    ts TIMESTAMP,
+    user VARCHAR
+    (256),
+  repository VARCHAR
+    (256),
   uploaded int
 );
