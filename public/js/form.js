@@ -468,7 +468,7 @@ const preview = (flag) => {
     }
     inspectContentsJson(contentsJson);
     const md = generateReadme(templateJson, contentsJson);
-    if (previousMarkdown !== md) outputEle.innerHTML = marked(md);
+    if (previousMarkdown !== md) outputEle.innerHTML = marked.parse(md);
     previousMarkdown = md;
     if (typeof flag !== "undefined" && flag) {
       countUp();
