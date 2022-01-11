@@ -39,7 +39,7 @@ const loadMarkdown = () => {
   }
   getMarkdown(`/src/md/${params.md}.md`)
     .then((md) => {
-      outputEle.innerHTML = marked(md);
+      outputEle.innerHTML = marked.parse(md);
     })
     .catch((err) => {
       console.error(err);
