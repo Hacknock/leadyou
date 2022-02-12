@@ -25,15 +25,16 @@ const helmet = require("helmet");
 const fetch = require("node-fetch");
 const fs = require("fs");
 const mariadb = require("mariadb");
-const config = require("config");
-const dbConfig = config.get("mariaDB");
+const env = process.env;
 
 // *** MariaDB connection information *** //
 const pool = mariadb.createPool({
-  host: dbConfig.host,
-  user: dbConfig.user,
-  password: dbConfig.password,
-  connectionLimit: dbConfig.connectionLimit,
+  host: env.HOST,
+  user: env.USER,
+  password: env.PASSWORD,
+  connectionLimit: env.CON_LIMIT,
+  waitForConnections: true,
+  multipleStatements: true,
 });
 
 // ★★★ Initial Process ★★★
@@ -68,7 +69,7 @@ app.use(
   })
 );
 
-const port = process.env.port || 3000;
+const port = env.PORT;
 app.listen(port, () => {
   console.log(`listen port ${port}`);
 });
@@ -101,7 +102,7 @@ app.get("/:path", (req, res) => {
     case "getvalues": {
       const query = req.query;
       const repoUrl = `https://github.com/${query.owner}/${query.repo}`;
-      const token = config.get("GitHub.clientToken");
+      const token = env.TOKEN;
       customScript(repoUrl, token)
         .then((result) => {
           res.json(result);
