@@ -9,24 +9,23 @@ const fs = require("fs");
 const express = require("express");
 const app = express();
 const mariadb = require("mariadb");
-const config = require("config");
 const fetch = require("node-fetch");
-
-const dbConfig = config.get("mariaDB");
-console.log(dbConfig);
+const env = process.env;
 
 // *** MariaDB connection information *** //
 const pool = mariadb.createPool({
-  host: dbConfig.host,
-  user: dbConfig.user,
-  password: dbConfig.password,
-  connectionLimit: dbConfig.connectionLimit,
+  host: env.HOST,
+  user: env.USER,
+  password: env.PASSWORD,
+  connectionLimit: env.CON_LIMIT,
+  waitForConnections: true,
+  multipleStatements: true,
 });
 
 // ★★★ Initial Process ★★★
-const port = process.env.port || 3000;
+const port = env.PORT;
 app.listen(port, () => {
-  console.log("listen port 3000");
+  console.log(`listen port ${env.PORT}`);
 });
 
 // ★★★ File Serve & Rooting API Request ★★★
@@ -57,7 +56,7 @@ app.get("/:path", (req, res) => {
     case "getvalues": {
       const query = req.query;
       const repoUrl = `https://github.com/${query.owner}/${query.repo}`;
-      const token = config.get("GitHub.clientToken");
+      const token = env.TOKEN;
       customScript(repoUrl, token)
         .then((result) => {
           res.json(result);
