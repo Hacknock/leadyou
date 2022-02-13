@@ -4,6 +4,63 @@ const alertText = document.getElementById("alert-text");
 const autoFillCheck = document.getElementById("auto-fill");
 const catalogArea = document.getElementById("catalog-area");
 const counter = document.getElementById("counter");
+const acceptCookieFonts = document.getElementById("accept-cookies-fonts");
+const acceptFonts = document.getElementById("accept-fonts");
+const acceptCookie = document.getElementById("accept-cookies");
+const footer = document.getElementById("footer");
+const attentionCookie = document.getElementById("attention-cookie");
+
+// Cookie control
+let positionHeight = document.body.clientHeight - window.innerHeight - document.documentElement.scrollTop;
+if (positionHeight < footer.offsetHeight) {
+  attentionCookie.style.bottom = (footer.offsetHeight - positionHeight) + "px";
+}
+window.addEventListener("scroll", (e) => {
+  let positionHeight = document.body.clientHeight - window.innerHeight - document.documentElement.scrollTop;
+  if (positionHeight < footer.offsetHeight) {
+    attentionCookie.style.bottom = (footer.offsetHeight - positionHeight) + "px";
+    console.log(attentionCookie.style.bottom)
+  } else {
+    attentionCookie.style.bottom = "0px";
+  }
+});
+
+acceptCookieFonts.addEventListener("click", () => {
+  enableGA();
+  enableFont();
+  attentionCookie.style.display = "none";
+});
+
+acceptCookie.addEventListener("click", () => {
+  enableGA();
+  attentionCookie.style.display = "none";
+});
+
+acceptFonts.addEventListener("click", () => {
+  enableFont();
+  attentionCookie.style.display = "none";
+});
+
+const enableFont = () => {
+  const link = document.createElement("link");
+  link.setAttribute("href", "https://fonts.googleapis.com/css2?family=Roboto:wght@500&display=swap");
+  link.setAttribute("rel", "stylesheet");
+  document.getElementsByTagName("head")[0].appendChild(link);
+  document.cookie = "font = true";
+}
+
+document.cookie.split(";").some(item => {
+  if(item.trim().indexOf("font=") === 0) {
+    attentionCookie.style.display = "none";
+    if (item.trim().split("=")[1] === "true") enableFont();
+  } else if (item.trim().indexOf("cookie=") === 0){
+    attentionCookie.style.display = "none";
+    if (item.trim().split("=")[1] === "true") enableGA();
+  } else {
+    //nothing
+  }
+});
+
 
 // ☆☆☆☆☆ Top Form ☆☆☆☆☆
 const showWarning = () => {
