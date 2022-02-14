@@ -11,9 +11,11 @@ const app = express();
 const mariadb = require("mariadb");
 const config = require("config");
 const fetch = require("node-fetch");
+const helmet = require("helmet");
+
+app.use(helmet());
 
 const dbConfig = config.get("mariaDB");
-console.log(dbConfig);
 
 // *** MariaDB connection information *** //
 const pool = mariadb.createPool({
