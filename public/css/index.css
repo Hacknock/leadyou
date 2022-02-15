@@ -161,6 +161,7 @@ p.readmes-title {
   position: fixed;
   bottom: 0;
   text-align: left;
+  font-size: 12px;
 }
 
 .button-cookie {
