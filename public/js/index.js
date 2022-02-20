@@ -147,11 +147,11 @@ const setupCookieManager = () => {
     .split(";")
     .map((item) => item.trim())
     .forEach((item) => {
-      if (item.startsWith("font=")) {
-        if (item.split("=")[1] === "true") enableFont();
+      if (item.startsWith("font=") && item.split("=")[1] === "true") {
+        enableFont();
         hideAgreementCookie();
-      } else if (item.startsWith("cookie=")) {
-        if (item.split("=")[1] === "true") enableGA();
+      } else if (item.startsWith("cookie=") && item.split("=")[1] === "true") {
+        enableGA();
         hideAgreementCookie();
       }
     });
