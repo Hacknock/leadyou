@@ -94,3 +94,10 @@ footer {
 .right-child {
   margin-right: 50px;
 }
+
+/* ☆☆☆☆☆ Dummy Footer ☆☆☆☆☆ */
+.dummy-footer {
+  margin: 0;
+  width: 100%;
+  height: 160px;
+}

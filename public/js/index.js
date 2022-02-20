@@ -1,77 +1,10 @@
 const form = document.getElementById("generate-form");
 const urlColumn = document.getElementById("url-column");
-const alertText = document.getElementById("alert-text");
-const autoFillCheck = document.getElementById("auto-fill");
-const catalogArea = document.getElementById("catalog-area");
-const counter = document.getElementById("counter");
-const acceptCookieFonts = document.getElementById("accept-cookies-fonts");
-const acceptFonts = document.getElementById("accept-fonts");
-const acceptCookie = document.getElementById("accept-cookies");
-const footer = document.getElementById("footer");
-const attentionCookie = document.getElementById("attention-cookie");
-
-acceptCookieFonts.addEventListener("click", () => {
-  enableGA();
-  enableFont();
-  attentionCookie.style.display = "none";
-});
-
-acceptCookie.addEventListener("click", () => {
-  enableGA();
-  attentionCookie.style.display = "none";
-});
-
-acceptFonts.addEventListener("click", () => {
-  enableFont();
-  attentionCookie.style.display = "none";
-});
-
-document.cookie.split(";").some((item) => {
-  if (item.trim().indexOf("font=") === 0) {
-    attentionCookie.style.display = "none";
-  } else if (item.trim().indexOf("cookie=") === 0) {
-    attentionCookie.style.display = "none";
-  } else {
-    //nothing
-  }
-});
-
-const bannerPositionControler = () => {
-  const heightAttentionCookie = attentionCookie.clientHeight;
-  const heightMain = document.getElementsByTagName("main")[0].offsetHeight;
-  console.log("attention Height: " + heightAttentionCookie);
-  console.log("main height: " + heightMain);
-  document.getElementsByTagName("main")[0].style.height = `${
-    heightMain + heightAttentionCookie
-  }px`;
-
-  // Cookie control
-  let positionHeight =
-    document.body.clientHeight -
-    window.innerHeight -
-    document.documentElement.scrollTop;
-  if (positionHeight < footer.offsetHeight) {
-    attentionCookie.style.bottom = footer.offsetHeight - positionHeight + "px";
-  }
-  window.addEventListener("scroll", (e) => {
-    let positionHeight =
-      document.body.clientHeight -
-      window.innerHeight -
-      document.documentElement.scrollTop;
-    if (positionHeight < footer.offsetHeight) {
-      attentionCookie.style.bottom =
-        footer.offsetHeight - positionHeight + "px";
-      console.log(attentionCookie.style.bottom);
-    } else {
-      attentionCookie.style.bottom = "0px";
-    }
-  });
-};
 
 // ☆☆☆☆☆ Top Form ☆☆☆☆☆
 const showWarning = () => {
   urlColumn.setAttribute("class", "url alert-repo");
-  alertText.textContent =
+  document.getElementById("alert-text").textContent =
     "This repository is a private repository or does not exist.";
 };
 
@@ -184,8 +117,49 @@ const convertRelativeToAbsolute = (path, branch, md) => {
   return text;
 };
 
+// ☆☆☆☆☆ Cookie Manager ☆☆☆☆☆
+const hideAgreementCookie = () => {
+  document.getElementById("attention-cookie").style.display = "none";
+  document.getElementsByClassName("dummy-footer")[0].style.display = "none";
+};
+
+const setupCookieManager = () => {
+  document
+    .getElementById("accept-cookies-fonts")
+    .addEventListener("click", () => {
+      enableGA();
+      enableFont();
+      hideAgreementCookie();
+    });
+  document.getElementById("accept-fonts").addEventListener("click", () => {
+    enableFont();
+    hideAgreementCookie();
+  });
+  document.getElementById("accept-cookies").addEventListener("click", () => {
+    enableGA();
+    hideAgreementCookie();
+  });
+  document.getElementById("cancel-cookie").addEventListener("click", () => {
+    hideAgreementCookie();
+  });
+
+  document.cookie
+    .split(";")
+    .map((item) => item.trim())
+    .forEach((item) => {
+      if (item.startsWith("font=")) {
+        if (item.split("=")[1] === "true") enableFont();
+        hideAgreementCookie();
+      } else if (item.startsWith("cookie=")) {
+        if (item.split("=")[1] === "true") enableGA();
+        hideAgreementCookie();
+      }
+    });
+};
+
 // ☆☆☆☆☆ Footer ☆☆☆☆☆
 const getCount = () => {
+  const counter = document.getElementById("counter");
   fetch("/getcount")
     .then((res) => res.json())
     .then((data) => {
@@ -199,6 +173,7 @@ const getCount = () => {
 };
 
 const loadCatalog = () => {
+  const catalogArea = document.getElementById("catalog-area");
   Promise.all([getStylesheet(), getGeneratedReadmes()])
     .then(([stylesheet, list]) => {
       let cnt = 0;
@@ -235,9 +210,6 @@ const loadCatalog = () => {
         cnt += 1;
       });
     })
-    .then(() => {
-      bannerPositionControler();
-    })
     .catch((err) => {
       console.error(err);
     });
@@ -246,8 +218,8 @@ const loadCatalog = () => {
 // called on load
 (() => {
   getCount();
-
   loadCatalog();
+  setupCookieManager();
 
   form.addEventListener("submit", (event) => {
     event.preventDefault();
@@ -255,6 +227,7 @@ const loadCatalog = () => {
   });
 
   urlColumn.addEventListener("input", (e) => {
+    const autoFillCheck = document.getElementById("auto-fill");
     if (urlColumn.value.length === 0) {
       autoFillCheck.setAttribute("disabled", "");
     } else if (urlColumn.value.length > 0) {

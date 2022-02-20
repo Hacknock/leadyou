@@ -155,31 +155,54 @@ p.readmes-title {
   color: #9e9e9e;
 }
 
+/* ☆☆☆☆☆ Cookie ☆☆☆☆☆ */
 .agreement-cookie {
-  width: 100%;
-  background-color: #ff8a65;
   position: fixed;
+  padding: 16px 0;
   bottom: 0;
+  width: 100%;
+  min-width: 750px;
+  height: auto;
+  background-color: #ff8a65;
+  color: white;
   text-align: left;
   font-size: 12px;
+  z-index: 3;
 }
 
-.button-cookie {
-  padding: 10px;
-  font-size: 15px;
-  font-weight: bold;
+.wrap-cookie {
+  margin: 0 auto;
+  width: 80%;
 }
 
 .text-attention-cookie {
-  width: 80%;
-  margin: 20px auto;
+  margin-top: 0;
+  margin-bottom: 8px;
+  width: 540px;
 }
 
 .button-cluster {
-  margin: 0 auto;
-  margin-bottom: 20px;
-  width: 80%;
-  text-align: center;
+  margin-left: 24px;
+}
+
+.button-cookie {
+  margin: 4px;
+  padding: 8px;
+  font-size: 12px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.xmark {
+  position: absolute;
+  top: 0px;
+  left: 8px;
+  color: white;
+  font-size: 40px;
+  font-weight: bold;
+  border: none;
+  background: transparent;
+  cursor: pointer;
 }
 
 /* ☆☆☆☆☆ Footer ☆☆☆☆☆ */
