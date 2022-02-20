@@ -26,7 +26,7 @@ acceptFonts.addEventListener("click", () => {
   attentionCookie.style.display = "none";
 });
 
-document.cookie.split(";").some(item => {
+document.cookie.split(";").some((item) => {
   if (item.trim().indexOf("font=") === 0) {
     attentionCookie.style.display = "none";
   } else if (item.trim().indexOf("cookie=") === 0) {
@@ -38,26 +38,35 @@ document.cookie.split(";").some(item => {
 
 const bannerPositionControler = () => {
   const heightAttentionCookie = attentionCookie.clientHeight;
-  const heightMain = document.getElementsByTagName("main")[0].offsetHeight
+  const heightMain = document.getElementsByTagName("main")[0].offsetHeight;
   console.log("attention Height: " + heightAttentionCookie);
   console.log("main height: " + heightMain);
-  document.getElementsByTagName("main")[0].style.height = `${heightMain + heightAttentionCookie}px`;
+  document.getElementsByTagName("main")[0].style.height = `${
+    heightMain + heightAttentionCookie
+  }px`;
 
   // Cookie control
-  let positionHeight = document.body.clientHeight - window.innerHeight - document.documentElement.scrollTop;
+  let positionHeight =
+    document.body.clientHeight -
+    window.innerHeight -
+    document.documentElement.scrollTop;
   if (positionHeight < footer.offsetHeight) {
-    attentionCookie.style.bottom = (footer.offsetHeight - positionHeight) + "px";
+    attentionCookie.style.bottom = footer.offsetHeight - positionHeight + "px";
   }
   window.addEventListener("scroll", (e) => {
-    let positionHeight = document.body.clientHeight - window.innerHeight - document.documentElement.scrollTop;
+    let positionHeight =
+      document.body.clientHeight -
+      window.innerHeight -
+      document.documentElement.scrollTop;
     if (positionHeight < footer.offsetHeight) {
-      attentionCookie.style.bottom = (footer.offsetHeight - positionHeight) + "px";
-      console.log(attentionCookie.style.bottom)
+      attentionCookie.style.bottom =
+        footer.offsetHeight - positionHeight + "px";
+      console.log(attentionCookie.style.bottom);
     } else {
       attentionCookie.style.bottom = "0px";
     }
   });
-}
+};
 
 // ☆☆☆☆☆ Top Form ☆☆☆☆☆
 const showWarning = () => {
@@ -225,7 +234,8 @@ const loadCatalog = () => {
         catalogArea.appendChild(div);
         cnt += 1;
       });
-    }).then(() => {
+    })
+    .then(() => {
       bannerPositionControler();
     })
     .catch((err) => {

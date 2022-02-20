@@ -1,88 +1,115 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-  <meta name="keywords" content="README,markdown,README Generator,GitHub" />
-  <meta name="description"
-    content="LEADYOU is a service that helps you create a README automatically from GitHub's public repositories." />
-  <meta name="author" content="Hacknock" />
-  <base target="_blank" />
-  <script type="text/javascript" src="/src/js/cookie-manager.js"></script>
-  <link id="favicon" rel="shortcut icon" type="image/x-icon" href="/src/images/favicon-black.ico" />
-  <link href="/src/css/index.css" rel="stylesheet" type="text/css" />
-  <link href="/src/css/header_footer.css" rel="stylesheet" type="text/css" />
-  <link href="/src/css/marked.css" rel="stylesheet" type="text/css" />
-  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-  <script type="text/javascript" src="/src/js/favicon.js" defer></script>
-  <script type="text/javascript" src="/src/js/index.js" defer></script>
-  <script type="text/javascript" src="/src/js/tag-google-analytics.js"></script>
-  <title>LEADYOU</title>
-</head>
-
-<body>
-  <div class="wrap">
-    <main>
-      <div class="top">
-        <img src="/src/images/leadyou_icon.png" class="icon" />
-        <span class="title">LEADYOU</span>
-      </div>
-      <h2 class="sub-title">README Generator for OSS</h2>
-      <form id="generate-form">
-        <div>
-          <p id="alert-text" class="alert-message"></p>
-          <input type="text" class="url normal-repo" name="url" id="url-column"
-            placeholder="Input an url of your public GitHub repository" />
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="keywords" content="README,markdown,README Generator,GitHub" />
+    <meta
+      name="description"
+      content="LEADYOU is a service that helps you create a README automatically from GitHub's public repositories."
+    />
+    <meta name="author" content="Hacknock" />
+    <base target="_blank" />
+    <script type="text/javascript" src="/src/js/cookie-manager.js"></script>
+    <link
+      id="favicon"
+      rel="shortcut icon"
+      type="image/x-icon"
+      href="/src/images/favicon-black.ico"
+    />
+    <link href="/src/css/index.css" rel="stylesheet" type="text/css" />
+    <link href="/src/css/header_footer.css" rel="stylesheet" type="text/css" />
+    <link href="/src/css/marked.css" rel="stylesheet" type="text/css" />
+    <script
+      type="text/javascript"
+      src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"
+    ></script>
+    <script type="text/javascript" src="/src/js/favicon.js" defer></script>
+    <script type="text/javascript" src="/src/js/index.js" defer></script>
+    <script
+      type="text/javascript"
+      src="/src/js/tag-google-analytics.js"
+    ></script>
+    <title>LEADYOU</title>
+  </head>
+  <body>
+    <div class="wrap">
+      <main>
+        <div class="top">
+          <img src="/src/images/leadyou_icon.png" class="icon" />
+          <span class="title">LEADYOU</span>
         </div>
-        <div class="checkbox-area">
-          <input type="checkbox" id="auto-fill" name="auto-fill" disabled />
-          <label for="auto-fill" class="checkbox-label">Auto Fill</label>
-          <p class="checkbox-description">
-            Fill in some forms automatically based on the information of the
-            repository.
-          </p>
+        <h2 class="sub-title">README Generator for OSS</h2>
+        <form id="generate-form">
+          <div>
+            <p id="alert-text" class="alert-message"></p>
+            <input
+              type="text"
+              class="url normal-repo"
+              name="url"
+              id="url-column"
+              placeholder="Input an url of your public GitHub repository"
+            />
+          </div>
+          <div class="checkbox-area">
+            <input type="checkbox" id="auto-fill" name="auto-fill" disabled />
+            <label for="auto-fill" class="checkbox-label">Auto Fill</label>
+            <p class="checkbox-description">
+              Fill in some forms automatically based on the information of the
+              repository.
+            </p>
+          </div>
+          <input type="submit" value="Next" />
+        </form>
+        <p class="readmes-title">New Generated READMEs</p>
+        <div id="catalog-area"></div>
+      </main>
+      <div class="agreement-cookie" id="attention-cookie">
+        <ul class="text-attention-cookie">
+          <li>
+            We use cookies in order to measure and imporove the performance of
+            LEADYOU using Google Analytics after your agreement of using them.
+          </li>
+          <li>
+            This site uses Google Fonts after your aggreement of using them
+            because there is a possibility that Google gets your IP address.
+          </li>
+          <li>
+            We also use two no-tracked cookies to control Google Analytics and
+            Google Fonts without your aggreement.
+          </li>
+        </ul>
+        <div class="button-cluster">
+          <button id="accept-cookies-fonts" class="button-cookie">
+            Accept all cookies and Goole Fonts
+          </button>
+          <button id="accept-fonts" class="button-cookie">
+            Accept Goole Fonts only
+          </button>
+          <button id="accept-cookies" class="button-cookie">
+            Accept all cookies only
+          </button>
         </div>
-        <input type="submit" value="Next" />
-      </form>
-      <p class="readmes-title">New Generated READMEs</p>
-      <div id="catalog-area"></div>
-
-    </main>
-    <div class="agreement-cookie" id="attention-cookie">
-      <ul class="text-attention-cookie">
-        <li>We use cookies in order to measure and imporove the performance of LEADYOU using Google Analytics after your
-          agreement of using them.</li>
-        <li>This site uses Google Fonts after your aggreement of using them because there is a possibility that Google
-          gets your IP address.</li>
-        <li>We also use two no-tracked cookies to control Google Analytics and Google Fonts without your aggreement.</li>
-      </ul>
-      <div class="button-cluster">
-        <button id="accept-cookies-fonts" class="button-cookie">Accept all cookies and Goole Fonts</button>
-        <button id="accept-fonts" class="button-cookie">Accept Goole Fonts only</button>
-        <button id="accept-cookies" class="button-cookie">Accept all cookies only</button>
       </div>
+      <footer id="footer">
+        <div class="child left-child">
+          <h1>LEADYOU<span id="counter"></span></h1>
+          <p>© 2020-2021 Hacknock</p>
+        </div>
+        <div class="child middle-child">
+          <p><a href="/page?md=about-readme">About README</a></p>
+          <p><a href="/page?md=how-to-use-generator">How to Use</a></p>
+          <p><a href="/page?md=new-readme-format-proposal">Proposal</a></p>
+          <p><a href="/page?md=help">Help</a></p>
+        </div>
+        <div class="child right-child">
+          <p><a href="https://hacknock.com/member/">About Us</a></p>
+          <p><a href="/page?md=terms-of-service">Terms of Service</a></p>
+          <p><a href="/page?md=privacy-policy">Privacy Policy</a></p>
+          <!-- <p><a href="/page?md=how-to-contribute">How to Contribute</a></p> -->
+          <p><a href="/page?md=contact">Contact</a></p>
+        </div>
+      </footer>
     </div>
-    <footer id="footer">
-      <div class="child left-child">
-        <h1>LEADYOU<span id="counter"></span></h1>
-        <p>© 2020-2021 Hacknock</p>
-      </div>
-      <div class="child middle-child">
-        <p><a href="/page?md=about-readme">About README</a></p>
-        <p><a href="/page?md=how-to-use-generator">How to Use</a></p>
-        <p><a href="/page?md=new-readme-format-proposal">Proposal</a></p>
-        <p><a href="/page?md=help">Help</a></p>
-      </div>
-      <div class="child right-child">
-        <p><a href="https://hacknock.com/member/">About Us</a></p>
-        <p><a href="/page?md=terms-of-service">Terms of Service</a></p>
-        <p><a href="/page?md=privacy-policy">Privacy Policy</a></p>
-        <!-- <p><a href="/page?md=how-to-contribute">How to Contribute</a></p> -->
-        <p><a href="/page?md=contact">Contact</a></p>
-      </div>
-    </footer>
-  </div>
-</body>
-<script>
-</script>
+  </body>
+  <script></script>
 </html>
