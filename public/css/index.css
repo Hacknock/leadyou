@@ -161,7 +161,7 @@ p.readmes-title {
   padding: 16px 0;
   bottom: 0;
   width: 100%;
-  min-width: 750px;
+  /* min-width: 750px; */
   height: auto;
   background-color: #ff8a65;
   color: white;
@@ -171,18 +171,21 @@ p.readmes-title {
 }
 
 .wrap-cookie {
+  position: relative;
   margin: 0 auto;
-  width: 80%;
+  padding: 0 16px;
+  width: 660px;
+  text-align: center;
 }
 
 .text-attention-cookie {
-  margin-top: 0;
-  margin-bottom: 8px;
-  width: 540px;
+  margin: 0 0 8px 12px;
+  width: 580px;
+  text-align: left;
 }
 
 .button-cluster {
-  margin-left: 24px;
+  margin: 0 auto;
 }
 
 .button-cookie {
@@ -196,13 +199,20 @@ p.readmes-title {
 .xmark {
   position: absolute;
   top: 0px;
-  left: 8px;
-  color: white;
-  font-size: 40px;
-  font-weight: bold;
+  left: 16px;
+  padding: 0px;
   border: none;
   background: transparent;
   cursor: pointer;
+}
+
+.xmark img {
+  width: 25px;
+  height: 25px;
+}
+
+.xmark:hover img {
+  filter: brightness(80%);
 }
 
 /* ☆☆☆☆☆ Footer ☆☆☆☆☆ */
@@ -214,5 +224,5 @@ span#counter {
 .dummy-footer {
   margin: 0;
   width: 100%;
-  height: 160px;
+  height: 150px;
 }
