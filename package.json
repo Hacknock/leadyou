@@ -4,6 +4,10 @@
   "private": "true",
   "description": "This code is for pull req me project",
   "main": "server.js",
+  "scripts": {
+    "docker-log": "sudo docker-compose up --build --remove-orphans --abort-on-container-exit",
+    "docker-daemon": "sudo docker-compose up --build --remove-orphans -d"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/KASHIHARAAkira/api_pillreq-me.git"

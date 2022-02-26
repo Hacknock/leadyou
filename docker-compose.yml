@@ -15,12 +15,12 @@ services:
       - 3306:3306
     networks:
       - backend
-  web: 
+  web:
     env_file:
       - ./config/app.env
     build: .
-    ports: 
-      - ${PORT}:${PORT}
+    ports:
+      - ${WEB_PORT}:${WEB_PORT}
     depends_on:
       - db
     networks:
