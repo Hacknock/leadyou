@@ -38,9 +38,9 @@ app.use(
         ],
         scriptSrc: [
           "'self'",
-          "https://cdn.jsdelivr.net",
           "https://www.googletagmanager.com",
           "https://www.google-analytics.com",
+          "https://cdn.jsdelivr.net",
           "https://cdnjs.cloudflare.com",
         ],
         imgSrc: [
