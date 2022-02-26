@@ -7,6 +7,7 @@
 
 const fs = require("fs");
 const express = require("express");
+const cors = require("cors");
 const app = express();
 const mariadb = require("mariadb");
 const config = require("config");
@@ -27,8 +28,16 @@ const pool = mariadb.createPool({
 
 // ★★★ Initial Process ★★★
 const port = process.env.port || 3000;
+app.use(
+  cors({
+    origin: `http://localhost:${port}`,
+    credentials: true,
+    optionsSuccessStatus: 200,
+  })
+);
+
 app.listen(port, () => {
-  console.log("listen port 3000");
+  console.log(`listen port ${port}`);
 });
 
 // ★★★ File Serve & Rooting API Request ★★★
