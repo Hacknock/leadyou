@@ -14,8 +14,6 @@ const config = require("config");
 const fetch = require("node-fetch");
 const helmet = require("helmet");
 
-app.use(helmet());
-
 const dbConfig = config.get("mariaDB");
 
 // *** MariaDB connection information *** //
@@ -27,6 +25,34 @@ const pool = mariadb.createPool({
 });
 
 // ★★★ Initial Process ★★★
+app.use(
+  helmet({
+    contentSecurityPolicy: {
+      directives: {
+        defaultSrc: ["'self'"],
+        connectSrc: [
+          "'self'",
+          "https://api.github.com",
+          "https://www.google-analytics.com",
+        ],
+        scriptSrc: [
+          "'self'",
+          "https://cdn.jsdelivr.net",
+          "https://www.googletagmanager.com",
+          "https://www.google-analytics.com",
+          "https://cdnjs.cloudflare.com",
+        ],
+        imgSrc: [
+          "'self'",
+          "https://img.shields.io",
+          "https://github.com",
+          "https://www.google-analytics.com",
+        ],
+      },
+    },
+  })
+);
+
 const port = process.env.port || 3000;
 app.use(
   cors({
