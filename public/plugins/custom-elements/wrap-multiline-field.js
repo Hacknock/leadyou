@@ -13,6 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 class WrapMultiField extends HTMLElement {
   constructor() {
     // Always call super first in constructor
@@ -234,9 +235,8 @@ class WrapMultiField extends HTMLElement {
     e.target.parentNode.remove();
     let listField = this.shadowRoot.querySelectorAll(".field");
     if (this.getAttribute("multiple") === "true" && listField.length < 2) {
-      const listDeleteButton = this.shadowRoot.querySelectorAll(
-        ".delete-button"
-      );
+      const listDeleteButton =
+        this.shadowRoot.querySelectorAll(".delete-button");
       for (let i = 0; i < listDeleteButton.length; i++) {
         listDeleteButton[i].setAttribute(
           "class",
@@ -277,9 +277,8 @@ class WrapMultiField extends HTMLElement {
     if (this.getAttribute("multiple") === "true" && listField.length > 0) {
       deleteButton.setAttribute("class", "delete-button display-delete");
 
-      const listDeleteButton = this.shadowRoot.querySelectorAll(
-        ".delete-button"
-      );
+      const listDeleteButton =
+        this.shadowRoot.querySelectorAll(".delete-button");
       for (let i = 0; i < listDeleteButton.length; i++) {
         listDeleteButton[i].setAttribute(
           "class",

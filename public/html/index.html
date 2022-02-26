@@ -1,3 +1,19 @@
+<!-- 
+   Copyright 2022 Hacknock
+
+   Licensed under the Apache License, Version 2.0 (the "License");
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+ -->
+ 
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -9,15 +25,12 @@
     />
     <meta name="author" content="Hacknock" />
     <base target="_blank" />
+    <script type="text/javascript" src="/src/js/cookie-manager.js"></script>
     <link
       id="favicon"
       rel="shortcut icon"
       type="image/x-icon"
       href="/src/images/favicon-black.ico"
-    />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Roboto:wght@500&display=swap"
-      rel="stylesheet"
     />
     <link href="/src/css/index.css" rel="stylesheet" type="text/css" />
     <link href="/src/css/header_footer.css" rel="stylesheet" type="text/css" />
@@ -28,10 +41,6 @@
     ></script>
     <script type="text/javascript" src="/src/js/favicon.js" defer></script>
     <script type="text/javascript" src="/src/js/index.js" defer></script>
-    <script
-      type="text/javascript"
-      src="/src/js/tag-google-analytics.js"
-    ></script>
     <title>LEADYOU</title>
   </head>
   <body>
@@ -66,7 +75,39 @@
         <p class="readmes-title">New Generated READMEs</p>
         <div id="catalog-area"></div>
       </main>
-      <footer>
+      <div class="agreement-cookie" id="attention-cookie">
+        <div class="wrap-cookie">
+          <ul class="text-attention-cookie">
+            <li>
+              We use cookies in order to measure and imporove the performance of
+              LEADYOU using Google Analytics after your agreement of using them.
+            </li>
+            <li>
+              This site uses Google Fonts after your aggreement of using them
+              because there is a possibility that Google gets your IP address.
+            </li>
+            <li>
+              We also use two no-tracked cookies to control Google Analytics and
+              Google Fonts without your aggreement.
+            </li>
+          </ul>
+          <div class="button-cluster">
+            <button id="accept-cookies-fonts" class="button-cookie">
+              Accept all cookies and Goole Fonts
+            </button>
+            <button id="accept-fonts" class="button-cookie">
+              Accept Goole Fonts only
+            </button>
+            <button id="accept-cookies" class="button-cookie">
+              Accept all cookies only
+            </button>
+          </div>
+          <button class="xmark" id="cancel-cookie">
+            <img src="/src/images/xmark.png" />
+          </button>
+        </div>
+      </div>
+      <footer id="footer">
         <div class="child left-child">
           <h1>LEADYOU<span id="counter"></span></h1>
           <p>© 2020-2021 Hacknock</p>
@@ -85,6 +126,8 @@
           <p><a href="/page?md=contact">Contact</a></p>
         </div>
       </footer>
+      <div class="dummy-footer"></div>
     </div>
   </body>
+  <script></script>
 </html>
