@@ -361,26 +361,3 @@ const checkExistReadme = (record, conn) => {
       throw err;
     });
 };
-
-const checkUpdated = async () => {
-  let conn;
-  try {
-    conn = await pool.getConnection();
-    await conn.query("use leadyou");
-    const records = await conn.query(
-      "select * from uniqueGene order by ts desc limit 24"
-    );
-    delete records.meta;
-    records.forEach(async (record) => {
-      try {
-        await checkExistReadme(record, conn);
-      } catch (err) {
-        console.error(err);
-      }
-    });
-  } catch (err) {
-    console.error(err);
-  } finally {
-    if (conn) conn.release();
-  }
-};
