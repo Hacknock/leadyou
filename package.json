@@ -1,8 +1,8 @@
 {
-  "name": "api_pillreq-me",
+  "name": "leadyou",
   "version": "1.0.0",
   "private": "true",
-  "description": "This code is for pull req me project",
+  "description": "LEADYOU is a web application that helps you to write a README easily.",
   "main": "server.js",
   "scripts": {
     "docker-log": "sudo docker-compose up --build --abort-on-container-exit",
@@ -14,16 +14,13 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/KASHIHARAAkira/api_pillreq-me.git"
+    "url": "git+https://github.com/Hacknock/readme-generator-master.git"
   },
-  "keywords": [
-    "Github"
-  ],
   "author": "Akira Kashihara, Takuto Nakamura",
   "bugs": {
-    "url": "https://github.com/KASHIHARAAkira/api_pillreq-me/issues"
+    "url": "https://github.com/Hacknock/readme-generator-master/issues"
   },
-  "homepage": "https://github.com/KASHIHARAAkira/api_pillreq-me#readme",
+  "homepage": "https://github.com/Hacknock/readme-generator-master#readme",
   "dependencies": {
     "config": "^3.3.6",
     "express": "^4.17.1",
