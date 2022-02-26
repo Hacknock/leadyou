@@ -5,15 +5,14 @@
 //
 // **
 
-const fs = require("fs");
 const express = require("express");
 const app = express();
+const helmet = require("helmet");
+const fetch = require("node-fetch");
+const fs = require("fs");
 const mariadb = require("mariadb");
 const config = require("config");
-const fetch = require("node-fetch");
-
 const dbConfig = config.get("mariaDB");
-console.log(dbConfig);
 
 // *** MariaDB connection information *** //
 const pool = mariadb.createPool({
@@ -24,9 +23,40 @@ const pool = mariadb.createPool({
 });
 
 // ★★★ Initial Process ★★★
+app.use(
+  helmet({
+    crossOriginEmbedderPolicy: false,
+    contentSecurityPolicy: {
+      directives: {
+        defaultSrc: ["'self'"],
+        connectSrc: [
+          "'self'",
+          "https://api.github.com",
+          "https://www.google-analytics.com",
+        ],
+        scriptSrc: [
+          "'self'",
+          "https://www.googletagmanager.com",
+          "https://www.google-analytics.com",
+          "https://cdn.jsdelivr.net",
+          "https://cdnjs.cloudflare.com",
+        ],
+        imgSrc: [
+          "'self'",
+          "https://img.shields.io",
+          "https://github.com",
+          "https://www.google-analytics.com",
+          "https://raw.githubusercontent.com",
+          "https:",
+        ],
+      },
+    },
+  })
+);
+
 const port = process.env.port || 3000;
 app.listen(port, () => {
-  console.log("listen port 3000");
+  console.log(`listen port ${port}`);
 });
 
 // ★★★ File Serve & Rooting API Request ★★★
