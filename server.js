@@ -27,6 +27,7 @@ const pool = mariadb.createPool({
 // ★★★ Initial Process ★★★
 app.use(
   helmet({
+    crossOriginEmbedderPolicy: false,
     contentSecurityPolicy: {
       directives: {
         defaultSrc: ["'self'"],
