@@ -16,9 +16,17 @@ services:
     networks:
       - backend
   web:
-    env_file:
-      - ./config/app.env
-    build: .
+    environment:
+      - HOST=db
+      - MYSQL_USER=${MYSQL_USER}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+      - CON_LIMIT=${CON_LIMIT}
+      - WEB_PORT=${WEB_PORT}
+      - GITHUB_TOKEN=${GITHUB_TOKEN}
+    build:
+      context: .
+      args:
+        - WEB_PORT=${WEB_PORT}
     ports:
       - ${WEB_PORT}:${WEB_PORT}
     depends_on:
