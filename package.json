@@ -25,16 +25,11 @@
   },
   "homepage": "https://github.com/KASHIHARAAkira/api_pillreq-me#readme",
   "dependencies": {
-    "basic-auth": "^2.0.1",
-    "body-parser": "^1.19.0",
     "config": "^3.3.6",
-    "ejs": "^3.1.6",
     "express": "^4.17.1",
     "fs": "0.0.1-security",
     "helmet": "^5.0.2",
-    "http": "0.0.0",
     "mariadb": "^2.5.5",
-    "mongodb": "^4.2.0",
     "node-fetch": "^2.6.6"
   },
   "devDependencies": {
