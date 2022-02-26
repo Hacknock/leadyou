@@ -48,6 +48,8 @@ app.use(
           "https://img.shields.io",
           "https://github.com",
           "https://www.google-analytics.com",
+          "https://raw.githubusercontent.com",
+          "https:",
         ],
       },
     },
