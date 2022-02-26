@@ -5,15 +5,14 @@
 //
 // **
 
-const fs = require("fs");
 const express = require("express");
 const cors = require("cors");
 const app = express();
+const helmet = require("helmet");
+const fetch = require("node-fetch");
+const fs = require("fs");
 const mariadb = require("mariadb");
 const config = require("config");
-const fetch = require("node-fetch");
-const helmet = require("helmet");
-
 const dbConfig = config.get("mariaDB");
 
 // *** MariaDB connection information *** //
