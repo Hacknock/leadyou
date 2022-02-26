@@ -27,11 +27,11 @@
     "ejs": "^3.1.6",
     "express": "^4.17.1",
     "fs": "0.0.1-security",
+    "helmet": "^5.0.2",
     "http": "0.0.0",
     "mariadb": "^2.5.5",
     "mongodb": "^4.2.0",
     "node-fetch": "^2.6.6",
     "pm2": "^5.1.2"
-  },
-  "devDependencies": {}
+  }
 }

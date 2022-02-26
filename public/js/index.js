@@ -1,14 +1,26 @@
+/**
+ * Copyright 2022 Hacknock
+ * 
+ * Licensed under the Apache License, Version 2.0(the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 const form = document.getElementById("generate-form");
 const urlColumn = document.getElementById("url-column");
-const alertText = document.getElementById("alert-text");
-const autoFillCheck = document.getElementById("auto-fill");
-const catalogArea = document.getElementById("catalog-area");
-const counter = document.getElementById("counter");
 
 // ☆☆☆☆☆ Top Form ☆☆☆☆☆
 const showWarning = () => {
   urlColumn.setAttribute("class", "url alert-repo");
-  alertText.textContent =
+  document.getElementById("alert-text").textContent =
     "This repository is a private repository or does not exist.";
 };
 
@@ -121,8 +133,49 @@ const convertRelativeToAbsolute = (path, branch, md) => {
   return text;
 };
 
+// ☆☆☆☆☆ Cookie Manager ☆☆☆☆☆
+const hideAgreementCookie = () => {
+  document.getElementById("attention-cookie").style.display = "none";
+  document.getElementsByClassName("dummy-footer")[0].style.display = "none";
+};
+
+const setupCookieManager = () => {
+  document
+    .getElementById("accept-cookies-fonts")
+    .addEventListener("click", () => {
+      enableGA();
+      enableFont();
+      hideAgreementCookie();
+    });
+  document.getElementById("accept-fonts").addEventListener("click", () => {
+    enableFont();
+    hideAgreementCookie();
+  });
+  document.getElementById("accept-cookies").addEventListener("click", () => {
+    enableGA();
+    hideAgreementCookie();
+  });
+  document.getElementById("cancel-cookie").addEventListener("click", () => {
+    hideAgreementCookie();
+  });
+
+  document.cookie
+    .split(";")
+    .map((item) => item.trim())
+    .forEach((item) => {
+      if (item.startsWith("font=") && item.split("=")[1] === "true") {
+        enableFont();
+        hideAgreementCookie();
+      } else if (item.startsWith("cookie=") && item.split("=")[1] === "true") {
+        enableGA();
+        hideAgreementCookie();
+      }
+    });
+};
+
 // ☆☆☆☆☆ Footer ☆☆☆☆☆
 const getCount = () => {
+  const counter = document.getElementById("counter");
   fetch("/getcount")
     .then((res) => res.json())
     .then((data) => {
@@ -136,6 +189,7 @@ const getCount = () => {
 };
 
 const loadCatalog = () => {
+  const catalogArea = document.getElementById("catalog-area");
   Promise.all([getStylesheet(), getGeneratedReadmes()])
     .then(([stylesheet, list]) => {
       let cnt = 0;
@@ -180,8 +234,8 @@ const loadCatalog = () => {
 // called on load
 (() => {
   getCount();
-
   loadCatalog();
+  setupCookieManager();
 
   form.addEventListener("submit", (event) => {
     event.preventDefault();
@@ -189,6 +243,7 @@ const loadCatalog = () => {
   });
 
   urlColumn.addEventListener("input", (e) => {
+    const autoFillCheck = document.getElementById("auto-fill");
     if (urlColumn.value.length === 0) {
       autoFillCheck.setAttribute("disabled", "");
     } else if (urlColumn.value.length > 0) {

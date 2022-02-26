@@ -1,15 +1,30 @@
-// **
-//
-// This code is for pullreq-me
-// Author: Akira Kashihara <akira@hacknock.com>, Takuto Nakamura <kyomesuke@gmail.com>
-//
-// **
+/**
+ * Copyright 2022 Hacknock
+ *
+ * Licensed under the Apache License, Version 2.0(the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ *
+ * This code is for leadyou
+ * Author: Akira Kashihara <akira@hacknock.com>, Takuto Nakamura <kyomesuke@gmail.com>
+ *
+ */
 
-const fs = require("fs");
 const express = require("express");
 const app = express();
-const mariadb = require("mariadb");
+const helmet = require("helmet");
 const fetch = require("node-fetch");
+const fs = require("fs");
+const mariadb = require("mariadb");
 const env = process.env;
 
 // *** MariaDB connection information *** //
@@ -23,6 +38,37 @@ const pool = mariadb.createPool({
 });
 
 // ★★★ Initial Process ★★★
+app.use(
+  helmet({
+    crossOriginEmbedderPolicy: false,
+    contentSecurityPolicy: {
+      directives: {
+        defaultSrc: ["'self'"],
+        connectSrc: [
+          "'self'",
+          "https://api.github.com",
+          "https://www.google-analytics.com",
+        ],
+        scriptSrc: [
+          "'self'",
+          "https://www.googletagmanager.com",
+          "https://www.google-analytics.com",
+          "https://cdn.jsdelivr.net",
+          "https://cdnjs.cloudflare.com",
+        ],
+        imgSrc: [
+          "'self'",
+          "https://img.shields.io",
+          "https://github.com",
+          "https://www.google-analytics.com",
+          "https://raw.githubusercontent.com",
+          "https:",
+        ],
+      },
+    },
+  })
+);
+
 const port = env.WEB_PORT;
 app.listen(port, () => {
   console.log(`listen port ${port}`);
