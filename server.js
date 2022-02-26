@@ -6,7 +6,6 @@
 // **
 
 const express = require("express");
-const cors = require("cors");
 const app = express();
 const helmet = require("helmet");
 const fetch = require("node-fetch");
@@ -56,14 +55,6 @@ app.use(
 );
 
 const port = process.env.port || 3000;
-app.use(
-  cors({
-    origin: `http://localhost:${port}`,
-    credentials: true,
-    optionsSuccessStatus: 200,
-  })
-);
-
 app.listen(port, () => {
   console.log(`listen port ${port}`);
 });
