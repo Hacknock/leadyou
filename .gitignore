@@ -5,3 +5,4 @@ config/
 package-lock.json
 yarn.lock
 json/
+.env

@@ -1,0 +1,30 @@
+version: '3'
+services:
+  db:
+    image: mariadb:10.5.9
+    container_name: hacknock_mariadb
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+    volumes:
+      - ./sql/initial.sql:/docker-entrypoint-initdb.d/initial.sql
+    ports:
+      - 3306:3306
+    networks:
+      - backend
+  web: 
+    env_file:
+      - ./config/app.env
+    build: .
+    ports: 
+      - ${PORT}:${PORT}
+    depends_on:
+      - db
+    networks:
+      - backend
+
+networks:
+  backend:
