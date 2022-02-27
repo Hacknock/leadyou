@@ -12,7 +12,7 @@ services:
     volumes:
       - ./sql:/docker-entrypoint-initdb.d
     ports:
-      - ${MYSQL_PORT}:${MYSQL_PORT}
+      - 127.0.0.1:${MYSQL_PORT}:${MYSQL_PORT}
     networks:
       - backend
   web:
@@ -28,7 +28,7 @@ services:
       args:
         - WEB_PORT=${WEB_PORT}
     ports:
-      - ${WEB_PORT}:${WEB_PORT}
+      - 127.0.0.1:${WEB_PORT}:${WEB_PORT}
     depends_on:
       - db
     networks:

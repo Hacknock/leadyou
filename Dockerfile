@@ -6,10 +6,14 @@ ARG WEB_PORT
 
 COPY package*.json ./
 
-RUN npm install
+RUN npm install -g npm@8.5.2
+RUN npm cache verify
 
-COPY . .
+RUN npm install
+RUN npm install -g forever
+
+COPY ./app .
 
 EXPOSE ${WEB_PORT}
 
-CMD ["node", "server.js"]
+CMD ["forever", "server.js"]
