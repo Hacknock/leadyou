@@ -24,6 +24,7 @@ services:
       WEB_PORT: ${WEB_PORT}
       GITHUB_TOKEN: ${GITHUB_TOKEN}
       MYSQL_DATABASE: ${MYSQL_DATABASE}
+    # entrypoint: npm test
     build:
       context: .
       args:
