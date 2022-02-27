@@ -6,7 +6,8 @@
   "main": "server.js",
   "scripts": {
     "docker-log": "sudo docker-compose up --build --remove-orphans --abort-on-container-exit",
-    "docker-daemon": "sudo docker-compose up --build --remove-orphans -d"
+    "docker-daemon": "sudo docker-compose up --build --remove-orphans -d",
+    "docker-daemon-close": "sudo docker-compose stop"
   },
   "repository": {
     "type": "git",

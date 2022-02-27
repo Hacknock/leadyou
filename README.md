@@ -55,35 +55,56 @@ You make `.env` file on top-level directory and set the following items.
 
 **.env**
 
-```sh
-MYSQL_ROOT_PASSWORD=[set password]
-MYSQL_DATABASE=[set database name]
-MYSQL_USER=[set user name]
-MYSQL_PASSWORD=[set password]
-PORT = [set port number]
+```
+MYSQL_ROOT_PASSWORD=[Set mariadb ROOT password]
+MYSQL_DATABASE=[Set database name]
+MYSQL_USER=[Set user name]
+MYSQL_PASSWORD=[Set USER password]
+MYSQL_PORT=[Set MARIADB port number]
+CON_LIMIT=[Set connection limitation number]
+WEB_PORT=[Set APPLICATION port number]
+GITHUB_TOKEN=[Set Github client token]
 ```
 
-**./config/app.env**
+Recommendation value
 
-```sh
-HOST = db
-USER = [please fill the same value of MYSQL_USER]
-PASSWORD = [please fill the same value of MYSQL_PASSWORD]
-CON_LIMIT = 5
-PORT = [please fill the same value of PORT]
-TOKEN = [please fill your Github client token]
 ```
+MYSQL_PORT=3306
+CON_LIMIT=5
+WEB_PORT=3000
+```
+
+You can get Github token [here](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token).
 
 ### Deploy
 
 Please run the following command on top-level directory of this repository.
 
+**Run with log output**
+
 ```
-sudo docker-compose build
-sudo docker-compose up
+npm run docker-log
 ```
 
-After that, you access `http://localhost:[Port number you set]`.
+Please type `ctrl+c` if you close docker.
+
+**Run without log output (daemon)**
+
+Please execute the following command if you run leadyou in daemon mode.
+
+```
+npm run docker-daemon
+```
+
+Please execute the following command if you end leadyou.
+
+```
+npm run docker-daemon-close
+```
+
+**How to access to leadyou after deploy**
+
+After deploy, you access `http://localhost:[Port number you set]`.
 You should be able to access LEADYOU on your local PC.
 
 ## Minimal Example
