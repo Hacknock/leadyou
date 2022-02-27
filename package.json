@@ -7,7 +7,7 @@
   "scripts": {
     "docker-log": "sudo docker-compose up --build --remove-orphans --abort-on-container-exit",
     "docker-daemon": "sudo docker-compose up --build --remove-orphans -d",
-    "docker-daemon-close": "sudo docker-compose stop",
+    "docker-daemon-stop": "sudo docker-compose stop",
     "deploy-db-forever": "sudo docker-compose -f docker-compose.yml -f production.yml up --build --remove-orphans -d"
   },
   "repository": {

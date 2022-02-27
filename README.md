@@ -55,6 +55,8 @@ You make `.env` file on top-level directory and set the following items.
 
 **.env**
 
+.env file has setting parameter. If you face a plobram to set each parameter, please refer to [Docker mariadb image official page](https://hub.docker.com/_/mariadb).
+
 ```
 MYSQL_ROOT_PASSWORD=[Set mariadb ROOT password]
 MYSQL_DATABASE=[Set database name]
@@ -96,10 +98,23 @@ Please execute the following command if you run leadyou in daemon mode.
 npm run docker-daemon
 ```
 
-Please execute the following command if you end leadyou.
+Please execute the following command if you want to stop leadyou.
 
 ```
-npm run docker-daemon-close
+npm run docker-daemon-stop
+```
+
+**Run without log output and keep storage on host OS**
+This mode enable to keep storage which includes issued README data. This data is used for display README catalog on top page.
+
+```
+npm run deploy-db-forever
+```
+
+Please execute the following command if you want to stop leadyou.
+
+```
+npm run docker-daemon-stop
 ```
 
 **How to access to leadyou after deploy**
