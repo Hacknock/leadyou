@@ -23,6 +23,7 @@ services:
       CON_LIMIT: ${CON_LIMIT}
       WEB_PORT: ${WEB_PORT}
       GITHUB_TOKEN: ${GITHUB_TOKEN}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
     build:
       context: .
       args:

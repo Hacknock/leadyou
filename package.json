@@ -5,10 +5,12 @@
   "description": "This code is for pull req me project",
   "main": "server.js",
   "scripts": {
-    "docker-log": "sudo docker-compose up --build --remove-orphans --abort-on-container-exit",
-    "docker-daemon": "sudo docker-compose up --build --remove-orphans -d",
+    "docker-log": "sudo docker-compose up --build --abort-on-container-exit",
+    "docker-daemon": "sudo docker-compose up --build -d",
     "docker-daemon-stop": "sudo docker-compose stop",
-    "deploy-db-forever": "sudo docker-compose -f docker-compose.yml -f production.yml up --build --remove-orphans -d"
+    "deploy-db-forever": "sudo docker-compose -f docker-compose.yml -f production.yml up --build -d",
+    "test": "sudo docker-compose -f docker-compose.yml -f test.yml up --build --abort-on-container-exit",
+    "run-jest": "jest"
   },
   "repository": {
     "type": "git",
@@ -34,5 +36,8 @@
     "mariadb": "^2.5.5",
     "mongodb": "^4.2.0",
     "node-fetch": "^2.6.6"
+  },
+  "devDependencies": {
+    "jest": "^27.5.1"
   }
 }

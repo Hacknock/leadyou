@@ -78,6 +78,14 @@ WEB_PORT=3000
 
 You can get Github token [here](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token).
 
+### Test
+
+We prepare the test code to check the connection between app and mariadb. Please run the following command.
+
+```
+npm run test
+```
+
 ### Deploy
 
 Please run the following command on top-level directory of this repository.

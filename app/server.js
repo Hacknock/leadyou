@@ -32,6 +32,7 @@ const pool = mariadb.createPool({
   host: env.HOST,
   user: env.MYSQL_USER,
   password: env.MYSQL_PASSWORD,
+  database: env.MYSQL_DATABASE,
   connectionLimit: env.CON_LIMIT,
   waitForConnections: true,
   multipleStatements: true,
@@ -252,7 +253,6 @@ const insertGeneratedRepository = async (user, repo) => {
   let conn;
   try {
     conn = await pool.getConnection();
-    await conn.query("use leadyou");
     await conn.query("insert into generate(user,repository) values (?,?)", [
       user,
       repo,
@@ -270,7 +270,6 @@ const uniqueInsertGeneratedRepository = async (user, repo) => {
   let conn;
   try {
     conn = await pool.getConnection();
-    await conn.query("use leadyou");
     return conn
       .query("select * from uniqueGene where user = ? and repository = ?", [
         user,
@@ -312,7 +311,6 @@ const getCount = async (res) => {
   let conn;
   try {
     conn = await pool.getConnection();
-    await conn.query("use leadyou");
     const sectionValues = await conn.query("select * from uniqueGene");
     delete sectionValues.meta;
     res.json({ result: "success", count: Object.keys(sectionValues).length });
