@@ -8,7 +8,7 @@ COPY package*.json ./
 
 RUN npm install
 
-COPY . .
+COPY ./app .
 
 EXPOSE ${WEB_PORT}
 
