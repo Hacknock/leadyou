@@ -7,9 +7,10 @@ ARG WEB_PORT
 COPY package*.json ./
 
 RUN npm install
+RUN npm install pm2 -g
 
 COPY ./app .
 
 EXPOSE ${WEB_PORT}
 
-CMD ["node", "server.js"]
+CMD ["pm2-runtime", "server.js"]
