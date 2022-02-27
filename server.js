@@ -30,8 +30,8 @@ const env = process.env;
 // *** MariaDB connection information *** //
 const pool = mariadb.createPool({
   host: env.HOST,
-  user: env.USER,
-  password: env.PASSWORD,
+  user: env.MYSQL_USER,
+  password: env.MYSQL_PASSWORD,
   connectionLimit: env.CON_LIMIT,
   waitForConnections: true,
   multipleStatements: true,
@@ -69,7 +69,7 @@ app.use(
   })
 );
 
-const port = env.PORT;
+const port = env.WEB_PORT;
 app.listen(port, () => {
   console.log(`listen port ${port}`);
 });
@@ -102,7 +102,7 @@ app.get("/:path", (req, res) => {
     case "getvalues": {
       const query = req.query;
       const repoUrl = `https://github.com/${query.owner}/${query.repo}`;
-      const token = env.TOKEN;
+      const token = env.GITHUB_TOKEN;
       customScript(repoUrl, token)
         .then((result) => {
           res.json(result);

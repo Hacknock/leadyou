@@ -10,17 +10,25 @@ services:
       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
     command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
     volumes:
-      - ./sql/initial.sql:/docker-entrypoint-initdb.d/initial.sql
+      - ./sql:/docker-entrypoint-initdb.d
     ports:
-      - 3306:3306
+      - ${MYSQL_PORT}:${MYSQL_PORT}
     networks:
       - backend
-  web: 
-    env_file:
-      - ./config/app.env
-    build: .
-    ports: 
-      - ${PORT}:${PORT}
+  web:
+    environment:
+      HOST: db
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      CON_LIMIT: ${CON_LIMIT}
+      WEB_PORT: ${WEB_PORT}
+      GITHUB_TOKEN: ${GITHUB_TOKEN}
+    build:
+      context: .
+      args:
+        - WEB_PORT=${WEB_PORT}
+    ports:
+      - ${WEB_PORT}:${WEB_PORT}
     depends_on:
       - db
     networks:
