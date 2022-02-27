@@ -17,12 +17,12 @@ services:
       - backend
   web:
     environment:
-      - HOST=db
-      - MYSQL_USER=${MYSQL_USER}
-      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
-      - CON_LIMIT=${CON_LIMIT}
-      - WEB_PORT=${WEB_PORT}
-      - GITHUB_TOKEN=${GITHUB_TOKEN}
+      HOST: db
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      CON_LIMIT: ${CON_LIMIT}
+      WEB_PORT: ${WEB_PORT}
+      GITHUB_TOKEN: ${GITHUB_TOKEN}
     build:
       context: .
       args:
