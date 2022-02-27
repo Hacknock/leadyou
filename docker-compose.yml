@@ -10,9 +10,9 @@ services:
       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
     command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
     volumes:
-      - ./sql/initial.sql:/docker-entrypoint-initdb.d/initial.sql
+      - ./sql:/docker-entrypoint-initdb.d
     ports:
-      - 3306:3306
+      - ${MYSQL_PORT}:${MYSQL_PORT}
     networks:
       - backend
   web:
