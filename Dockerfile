@@ -10,10 +10,9 @@ RUN npm install -g npm@8.5.2
 RUN npm cache verify
 
 RUN npm install
-RUN npm install -g forever
 
 COPY ./app .
 
 EXPOSE ${WEB_PORT}
 
-CMD ["forever", "server.js"]
+CMD ["node", "server.js"]

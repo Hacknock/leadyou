@@ -39,6 +39,12 @@ const pool = mariadb.createPool({
 });
 
 // ★★★ Initial Process ★★★
+process.on("SIGTERM", () => {
+  console.log("Terminated server.js 🍪");
+  pool.end();
+  process.exit(0);
+});
+
 app.use(
   helmet({
     crossOriginEmbedderPolicy: false,
