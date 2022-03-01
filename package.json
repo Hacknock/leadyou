@@ -5,11 +5,6 @@
   "description": "LEADYOU is a web application that helps you to write a README easily.",
   "main": "server.js",
   "scripts": {
-    "docker-log": "sudo docker-compose up --build --abort-on-container-exit",
-    "docker-daemon": "sudo docker-compose up --build -d",
-    "docker-daemon-stop": "sudo docker-compose stop",
-    "deploy-db-forever": "sudo docker-compose -f docker-compose.yml -f production.yml up --build -d",
-    "test": "sudo docker-compose -f docker-compose.yml -f test.yml up --build --abort-on-container-exit",
     "run-jest": "jest"
   },
   "repository": {
