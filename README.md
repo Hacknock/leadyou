@@ -56,8 +56,10 @@ You make `.env` file on top-level directory and set the following items.
 **.env**
 
 .env file has setting parameter. If you face a plobram to set each parameter, please refer to [Docker mariadb image official page](https://hub.docker.com/_/mariadb).
+HOST must be `db`.
 
 ```
+HOST=db
 MYSQL_ROOT_PASSWORD=[Set mariadb ROOT password]
 MYSQL_DATABASE=[Set database name]
 MYSQL_USER=[Set user name]
