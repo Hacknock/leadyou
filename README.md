@@ -116,7 +116,7 @@ sudo docker-compose stop
 This mode enable to keep storage which includes issued README data. This data is used for display README catalog on top page.
 
 ```
-sudo docker-compose -f docker-compose.yml -f test.yml up --build
+sudo docker-compose -f docker-compose.yml -f test.yml up --build -d
 ```
 
 Please execute the following command if you want to stop leadyou.
