@@ -36,7 +36,7 @@ module.exports.getValues = (repoUrl, token) => {
     },
   };
 
-  if (typeof token === "undifined")
+  if (typeof token !== "undifined")
     options.headers["Authorization"] = `token ${token}`;
 
   return fetch(requestURL, options)
