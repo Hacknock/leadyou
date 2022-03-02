@@ -39,6 +39,12 @@ const pool = mariadb.createPool({
 });
 
 // ★★★ Initial Process ★★★
+process.on('SIGINT', function () {
+  console.log("Keyboard Interrupt 🏂");
+  pool.end();
+  process.exit(0);
+});
+
 process.on("SIGTERM", () => {
   console.log("Terminated server.js 🍪");
   pool.end();
