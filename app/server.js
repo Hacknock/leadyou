@@ -332,7 +332,6 @@ const getList = async (res) => {
   let conn;
   try {
     conn = await pool.getConnection();
-    await conn.query("use leadyou");
     const records = await conn.query(
       "select * from uniqueGene order by ts desc limit 18"
     );
