@@ -93,7 +93,7 @@ Please run the following command on top-level directory of this repository.
 **Run with log output**
 
 ```
-npm run docker-log
+sudo docker-compose up --build
 ```
 
 Please type `ctrl+c` if you close docker.
@@ -103,26 +103,26 @@ Please type `ctrl+c` if you close docker.
 Please execute the following command if you run leadyou in daemon mode.
 
 ```
-npm run docker-daemon
+sudo docker-compose up --build -d
 ```
 
 Please execute the following command if you want to stop leadyou.
 
 ```
-npm run docker-daemon-stop
+sudo docker-compose stop
 ```
 
 **Run without log output and keep storage on host OS**
 This mode enable to keep storage which includes issued README data. This data is used for display README catalog on top page.
 
 ```
-npm run deploy-db-forever
+sudo docker-compose -f docker-compose.yml -f test.yml up --build -d
 ```
 
 Please execute the following command if you want to stop leadyou.
 
 ```
-npm run docker-daemon-stop
+sudo docker-compose stop
 ```
 
 **How to access to leadyou after deploy**
