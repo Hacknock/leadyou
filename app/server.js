@@ -339,25 +339,3 @@ const getList = async (res) => {
     if (conn) conn.release();
   }
 };
-
-const checkExistReadme = (record, conn) => {
-  const path = `${record.user}/${record.repository}`;
-  return fetch(`https://raw.githubusercontent.com/${path}/master/README.md`)
-    .then((res) => res.text())
-    .then((text) => {
-      if (text.indexOf("<!-- CREATED_BY_LEADYOU_README_GENERATOR -->") < 0) {
-        return conn.query(
-          "update uniqueGene set uploaded = 0 where user = ? and repository = ?",
-          [record.user, record.repository]
-        );
-      } else {
-        return conn.query(
-          "update uniqueGene set uploaded = 1 where user = ? and repository = ?",
-          [record.user, record.repository]
-        );
-      }
-    })
-    .catch((err) => {
-      throw err;
-    });
-};
