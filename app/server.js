@@ -45,12 +45,6 @@ process.on('SIGINT', function () {
   process.exit(0);
 });
 
-process.on("SIGTERM", () => {
-  console.log("Terminated server.js 🍪");
-  pool.end();
-  process.exit(0);
-});
-
 app.use(
   helmet({
     crossOriginEmbedderPolicy: false,
