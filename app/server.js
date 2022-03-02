@@ -22,9 +22,10 @@
 const express = require("express");
 const app = express();
 const helmet = require("helmet");
-const fetch = require("node-fetch");
 const fs = require("fs");
 const mariadb = require("mariadb");
+const fetch = require("node-fetch");
+const cron = require("node-cron");
 const env = process.env;
 
 // *** MariaDB connection information *** //
@@ -39,10 +40,17 @@ const pool = mariadb.createPool({
 });
 
 // ★★★ Initial Process ★★★
-process.on('SIGINT', () => {
+process.on("SIGINT", () => {
   console.log("Keyboard Interrupt 🏂");
   pool.end();
   process.exit(0);
+});
+
+// ★★★ Periodic Process ★★★
+// Updated every morning at 7:00 a.m.
+cron.schedule("0 0 7 * * *", () => {
+  console.log("fetch catalogs 🏖");
+  // カタログ収集を定期的にやる
 });
 
 app.use(
@@ -221,6 +229,7 @@ const errorSupport = (res, code) => {
   }
 };
 
+// ★★★ API Functions ★★★
 const customScript = async (repoUrl, token) => {
   // get file list of script
   try {
@@ -344,3 +353,5 @@ const getList = async (res) => {
     if (conn) conn.release();
   }
 };
+
+// ★★★ Fetch & Update Catalog Info ★★★
