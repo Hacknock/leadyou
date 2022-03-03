@@ -307,7 +307,7 @@ const getList = async (res) => {
 
 // ★★★ API: updateCatalog ★★★
 const updateCatalog = (res) => {
-  updateCatalogInfo();
+  updateCatalogInfo(1);
   res.json({ result: "called" });
   res.end();
 };
