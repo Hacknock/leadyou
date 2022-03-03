@@ -45,15 +45,14 @@ module.exports.getValues = (repoUrl, token) => {
   return fetch(requestURL, options)
     .then((res) => res.json())
     .then((res) => {
-      let returnJson = {
-        title: "Contributors",
-      };
+      if (!Array.isArray(res)) {
+        return { title: "Contributors", values: [] };
+      }
       let arrayValue = new Array();
       for (const user of res) {
         arrayValue = arrayValue.concat(`[${user.login}](${user.html_url})`);
       }
-      returnJson.values = arrayValue;
-      return returnJson;
+      return { title: "Contributors", values: arrayValue };
     })
     .catch((err) => {
       throw err;

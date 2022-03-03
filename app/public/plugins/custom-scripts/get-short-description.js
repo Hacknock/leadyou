@@ -45,9 +45,10 @@ module.exports.getValues = (repoUrl, token) => {
   return fetch(requestURL, options)
     .then((res) => res.json())
     .then((res) => {
+      const description = "description" in res ? res.description : "";
       return {
         title: "Short Description",
-        values: [res.description],
+        values: [description],
       };
     })
     .catch((err) => {
