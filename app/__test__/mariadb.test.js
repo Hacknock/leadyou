@@ -19,35 +19,39 @@ afterAll(() => {
 describe("Test mariadb connectoin and columns", () => {
   it("db connection test", async () => {
     try {
-      const conn = await pool.getConnection()
+      const conn = await pool.getConnection();
       conn.end();
-    } catch (error) {
-      expect(error).toBeNull();
-      console.error(error);
+    } catch (err) {
+      expect(err).toBeNull();
+      console.error(err);
     }
   });
 
   it("check generate table columns", async () => {
     try {
       const conn = await pool.getConnection();
-      const result = await conn.query(`show columns from ${env.MYSQL_DATABASE}.generate`)
+      const result = await conn.query(
+        `show columns from ${env.MYSQL_DATABASE}.generate`
+      );
       conn.end();
       expect(result.length).toBe(3);
-    } catch (error) {
-      expect(error).toBeNull();
-      console.error(error);
+    } catch (err) {
+      expect(err).toBeNull();
+      console.error(err);
     }
   });
 
   it("check uniqueGene table columns", async () => {
     try {
       const conn = await pool.getConnection();
-      const result = await conn.query(`show columns from ${env.MYSQL_DATABASE}.uniqueGene`)
+      const result = await conn.query(
+        `show columns from ${env.MYSQL_DATABASE}.uniqueGene`
+      );
       conn.end();
       expect(result.length).toBe(4);
-    } catch (error) {
-      expect(error).toBeNull()
-      console.error(error);
+    } catch (err) {
+      expect(err).toBeNull();
+      console.error(err);
     }
   });
 });
