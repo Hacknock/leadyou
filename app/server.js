@@ -49,8 +49,8 @@ process.on("SIGINT", () => {
 // ★★★ Periodic Process ★★★
 // Updated every morning at 7:00 a.m.
 cron.schedule("0 0 7 * * *", () => {
-  console.log("fetch catalogs 🏖");
-  // カタログ収集を定期的にやる
+  console.log("Update Catalogs Info 🏖");
+  updateCatalogInfo(18);
 });
 
 app.use(
@@ -62,6 +62,7 @@ app.use(
         connectSrc: [
           "'self'",
           "https://api.github.com",
+          "https://raw.githubusercontent.com",
           "https://www.google-analytics.com",
         ],
         scriptSrc: [
@@ -86,7 +87,7 @@ app.use(
 
 const port = env.WEB_PORT;
 app.listen(port, () => {
-  console.log(`listen port ${port}`);
+  console.log(`Listen Port ${port}`);
 });
 
 // ★★★ File Serve & Rooting API Request ★★★
@@ -96,7 +97,7 @@ app.get("/", (_, res) => {
 
 app.get("/:path", (req, res) => {
   const path = String(req.params.path).toLocaleLowerCase();
-  console.log(`get: ${path}`);
+  console.log(`Get: ${path}`);
   switch (path) {
     case "favicon.ico": {
       responseFileSupport(
@@ -115,17 +116,7 @@ app.get("/:path", (req, res) => {
       break;
     }
     case "getvalues": {
-      const query = req.query;
-      const repoUrl = `https://github.com/${query.owner}/${query.repo}`;
-      const token = env.GITHUB_TOKEN;
-      customScript(repoUrl, token)
-        .then((result) => {
-          res.json(result);
-          res.end();
-        })
-        .catch((err) => {
-          console.error(err);
-        });
+      getValues(res, req.query);
       break;
     }
     case "getcount": {
@@ -133,26 +124,11 @@ app.get("/:path", (req, res) => {
       break;
     }
     case "countup": {
-      // get query
-      const owner = req.query.owner.toLowerCase();
-      const repo = req.query.repo.toLowerCase();
-      Promise.all([
-        insertGeneratedRepository(owner, repo),
-        uniqueInsertGeneratedRepository(owner, repo),
-      ])
-        .then(() => {
-          res.json({ result: "success" });
-        })
-        .catch((err) => {
-          console.error(err);
-          res.json({ result: "failed" });
-        });
+      countUp(res, req.query);
       break;
     }
     case "getlist": {
-      getList(res).catch((err) => {
-        console.log(err);
-      });
+      getList(res);
       break;
     }
     default: {
@@ -164,7 +140,7 @@ app.get("/:path", (req, res) => {
 app.get("/src/:dir/:file", (req, res) => {
   const dir = String(req.params.dir).toLocaleLowerCase();
   const file = String(req.params.file).toLocaleLowerCase();
-  console.log(`get: ${dir}, ${file}`);
+  console.log(`Get: ${dir}, ${file}`);
   switch (dir) {
     case "css": {
       responseFileSupport(res, `./public/css/${file}`, "text/css");
@@ -204,6 +180,7 @@ app.get("/src/:dir/:file", (req, res) => {
   }
 });
 
+// ★★★ File System Functions ★★★
 const responseFileSupport = (res, path, type) => {
   try {
     const data = fs.readFileSync(path);
@@ -230,8 +207,23 @@ const errorSupport = (res, code) => {
 };
 
 // ★★★ API Functions ★★★
+// ★★★ API: getValues ★★★
+const getValues = (res, query) => {
+  const repoUrl = `https://github.com/${query.owner}/${query.repo}`;
+  const token = env.GITHUB_TOKEN;
+  customScript(repoUrl, token)
+    .then((stack) => {
+      res.json({ result: "success", stack: stack });
+      res.end();
+    })
+    .catch((err) => {
+      console.error(err);
+      res.json({ result: "failed" });
+      res.end();
+    });
+};
+
 const customScript = async (repoUrl, token) => {
-  // get file list of script
   try {
     const files = fs.readdirSync("./public/plugins/custom-scripts/");
     let maps = Array.prototype.map;
@@ -239,119 +231,192 @@ const customScript = async (repoUrl, token) => {
       return `./public/plugins/custom-scripts/${x}`;
     });
 
-    let customScripts = customScriptList.map(require);
+    let customScripts = customScriptList.map((path) => require(path));
     return await multiGetValues(customScripts, repoUrl, token);
   } catch (err) {
-    return new Promise((_, reject) => reject(err));
+    throw err;
   }
 };
 
 const multiGetValues = async (customScripts, repoUrl, token) => {
   let stack = new Array();
-  if (customScripts.length > 0) {
-    try {
-      let values = await customScripts[0].getValues(repoUrl, token);
-      stack.push(values);
-      customScripts.shift();
-      let recursiveStack = await multiGetValues(customScripts, repoUrl, token);
-      stack = stack.concat(recursiveStack);
-      return new Promise((resolve, _) => resolve(stack));
-    } catch (err) {
-      return new Promise((_, reject) => reject(err));
-    }
+  if (customScripts.length === 0) {
+    return stack;
   }
-  return new Promise((resolve, _) => resolve(stack));
-};
-
-const insertGeneratedRepository = async (user, repo) => {
-  console.log("Insert generate log to mariaDB.");
-  let conn;
   try {
-    conn = await pool.getConnection();
-    await conn.query("insert into generate(user,repository) values (?,?)", [
-      user,
-      repo,
-    ]);
-    console.log("sucess to count up");
+    const values = await customScripts[0].getValues(repoUrl, token);
+    stack.push(values);
+    customScripts.shift();
+    const recursiveStack = await multiGetValues(customScripts, repoUrl, token);
+    stack = stack.concat(recursiveStack);
+    return stack;
   } catch (err) {
     throw err;
-  } finally {
-    if (conn) conn.release();
   }
 };
 
-const uniqueInsertGeneratedRepository = async (user, repo) => {
-  console.log("Insert generate log to mariaDB unique.");
-  let conn;
-  try {
-    conn = await pool.getConnection();
-    return conn
-      .query("select * from uniqueGene where user = ? and repository = ?", [
-        user,
-        repo,
-      ])
-      .then((records) => {
-        delete records.meta;
-        console.log(user, repo);
-        console.log("number of select is " + Object.keys(records).length);
-        if (Object.keys(records).length === 0) {
-          return conn
-            .query("insert into uniqueGene(user,repository) values (?,?)", [
-              user,
-              repo,
-            ])
-            .catch((err) => {
-              throw err;
-            });
-        } else {
-          return conn
-            .query(
-              "update uniqueGene set ts = current_timestamp where user = ? and repository = ?",
-              [user, repo]
-            )
-            .catch((err) => {
-              throw err;
-            });
-        }
+// ★★★ API: countUP ★★★
+const countUp = (res, query) => {
+  const owner = query.owner.toLowerCase();
+  const repo = query.repo.toLowerCase();
+  insertOrUpdateGeneratedRepository(owner, repo)
+    .then(() => {
+      res.json({ result: "success" });
+      res.end();
+      updateCatalogInfo();
+    })
+    .catch((err) => {
+      console.error(err);
+      res.json({ result: "failed" });
+      res.end();
+    });
+};
+
+// ★★★ API: getCount ★★★
+const getCount = (res) => {
+  selectFromGeneratedRepository()
+    .then((records) => {
+      const count = Object.keys(records).length;
+      res.json({ result: "success", count: count });
+      res.end();
+    })
+    .catch((err) => {
+      console.error(err);
+      res.json({ result: "failed" });
+      res.end();
+    });
+};
+
+// ★★★ API: getList ★★★
+const getList = async (res) => {
+  selectFromGeneratedRepository(18, true)
+    .then((records) => {
+      res.json({ result: "success", records: records });
+      res.end();
+    })
+    .catch((err) => {
+      console.error(err);
+      res.json({ result: "failed" });
+      res.end();
+    });
+};
+
+// ★★★ Fetch & Update Catalog Info ★★★
+const updateCatalogInfo = (limit) => {
+  selectFromGeneratedRepository(limit)
+    .then((records) => {
+      const promises = records.map((record) => {
+        return checkReadmeDefaultBranch(record.owner, record.repository);
       });
-  } catch (err) {
-    throw err;
-  } finally {
-    if (conn) conn.release();
-  }
+      return Promise.all(promises);
+    })
+    .catch((err) => {
+      console.error(err);
+    });
 };
 
-const getCount = async (res) => {
-  console.log("Insert generate log to mariaDB.");
-  let conn;
+const checkReadmeDefaultBranch = async (owner, repo) => {
   try {
-    conn = await pool.getConnection();
-    const sectionValues = await conn.query("select * from uniqueGene");
-    delete sectionValues.meta;
-    res.json({ result: "success", count: Object.keys(sectionValues).length });
+    const branch = await fetchReadme(owner, repo);
+    await updateGeneratedRepositoryDefaultBranch(owner, repo, branch);
   } catch (err) {
     console.error(err);
-    res.json({ result: "failed" });
-  } finally {
-    if (conn) conn.release();
   }
 };
 
-const getList = async (res) => {
+const fetchReadme = async (owner, repo) => {
+  const requestURL = `https://api.github.com/repos/${owner}/${repo}/readme`;
+  const options = {
+    mode: "cors",
+    headers: {
+      "Content-Type": "application/json; charset=utf-8",
+      Authorization: `token ${env.GITHUB_TOKEN}`,
+    },
+  };
+
+  try {
+    const response = await fetch(requestURL, options);
+    const json = await response.json();
+    if (!("content" in json)) {
+      throw new Error("failed to fetch readme");
+    }
+    const base64str = json["content"];
+    const str = Buffer.from(base64str, "base64").toString("utf8");
+    if (!str.includes("<!-- CREATED_BY_LEADYOU_README_GENERATOR -->")) {
+      throw new Error("No Tag");
+    }
+    const downloadURL = json["download_url"].split("/");
+    const branch = downloadURL[downloadURL.length - 2];
+    return branch;
+  } catch (err) {
+    throw err;
+  }
+};
+
+// ★★★ MariaDB Operations ★★★
+const insertOrUpdateGeneratedRepository = async (owner, repo) => {
   let conn;
   try {
     conn = await pool.getConnection();
     const records = await conn.query(
-      "select * from uniqueGene order by ts desc limit 18"
+      "select * from generated where owner = ? and repository = ?",
+      [owner, repo]
     );
     delete records.meta;
-    res.json(records);
+    if (Object.keys(records).length === 0) {
+      // Never been inserted yet.
+      await conn.query("insert into generated(owner,repository) values (?,?)", [
+        owner,
+        repo,
+      ]);
+    } else {
+      // Update only the timestamp since it is already inserted.
+      await conn.query(
+        "update generated set ts = current_timestamp where owner = ? and repository = ?",
+        [owner, repo]
+      );
+    }
   } catch (err) {
-    res.json({ result: "error" });
     throw err;
   } finally {
     if (conn) conn.release();
   }
 };
 
-// ★★★ Fetch & Update Catalog Info ★★★
+const selectFromGeneratedRepository = async (limit, inUse = false) => {
+  let conn;
+  try {
+    conn = await pool.getConnection();
+    let queryStr = "select * from generated";
+    if (inUse) {
+      queryStr += " where branch is not null";
+    }
+    queryStr += " order by ts desc";
+    if (typeof limit !== "undefined") {
+      queryStr += ` limit ${limit}`;
+    }
+    records = await conn.query(queryStr);
+    delete records.meta;
+    return records;
+  } catch (err) {
+    throw err;
+  } finally {
+    if (conn) conn.release();
+  }
+};
+
+const updateGeneratedRepositoryDefaultBranch = async (owner, repo, branch) => {
+  let conn;
+  try {
+    conn = await pool.getConnection();
+    // Update the timestamp and default branch.
+    await conn.query(
+      "update generated set ts = current_timestamp, branch = ? where owner = ? and repository = ?",
+      [branch, owner, repo]
+    );
+  } catch (err) {
+    throw err;
+  } finally {
+    if (conn) conn.release();
+  }
+};
