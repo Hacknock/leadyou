@@ -39,18 +39,19 @@ const pool = mariadb.createPool({
   multipleStatements: true,
 });
 
+// ★★★ Periodic Process ★★★
+// Updated every morning at 7:00 a.m.
+const cronTask = cron.schedule("0 0 7 * * *", () => {
+  console.log("Update Catalogs Info 🏖");
+  updateCatalogInfo(18);
+});
+
 // ★★★ Initial Process ★★★
 process.on("SIGINT", () => {
   console.log("Keyboard Interrupt 🏂");
   pool.end();
+  cronTask.stop();
   process.exit(0);
-});
-
-// ★★★ Periodic Process ★★★
-// Updated every morning at 7:00 a.m.
-cron.schedule("0 0 7 * * *", () => {
-  console.log("Update Catalogs Info 🏖");
-  updateCatalogInfo(18);
 });
 
 app.use(
@@ -129,6 +130,10 @@ app.get("/:path", (req, res) => {
     }
     case "getlist": {
       getList(res);
+      break;
+    }
+    case "updatecatalog": {
+      updateCatalog(res);
       break;
     }
     default: {
@@ -263,7 +268,6 @@ const countUp = (res, query) => {
     .then(() => {
       res.json({ result: "success" });
       res.end();
-      updateCatalogInfo();
     })
     .catch((err) => {
       console.error(err);
@@ -299,6 +303,13 @@ const getList = async (res) => {
       res.json({ result: "failed" });
       res.end();
     });
+};
+
+// ★★★ API: updateCatalog ★★★
+const updateCatalog = (res) => {
+  updateCatalogInfo();
+  res.json({ result: "called" });
+  res.end();
 };
 
 // ★★★ Fetch & Update Catalog Info ★★★
