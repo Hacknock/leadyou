@@ -3,20 +3,12 @@
 echo "mariadb initial setting"
 
 mariadb -u root -p${MYSQL_ROOT_PASSWORD} --execute "
-create table ${MYSQL_DATABASE}.generate (
+create table ${MYSQL_DATABASE}.generated (
     ts TIMESTAMP,
-    user VARCHAR (256),
-    repository VARCHAR (256)
-);"
-
-mariadb -u root -p${MYSQL_ROOT_PASSWORD} --execute "
-create table ${MYSQL_DATABASE}.uniqueGene (
-    ts TIMESTAMP,
-    user VARCHAR (256),
+    owner VARCHAR (256),
     repository VARCHAR (256),
-    uploaded int
-);
-"
+    branch VARCHAR (256) NULL
+);"
 
 mariadb -u root -p${MYSQL_ROOT_PASSWORD} --execute "grant select,update,insert on leadyou.* to '${MYSQL_USER}'@'%';"
 
