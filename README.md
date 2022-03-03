@@ -83,7 +83,7 @@ You can get Github token [here](https://docs.github.com/en/authentication/keepin
 We prepare the test code to check the connection between app and mariadb. Please run the following command.
 
 ```
-npm run test
+sudo docker-compose -f docker-compose.yml -f ./docker/test.yml up --build --abort-on-container-exit
 ```
 
 ### Deploy
@@ -116,7 +116,7 @@ sudo docker-compose stop
 This mode enable to keep storage which includes issued README data. This data is used for display README catalog on top page.
 
 ```
-sudo docker-compose -f docker-compose.yml -f test.yml up --build -d
+sudo docker-compose -f docker-compose.yml -f ./docker/production.yml up --build -d
 ```
 
 Please execute the following command if you want to stop leadyou.
