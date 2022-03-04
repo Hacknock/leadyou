@@ -14,8 +14,6 @@
  * limitations under the License.
  */
 
-const outputEle = document.getElementById("document-area");
-
 const getQueryStringParams = (query) => {
   const hoge = /^[?#]/.test(query) ? query.slice(1) : query;
   return hoge.split("&").reduce((params, param) => {
@@ -45,7 +43,8 @@ const getMarkdown = async (url) => {
   }
 };
 
-const loadMarkdown = () => {
+const loadMarkdown = async () => {
+  const outputEle = document.getElementById("document-area");
   const params = getQueryStringParams(window.location.search);
   if (!("md" in params)) {
     const err = new Error("The page is not specified.");
@@ -53,14 +52,13 @@ const loadMarkdown = () => {
     outputEle.innerHTML = `<p>${err}</p>`;
     return;
   }
-  getMarkdown(`/src/md/${params.md}.md`)
-    .then((md) => {
-      outputEle.innerHTML = marked.parse(md);
-    })
-    .catch((err) => {
-      console.error(err);
-      outputEle.innerHTML = `<p>${err}</p>`;
-    });
+  try {
+    const md = await getMarkdown(`/src/md/${params.md}.md`);
+    outputEle.innerHTML = marked.parse(md);
+  } catch (err) {
+    console.error(err);
+    outputEle.innerHTML = `<p>${err}</p>`;
+  }
 };
 
 loadMarkdown();

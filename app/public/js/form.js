@@ -20,7 +20,6 @@
 const rootEle = document.getElementById("area-form");
 const outputEle = document.getElementById("area-preview");
 let templateJson = new Object();
-let sampleContentsJson = new Object();
 let previousMarkdown;
 
 // ★★★ Inspect format of JSON file ★★★
@@ -434,8 +433,8 @@ const saveBlob = (blob, filename) => {
   document.body.removeChild(element);
 };
 
-const downloadMarkdown = async (filename, templateJson, contentsJson) => {
-  const resources = extractResourcePath(templateJson, contentsJson);
+const downloadMarkdown = async (filename, tempJson, contentsJson) => {
+  const resources = extractResourcePath(tempJson, contentsJson);
   const zip = new JSZip();
   const folder = zip.folder(filename);
   const resourceFolder = folder.folder("resources");
@@ -453,7 +452,7 @@ const downloadMarkdown = async (filename, templateJson, contentsJson) => {
     newPaths,
     contentsJson
   );
-  const newMD = generateReadme(templateJson, newContentsJson, true);
+  const newMD = generateReadme(tempJson, newContentsJson, true);
   const mdBlob = new Blob([newMD], {
     type: "application/octet-stream",
   });
@@ -493,29 +492,33 @@ const preview = (flag) => {
   }
 };
 
-// ★★★ Calling Method ★★★
-renderForm()
-  .then((obj) => {
-    if (Object.keys(obj).length === 0) return;
-    templateJson = obj.temp;
-    generateForm(obj.temp, obj.auto, 0);
-    setInterval(preview, 1000);
-  })
-  .catch((err) => {
-    console.error(err);
-    alert(err);
+// ★★★ called on load ★★★
+(async () => {
+  // Submitボタンを押した時の処理
+  document.getElementById("generate-readme").addEventListener("click", () => {
+    if (inspectRequired(document.getElementsByClassName("info-box"), 0) === 0) {
+      document.getElementById("fill-alert").textContent = "";
+      preview(true);
+    } else {
+      const confirmText =
+        "Some required fields are not filled out. " +
+        "Is it OK to generate the README as it is?";
+      if (confirm(confirmText)) {
+        preview(true);
+      }
+    }
   });
 
-// Submitボタンを押した時の処理
-document.getElementById("generate-readme").addEventListener("click", () => {
-  if (inspectRequired(document.getElementsByClassName("info-box"), 0) === 0) {
-    document.getElementById("fill-alert").textContent = "";
-    preview(true);
-  } else {
-    const confirmText =
-      "Some required fields are not filled out. Is it OK to generate the README as it is?";
-    if (confirm(confirmText)) {
-      preview(true);
+  // Formのセットアップ
+  try {
+    const obj = await renderForm();
+    if (0 < Object.keys(obj).length) {
+      templateJson = obj.temp;
+      generateForm(obj.temp, obj.auto, 0);
+      setInterval(preview, 1000);
     }
+  } catch (err) {
+    console.error(err);
+    alert(err);
   }
-});
+})();

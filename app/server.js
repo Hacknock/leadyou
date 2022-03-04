@@ -203,30 +203,29 @@ const errorSupport = (res, code) => {
     const data = fs.readFileSync("./public/html/error.html");
     res.writeHead(code, { "Content-Type": "text/html" });
     res.write(data);
-    res.end();
   } catch (err) {
     console.error(err);
     res.writeHead(500, { "Content-Type": "text/plain" });
     res.write("500 Internal Server Error");
+  } finally {
     res.end();
   }
 };
 
 // ★★★ API Functions ★★★
 // ★★★ API: getValues ★★★
-const getValues = (res, query) => {
-  const repoUrl = `https://github.com/${query.owner}/${query.repo}`;
-  const token = env.GITHUB_TOKEN;
-  customScript(repoUrl, token)
-    .then((stack) => {
-      res.json({ result: "success", stack: stack });
-      res.end();
-    })
-    .catch((err) => {
-      console.error(err);
-      res.json({ result: "failed" });
-      res.end();
-    });
+const getValues = async (res, query) => {
+  try {
+    const repoUrl = `https://github.com/${query.owner}/${query.repo}`;
+    const token = env.GITHUB_TOKEN;
+    const stack = await customScript(repoUrl, token);
+    res.json({ result: "success", stack: stack });
+  } catch (err) {
+    console.error(err);
+    res.json({ result: "failed" });
+  } finally {
+    res.end();
+  }
 };
 
 const customScript = async (repoUrl, token) => {
@@ -261,48 +260,45 @@ const multiGetValues = async (customScripts, repoUrl, token) => {
 };
 
 // ★★★ API: countUP ★★★
-const countUp = (res, query) => {
-  const owner = query.owner.toLowerCase();
-  const repo = query.repo.toLowerCase();
-  insertOrUpdateGeneratedRepository(owner, repo)
-    .then(() => {
-      res.json({ result: "success" });
-      res.end();
-    })
-    .catch((err) => {
-      console.error(err);
-      res.json({ result: "failed" });
-      res.end();
-    });
+const countUp = async (res, query) => {
+  try {
+    const owner = query.owner.toLowerCase();
+    const repo = query.repo.toLowerCase();
+    await insertOrUpdateGeneratedRepository(owner, repo);
+    res.json({ result: "success" });
+  } catch (err) {
+    console.error(err);
+    res.json({ result: "failed" });
+  } finally {
+    res.end();
+  }
 };
 
 // ★★★ API: getCount ★★★
-const getCount = (res) => {
-  selectFromGeneratedRepository()
-    .then((records) => {
-      const count = Object.keys(records).length;
-      res.json({ result: "success", count: count });
-      res.end();
-    })
-    .catch((err) => {
-      console.error(err);
-      res.json({ result: "failed" });
-      res.end();
-    });
+const getCount = async (res) => {
+  try {
+    const records = await selectFromGeneratedRepository();
+    const count = Object.keys(records).length;
+    res.json({ result: "success", count: count });
+  } catch (err) {
+    console.error(err);
+    res.json({ result: "failed" });
+  } finally {
+    res.end();
+  }
 };
 
 // ★★★ API: getList ★★★
 const getList = async (res) => {
-  selectFromGeneratedRepository(18, true)
-    .then((records) => {
-      res.json({ result: "success", records: records });
-      res.end();
-    })
-    .catch((err) => {
-      console.error(err);
-      res.json({ result: "failed" });
-      res.end();
-    });
+  try {
+    const records = await selectFromGeneratedRepository(18, true);
+    res.json({ result: "success", records: records });
+  } catch (err) {
+    console.error(err);
+    res.json({ result: "failed" });
+  } finally {
+    res.end();
+  }
 };
 
 // ★★★ API: updateCatalog ★★★
@@ -326,17 +322,16 @@ const updateCatalog = (res, query) => {
 };
 
 // ★★★ Fetch & Update Catalog Info ★★★
-const updateCatalogInfo = (limit) => {
-  selectFromGeneratedRepository(limit)
-    .then((records) => {
-      const promises = records.map((record) => {
-        return checkReadmeDefaultBranch(record.owner, record.repository);
-      });
-      return Promise.all(promises);
-    })
-    .catch((err) => {
-      console.error(err);
+const updateCatalogInfo = async (limit) => {
+  try {
+    const records = await selectFromGeneratedRepository(limit);
+    const promises = records.map((record) => {
+      return checkReadmeDefaultBranch(record.owner, record.repository);
     });
+    return Promise.all(promises);
+  } catch (err) {
+    console.error(err);
+  }
 };
 
 const checkReadmeDefaultBranch = async (owner, repo) => {
