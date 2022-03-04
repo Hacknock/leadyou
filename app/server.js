@@ -439,7 +439,7 @@ const updateGeneratedRepositoryDefaultBranch = async (owner, repo, branch) => {
     conn = await pool.getConnection();
     // Update the timestamp and default branch.
     await conn.query(
-      "update generated set ts = current_timestamp, branch = ? where owner = ? and repository = ?",
+      "update generated set ts = ts, branch = ? where owner = ? and repository = ?",
       [branch, owner, repo]
     );
   } catch (err) {
