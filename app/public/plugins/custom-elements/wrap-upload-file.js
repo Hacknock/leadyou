@@ -258,12 +258,12 @@ class WrapUploadFile extends HTMLElement {
   }
   handleFileSelect(e) {
     var fileList = e.target.files;
-    var blobUrl = window.URL.createObjectURL(fileList[0]);
+    var blobURL = window.URL.createObjectURL(fileList[0]);
     let childrenThisField = e.target.parentNode.children;
 
     for (let i = 0; i < childrenThisField.length; i++) {
       if (childrenThisField[i].getAttribute("id") === "data-id") {
-        childrenThisField[i].value = blobUrl;
+        childrenThisField[i].value = blobURL;
       }
     }
   }

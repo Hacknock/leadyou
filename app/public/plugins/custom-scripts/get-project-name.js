@@ -14,14 +14,14 @@
  * limitations under the License.
  */
 
-module.exports.getValues = async (repoUrl, _) => {
-  if (!repoUrl.startsWith("https://github.com/")) {
+module.exports.getValues = async (repoURL, _) => {
+  if (!repoURL.startsWith("https://github.com/")) {
     throw new Error("Inputed repository url is not correct.");
   }
-  const splitRepoUrl = repoUrl.split("/");
-  if (splitRepoUrl.length < 5) {
+  const splitRepoURL = repoURL.split("/");
+  if (splitRepoURL.length < 5) {
     throw new Error("Can not specify the repository with the inputed url.");
   }
 
-  return { title: "Project Name", values: [splitRepoUrl[4]] };
+  return { title: "Project Name", values: [splitRepoURL[4]] };
 };

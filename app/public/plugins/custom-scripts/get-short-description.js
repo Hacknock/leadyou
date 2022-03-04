@@ -14,19 +14,18 @@
  * limitations under the License.
  */
 
-const res = require("express/lib/response");
 const fetch = require("node-fetch");
 
-module.exports.getValues = async (repoUrl, token) => {
-  if (!repoUrl.startsWith("https://github.com/")) {
+module.exports.getValues = async (repoURL, token) => {
+  if (!repoURL.startsWith("https://github.com/")) {
     throw new Error("Inputed repository url is not correct.");
   }
-  const splitRepoUrl = repoUrl.split("/");
-  if (splitRepoUrl.length < 5) {
+  const splitRepoURL = repoURL.split("/");
+  if (splitRepoURL.length < 5) {
     throw new Error("Can not specify the repository with the inputed url.");
   }
 
-  const requestURL = `https://api.github.com/repos/${splitRepoUrl[3]}/${splitRepoUrl[4]}`;
+  const requestURL = `https://api.github.com/repos/${splitRepoURL[3]}/${splitRepoURL[4]}`;
   const options = {
     mode: "cors",
     headers: {
@@ -40,7 +39,7 @@ module.exports.getValues = async (repoUrl, token) => {
   try {
     const response = await fetch(requestURL, options);
     const json = await response.json();
-    const description = "description" in json ? res.description : "";
+    const description = "description" in json ? json.description : "";
     return { title: "Short Description", values: [description] };
   } catch (err) {
     throw err;

@@ -216,9 +216,9 @@ const errorSupport = (res, code) => {
 // ★★★ API: getValues ★★★
 const getValues = async (res, query) => {
   try {
-    const repoUrl = `https://github.com/${query.owner}/${query.repo}`;
+    const repoURL = `https://github.com/${query.owner}/${query.repo}`;
     const token = env.GITHUB_TOKEN;
-    const stack = await customScript(repoUrl, token);
+    const stack = await customScript(repoURL, token);
     res.json({ result: "success", stack: stack });
   } catch (err) {
     console.error(err);
@@ -228,7 +228,7 @@ const getValues = async (res, query) => {
   }
 };
 
-const customScript = async (repoUrl, token) => {
+const customScript = async (repoURL, token) => {
   try {
     const files = fs.readdirSync("./public/plugins/custom-scripts/");
     const customScripts = files
@@ -236,22 +236,22 @@ const customScript = async (repoUrl, token) => {
         return `./public/plugins/custom-scripts/${file}`;
       })
       .map((path) => require(path));
-    return await multiGetValues(customScripts, repoUrl, token);
+    return await multiGetValues(customScripts, repoURL, token);
   } catch (err) {
     throw err;
   }
 };
 
-const multiGetValues = async (customScripts, repoUrl, token) => {
+const multiGetValues = async (customScripts, repoURL, token) => {
   let stack = new Array();
   if (customScripts.length === 0) {
     return stack;
   }
   try {
-    const values = await customScripts[0].getValues(repoUrl, token);
+    const values = await customScripts[0].getValues(repoURL, token);
     stack.push(values);
     customScripts.shift();
-    const recursiveStack = await multiGetValues(customScripts, repoUrl, token);
+    const recursiveStack = await multiGetValues(customScripts, repoURL, token);
     stack = stack.concat(recursiveStack);
     return stack;
   } catch (err) {
