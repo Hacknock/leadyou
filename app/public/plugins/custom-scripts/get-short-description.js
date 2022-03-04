@@ -14,44 +14,35 @@
  * limitations under the License.
  */
 
+const res = require("express/lib/response");
 const fetch = require("node-fetch");
 
-module.exports.getValues = (repoUrl, token) => {
-  const errorPromise = (message) => {
-    return new Promise((_, reject) => reject(new Error(message)));
-  };
-
+module.exports.getValues = async (repoUrl, token) => {
   if (!repoUrl.startsWith("https://github.com/")) {
-    return errorPromise("Inputed repository url is not correct.");
+    throw new Error("Inputed repository url is not correct.");
   }
   const splitRepoUrl = repoUrl.split("/");
   if (splitRepoUrl.length < 5) {
-    return errorPromise("Can not specify the repository with the inputed url.");
+    throw new Error("Can not specify the repository with the inputed url.");
   }
 
   const requestURL = `https://api.github.com/repos/${splitRepoUrl[3]}/${splitRepoUrl[4]}`;
-
   const options = {
     mode: "cors",
     headers: {
       "Content-Type": "application/json; charset=utf-8",
     },
   };
-
   if (typeof token !== "undefined") {
     options.headers["Authorization"] = `token ${token}`;
   }
 
-  return fetch(requestURL, options)
-    .then((res) => res.json())
-    .then((res) => {
-      const description = "description" in res ? res.description : "";
-      return {
-        title: "Short Description",
-        values: [description],
-      };
-    })
-    .catch((err) => {
-      throw err;
-    });
+  try {
+    const response = await fetch(requestURL, options);
+    const json = await response.json();
+    const description = "description" in json ? res.description : "";
+    return { title: "Short Description", values: [description] };
+  } catch (err) {
+    throw err;
+  }
 };
