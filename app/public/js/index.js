@@ -115,23 +115,27 @@ const convertURLtoGitHubURL = (path, branch, tag, item, md) => {
 
 const convertMarkdownImageLink = (path, branch, md) => {
   let text = md;
-  const array = text.match(/!\[([^\[\]\(\)]*?)\]\(([^\[\]\(\)]*?)\)/g);
-  for (const tag of array) {
-    const item = tag.match(/^!\[.*?\]\((.*?)\)$/)[1];
-    text = convertURLtoGitHubURL(path, branch, tag, item, text);
+  const tags = text.match(/!\[([^\[\]\(\)]*?)\]\(([^\[\]\(\)]*?)\)/g);
+  if (Array.isArray(tags)) {
+    for (const tag of tags) {
+      const item = tag.match(/^!\[.*?\]\((.*?)\)$/)[1];
+      text = convertURLtoGitHubURL(path, branch, tag, item, text);
+    }
   }
   return text;
 };
 
 const convertHTMLImageLink = (path, branch, md) => {
   let text = md;
-  const array = text.match(/(<img src="(.*?)"|<img .*? src="(.*?)")/g);
-  for (const tag of array) {
-    const matched = tag.match(/^(<img src="(.*?)"|<img .*? src="(.*?)")$/);
-    if (typeof matched[2] !== "undefined") {
-      text = convertURLtoGitHubURL(path, branch, tag, matched[2], text);
-    } else if (typeof matched[3] !== "undefined") {
-      text = convertURLtoGitHubURL(path, branch, tag, matched[3], text);
+  const tags = text.match(/(<img src="(.*?)"|<img .*? src="(.*?)")/g);
+  if (Array.isArray(tags)) {
+    for (const tag of tags) {
+      const matched = tag.match(/^(<img src="(.*?)"|<img .*? src="(.*?)")$/);
+      if (typeof matched[2] !== "undefined") {
+        text = convertURLtoGitHubURL(path, branch, tag, matched[2], text);
+      } else if (typeof matched[3] !== "undefined") {
+        text = convertURLtoGitHubURL(path, branch, tag, matched[3], text);
+      }
     }
   }
   return text;
