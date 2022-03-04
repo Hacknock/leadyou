@@ -38,6 +38,7 @@ const pool = mariadb.createPool({
   waitForConnections: true,
   multipleStatements: true,
 });
+console.log("🐤🐤🐤🐤");
 
 // ★★★ Periodic Process ★★★
 // Updated every morning at 7:00 a.m.
@@ -133,7 +134,7 @@ app.get("/:path", (req, res) => {
       break;
     }
     case "updatecatalog": {
-      updateCatalog(res);
+      updateCatalog(res, req.query);
       break;
     }
     default: {
@@ -306,9 +307,22 @@ const getList = async (res) => {
 };
 
 // ★★★ API: updateCatalog ★★★
-const updateCatalog = (res) => {
-  updateCatalogInfo(1);
-  res.json({ result: "called" });
+const updateCatalog = (res, query) => {
+  if (env.NODE_ENV === "production") {
+    res.json({ result: "cancelled in production" });
+    res.end();
+    return;
+  }
+
+  let limit = 18;
+  if ("limit" in query) {
+    const n = parseInt(query.limit);
+    if (!Number.isNaN(n)) {
+      limit = Math.max(Math.min(n, 18), 1);
+    }
+  }
+  updateCatalogInfo(limit);
+  res.json({ result: "called", limit: limit });
   res.end();
 };
 

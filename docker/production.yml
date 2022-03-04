@@ -3,3 +3,6 @@ services:
   db:
     volumes:
       - ./volume/mariadb:/var/lib/mysql
+  web:
+    environment:
+      NODE_ENV: production
