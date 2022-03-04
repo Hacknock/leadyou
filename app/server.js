@@ -404,7 +404,7 @@ const insertOrUpdateGeneratedRepository = async (owner, repo) => {
   } catch (err) {
     throw err;
   } finally {
-    if (conn) conn.release();
+    if (conn) conn.end();
   }
 };
 
@@ -426,7 +426,7 @@ const selectFromGeneratedRepository = async (limit, inUse = false) => {
   } catch (err) {
     throw err;
   } finally {
-    if (conn) conn.release();
+    if (conn) conn.end();
   }
 };
 
@@ -442,6 +442,6 @@ const updateGeneratedRepositoryDefaultBranch = async (owner, repo, branch) => {
   } catch (err) {
     throw err;
   } finally {
-    if (conn) conn.release();
+    if (conn) conn.end();
   }
 };
