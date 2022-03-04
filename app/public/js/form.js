@@ -1,12 +1,12 @@
 /**
  * Copyright 2022 Hacknock
- * 
+ *
  * Licensed under the Apache License, Version 2.0(the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *    http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -80,27 +80,6 @@ const inspectAutoFillJson = (contents) => {
     if (!("title" in section && "values" in section)) {
       throw new Error(`Section:${section.title}, contents.json is broken.`);
     }
-    if (section.values.length == 0) {
-      throw new Error(`Section:${section.title}, contents.json is broken.`);
-    }
-  }
-};
-
-// Get template.json which describe the layout of input form
-const getJson = async (url, inspector) => {
-  const options = {
-    mode: "cors",
-    headers: {
-      "Content-Type": "application/json; charset=utf-8",
-    },
-  };
-  try {
-    const response = await fetch(url, options);
-    const json = await response.json();
-    inspector(json);
-    return json;
-  } catch (error) {
-    throw error;
   }
 };
 
@@ -333,44 +312,64 @@ const inspectParams = (params) => {
   }
 };
 
+// Get template.json which describe the layout of input form
+const getTemplateJson = async () => {
+  const requestURL = "/src/json/template.json";
+  const options = {
+    mode: "cors",
+    headers: {
+      "Content-Type": "application/json; charset=utf-8",
+    },
+  };
+  try {
+    const response = await fetch(requestURL, options);
+    const json = await response.json();
+    inspectTemplateJson(json);
+    return json;
+  } catch (err) {
+    throw err;
+  }
+};
+
+const getValues = async (owner, repo) => {
+  const requestURL = `/getvalues?owner=${owner}&repo=${repo}`;
+  const options = {
+    mode: "cors",
+    headers: {
+      "Content-Type": "application/json; charset=utf-8",
+    },
+  };
+  try {
+    const response = await fetch(requestURL, options);
+    const json = await response.json();
+    if (json.result !== "success") {
+      throw new Error("failed to get values");
+    }
+    const stack = json.stack;
+    inspectAutoFillJson(stack);
+    return stack;
+  } catch (err) {
+    throw err;
+  }
+};
+
 const renderForm = async () => {
   try {
     // template.jsonを取得
-    const template = await getJson(
-      "/src/json/template.json",
-      inspectTemplateJson
-    );
+    const template = await getTemplateJson();
 
     // auto fill用のcontents.jsonを取得
-    let autoFillJson = {};
-    const hasAPILife = true;
     const params = getQueryStringParams(window.location.search);
-
     if (
       !("owner" in params) ||
       !("repo" in params) ||
       !("autofill" in params) ||
       params.autofill !== "true"
     ) {
-      return Promise.resolve({
-        temp: template,
-        auto: {},
-      });
+      return { temp: template, auto: {} };
     }
-    if (hasAPILife) {
-      const url = `/getvalues?owner=${params.owner}&repo=${params.repo}`;
-      autoFillJson = await getJson(url, inspectAutoFillJson);
-    } else {
-      const json = await getJson(
-        "/src/json/sample-contents.json",
-        inspectContentsJson
-      );
-      autoFillJson = json.sections;
-    }
-    return Promise.resolve({
-      temp: template,
-      auto: autoFillJson,
-    });
+    const autoFillJson = await getValues(params.owner, params.repo);
+    return { temp: template, auto: autoFillJson };
   } catch (err) {
     throw err;
   }
@@ -463,16 +462,15 @@ const downloadMarkdown = async (filename, templateJson, contentsJson) => {
   saveBlob(zipBlob, filename);
 };
 
-const countUp = () => {
-  const params = getQueryStringParams(window.location.search);
+const countUp = async () => {
   try {
-    fetch(`/countup?owner=${params.owner}&repo=${params.repo}`)
-      .then((res) => res.json())
-      .then((data) => {
-        console.log(data.result);
-      });
-  } catch (error) {
-    console.error(error);
+    const params = getQueryStringParams(window.location.search);
+    const requestURL = `/countup?owner=${params.owner}&repo=${params.repo}`;
+    const response = await fetch(requestURL);
+    const json = await response.json();
+    console.log(`Count Up: ${json.result}`);
+  } catch (err) {
+    console.error(err);
   }
 };
 
@@ -490,8 +488,8 @@ const preview = (flag) => {
       countUp();
       downloadMarkdown("README", templateJson, contentsJson);
     }
-  } catch (error) {
-    console.error(error);
+  } catch (err) {
+    console.error(err);
   }
 };
 

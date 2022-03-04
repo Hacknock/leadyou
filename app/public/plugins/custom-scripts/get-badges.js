@@ -19,11 +19,13 @@ module.exports.getValues = (repoUrl, token) => {
     return new Promise((_, reject) => reject(new Error(message)));
   };
 
-  if (!repoUrl.startsWith("https://github.com/"))
+  if (!repoUrl.startsWith("https://github.com/")) {
     return errorPromise("Inputed repository url is not correct.");
+  }
   const splitRepoUrl = repoUrl.split("/");
-  if (splitRepoUrl.length < 5)
+  if (splitRepoUrl.length < 5) {
     return errorPromise("Can not specify the repository with the inputed url.");
+  }
 
   const sieldsUrl = "https://img.shields.io/github";
   const badgeInfoList = [

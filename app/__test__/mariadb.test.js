@@ -18,36 +18,30 @@ afterAll(() => {
 
 describe("Test mariadb connectoin and columns", () => {
   it("db connection test", async () => {
+    let conn;
     try {
-      const conn = await pool.getConnection()
-      conn.end();
-    } catch (error) {
-      expect(error).toBeNull();
-      console.error(error);
+      conn = await pool.getConnection();
+    } catch (err) {
+      expect(err).toBeNull();
+      console.error(err);
+    } finally {
+      if (conn) conn.end();
     }
   });
 
-  it("check generate table columns", async () => {
+  it("check generated table columns", async () => {
+    let conn;
     try {
-      const conn = await pool.getConnection();
-      const result = await conn.query(`show columns from ${env.MYSQL_DATABASE}.generate`)
-      conn.end();
-      expect(result.length).toBe(3);
-    } catch (error) {
-      expect(error).toBeNull();
-      console.error(error);
-    }
-  });
-
-  it("check uniqueGene table columns", async () => {
-    try {
-      const conn = await pool.getConnection();
-      const result = await conn.query(`show columns from ${env.MYSQL_DATABASE}.uniqueGene`)
-      conn.end();
+      conn = await pool.getConnection();
+      const result = await conn.query(
+        `show columns from ${env.MYSQL_DATABASE}.generated`
+      );
       expect(result.length).toBe(4);
-    } catch (error) {
-      expect(error).toBeNull()
-      console.error(error);
+    } catch (err) {
+      expect(err).toBeNull();
+      console.error(err);
+    } finally {
+      if (conn) conn.end();
     }
   });
 });

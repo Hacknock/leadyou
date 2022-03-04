@@ -1,12 +1,12 @@
 /**
  * Copyright 2022 Hacknock
- * 
+ *
  * Licensed under the Apache License, Version 2.0(the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *    http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -17,14 +17,14 @@
 const form = document.getElementById("generate-form");
 const urlColumn = document.getElementById("url-column");
 
-// ☆☆☆☆☆ Top Form ☆☆☆☆☆
+// ★★★ Top Form ★★★
 const showWarning = () => {
   urlColumn.setAttribute("class", "url alert-repo");
   document.getElementById("alert-text").textContent =
     "This repository is a private repository or does not exist.";
 };
 
-const validationURL = () => {
+const validationURL = async () => {
   const url = form.elements["url"].value;
   if (url.length === 0) {
     window.location.href = "/makereadme";
@@ -37,103 +37,162 @@ const validationURL = () => {
   }
   const owner = splitUrl[3];
   const repo = splitUrl[4];
-  const requestURL = `https://api.github.com/repos/${owner}/${repo}/contributors`;
-  fetch(requestURL, { mode: "cors" })
-    .then((res) => {
-      if (res.ok) {
-        const autoFill = form.elements["auto-fill"].checked;
-        window.location.href = `/makereadme?owner=${owner}&repo=${repo}&autofill=${autoFill}`;
-      } else {
-        throw new Error("Network response was not ok.");
-      }
-    })
-    .catch((err) => {
-      console.error(err);
-      showWarning();
+
+  try {
+    const requestURL = `https://api.github.com/repos/${owner}/${repo}/contributors`;
+    const response = await fetch(requestURL, { mode: "cors" });
+    if (response.ok) {
+      const autoFill = form.elements["auto-fill"].checked;
+      window.location.href = `/makereadme?owner=${owner}&repo=${repo}&autofill=${autoFill}`;
+    } else {
+      throw new Error("network response was not ok.");
+    }
+  } catch (err) {
+    console.log(err);
+    showWarning();
+  }
+};
+
+// ★★★ README Catalog ★★★
+const getStylesheet = async () => {
+  try {
+    const response = await fetch("/src/css/marked.css");
+    return await response.text();
+  } catch (err) {
+    throw err;
+  }
+};
+
+const getReadme = async (owner, repo, branch) => {
+  try {
+    const requestURL = `https://raw.githubusercontent.com/${owner}/${repo}/${branch}/README.md`;
+    const response = await fetch(requestURL);
+    const text = await response.text();
+    return { path: `${owner}/${repo}`, branch: branch, text: text };
+  } catch (err) {
+    console.error(err);
+    return { path: "", branch: "", text: "" };
+  }
+};
+
+const getGeneratedReadmes = async () => {
+  try {
+    const response = await fetch("/getlist");
+    const json = await response.json();
+    if (json.result !== "success") {
+      throw new Error("failed to get list");
+    }
+    const promises = json.records.map((record) => {
+      return getReadme(record.owner, record.repository, record.branch);
     });
+    return Promise.all(promises);
+  } catch (err) {
+    throw err;
+  }
 };
 
-// ☆☆☆☆☆ Catalog ☆☆☆☆☆
-const getStylesheet = () => {
-  return fetch("/src/css/marked.css").then((res) => res.text());
-};
-
-const getGeneratedReadme = async (owner, repo) => {
-  const options = {
-    method: "GET",
-    headers: {
-      Accept: "application/vnd.github.v3+json",
-    },
-  };
-  const request = `https://api.github.com/repos/${owner}/${repo}/readme`;
-  return fetch(request, options)
-    .then((res) => {
-      return res.json().then((json) => {
-        if (res.ok) {
-          return {
-            path: `${owner}/${repo}`,
-            branch: json.url.split("?ref=")[1],
-            text: decodeURIComponent(escape(atob(json.content))),
-          };
-        } else {
-          throw new Error("readme not found");
-        }
-      });
-    })
-    .catch((err) => {
-      console.error(err);
-      return {
-        path: "",
-        branch: "",
-        text: "",
-      };
-    });
-};
-
-const getGeneratedReadmes = () => {
-  const options = {
-    mode: "cors",
-    headers: {
-      "Content-Type": "application/json; charset=utf-8",
-    },
-  };
-  return fetch("/getlist", options)
-    .then((res) => res.json())
-    .then((json) => {
-      const promises = json.map((item) => {
-        return getGeneratedReadme(item.user, item.repository);
-      });
-      return Promise.all(promises);
-    });
-};
-
-const convertRelativeToAbsolute = (path, branch, md) => {
+const convertURLtoGitHubURL = (path, branch, tag, item, md) => {
   let text = md;
   const regex = /http(s)?:\/\/.+/;
-  const array = text.match(/\[([^\[\]\(\)]*?)\]\(([^\[\]\(\)]*?)\)/g);
-  for (const tag of array) {
-    const item = tag.match(/^\[.*?\]\((.*?)\)$/)[1];
-    if (regex.test(item)) {
-      // httpsにマッチした場合
-      const newTag = tag.replace(
-        `://github.com/${path}/blob/`,
-        `://github.com/${path}/raw/`
-      );
-      text = text.replace(tag, newTag);
-    } else {
-      // 相対パスだった場合
-      const after = item.match(/^(\.\/)*(.+)/)[2];
-      const newTag = tag.replace(
-        item,
-        `https://github.com/${path}/raw/${branch}/${after}`
-      );
-      text = text.replace(tag, newTag);
+  if (regex.test(item)) {
+    // httpsにマッチした場合
+    const newTag = tag.replace(
+      `://github.com/${path}/blob/`,
+      `://github.com/${path}/raw/`
+    );
+    text = text.replace(tag, newTag);
+  } else {
+    // 相対パスだった場合（万能ではない）
+    const after = item.match(/^(\.\/)*(.+)/)[2];
+    const newTag = tag.replace(
+      item,
+      `https://github.com/${path}/raw/${branch}/${after}`
+    );
+    text = text.replace(tag, newTag);
+  }
+  return text;
+};
+
+const convertMarkdownImageLink = (path, branch, md) => {
+  let text = md;
+  const tags = text.match(/!\[([^\[\]\(\)]*?)\]\(([^\[\]\(\)]*?)\)/g);
+  if (Array.isArray(tags)) {
+    for (const tag of tags) {
+      const item = tag.match(/^!\[.*?\]\((.*?)\)$/)[1];
+      text = convertURLtoGitHubURL(path, branch, tag, item, text);
     }
   }
   return text;
 };
 
-// ☆☆☆☆☆ Cookie Manager ☆☆☆☆☆
+const convertHTMLImageLink = (path, branch, md) => {
+  let text = md;
+  const tags = text.match(/(<img src="(.*?)"|<img .*? src="(.*?)")/g);
+  if (Array.isArray(tags)) {
+    for (const tag of tags) {
+      const matched = tag.match(/^(<img src="(.*?)"|<img .*? src="(.*?)")$/);
+      if (typeof matched[2] !== "undefined") {
+        text = convertURLtoGitHubURL(path, branch, tag, matched[2], text);
+      } else if (typeof matched[3] !== "undefined") {
+        text = convertURLtoGitHubURL(path, branch, tag, matched[3], text);
+      }
+    }
+  }
+  return text;
+};
+
+const convertRelativeToAbsolute = (path, branch, md) => {
+  // Markdownの画像添付記法 ![]()
+  let text = convertMarkdownImageLink(path, branch, md);
+  // HTMLのimgタグ <img src=""
+  text = convertHTMLImageLink(path, branch, text);
+  return text;
+};
+
+const loadCatalog = async () => {
+  try {
+    const [stylesheet, list] = await Promise.all([
+      getStylesheet(),
+      getGeneratedReadmes(),
+    ]);
+    let cnt = 0;
+    const catalogArea = document.getElementById("catalog-area");
+    list.forEach(({ path, branch, text }) => {
+      if (path === "" || 9 <= cnt) return;
+      const div = document.createElement("div");
+      div.setAttribute("class", "readme");
+      const wrapDiv = document.createElement("div");
+      wrapDiv.setAttribute("class", "wrap-iframe");
+      const iframe = document.createElement("iframe");
+      iframe.setAttribute("title", path);
+      const newText = convertRelativeToAbsolute(path, branch, text);
+      let style = ".md-content { padding: 16px; text-align: left; }";
+      style += stylesheet;
+      let html = `<html><head><style>${style}</style></head><body>`;
+      html += `<div class="md-content">${marked.parse(
+        newText
+      )}</div></body></html>`;
+      iframe.srcdoc = html;
+      const p = document.createElement("p");
+      const img = document.createElement("img");
+      img.src = "/src/images/github-icon.png";
+      const a = document.createElement("a");
+      a.href = `https://github.com/${path}`;
+      a.innerText = path;
+      div.appendChild(wrapDiv);
+      wrapDiv.appendChild(iframe);
+      p.appendChild(img);
+      p.appendChild(a);
+      div.appendChild(p);
+      catalogArea.appendChild(div);
+      cnt += 1;
+    });
+  } catch (err) {
+    console.error(err);
+  }
+};
+
+// ★★★ Cookie Manager ★★★
 const hideAgreementCookie = () => {
   document.getElementById("attention-cookie").style.display = "none";
   document.getElementsByClassName("dummy-footer")[0].style.display = "none";
@@ -173,65 +232,22 @@ const setupCookieManager = () => {
     });
 };
 
-// ☆☆☆☆☆ Footer ☆☆☆☆☆
-const getCount = () => {
-  const counter = document.getElementById("counter");
-  fetch("/getcount")
-    .then((res) => res.json())
-    .then((data) => {
-      if (data.result === "success") {
-        counter.textContent = ` +${data.count.toLocaleString()}`;
-      }
-    })
-    .catch((err) => {
-      console.error(err);
-    });
+// ★★★ Footer ★★★
+const getCount = async () => {
+  try {
+    const response = await fetch("/getcount");
+    const json = await response.json();
+    if (json.result !== "success") {
+      throw new Error("failed to get count");
+    }
+    const counter = document.getElementById("counter");
+    counter.textContent = ` +${json.count.toLocaleString()}`;
+  } catch (err) {
+    console.error(err);
+  }
 };
 
-const loadCatalog = () => {
-  const catalogArea = document.getElementById("catalog-area");
-  Promise.all([getStylesheet(), getGeneratedReadmes()])
-    .then(([stylesheet, list]) => {
-      let cnt = 0;
-      const identifier = "<!-- CREATED_BY_LEADYOU_README_GENERATOR -->";
-      list.forEach(({ path, branch, text }) => {
-        if (path === "") return;
-        if (text.indexOf(identifier) < 0 || 9 <= cnt) return;
-        const div = document.createElement("div");
-        div.setAttribute("class", "readme");
-        const wrapDiv = document.createElement("div");
-        wrapDiv.setAttribute("class", "wrap-iframe");
-        const iframe = document.createElement("iframe");
-        iframe.setAttribute("title", path);
-        const newText = convertRelativeToAbsolute(path, branch, text);
-        let style = ".md-content { padding: 16px; text-align: left; }";
-        style += stylesheet;
-        let html = `<html><head><style>${style}</style></head><body>`;
-        html += `<div class="md-content">${marked.parse(
-          newText
-        )}</div></body></html>`;
-        iframe.srcdoc = html;
-        const p = document.createElement("p");
-        const img = document.createElement("img");
-        img.src = "/src/images/github-icon.png";
-        const a = document.createElement("a");
-        a.href = `https://github.com/${path}`;
-        a.innerText = path;
-        div.appendChild(wrapDiv);
-        wrapDiv.appendChild(iframe);
-        p.appendChild(img);
-        p.appendChild(a);
-        div.appendChild(p);
-        catalogArea.appendChild(div);
-        cnt += 1;
-      });
-    })
-    .catch((err) => {
-      console.error(err);
-    });
-};
-
-// called on load
+// ★★★ called on load ★★★
 (() => {
   getCount();
   loadCatalog();
