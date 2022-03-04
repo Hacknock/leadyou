@@ -80,9 +80,6 @@ const inspectAutoFillJson = (contents) => {
     if (!("title" in section && "values" in section)) {
       throw new Error(`Section:${section.title}, contents.json is broken.`);
     }
-    // if (section.values.length == 0) {
-    //   throw new Error(`Section:${section.title}, contents.json is broken.`);
-    // }
   }
 };
 
