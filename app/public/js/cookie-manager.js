@@ -15,7 +15,7 @@
  */
 
 const enableGA = () => {
-  let sc = document.createElement("script");
+  const sc = document.createElement("script");
   sc.async = true;
   sc.setAttribute(
     "src",

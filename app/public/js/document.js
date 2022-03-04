@@ -19,7 +19,7 @@ const outputEle = document.getElementById("document-area");
 const getQueryStringParams = (query) => {
   const hoge = /^[?#]/.test(query) ? query.slice(1) : query;
   return hoge.split("&").reduce((params, param) => {
-    let [key, value] = param.split("=");
+    const [key, value] = param.split("=");
     params[key] = value ? decodeURIComponent(value.replace(/\+/g, " ")) : "";
     return params;
   }, {});

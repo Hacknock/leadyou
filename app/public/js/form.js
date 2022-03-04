@@ -189,9 +189,9 @@ const generateJson = (listEle, tempJson, index) => {
   let arraySec = new Array();
   if (typeof tempJson.sections[index] !== "undefined") {
     const root = listEle[index].shadowRoot;
-    let stackEles = root.querySelectorAll(".field");
-    let secTitle = root.querySelector(".sub-title").textContent;
-    let values = getColumnData(stackEles, 0);
+    const stackEles = root.querySelectorAll(".field");
+    const secTitle = root.querySelector(".sub-title").textContent;
+    const values = getColumnData(stackEles, 0);
     const lenValue = values.reduce((prev, current) => {
       return prev + current.length;
     }, 0);
@@ -243,7 +243,7 @@ const generateReadme = (template, contents, needTag) => {
     const valueText = divideArraybyN(section.values, n)
       .reduce((prev, current) => {
         let text = "";
-        let formats = templateSection.formats;
+        const formats = templateSection.formats;
         for (const i in formats) {
           if (0 < current[i].length) {
             text += formats[i].replace("%s", current[i]);
@@ -300,7 +300,7 @@ const inspectRequired = (eleList, referNum) => {
 const getQueryStringParams = (query) => {
   const hoge = /^[?#]/.test(query) ? query.slice(1) : query;
   return hoge.split("&").reduce((params, param) => {
-    let [key, value] = param.split("=");
+    const [key, value] = param.split("=");
     params[key] = value ? decodeURIComponent(value.replace(/\+/g, " ")) : "";
     return params;
   }, {});
@@ -436,9 +436,9 @@ const saveBlob = (blob, filename) => {
 
 const downloadMarkdown = async (filename, templateJson, contentsJson) => {
   const resources = extractResourcePath(templateJson, contentsJson);
-  let zip = new JSZip();
-  let folder = zip.folder(filename);
-  let resourceFolder = folder.folder("resources");
+  const zip = new JSZip();
+  const folder = zip.folder(filename);
+  const resourceFolder = folder.folder("resources");
   let newPaths = new Array();
   for (const [index, path] of resources.paths.entries()) {
     const response = await fetch(path);

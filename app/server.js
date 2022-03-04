@@ -232,12 +232,11 @@ const getValues = (res, query) => {
 const customScript = async (repoUrl, token) => {
   try {
     const files = fs.readdirSync("./public/plugins/custom-scripts/");
-    let maps = Array.prototype.map;
-    let customScriptList = maps.call(files, (x) => {
-      return `./public/plugins/custom-scripts/${x}`;
-    });
-
-    let customScripts = customScriptList.map((path) => require(path));
+    const customScripts = files
+      .map((file) => {
+        return `./public/plugins/custom-scripts/${file}`;
+      })
+      .map((path) => require(path));
     return await multiGetValues(customScripts, repoUrl, token);
   } catch (err) {
     throw err;
