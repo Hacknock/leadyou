@@ -212,18 +212,18 @@ class WrapUploadFile extends HTMLElement {
       });
       this.shadowRoot.appendChild(addButton);
     } else if (attr === "alert") {
-      let inputEles = this.shadowRoot.querySelectorAll(".field");
+      const inputEles = this.shadowRoot.querySelectorAll(".field");
       if (newVal === "true") {
-        for (var i = 0; i < inputEles.length; i++) {
+        for (let i = 0; i < inputEles.length; i++) {
           inputEles[i].setAttribute("class", "field style-alert");
         }
       } else {
-        for (var i = 0; i < inputEles.length; i++) {
+        for (let i = 0; i < inputEles.length; i++) {
           inputEles[i].setAttribute("class", "field style-normal");
         }
       }
     } else if (attr === "placeholder") {
-      let allInputElement = this.shadowRoot.querySelectorAll(".column");
+      const allInputElement = this.shadowRoot.querySelectorAll(".column");
       for (let i = 0; i < allInputElement.length; i++) {
         if (allInputElement[i].getAttribute("type") === "text") {
           allInputElement[i].setAttribute("placeholder", newVal);
@@ -231,7 +231,7 @@ class WrapUploadFile extends HTMLElement {
       }
     } else if (attr === "maxlength") {
       const descEle = this.shadowRoot.querySelector(".short-description");
-      let desc = descEle.textContent;
+      const desc = descEle.textContent;
       const valueMaxlength = newVal;
       descEle.textContent = `${desc} (in ${valueMaxlength} characters or less)`;
       if (typeof newVal !== "undefined") {
@@ -249,7 +249,7 @@ class WrapUploadFile extends HTMLElement {
       });
     } else if (attr === "required") {
       if (newVal === "true") {
-        let allMarks = this.shadowRoot.querySelectorAll(".mark-required");
+        const allMarks = this.shadowRoot.querySelectorAll(".mark-required");
         for (let i = 0; i < allMarks.length; i++) {
           allMarks[i].setAttribute("class", "mark-required display-required");
         }
@@ -257,9 +257,9 @@ class WrapUploadFile extends HTMLElement {
     }
   }
   handleFileSelect(e) {
-    var fileList = e.target.files;
-    var blobURL = window.URL.createObjectURL(fileList[0]);
-    let childrenThisField = e.target.parentNode.children;
+    const fileList = e.target.files;
+    const blobURL = window.URL.createObjectURL(fileList[0]);
+    const childrenThisField = e.target.parentNode.children;
 
     for (let i = 0; i < childrenThisField.length; i++) {
       if (childrenThisField[i].getAttribute("id") === "data-id") {
@@ -270,7 +270,7 @@ class WrapUploadFile extends HTMLElement {
 
   deleteField(e) {
     e.target.parentNode.remove();
-    let listField = this.shadowRoot.querySelectorAll(".field");
+    const listField = this.shadowRoot.querySelectorAll(".field");
     if (this.getAttribute("multiple") === "true" && listField.length < 2) {
       const listDeleteButton =
         this.shadowRoot.querySelectorAll(".delete-button");
@@ -302,7 +302,7 @@ class WrapUploadFile extends HTMLElement {
     clearButton.setAttribute("type", "button");
     clearButton.setAttribute("class", "clear-button");
     clearButton.addEventListener("click", (e) => {
-      let childrenThisField = e.target.parentNode.children;
+      const childrenThisField = e.target.parentNode.children;
 
       for (let i = 0; i < childrenThisField.length; i++) {
         if (childrenThisField[i].getAttribute("id") === "data-id") {
@@ -340,7 +340,7 @@ class WrapUploadFile extends HTMLElement {
     deleteButton.addEventListener("click", (e) => {
       this.deleteField(e);
     });
-    let listField = this.shadowRoot.querySelectorAll(".field");
+    const listField = this.shadowRoot.querySelectorAll(".field");
     if (this.getAttribute("multiple") === "true" && listField.length > 0) {
       deleteButton.setAttribute("class", "delete-button display-delete");
 
