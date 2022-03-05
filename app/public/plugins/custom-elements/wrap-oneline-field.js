@@ -214,7 +214,7 @@ class WrapOnelineField extends HTMLElement {
   }
 
   autoFill(values) {
-    const inputEles = this.shadowRoot.querySelectorAll(".column");
+    let inputEles = this.shadowRoot.querySelectorAll(".column");
     const addButton = this.shadowRoot.getElementById("add-button");
     for (const [i, v] of values.entries()) {
       if (inputEles.length > i) {
