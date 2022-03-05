@@ -118,6 +118,14 @@ Please list any users who use your project.
 This information will help users determine the reliability of your project.
 This is a recommended field in [README Generator](/).
 
+## How to Contribute to Our Proposal README Format
+
+We open [LEADYOU](/) source code in [GitHub](https://github.com/Hacknock/leadyou).
+Please add, edit or delete [template.json](https://github.com/Hacknock/leadyou/blob/develop/app/public/plugins/template.json) according to "Minimal Example" in [README.md](https://github.com/Hacknock/leadyou) if you have any idea to improve our proposed README format.
+
+- [LEADYOU source code(on github.com)](https://github.com/Hacknock/leadyou)
+
 ## Edit History
 
 - 2020-08-15) First proposal by Akira Kashihara and Takuto Nakamura
+- 2022-03-05) Add "How to Contribute to Our Proposal README Format" section.
