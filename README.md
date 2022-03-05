@@ -140,7 +140,7 @@ You should be able to access LEADYOU on your local PC.
 You can add or delete some items to make README using this repository source code.
 For example, you want to add "Support".
 This item will help your colleagues ask you when they will face a problem with using your software.
-You add the following code on lines 178 to 191 of `./public/plugins/template.json`.
+You add the following code on lines 178 to 191 of `/app/public/public/plugins/template.json`.
 
 ```json
 {
