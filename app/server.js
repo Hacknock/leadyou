@@ -22,41 +22,54 @@
 const express = require("express");
 const app = express();
 const helmet = require("helmet");
-const fs = require("fs");
+const fs = require("fs").promises;
 const mariadb = require("mariadb");
 const fetch = require("node-fetch");
 const cron = require("node-cron");
 const env = process.env;
 
-// *** MariaDB connection information *** //
-const pool = mariadb.createPool({
-  host: env.HOST,
-  user: env.MYSQL_USER,
-  password: env.MYSQL_PASSWORD,
-  database: env.MYSQL_DATABASE,
-  connectionLimit: env.CON_LIMIT,
-  waitForConnections: true,
-  multipleStatements: true,
-});
-console.log("🐤🐤🐤🐤");
+// *** Global Variables ***
+let pool;
+let cronTask;
+
+// *** MariaDB connection ***
+const setupMariaDB = () => {
+  pool = mariadb.createPool({
+    host: env.HOST,
+    user: env.MYSQL_USER,
+    password: env.MYSQL_PASSWORD,
+    database: env.MYSQL_DATABASE,
+    connectionLimit: env.CON_LIMIT,
+    waitForConnections: true,
+    multipleStatements: true,
+  });
+};
 
 // ★★★ Periodic Process ★★★
-// Updated every morning at 7:00 a.m.
-const cronTask = cron.schedule("0 0 7 * * *", () => {
-  console.log("Update Catalogs Info 🏖");
-  updateCatalogInfo(18);
-});
+const setupCronTask = () => {
+  // Updated every morning at 7:00 a.m.
+  cronTask = cron.schedule("0 0 7 * * *", async () => {
+    try {
+      console.log("Update Catalogs Info 🏖");
+      await updateCatalogInfo(18);
+    } catch (err) {
+      console.error(err);
+    }
+  });
+};
 
 // ★★★ Initial Process ★★★
-process.on("SIGINT", () => {
-  console.log("Keyboard Interrupt 🏂");
-  pool.end();
-  cronTask.stop();
-  process.exit(0);
-});
+const setupEndProcess = () => {
+  process.on("SIGINT", () => {
+    console.log("Keyboard Interrupt 🏂");
+    pool.end();
+    cronTask.stop();
+    process.exit(0);
+  });
+};
 
-app.use(
-  helmet({
+const setupHelmet = () => {
+  const setting = {
     crossOriginEmbedderPolicy: false,
     contentSecurityPolicy: {
       directives: {
@@ -84,176 +97,173 @@ app.use(
         ],
       },
     },
-  })
-);
+  };
+  app.use(helmet(setting));
+};
 
-const port = env.WEB_PORT;
-app.listen(port, () => {
-  console.log(`Listen Port ${port}`);
-});
+// ★★★ Serving File & Rooting API Request ★★★
+const listenPort = () => {
+  const port = env.WEB_PORT;
+  app.listen(port, () => {
+    console.log(`Listen Port ${port}`);
+  });
+};
 
-// ★★★ File Serve & Rooting API Request ★★★
-app.get("/", (_, res) => {
-  responseFileSupport(res, "./public/html/index.html", "text/html");
-});
+const setupGetRequest = () => {
+  // Root
+  app.get("/", async (_, res) => {
+    try {
+      await serveFile(res, "html/index.html", "text/html");
+    } catch (err) {
+      console.error(err);
+    } finally {
+      res.end();
+    }
+  });
 
-app.get("/:path", (req, res) => {
-  const path = String(req.params.path).toLocaleLowerCase();
-  console.log(`Get: ${path}`);
-  switch (path) {
-    case "favicon.ico": {
-      responseFileSupport(
-        res,
-        "./public/images/favicon-black.ico",
-        "image/x-icon"
-      );
-      break;
+  // Favicon
+  app.get("/favicon.ico", async (_, res) => {
+    try {
+      await serveFile(res, "images/favicon-black.ico", "image/x-icon");
+    } catch (err) {
+      console.error(err);
+    } finally {
+      res.end();
     }
-    case "makereadme": {
-      responseFileSupport(res, "./public/html/form.html", "text/html");
-      break;
-    }
-    case "page": {
-      responseFileSupport(res, "./public/html/document.html", "text/html");
-      break;
-    }
-    case "getvalues": {
-      getValues(res, req.query);
-      break;
-    }
-    case "getcount": {
-      getCount(res);
-      break;
-    }
-    case "countup": {
-      countUp(res, req.query);
-      break;
-    }
-    case "getlist": {
-      getList(res);
-      break;
-    }
-    case "updatecatalog": {
-      updateCatalog(res, req.query);
-      break;
-    }
-    default: {
-      errorSupport(res, 400);
-    }
-  }
-});
+  });
 
-app.get("/src/:dir/:file", (req, res) => {
-  const dir = String(req.params.dir).toLocaleLowerCase();
-  const file = String(req.params.file).toLocaleLowerCase();
-  console.log(`Get: ${dir}, ${file}`);
-  switch (dir) {
-    case "css": {
-      responseFileSupport(res, `./public/css/${file}`, "text/css");
-      break;
-    }
-    case "js": {
-      responseFileSupport(res, `./public/js/${file}`, "text/javascript");
-      break;
-    }
-    case "customdom": {
-      responseFileSupport(
-        res,
-        `./public/plugins/custom-elements/${file}`,
-        "text/javascript"
-      );
-      break;
-    }
-    case "json": {
-      responseFileSupport(res, `./public/plugins/${file}`, "application/json");
-      break;
-    }
-    case "images": {
-      if (file.endsWith(".svg")) {
-        responseFileSupport(res, `./public/images/${file}`, "image/svg+xml");
+  // API
+  app.get("/:method", async (req, res) => {
+    try {
+      const method = String(req.params.method).toLocaleLowerCase();
+      console.log(`Get: ${method}`);
+      if (method === "makereadme") {
+        await serveFile(res, "html/form.html", "text/html");
+      } else if (method === "page") {
+        await serveFile(res, "html/document.html", "text/html");
+      } else if (method === "getvalues") {
+        await getValues(res, req.query);
+      } else if (method === "getcount") {
+        await getCount(res);
+      } else if (method === "countup") {
+        await countUp(res, req.query);
+      } else if (method === "getlist") {
+        await getList(res);
+      } else if (method === "updatecatalog") {
+        await updateCatalog(res, req.query);
       } else {
-        responseFileSupport(res, `./public/images/${file}`, "image/*");
+        writeBadRequest(res);
       }
-      break;
+    } catch (err) {
+      console.error(err);
+    } finally {
+      res.end();
     }
-    case "md": {
-      responseFileSupport(res, `./public/md/${file}`, "text/markdown");
-      break;
+  });
+
+  // File
+  app.get("/src/:dir/:file", async (req, res) => {
+    const dir = String(req.params.dir).toLocaleLowerCase();
+    const file = String(req.params.file).toLocaleLowerCase();
+    console.log(`Get: ${dir}, ${file}`);
+    try {
+      if (dir === "css") {
+        await serveFile(res, `css/${file}`, "text/css");
+      } else if (dir === "js") {
+        await serveFile(res, `js/${file}`, "text/javascript");
+      } else if (dir === "customdom") {
+        const filePath = `plugins/custom-elements/${file}`;
+        await serveFile(res, filePath, "text/javascript");
+      } else if (dir === "json") {
+        await serveFile(res, `plugins/${file}`, "application/json");
+      } else if (dir === "md") {
+        await serveFile(res, `md/${file}`, "text/markdown");
+      } else if (dir === "images") {
+        if (file.endsWith(".svg")) {
+          await serveFile(res, `images/${file}`, "image/svg+xml");
+        } else {
+          await serveFile(res, `images/${file}`, "image/*");
+        }
+      } else {
+        writeBadRequest(res);
+      }
+    } catch (err) {
+      console.error(err);
+    } finally {
+      res.end();
     }
-    default: {
-      errorSupport(res, 400);
-    }
-  }
-});
+  });
+};
 
 // ★★★ File System Functions ★★★
-const responseFileSupport = (res, path, type) => {
+const writeBadRequest = (res) => {
+  res.writeHead(400, { "Content-Type": "text/plain" });
+  res.write("400 Bad Request");
+};
+
+const serveErrorPage = async (res, code) => {
   try {
-    const data = fs.readFileSync(path);
-    res.writeHead(200, { "Content-Type": type });
+    const data = await fs.readFile("./public/html/error.html");
+    res.writeHead(code, { "Content-Type": "text/html" });
     res.write(data);
-    res.end();
   } catch (err) {
-    errorSupport(res, 404);
+    writeBadRequest(res);
+    throw err;
   }
 };
 
-const errorSupport = (res, code) => {
+const serveFile = async (res, path, type) => {
   try {
-    const data = fs.readFileSync("./public/html/error.html");
-    res.writeHead(code, { "Content-Type": "text/html" });
+    const data = await fs.readFile(`./public/${path}`);
+    res.writeHead(200, { "Content-Type": type });
     res.write(data);
-    res.end();
-  } catch (err) {
-    console.error(err);
-    res.writeHead(500, { "Content-Type": "text/plain" });
-    res.write("500 Internal Server Error");
-    res.end();
+  } catch {
+    try {
+      await serveErrorPage(res, 404);
+    } catch (err) {
+      throw err;
+    }
   }
 };
 
 // ★★★ API Functions ★★★
 // ★★★ API: getValues ★★★
-const getValues = (res, query) => {
-  const repoUrl = `https://github.com/${query.owner}/${query.repo}`;
-  const token = env.GITHUB_TOKEN;
-  customScript(repoUrl, token)
-    .then((stack) => {
-      res.json({ result: "success", stack: stack });
-      res.end();
-    })
-    .catch((err) => {
-      console.error(err);
-      res.json({ result: "failed" });
-      res.end();
-    });
+const getValues = async (res, query) => {
+  try {
+    const repoURL = `https://github.com/${query.owner}/${query.repo}`;
+    const token = env.GITHUB_TOKEN;
+    const stack = await customScript(repoURL, token);
+    res.json({ result: "success", stack: stack });
+  } catch (err) {
+    res.json({ result: "failed" });
+    throw err;
+  }
 };
 
-const customScript = async (repoUrl, token) => {
+const customScript = async (repoURL, token) => {
   try {
-    const files = fs.readdirSync("./public/plugins/custom-scripts/");
-    let maps = Array.prototype.map;
-    let customScriptList = maps.call(files, (x) => {
-      return `./public/plugins/custom-scripts/${x}`;
-    });
-
-    let customScripts = customScriptList.map((path) => require(path));
-    return await multiGetValues(customScripts, repoUrl, token);
+    const files = await fs.readdir("./public/plugins/custom-scripts/");
+    const customScripts = files
+      .map((file) => {
+        return `./public/plugins/custom-scripts/${file}`;
+      })
+      .map((path) => require(path));
+    return await multiGetValues(customScripts, repoURL, token);
   } catch (err) {
     throw err;
   }
 };
 
-const multiGetValues = async (customScripts, repoUrl, token) => {
+const multiGetValues = async (customScripts, repoURL, token) => {
   let stack = new Array();
   if (customScripts.length === 0) {
     return stack;
   }
   try {
-    const values = await customScripts[0].getValues(repoUrl, token);
+    const values = await customScripts[0].getValues(repoURL, token);
     stack.push(values);
     customScripts.shift();
-    const recursiveStack = await multiGetValues(customScripts, repoUrl, token);
+    const recursiveStack = await multiGetValues(customScripts, repoURL, token);
     stack = stack.concat(recursiveStack);
     return stack;
   } catch (err) {
@@ -262,55 +272,45 @@ const multiGetValues = async (customScripts, repoUrl, token) => {
 };
 
 // ★★★ API: countUP ★★★
-const countUp = (res, query) => {
-  const owner = query.owner.toLowerCase();
-  const repo = query.repo.toLowerCase();
-  insertOrUpdateGeneratedRepository(owner, repo)
-    .then(() => {
-      res.json({ result: "success" });
-      res.end();
-    })
-    .catch((err) => {
-      console.error(err);
-      res.json({ result: "failed" });
-      res.end();
-    });
+const countUp = async (res, query) => {
+  try {
+    const owner = query.owner.toLowerCase();
+    const repo = query.repo.toLowerCase();
+    await insertOrUpdateGeneratedRepository(owner, repo);
+    res.json({ result: "success" });
+  } catch (err) {
+    res.json({ result: "failed" });
+    throw err;
+  }
 };
 
 // ★★★ API: getCount ★★★
-const getCount = (res) => {
-  selectFromGeneratedRepository()
-    .then((records) => {
-      const count = Object.keys(records).length;
-      res.json({ result: "success", count: count });
-      res.end();
-    })
-    .catch((err) => {
-      console.error(err);
-      res.json({ result: "failed" });
-      res.end();
-    });
+const getCount = async (res) => {
+  try {
+    const records = await selectFromGeneratedRepository();
+    const count = Object.keys(records).length;
+    res.json({ result: "success", count: count });
+  } catch (err) {
+    res.json({ result: "failed" });
+    throw err;
+  }
 };
 
 // ★★★ API: getList ★★★
 const getList = async (res) => {
-  selectFromGeneratedRepository(18, true)
-    .then((records) => {
-      res.json({ result: "success", records: records });
-      res.end();
-    })
-    .catch((err) => {
-      console.error(err);
-      res.json({ result: "failed" });
-      res.end();
-    });
+  try {
+    const records = await selectFromGeneratedRepository(18, true);
+    res.json({ result: "success", records: records });
+  } catch (err) {
+    res.json({ result: "failed" });
+    throw err;
+  }
 };
 
 // ★★★ API: updateCatalog ★★★
-const updateCatalog = (res, query) => {
+const updateCatalog = async (res, query) => {
   if (env.NODE_ENV === "production") {
     res.json({ result: "cancelled in production" });
-    res.end();
     return;
   }
 
@@ -321,23 +321,26 @@ const updateCatalog = (res, query) => {
       limit = Math.max(Math.min(n, 18), 1);
     }
   }
-  updateCatalogInfo(limit);
-  res.json({ result: "called", limit: limit });
-  res.end();
+  try {
+    await updateCatalogInfo(limit);
+    res.json({ result: "success", limit: limit });
+  } catch (err) {
+    res.json({ result: "failed" });
+    throw err;
+  }
 };
 
 // ★★★ Fetch & Update Catalog Info ★★★
-const updateCatalogInfo = (limit) => {
-  selectFromGeneratedRepository(limit)
-    .then((records) => {
-      const promises = records.map((record) => {
-        return checkReadmeDefaultBranch(record.owner, record.repository);
-      });
-      return Promise.all(promises);
-    })
-    .catch((err) => {
-      console.error(err);
+const updateCatalogInfo = async (limit) => {
+  try {
+    const records = await selectFromGeneratedRepository(limit);
+    const promises = records.map((record) => {
+      return checkReadmeDefaultBranch(record.owner, record.repository);
     });
+    return Promise.all(promises);
+  } catch (err) {
+    throw err;
+  }
 };
 
 const checkReadmeDefaultBranch = async (owner, repo) => {
@@ -436,7 +439,7 @@ const updateGeneratedRepositoryDefaultBranch = async (owner, repo, branch) => {
     conn = await pool.getConnection();
     // Update the timestamp and default branch.
     await conn.query(
-      "update generated set ts = current_timestamp, branch = ? where owner = ? and repository = ?",
+      "update generated set ts = ts, branch = ? where owner = ? and repository = ?",
       [branch, owner, repo]
     );
   } catch (err) {
@@ -445,3 +448,15 @@ const updateGeneratedRepositoryDefaultBranch = async (owner, repo, branch) => {
     if (conn) conn.end();
   }
 };
+
+// ★★★ Main ★★★
+(() => {
+  setupMariaDB();
+
+  setupCronTask();
+  setupEndProcess();
+  setupHelmet();
+
+  listenPort();
+  setupGetRequest();
+})();

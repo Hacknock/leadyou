@@ -16,45 +16,37 @@
 
 const fetch = require("node-fetch");
 
-module.exports.getValues = (repoUrl, token) => {
-  const errorPromise = (message) => {
-    return new Promise((_, reject) => reject(new Error(message)));
-  };
-
-  if (!repoUrl.startsWith("https://github.com/")) {
-    return errorPromise("Inputed repository url is not correct.");
+module.exports.getValues = async (repoURL, token) => {
+  if (!repoURL.startsWith("https://github.com/")) {
+    throw new Error("Inputed repository url is not correct.");
   }
-  const splitRepoUrl = repoUrl.split("/");
-  if (splitRepoUrl.length < 5) {
-    return errorPromise("Can not specify the repository with the inputed url.");
+  const splitRepoURL = repoURL.split("/");
+  if (splitRepoURL.length < 5) {
+    throw new Error("Can not specify the repository with the inputed url.");
   }
 
-  const requestURL = `https://api.github.com/repos/${splitRepoUrl[3]}/${splitRepoUrl[4]}/contributors`;
-
+  const requestURL = `https://api.github.com/repos/${splitRepoURL[3]}/${splitRepoURL[4]}/contributors`;
   const options = {
     mode: "cors",
     headers: {
       "Content-Type": "application/json; charset=utf-8",
     },
   };
-
   if (typeof token !== "undefined") {
     options.headers["Authorization"] = `token ${token}`;
   }
 
-  return fetch(requestURL, options)
-    .then((res) => res.json())
-    .then((res) => {
-      if (!Array.isArray(res)) {
-        return { title: "Contributors", values: [] };
-      }
-      let arrayValue = new Array();
-      for (const user of res) {
-        arrayValue = arrayValue.concat(`[${user.login}](${user.html_url})`);
-      }
-      return { title: "Contributors", values: arrayValue };
-    })
-    .catch((err) => {
-      throw err;
+  try {
+    const response = await fetch(requestURL, options);
+    const json = await response.json();
+    if (!Array.isArray(json)) {
+      return { title: "Contributors", values: [] };
+    }
+    const values = json.map((user) => {
+      return `[${user.login}](${user.html_url})`;
     });
+    return { title: "Contributors", values: values };
+  } catch (err) {
+    throw err;
+  }
 };

@@ -14,22 +14,14 @@
  * limitations under the License.
  */
 
-module.exports.getValues = (repoUrl, token) => {
-  const errorPromise = (message) => {
-    return new Promise((_, reject) => reject(new Error(message)));
-  };
-
-  if (!repoUrl.startsWith("https://github.com/")) {
-    return errorPromise("Inputed repository url is not correct.");
+module.exports.getValues = async (repoURL, _) => {
+  if (!repoURL.startsWith("https://github.com/")) {
+    throw new Error("Inputed repository url is not correct.");
   }
-  const splitRepoUrl = repoUrl.split("/");
-  if (splitRepoUrl.length < 5) {
-    return errorPromise("Can not specify the repository with the inputed url.");
+  const splitRepoURL = repoURL.split("/");
+  if (splitRepoURL.length < 5) {
+    throw new Error("Can not specify the repository with the inputed url.");
   }
 
-  const returnJson = {
-    title: "Project Name",
-    values: [splitRepoUrl[4]],
-  };
-  return new Promise((resolve, _) => resolve(returnJson));
+  return { title: "Project Name", values: [splitRepoURL[4]] };
 };

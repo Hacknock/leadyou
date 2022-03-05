@@ -20,7 +20,6 @@
 const rootEle = document.getElementById("area-form");
 const outputEle = document.getElementById("area-preview");
 let templateJson = new Object();
-let sampleContentsJson = new Object();
 let previousMarkdown;
 
 // ★★★ Inspect format of JSON file ★★★
@@ -189,9 +188,9 @@ const generateJson = (listEle, tempJson, index) => {
   let arraySec = new Array();
   if (typeof tempJson.sections[index] !== "undefined") {
     const root = listEle[index].shadowRoot;
-    let stackEles = root.querySelectorAll(".field");
-    let secTitle = root.querySelector(".sub-title").textContent;
-    let values = getColumnData(stackEles, 0);
+    const stackEles = root.querySelectorAll(".field");
+    const secTitle = root.querySelector(".sub-title").textContent;
+    const values = getColumnData(stackEles, 0);
     const lenValue = values.reduce((prev, current) => {
       return prev + current.length;
     }, 0);
@@ -243,7 +242,7 @@ const generateReadme = (template, contents, needTag) => {
     const valueText = divideArraybyN(section.values, n)
       .reduce((prev, current) => {
         let text = "";
-        let formats = templateSection.formats;
+        const formats = templateSection.formats;
         for (const i in formats) {
           if (0 < current[i].length) {
             text += formats[i].replace("%s", current[i]);
@@ -300,7 +299,7 @@ const inspectRequired = (eleList, referNum) => {
 const getQueryStringParams = (query) => {
   const hoge = /^[?#]/.test(query) ? query.slice(1) : query;
   return hoge.split("&").reduce((params, param) => {
-    let [key, value] = param.split("=");
+    const [key, value] = param.split("=");
     params[key] = value ? decodeURIComponent(value.replace(/\+/g, " ")) : "";
     return params;
   }, {});
@@ -424,9 +423,9 @@ const replaceContentsPaths = (paths, newPaths, contents) => {
 };
 
 const saveBlob = (blob, filename) => {
-  const blobUrl = URL.createObjectURL(blob);
+  const blobURL = URL.createObjectURL(blob);
   const element = document.createElement("a");
-  element.setAttribute("href", blobUrl);
+  element.setAttribute("href", blobURL);
   element.setAttribute("download", `${filename}.zip`);
   element.style.display = "none";
   document.body.appendChild(element);
@@ -434,11 +433,11 @@ const saveBlob = (blob, filename) => {
   document.body.removeChild(element);
 };
 
-const downloadMarkdown = async (filename, templateJson, contentsJson) => {
-  const resources = extractResourcePath(templateJson, contentsJson);
-  let zip = new JSZip();
-  let folder = zip.folder(filename);
-  let resourceFolder = folder.folder("resources");
+const downloadMarkdown = async (filename, tempJson, contentsJson) => {
+  const resources = extractResourcePath(tempJson, contentsJson);
+  const zip = new JSZip();
+  const folder = zip.folder(filename);
+  const resourceFolder = folder.folder("resources");
   let newPaths = new Array();
   for (const [index, path] of resources.paths.entries()) {
     const response = await fetch(path);
@@ -453,7 +452,7 @@ const downloadMarkdown = async (filename, templateJson, contentsJson) => {
     newPaths,
     contentsJson
   );
-  const newMD = generateReadme(templateJson, newContentsJson, true);
+  const newMD = generateReadme(tempJson, newContentsJson, true);
   const mdBlob = new Blob([newMD], {
     type: "application/octet-stream",
   });
@@ -493,29 +492,33 @@ const preview = (flag) => {
   }
 };
 
-// ★★★ Calling Method ★★★
-renderForm()
-  .then((obj) => {
-    if (Object.keys(obj).length === 0) return;
-    templateJson = obj.temp;
-    generateForm(obj.temp, obj.auto, 0);
-    setInterval(preview, 1000);
-  })
-  .catch((err) => {
-    console.error(err);
-    alert(err);
+// ★★★ called on load ★★★
+(async () => {
+  // Submitボタンを押した時の処理
+  document.getElementById("generate-readme").addEventListener("click", () => {
+    if (inspectRequired(document.getElementsByClassName("info-box"), 0) === 0) {
+      document.getElementById("fill-alert").textContent = "";
+      preview(true);
+    } else {
+      const confirmText =
+        "Some required fields are not filled out. " +
+        "Is it OK to generate the README as it is?";
+      if (confirm(confirmText)) {
+        preview(true);
+      }
+    }
   });
 
-// Submitボタンを押した時の処理
-document.getElementById("generate-readme").addEventListener("click", () => {
-  if (inspectRequired(document.getElementsByClassName("info-box"), 0) === 0) {
-    document.getElementById("fill-alert").textContent = "";
-    preview(true);
-  } else {
-    const confirmText =
-      "Some required fields are not filled out. Is it OK to generate the README as it is?";
-    if (confirm(confirmText)) {
-      preview(true);
+  // Formのセットアップ
+  try {
+    const obj = await renderForm();
+    if (0 < Object.keys(obj).length) {
+      templateJson = obj.temp;
+      generateForm(obj.temp, obj.auto, 0);
+      setInterval(preview, 1000);
     }
+  } catch (err) {
+    console.error(err);
+    alert(err);
   }
-});
+})();

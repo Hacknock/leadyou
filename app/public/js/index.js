@@ -30,13 +30,13 @@ const validationURL = async () => {
     window.location.href = "/makereadme";
     return;
   }
-  const splitUrl = url.split("/");
-  if (!url.startsWith("https://github.com/") || splitUrl.length < 5) {
+  const splitURL = url.split("/");
+  if (!url.startsWith("https://github.com/") || splitURL.length < 5) {
     showWarning();
     return;
   }
-  const owner = splitUrl[3];
-  const repo = splitUrl[4];
+  const owner = splitURL[3];
+  const repo = splitURL[4];
 
   try {
     const requestURL = `https://api.github.com/repos/${owner}/${repo}/contributors`;
@@ -258,7 +258,7 @@ const getCount = async () => {
     validationURL();
   });
 
-  urlColumn.addEventListener("input", (e) => {
+  urlColumn.addEventListener("input", () => {
     const autoFillCheck = document.getElementById("auto-fill");
     if (urlColumn.value.length === 0) {
       autoFillCheck.setAttribute("disabled", "");

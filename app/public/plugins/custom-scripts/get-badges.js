@@ -14,20 +14,16 @@
  * limitations under the License.
  */
 
-module.exports.getValues = (repoUrl, token) => {
-  const errorPromise = (message) => {
-    return new Promise((_, reject) => reject(new Error(message)));
-  };
-
-  if (!repoUrl.startsWith("https://github.com/")) {
-    return errorPromise("Inputed repository url is not correct.");
+module.exports.getValues = async (repoURL, _) => {
+  if (!repoURL.startsWith("https://github.com/")) {
+    throw new Error("Inputed repository url is not correct.");
   }
-  const splitRepoUrl = repoUrl.split("/");
-  if (splitRepoUrl.length < 5) {
-    return errorPromise("Can not specify the repository with the inputed url.");
+  const splitRepoURL = repoURL.split("/");
+  if (splitRepoURL.length < 5) {
+    throw new Error("Can not specify the repository with the inputed url.");
   }
 
-  const sieldsUrl = "https://img.shields.io/github";
+  const sieldsURL = "https://img.shields.io/github";
   const badgeInfoList = [
     { name: "issues", path: "issues", jumpKey: "issues" },
     { name: "forks", path: "forks", jumpKey: "network/members" },
@@ -35,16 +31,11 @@ module.exports.getValues = (repoUrl, token) => {
     { name: "top language", path: "languages/top", jumpKey: "" },
     { name: "license", path: "license", jumpKey: "" },
   ];
-  let returnJson = {
-    title: "Badges",
-  };
 
-  let arrayValue = new Array();
-  for (const info of badgeInfoList) {
-    arrayValue = arrayValue.concat(
-      `[![Github ${info.name}](${sieldsUrl}/${info.path}/${splitRepoUrl[3]}/${splitRepoUrl[4]})](${repoUrl}/${info.jumpKey})`
-    );
-  }
-  returnJson.values = arrayValue;
-  return new Promise((resolve, _) => resolve(returnJson));
+  const values = badgeInfoList.map((info) => {
+    const url = `${sieldsURL}/${info.path}/${splitRepoURL[3]}/${splitRepoURL[4]})](${repoURL}/${info.jumpKey}`;
+    return `[![Github ${info.name}](${url})`;
+  });
+
+  return { title: "Badges", values: values };
 };
