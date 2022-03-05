@@ -285,7 +285,8 @@ class WrapOnelineField extends HTMLElement {
     }
     newDivWrap.appendChild(newInputF);
     newDivWrap.appendChild(deleteButton);
-    if (typeof newVal !== "undefined") {
+
+    if (typeof this.getAttribute("maxlength") !== "undefined") {
       const maxlength = this.getAttribute("maxlength");
       if (Number(maxlength) > 0) {
         const allInputElement = this.shadowRoot.querySelectorAll(".column");

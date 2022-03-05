@@ -254,8 +254,8 @@ class WrapMultiField extends HTMLElement {
     inputF.setAttribute("placeholder", this.getAttribute("placeholder"));
 
     // 今度確認する（今、multilineにaddがないから）
-    const maxlength = this.getAttribute("maxlength");
-    if (typeof newVal !== "undefined") {
+    if (typeof this.getAttribute("maxlength") !== "undefined") {
+      const maxlength = this.getAttribute("maxlength");
       if (Number(maxlength) > 0) {
         const allInputElement = this.shadowRoot.querySelectorAll(".column");
         for (let i = 0; i < allInputElement.length; i++) {

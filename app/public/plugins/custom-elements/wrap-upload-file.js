@@ -324,7 +324,7 @@ class WrapUploadFile extends HTMLElement {
     newDescFile.setAttribute("placeholder", this.getAttribute("placeholder"));
 
     const statusLabel = this.getAttribute("alert");
-    if (typeof newVal !== "undefined") {
+    if (typeof this.getAttribute("maxlength") !== "undefined") {
       const maxlength = this.getAttribute("maxlength");
       newDescFile.setAttribute("maxlength", maxlength);
       const textareas = this.shadowRoot.querySelectorAll("textarea");
