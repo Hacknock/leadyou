@@ -188,7 +188,7 @@ class WrapMultiField extends HTMLElement {
     } else if (attr === "values") {
       const values = JSON.parse(newVal);
       let count = 0;
-      this.autoFill(values, this.getAttribute("multiple"), count);
+      this.autoFill(values);
     } else if (attr === "placeholder") {
       let allInputElement = this.shadowRoot.querySelectorAll(".column");
       for (let i = 0; i < allInputElement.length; i++) {
