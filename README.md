@@ -38,6 +38,7 @@ If you need to install docker-engine and docker-compose, the following websites 
 
 - [How to install Docker Engine](https://docs.docker.com/engine/install/ubuntu/)
 - [How to install Docker Compose](https://docs.docker.com/compose/install/)
+- [Overview of docker-compose CLI](https://docs.docker.com/compose/reference/)
 
 You can get a personal access token [here](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token).
 
