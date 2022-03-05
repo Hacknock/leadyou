@@ -9,7 +9,13 @@ COPY package*.json ./
 RUN npm install -g npm@8.5.2
 RUN npm cache verify
 
-RUN npm install
+ARG NODE_ENV
+RUN if [ "${NODE_ENV}" = "production" ]; then \
+  npm install --production; \
+else \
+  npm install; \
+fi
+
 RUN npm install -g pm2
 
 COPY ./app .

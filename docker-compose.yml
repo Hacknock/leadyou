@@ -30,10 +30,12 @@ services:
       WEB_PORT: ${WEB_PORT}
       GITHUB_TOKEN: ${GITHUB_TOKEN}
       MYSQL_DATABASE: ${MYSQL_DATABASE}
+      NODE_ENV: development
     build:
       context: .
       args:
         - WEB_PORT=${WEB_PORT}
+        - NODE_ENV=development
     ports:
       - 127.0.0.1:${WEB_PORT}:${WEB_PORT}
     depends_on:
