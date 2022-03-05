@@ -35,7 +35,7 @@ services:
       context: .
       args:
         - WEB_PORT=${WEB_PORT}
-        - NODE_ENV=${NODE_ENV}
+        - NODE_ENV=development
     ports:
       - 127.0.0.1:${WEB_PORT}:${WEB_PORT}
     depends_on:
