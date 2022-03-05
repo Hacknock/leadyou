@@ -175,40 +175,39 @@ class WrapMultiField extends HTMLElement {
       });
       this.shadowRoot.appendChild(addButton);
     } else if (attr === "alert") {
-      let inputEles = this.shadowRoot.querySelectorAll(".column");
+      const inputEles = this.shadowRoot.querySelectorAll(".column");
       if (newVal === "true") {
-        for (var i = 0; i < inputEles.length; i++) {
+        for (let i = 0; i < inputEles.length; i++) {
           inputEles[i].setAttribute("class", "column style-alert");
         }
       } else {
-        for (var i = 0; i < inputEles.length; i++) {
+        for (let i = 0; i < inputEles.length; i++) {
           inputEles[i].setAttribute("class", "column style-normal");
         }
       }
     } else if (attr === "values") {
       const values = JSON.parse(newVal);
-      let count = 0;
       this.autoFill(values);
     } else if (attr === "placeholder") {
-      let allInputElement = this.shadowRoot.querySelectorAll(".column");
+      const allInputElement = this.shadowRoot.querySelectorAll(".column");
       for (let i = 0; i < allInputElement.length; i++) {
         allInputElement[i].setAttribute("placeholder", newVal);
       }
     } else if (attr === "maxlength") {
       if (typeof newVal !== "undefined") {
         const descEle = this.shadowRoot.querySelector(".short-description");
-        let desc = descEle.textContent;
+        const desc = descEle.textContent;
         const valueMaxlength = newVal;
         descEle.textContent = `${desc} (in ${valueMaxlength} characters or less)`;
         // this.shadowRoot.insertBefore(spanMaxlength, headField);
-        let allInputElement = this.shadowRoot.querySelectorAll(".column");
+        const allInputElement = this.shadowRoot.querySelectorAll(".column");
         for (let i = 0; i < allInputElement.length; i++) {
           allInputElement[i].setAttribute("maxlength", newVal);
         }
       }
     } else if (attr === "required") {
       if (newVal === "true") {
-        let allMarks = this.shadowRoot.querySelectorAll(".mark-required");
+        const allMarks = this.shadowRoot.querySelectorAll(".mark-required");
         for (let i = 0; i < allMarks.length; i++) {
           allMarks[i].setAttribute("class", "mark-required display-required");
         }
@@ -217,7 +216,7 @@ class WrapMultiField extends HTMLElement {
   }
 
   autoFill(values) {
-    let inputEles = this.shadowRoot.querySelectorAll(".column");
+    const inputEles = this.shadowRoot.querySelectorAll(".column");
     const addButton = this.shadowRoot.getElementById("add-button");
     for (const [i, v] of values.entries()) {
       if (inputEles.length > i) {
@@ -233,7 +232,7 @@ class WrapMultiField extends HTMLElement {
 
   deleteField(e) {
     e.target.parentNode.remove();
-    let listField = this.shadowRoot.querySelectorAll(".field");
+    const listField = this.shadowRoot.querySelectorAll(".field");
     if (this.getAttribute("multiple") === "true" && listField.length < 2) {
       const listDeleteButton =
         this.shadowRoot.querySelectorAll(".delete-button");
@@ -258,7 +257,7 @@ class WrapMultiField extends HTMLElement {
     const maxlength = this.getAttribute("maxlength");
     if (typeof newVal !== "undefined") {
       if (Number(maxlength) > 0) {
-        let allInputElement = this.shadowRoot.querySelectorAll(".column");
+        const allInputElement = this.shadowRoot.querySelectorAll(".column");
         for (let i = 0; i < allInputElement.length; i++) {
           allInputElement[i].setAttribute("maxlength", Number(maxlength));
         }
@@ -273,7 +272,7 @@ class WrapMultiField extends HTMLElement {
     deleteButton.addEventListener("click", (e) => {
       this.deleteField(e);
     });
-    let listField = this.shadowRoot.querySelectorAll(".field");
+    const listField = this.shadowRoot.querySelectorAll(".field");
     if (this.getAttribute("multiple") === "true" && listField.length > 0) {
       deleteButton.setAttribute("class", "delete-button display-delete");
 
