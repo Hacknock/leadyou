@@ -9,13 +9,13 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Hacknock/readme-generator-master.git"
+    "url": "git+https://github.com/Hacknock/leadyou.git"
   },
   "author": "Akira Kashihara, Takuto Nakamura",
   "bugs": {
-    "url": "https://github.com/Hacknock/readme-generator-master/issues"
+    "url": "https://github.com/Hacknock/leadyou/issues"
   },
-  "homepage": "https://github.com/Hacknock/readme-generator-master#readme",
+  "homepage": "https://leadyou.hacknock.com/",
   "dependencies": {
     "config": "^3.3.6",
     "express": "^4.17.1",
