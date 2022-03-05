@@ -12,7 +12,7 @@ You can generate README.md with the necessary information by following five step
 ## Access to README Generator
 
 README Generator is a web application.
-Please access the [README Generator](/).
+Please access the [LEADYOU](/).
 
 ## Put your public repository URL and check "Auto Fill"
 
