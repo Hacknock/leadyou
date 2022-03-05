@@ -79,6 +79,7 @@ const setupHelmet = () => {
           "api.github.com",
           "raw.githubusercontent.com",
           "www.google-analytics.com",
+          "blob:"
         ],
         scriptSrc: [
           "'self'",
