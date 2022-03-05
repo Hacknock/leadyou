@@ -10,7 +10,7 @@ RUN npm install -g npm@8.5.2
 RUN npm cache verify
 
 ARG NODE_ENV
-
+RUN echo $NODE_ENV
 RUN if [ "${NODE_ENV}" = "production" ]; then \
   npm install --production; \
 else \
