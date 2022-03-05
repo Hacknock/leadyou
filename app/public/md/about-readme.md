@@ -4,7 +4,7 @@
 
 A README is like a specification that a developer refers to when using the open source or library you created.
 
-> You can add a README file to your repository to tell other people why your project is useful, what they can do with your project, and how they can use it.  
+> You can add a README file to your repository to tell other people why your project is useful, what they can do with your project, and how they can use it.
 > (Quote it from [About READMEs](https://docs.github.com/en/github/creating-cloning-and-archiving-repositories/about-readmes) written by Github.com)
 
 As Github says, the README can be used to show the usefulness of your project, what it can do, and how to use it.
@@ -58,5 +58,5 @@ See [here](https://hacknock.com) for more information about how to contribute RE
 
 ## Let's Write Readme
 
-The form application to generate a README.md according to the above suggested content is available at the following link  
-[Let's write Readme!](https://pullreq.me/how-to-make-readme)
+The form application to generate a README.md according to the above suggested content is available at the following link
+[Let's write Readme!](/)

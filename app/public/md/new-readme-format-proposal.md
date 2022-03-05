@@ -2,14 +2,14 @@
 
 ## What GitHub and Bitbucket mentioned about README.
 
-As we mentioned in [What is README?](https://leadyou.hacknock.com), Github has this to say about README.
+As we mentioned in [What is README?](/page?md=about-readme), Github has this to say about README.
 
-> You can add a README file to your repository to tell other people why your project is useful, what they can do with your project, and how they can use it.  
+> You can add a README file to your repository to tell other people why your project is useful, what they can do with your project, and how they can use it.
 > (Quote it from [About READMEs](https://docs.github.com/en/github/creating-cloning-and-archiving-repositories/about-readmes) written by GitHub)
 
 Bitbucket also says the following about README as well.
 
-> A README is a reference for other users visiting your repository and documents steps for them to get your application up and running. You can either add and edit your README file locally or straight from Bitbucket Cloud.  
+> A README is a reference for other users visiting your repository and documents steps for them to get your application up and running. You can either add and edit your README file locally or straight from Bitbucket Cloud.
 > (Quote it from [README content](https://support.atlassian.com/bitbucket-cloud/docs/readme-content/) written by Bitbucket)
 
 Github says a README should describe what users can do with your project, how they can use it, and why it's useful.
@@ -38,18 +38,18 @@ Here are some of the specifics that we propose to include in our README.
 ### Project Name (Required)
 
 The name of your project is important because it is how you want your users to call you, as well as your brand.
-This field is required in [README Generator](https://generator.hacknock.com).
+This field is required in [README Generator](/makereadme).
 
 ### Badges
 
 To give developers an at-a-glance view of your project's status, it is recommended that you display the badges provided by [Shields IO](https://shields.io/).
-This item is recommended in [README Generator](https://generator.hacknock.com).
+This item is recommended in [README Generator](/makereadme).
 
 ### Tags (Required)
 
 Tags are keywords for your project.
 It is important for users to know the language and framework used in your project at a glance.
-This field is required in the [README Generator](https://generator.hacknock.com).
+This field is required in the [README Generator](/makereadme).
 
 ### Short Description (Required)
 
@@ -62,13 +62,13 @@ _Example_
 > My idea is to solve this problem by providing a simple interface to wrap these codes and handle the hogehoge process.
 > My project provides a wrapper library that you can use to write simple code to handle hogehoge.
 
-This field is required in the [README Generator](https://generator.hacknock.com).
+This field is required in the [README Generator](/makereadme).
 
 ### Demo
 
 This information is for the developer to see your project in action.
 We recommend that you show them how it works with images, especially if it includes a user interface.
-This field is required in the [README Generator](https://generator.hacknock.com).
+This field is required in the [README Generator](/makereadme).
 
 ### Advantages (Required)
 
@@ -82,20 +82,20 @@ _Example_
 > - There are no dependencies with other libraries, and you only need to install this project to use it.
 > - It uses the APIs of the official frameworks, so it works fast.
 
-This field is required in the [README Generator](https://generator.hacknock.com).
+This field is required in the [README Generator](/makereadme).
 
 ### Installation (Required)
 
 This is the information developers need to implement your project.
 Describe the specific ways to implement it.
 Try to write in a reproducible manner. In other words, write scripts for the environment in which you will be running, the dependencies you will need to implement, and the shells you will need to install.
-This field is required in the [README Generator](https://generator.hacknock.com).
+This field is required in the [README Generator](/makereadme).
 
 ### Deployment
 
 This is the information developers will need to deploy your project.
 This may not be necessary for all projects, but please write any code or procedures you need to deploy, such as working with the necessary dependencies.
-This section is recommended in [README Generator](https://generator.hacknock.com).
+This section is recommended in [README Generator](/makereadme).
 
 ### Minimal Example (Required)
 
@@ -103,21 +103,29 @@ This is important information to make it easy for developers to know how to use 
 Look at this section to see how easy it is to use and the code for the actual use of the project.
 This section can also be used to verify that your uses are successful in implementing your project.
 It is likely that your users will refer to this section as a tutorial when they are deploying your project.
-This field is required by [README Generator](https://generator.hacknock.com).
+This field is required by [README Generator](/makereadme).
 
 ### Contributors (Required)
 
 Many large and popular projects have several contributors.
 It is important to know who is involved in your project so that we can recognize the contributions of your project' contributors.
 We believe that rewarding contributors' efforts will help open source to grow.
-This field is required in [README Generator](https://generator.hacknock.com).
+This field is required in [README Generator](/makereadme).
 
 ### Users
 
 Please list any users who use your project.
 This information will help users determine the reliability of your project.
-This is a recommended field in [README Generator](https://generator.hacknock.com).
+This is a recommended field in [README Generator](/makereadme).
+
+## How to Contribute to Our Proposal README Format
+
+We open [LEADYOU](/) source code in [GitHub](https://github.com/Hacknock/leadyou).
+Please add, edit or delete [template.json](https://github.com/Hacknock/leadyou/blob/develop/app/public/plugins/template.json) according to "Minimal Example" in [README.md](https://github.com/Hacknock/leadyou) if you have any idea to improve our proposed README format.
+
+- [LEADYOU source code(on github.com)](https://github.com/Hacknock/leadyou)
 
 ## Edit History
 
 - 2020-08-15) First proposal by Akira Kashihara and Takuto Nakamura
+- 2022-03-05) Add "How to Contribute to Our Proposal README Format" section.
