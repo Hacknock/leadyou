@@ -3,7 +3,7 @@
 echo "mariadb initial setting"
 
 mariadb -u root -p${MYSQL_ROOT_PASSWORD} --execute "
-create table ${MYSQL_DATABASE}.generated (
+create table if not exists ${MYSQL_DATABASE}.generated (
     ts TIMESTAMP,
     owner VARCHAR (256),
     repository VARCHAR (256),
