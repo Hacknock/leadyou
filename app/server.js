@@ -48,14 +48,18 @@ const setupMariaDB = () => {
 // ★★★ Periodic Process ★★★
 const setupCronTask = () => {
   // Updated every morning at 7:00 a.m.
-  cronTask = cron.schedule("0 0 7 * * *", async () => {
-    try {
-      console.log("Update Catalogs Info 🏖");
-      await updateCatalogInfo(18);
-    } catch (err) {
-      console.error(err);
-    }
-  });
+  cronTask = cron.schedule(
+    "0 0 7 * * *",
+    async () => {
+      try {
+        console.log("Update Catalogs Info 🏖");
+        await updateCatalogInfo(18);
+      } catch (err) {
+        console.error(err);
+      }
+    },
+    { timezone: "Asia/Tokyo" }
+  );
 };
 
 // ★★★ Initial Process ★★★
@@ -79,7 +83,7 @@ const setupHelmet = () => {
           "api.github.com",
           "raw.githubusercontent.com",
           "www.google-analytics.com",
-          "blob:"
+          "blob:",
         ],
         scriptSrc: [
           "'self'",
@@ -96,7 +100,7 @@ const setupHelmet = () => {
           "raw.githubusercontent.com",
           "leadyou.hacknock.com",
           "https:",
-          "blob:"
+          "blob:",
         ],
       },
     },
