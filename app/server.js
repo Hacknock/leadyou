@@ -158,6 +158,8 @@ const setupGetRequest = () => {
         await getList(res);
       } else if (method === "updatecatalog") {
         await updateCatalog(res, req.query);
+      } else if (method === "showgeneratedtable") {
+        await showGeneratedTable(res, req.query);
       } else {
         writeBadRequest(res);
       }
@@ -314,26 +316,43 @@ const getList = async (res) => {
   }
 };
 
+// ★★★ API: showGeneratedTable ★★★
+const showGeneratedTable = async (res, query) => {
+  if ("token" in query && query.token === env.LEADYOU_API_TOKEN) {
+    try {
+      let records = Array();
+      if ("limit" in query) {
+        const limit = Math.max(1, parseInt(query.limit) || 1);
+        records = await selectFromGeneratedRepository(limit);
+      } else {
+        records = await selectFromGeneratedRepository();
+      }
+      res.json({ result: "success", records: records });
+    } catch (err) {
+      res.json({ result: "failed" });
+      throw err;
+    }
+  } else {
+    res.json({ result: "failed: this API requires a token" });
+  }
+};
+
 // ★★★ API: updateCatalog ★★★
 const updateCatalog = async (res, query) => {
-  if (env.NODE_ENV === "production") {
-    res.json({ result: "cancelled in production" });
-    return;
-  }
-
-  let limit = 18;
-  if ("limit" in query) {
-    const n = parseInt(query.limit);
-    if (!Number.isNaN(n)) {
-      limit = Math.max(Math.min(n, 18), 1);
+  if ("token" in query && query.token === env.LEADYOU_API_TOKEN) {
+    try {
+      let limit = 18;
+      if ("limit" in query) {
+        limit = Math.max(1, parseInt(query.limit) || 1);
+      }
+      await updateCatalogInfo(limit);
+      res.json({ result: "success", limit: limit });
+    } catch (err) {
+      res.json({ result: "failed" });
+      throw err;
     }
-  }
-  try {
-    await updateCatalogInfo(limit);
-    res.json({ result: "success", limit: limit });
-  } catch (err) {
-    res.json({ result: "failed" });
-    throw err;
+  } else {
+    res.json({ result: "failed: this API requires a token" });
   }
 };
 

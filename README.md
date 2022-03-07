@@ -74,6 +74,7 @@ MYSQL_PORT=[Set MARIADB port number]
 CON_LIMIT=[Set connection limitation number]
 WEB_PORT=[Set APPLICATION port number]
 GITHUB_TOKEN=[Set GitHub personal access token]
+LEADYOU_API_TOKEN=[Set API token]
 ```
 
 Recommendation value
@@ -135,6 +136,26 @@ sudo docker-compose stop
 
 After deployment, you access `http://localhost:[Port number you set]`.
 You should be able to access LEADYOU on your local PC.
+
+### Call LEADYOU API
+
+**Show table of catalog**
+
+- `limit` is the number of records to show.
+- `token` is the environment variable you set in the `.env` file.
+
+```
+http://localhost:[Port number you set]/showGeneratedTable?limit=10&token=[LEADYOU_API_TOKEN]
+```
+
+**Update catalog states**
+
+- `limit` is the number of records to update status (counted from the most recent).
+- `token` is the environment variable you set in the `.env` file.
+
+```
+http://localhost:[Port number you set]/updateCatalog?limit=3&token=[LEADYOU_API_TOKEN you set]
+```
 
 # Minimal Example
 
