@@ -77,6 +77,9 @@ GITHUB_TOKEN=[Set GitHub personal access token]
 LEADYOU_API_TOKEN=[Set API token]
 ```
 
+- Set `GITHUB_TOKEN` to your personal access token of GitHub. Please refer to the _Installation_ section of this README.
+- Set `LEADYOU_API_TOKEN` to any given value (whatever you want).
+
 Recommendation value
 
 ```
@@ -139,23 +142,30 @@ You should be able to access LEADYOU on your local PC.
 
 ### Call LEADYOU API
 
-**Show table of catalog**
+We provide APIs enable you to check LEADYOU's behavior.
 
-- `limit` is the number of records to show.
-- `token` is the environment variable you set in the `.env` file.
+**Show table of generated READMEs.**
+
+This API gives a list of information about README which was generated with LEADYOU on your local environment.
 
 ```
 http://localhost:[Port number you set]/showGeneratedTable?limit=10&token=[LEADYOU_API_TOKEN]
 ```
 
+- `limit` is the number of records to show.
+- `token` is the environment variable you set in the `.env` file.
+
 **Update catalog states**
+
+This API updates state (used/not used) of READMEs which were generated with LEADYOU on your local environment.
+Based on this information, the top page of LEADYOU displays a catalog listing the actual READMEs in use.
+
+```
+http://localhost:[Port number you set]/updateCatalog?limit=3&token=[LEADYOU_API_TOKEN]
+```
 
 - `limit` is the number of records to update status (counted from the most recent).
 - `token` is the environment variable you set in the `.env` file.
-
-```
-http://localhost:[Port number you set]/updateCatalog?limit=3&token=[LEADYOU_API_TOKEN you set]
-```
 
 # Minimal Example
 
