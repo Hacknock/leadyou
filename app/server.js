@@ -363,8 +363,11 @@ const updateCatalogInfo = async (limit) => {
     const promises = records.map((record) => {
       return checkReadmeDefaultBranch(record.owner, record.repository);
     });
-    return Promise.all(promises);
+    const result = Promise.all(promises);
+    webhookUpdateDB("success");
+    return result;
   } catch (err) {
+    webhookUpdateDB("failed");
     throw err;
   }
 };
@@ -474,6 +477,49 @@ const updateGeneratedRepositoryDefaultBranch = async (owner, repo, branch) => {
     if (conn) conn.end();
   }
 };
+
+// ★★★ Discord webhook to monitor DB update ★★★
+
+const webhookUpdateDB = async (status) => {
+  if (!env.LEADYOU_WEBHOOK) {
+    console.error("WEBHOOK URL is not set");
+    return "WEBHOOK URL is not set";
+  }
+  const embeds = {};
+  if (status === "success") {
+    embeds.title = "Success: DB update (LEADYOU)";
+    embeds.color = 3066993; //Green
+    embeds.description = "DB update process is successed.";
+  } else if (status === "failed") {
+    embeds.title = "Failed: DB update (LEADYOU)";
+    embeds.color = 15158332; //Red
+    embeds.description = "An error occurred with update DB process.";
+  } else {
+    embeds.title = "Error: DB update (LEADYOU)";
+    embeds.color = 16705372; // Yellow
+    embeds.description = "The status value is wrong.";
+  }
+
+  const requestURL = env.LEADYOU_WEBHOOK;
+  const options = {
+    mode: "cors",
+    method: 'post',
+    body: JSON.stringify({ "embeds": [embeds] }),
+    headers: {
+      "Content-Type": "application/json; charset=utf-8",
+    },
+  };
+  try {
+    const response = await fetch(requestURL, options);
+    if (response.status !== 204) {
+      console.error("Discord webhook is failed");
+      const json = await response.json();
+      console.log(json);
+    }
+  } catch (err) {
+    console.error(err);
+  }
+}
 
 // ★★★ Main ★★★
 (() => {
