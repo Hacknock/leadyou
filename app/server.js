@@ -53,9 +53,9 @@ const setupCronTask = () => {
     async () => {
       try {
         console.log("Update Catalogs Info 🏖");
-        await updateCatalogInfo(18);
+        await updateCatalogWraper(18);
       } catch (err) {
-        console.error(err);
+        errorDisplay(err);
       }
     },
     { timezone: "Asia/Tokyo" }
@@ -122,7 +122,7 @@ const setupGetRequest = () => {
     try {
       await serveFile(res, "html/index.html", "text/html");
     } catch (err) {
-      console.error(err);
+      errorDisplay(err);
     } finally {
       res.end();
     }
@@ -133,7 +133,7 @@ const setupGetRequest = () => {
     try {
       await serveFile(res, "images/favicon-black.ico", "image/x-icon");
     } catch (err) {
-      console.error(err);
+      errorDisplay(err);
     } finally {
       res.end();
     }
@@ -164,7 +164,7 @@ const setupGetRequest = () => {
         writeBadRequest(res);
       }
     } catch (err) {
-      console.error(err);
+      errorDisplay(err);
     } finally {
       res.end();
     }
@@ -197,7 +197,7 @@ const setupGetRequest = () => {
         writeBadRequest(res);
       }
     } catch (err) {
-      console.error(err);
+      errorDisplay(err);
     } finally {
       res.end();
     }
@@ -345,7 +345,7 @@ const updateCatalog = async (res, query) => {
       if ("limit" in query) {
         limit = Math.max(1, parseInt(query.limit) || 1);
       }
-      await updateCatalogInfo(limit);
+      await updateCatalogWraper(limit);
       res.json({ result: "success", limit: limit });
     } catch (err) {
       res.json({ result: "failed" });
@@ -356,6 +356,17 @@ const updateCatalog = async (res, query) => {
   }
 };
 
+const updateCatalogWraper = async (limit) => {
+  try {
+    const affectedRows = await updateCatalogInfo(limit);
+    const num = affectedRows.reduce((sum, ele) => sum + (ele || 0), 0);
+    webhookUpdateDB("success", num);
+  } catch (err) {
+    webhookUpdateDB("failed");
+    throw err;
+  }
+}
+
 // ★★★ Fetch & Update Catalog Info ★★★
 const updateCatalogInfo = async (limit) => {
   try {
@@ -363,11 +374,8 @@ const updateCatalogInfo = async (limit) => {
     const promises = records.map((record) => {
       return checkReadmeDefaultBranch(record.owner, record.repository);
     });
-    const result = Promise.all(promises);
-    webhookUpdateDB("success");
-    return result;
+    return Promise.all(promises);
   } catch (err) {
-    webhookUpdateDB("failed");
     throw err;
   }
 };
@@ -375,9 +383,10 @@ const updateCatalogInfo = async (limit) => {
 const checkReadmeDefaultBranch = async (owner, repo) => {
   try {
     const branch = await fetchReadme(owner, repo);
-    await updateGeneratedRepositoryDefaultBranch(owner, repo, branch);
+    return await updateGeneratedRepositoryDefaultBranch(owner, repo, branch);
   } catch (err) {
-    console.error(err);
+    errorDisplay(err);
+    return 0;
   }
 };
 
@@ -467,10 +476,11 @@ const updateGeneratedRepositoryDefaultBranch = async (owner, repo, branch) => {
   try {
     conn = await pool.getConnection();
     // Update the timestamp and default branch.
-    await conn.query(
-      "update generated set ts = ts, branch = ? where owner = ? and repository = ?",
-      [branch, owner, repo]
+    const result = await conn.query(
+      "update generated set ts = ts, branch = ? where owner = ? and repository = ? and (branch != ? or branch is null)",
+      [branch, owner, repo, branch]
     );
+    return result.affectedRows;
   } catch (err) {
     throw err;
   } finally {
@@ -480,16 +490,16 @@ const updateGeneratedRepositoryDefaultBranch = async (owner, repo, branch) => {
 
 // ★★★ Discord webhook to monitor DB update ★★★
 
-const webhookUpdateDB = async (status) => {
+const webhookUpdateDB = async (status, num = 0) => {
   if (!env.LEADYOU_WEBHOOK) {
-    console.error("WEBHOOK URL is not set");
-    return "WEBHOOK URL is not set";
+    console.info("WEBHOOK URL is not set");
+    return;
   }
   const embeds = {};
   if (status === "success") {
     embeds.title = "Success: DB update (LEADYOU)";
     embeds.color = 3066993; //Green
-    embeds.description = "DB update process is successed.";
+    embeds.description = `${num} rows are affected on this DB update.`;
   } else if (status === "failed") {
     embeds.title = "Failed: DB update (LEADYOU)";
     embeds.color = 15158332; //Red
@@ -512,13 +522,17 @@ const webhookUpdateDB = async (status) => {
   try {
     const response = await fetch(requestURL, options);
     if (response.status !== 204) {
-      console.error("Discord webhook is failed");
+      errorDisplay("Discord webhook is failed");
       const json = await response.json();
       console.log(json);
     }
   } catch (err) {
-    console.error(err);
+    errorDisplay(err);
   }
+}
+
+const errorDisplay = (err) => {
+  console.error(`🚨🚨🚨\n${err}`);
 }
 
 // ★★★ Main ★★★
