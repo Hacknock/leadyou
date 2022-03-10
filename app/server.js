@@ -365,7 +365,7 @@ const updateCatalogWraper = async (limit) => {
     webhookUpdateDB("failed");
     throw err;
   }
-}
+};
 
 // ★★★ Fetch & Update Catalog Info ★★★
 const updateCatalogInfo = async (limit) => {
@@ -513,8 +513,8 @@ const webhookUpdateDB = async (status, num = 0) => {
   const requestURL = env.LEADYOU_WEBHOOK;
   const options = {
     mode: "cors",
-    method: 'post',
-    body: JSON.stringify({ "embeds": [embeds] }),
+    method: "post",
+    body: JSON.stringify({ embeds: [embeds] }),
     headers: {
       "Content-Type": "application/json; charset=utf-8",
     },
@@ -529,11 +529,11 @@ const webhookUpdateDB = async (status, num = 0) => {
   } catch (err) {
     errorDisplay(err);
   }
-}
+};
 
 const errorDisplay = (err) => {
   console.error(`🚨🚨🚨\n${err}`);
-}
+};
 
 // ★★★ Main ★★★
 (() => {
