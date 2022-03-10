@@ -75,10 +75,12 @@ CON_LIMIT=[Set connection limitation number]
 WEB_PORT=[Set APPLICATION port number]
 GITHUB_TOKEN=[Set GitHub personal access token]
 LEADYOU_API_TOKEN=[Set API token]
+LEADYOU_WEBHOOK=[Discord webhook URL]
 ```
 
 - Set `GITHUB_TOKEN` to your personal access token of GitHub. Please refer to the _Installation_ section of this README.
 - Set `LEADYOU_API_TOKEN` to any given value (whatever you want).
+- Set `LEADYOU_WEBHOOK` to your discord webhook URL which is issued with the [guidance](https://support.discord.com/hc/en-us/articles/228383668-Intro-to-Webhooks).
 
 Recommendation value
 

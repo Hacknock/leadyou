@@ -32,6 +32,7 @@ services:
       MYSQL_DATABASE: ${MYSQL_DATABASE}
       NODE_ENV: development
       LEADYOU_API_TOKEN: ${LEADYOU_API_TOKEN}
+      LEADYOU_WEBHOOK: ${LEADYOU_WEBHOOK}
     build:
       context: .
       args:

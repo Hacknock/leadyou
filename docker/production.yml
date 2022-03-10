@@ -6,6 +6,7 @@ services:
   web:
     environment:
       NODE_ENV: production
+      LEADYOU_WEBHOOK: ${LEADYOU_WEBHOOK}
     build:
       args:
         - NODE_ENV=production
