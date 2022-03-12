@@ -195,7 +195,7 @@ const loadCatalog = async () => {
 // ★★★ Cookie Manager ★★★
 const hideAgreementCookie = () => {
   document.getElementById("attention-cookie").style.display = "none";
-  document.getElementsByClassName("dummy-footer")[0].style.display = "none";
+  document.getElementsByClassName("agreement-dummy")[0].style.display = "none";
 };
 
 const setupCookieManager = () => {
