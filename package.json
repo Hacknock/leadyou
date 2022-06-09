@@ -23,7 +23,8 @@
     "helmet": "^5.0.2",
     "mariadb": "^2.5.5",
     "node-cron": "^3.0.0",
-    "node-fetch": "^2.6.6"
+    "node-fetch": "^2.6.6",
+    "uuid": "^8.3.2"
   },
   "devDependencies": {
     "jest": "^27.5.1"
