@@ -428,7 +428,9 @@ const fetchReadme = async (owner, repo) => {
     const response = await fetch(requestURL, options);
     const json = await response.json();
     if (!("content" in json)) {
-      if ("message" in json) throw new Error(json.message);
+      if ("message" in json) {
+        throw new Error(json.message);
+      }
       throw new Error("failed to fetch readme");
     }
     const base64str = json["content"];
