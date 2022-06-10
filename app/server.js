@@ -388,7 +388,9 @@ const checkReadmeDefaultBranch = async (owner, repo) => {
     if (~err.toString().indexOf("Not Found")) {
       try {
         const affectedRows = await deleteDeletedRepository(owner, repo);
-        if (affectedRows != 1) throw new Error("Deleting a row is failed.");
+        if (affectedRows != 1) {
+          throw new Error("Deleting a row is failed.");
+        }
       } catch (err) {
         errorDisplay(err);
       }
