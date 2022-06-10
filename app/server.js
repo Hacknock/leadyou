@@ -385,8 +385,34 @@ const checkReadmeDefaultBranch = async (owner, repo) => {
     const branch = await fetchReadme(owner, repo);
     return await updateGeneratedRepositoryDefaultBranch(owner, repo, branch);
   } catch (err) {
+    if (err.toString().indexOf("Not Found") != -1) {
+      try {
+        const affectedRows = await deleteDeletedRepository(owner, repo);
+        if (affectedRows != 1) {
+          throw new Error("Deleting a row is failed.");
+        }
+      } catch (err) {
+        errorDisplay(err);
+      }
+    }
     errorDisplay(err);
     return 0;
+  }
+};
+
+const deleteDeletedRepository = async (owner, repo) => {
+  let conn;
+  try {
+    conn = await pool.getConnection();
+    const result = await conn.query(
+      "delete from generated where owner = ? and repository = ?",
+      [owner, repo]
+    );
+    return result.affectedRows;
+  } catch (err) {
+    throw err;
+  } finally {
+    if (conn) conn.end();
   }
 };
 
@@ -404,6 +430,9 @@ const fetchReadme = async (owner, repo) => {
     const response = await fetch(requestURL, options);
     const json = await response.json();
     if (!("content" in json)) {
+      if ("message" in json) {
+        throw new Error(json.message);
+      }
       throw new Error("failed to fetch readme");
     }
     const base64str = json["content"];
