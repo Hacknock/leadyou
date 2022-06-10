@@ -385,7 +385,7 @@ const checkReadmeDefaultBranch = async (owner, repo) => {
     const branch = await fetchReadme(owner, repo);
     return await updateGeneratedRepositoryDefaultBranch(owner, repo, branch);
   } catch (err) {
-    if (~err.toString().indexOf("Not Found")) {
+    if (err.toString().indexOf("Not Found") != -1) {
       try {
         const affectedRows = await deleteDeletedRepository(owner, repo);
         if (affectedRows != 1) {
