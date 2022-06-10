@@ -10,6 +10,6 @@ create table if not exists ${MYSQL_DATABASE}.generated (
     branch VARCHAR (256) NULL
 );"
 
-mariadb -u root -p${MYSQL_ROOT_PASSWORD} --execute "grant select,update,insert on leadyou.* to '${MYSQL_USER}'@'%';"
+mariadb -u root -p${MYSQL_ROOT_PASSWORD} --execute "grant select,update,insert,delete on leadyou.* to '${MYSQL_USER}'@'%';"
 
 echo "The mariadb initial setting is finished.🍻"
