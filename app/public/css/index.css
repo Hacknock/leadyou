@@ -1,4 +1,4 @@
-/* 
+/*
  Copyright 2022 Hacknock
 
    Licensed under the Apache License, Version 2.0 (the "License");
@@ -177,7 +177,6 @@ p.readmes-title {
   padding: 16px 0;
   bottom: 0;
   width: 100%;
-  /* min-width: 750px; */
   height: auto;
   background-color: #ff8a65;
   color: white;
@@ -236,9 +235,10 @@ span#counter {
   font-size: medium;
 }
 
-/* ☆☆☆☆☆ Dummy Footer ☆☆☆☆☆ */
-.dummy-footer {
-  margin: 0;
-  width: 100%;
-  height: 150px;
+div.agreement-dummy {
+  padding: 16px;
+  font-size: 12px;
+  text-align: left;
+  background-color: #616161;
+  color: #616161;
 }
