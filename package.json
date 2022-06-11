@@ -22,7 +22,7 @@
     "fs": "0.0.1-security",
     "helmet": "^5.0.2",
     "mariadb": "^2.5.5",
-    "node-cron": "^3.0.0",
+    "node-schedule": "^2.1.0",
     "node-fetch": "^2.6.6",
     "uuid": "^8.3.2"
   },
