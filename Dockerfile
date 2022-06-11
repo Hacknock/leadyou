@@ -12,9 +12,9 @@ RUN npm cache verify
 ARG NODE_ENV
 RUN if [ "${NODE_ENV}" = "production" ]; then \
   npm install --production; \
-else \
+  else \
   npm install; \
-fi
+  fi
 
 RUN npm install -g pm2
 
@@ -22,4 +22,4 @@ COPY ./app .
 
 EXPOSE ${WEB_PORT}
 
-CMD ["pm2-runtime", "server.js"]
+CMD ["pm2-runtime", "server.js", "--max-memory-restart","250M"]
