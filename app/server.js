@@ -69,6 +69,7 @@ const setupEndProcess = () => {
       await cronJob.gracefulShutdown();
       await pool.end();
     } catch (err) {
+      errorDisplay(err);
       process.exit(1);
     }
     process.exit(0);
