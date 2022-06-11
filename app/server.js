@@ -31,9 +31,6 @@ const env = process.env;
 // *** Global Variables ***
 let pool;
 let cronTask;
-const rule = new schedule.RecurrenceRule();
-rule.hour = 7;
-rule.tz = "Asia/Tokyo";
 
 // *** MariaDB connection ***
 const setupMariaDB = () => {
@@ -50,6 +47,9 @@ const setupMariaDB = () => {
 
 // ★★★ Periodic Process ★★★
 const setupCronTask = () => {
+  const rule = new schedule.RecurrenceRule();
+  rule.hour = 7;
+  rule.tz = "Asia/Tokyo";
   // Updated every morning at 7:00 a.m.
   cronTask = schedule.scheduleJob(rule, async () => {
     try {
