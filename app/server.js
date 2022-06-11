@@ -30,7 +30,7 @@ const env = process.env;
 
 // *** Global Variables ***
 let pool;
-let cronTask;
+let cronJob;
 
 // *** MariaDB connection ***
 const setupMariaDB = () => {
@@ -46,12 +46,12 @@ const setupMariaDB = () => {
 };
 
 // ★★★ Periodic Process ★★★
-const setupCronTask = () => {
+const setupCronJob = () => {
   const rule = new schedule.RecurrenceRule();
   rule.hour = 7;
   rule.tz = "Asia/Tokyo";
   // Updated every morning at 7:00 a.m.
-  cronTask = schedule.scheduleJob(rule, async () => {
+  cronJob = schedule.scheduleJob(rule, async () => {
     try {
       console.log("Update Catalogs Info 🏖");
       await updateCatalogWraper(18);
@@ -66,7 +66,7 @@ const setupEndProcess = () => {
   process.on("SIGINT", () => {
     console.log("Keyboard Interrupt 🏂");
     pool.end();
-    cronTask.stop();
+    cronJob.cancel();
     process.exit(0);
   });
 };
@@ -567,7 +567,7 @@ const errorDisplay = (err) => {
 (() => {
   setupMariaDB();
 
-  setupCronTask();
+  setupCronJob();
   setupEndProcess();
   setupHelmet();
 
