@@ -66,7 +66,7 @@ const setupEndProcess = () => {
   process.on("SIGINT", () => {
     console.log("Keyboard Interrupt 🏂");
     pool.end();
-    cronJob.cancel();
+    cronJob.gracefulShutdown();
     process.exit(0);
   });
 };
