@@ -65,8 +65,12 @@ const setupCronJob = () => {
 const setupEndProcess = () => {
   process.on("SIGINT", async () => {
     console.log("Keyboard Interrupt 🏂");
-    await pool.end();
-    await cronJob.gracefulShutdown();
+    try {
+      await cronJob.gracefulShutdown();
+      await pool.end();
+    } catch (err) {
+      process.exit(1);
+    }
     process.exit(0);
   });
 };
