@@ -25,12 +25,15 @@ const helmet = require("helmet");
 const fs = require("fs").promises;
 const mariadb = require("mariadb");
 const fetch = require("node-fetch");
-const cron = require("node-cron");
+const schedule = require("node-schedule");
 const env = process.env;
 
 // *** Global Variables ***
 let pool;
 let cronTask;
+const rule = new schedule.RecurrenceRule();
+rule.hour = 7;
+rule.tz = "Asia/Tokyo";
 
 // *** MariaDB connection ***
 const setupMariaDB = () => {
@@ -48,18 +51,14 @@ const setupMariaDB = () => {
 // ★★★ Periodic Process ★★★
 const setupCronTask = () => {
   // Updated every morning at 7:00 a.m.
-  cronTask = cron.schedule(
-    "0 0 7 * * *",
-    async () => {
-      try {
-        console.log("Update Catalogs Info 🏖");
-        await updateCatalogWraper(18);
-      } catch (err) {
-        errorDisplay(err);
-      }
-    },
-    { timezone: "Asia/Tokyo" }
-  );
+  cronTask = schedule.scheduleJob(rule, async () => {
+    try {
+      console.log("Update Catalogs Info 🏖");
+      await updateCatalogWraper(18);
+    } catch (err) {
+      errorDisplay(err);
+    }
+  });
 };
 
 // ★★★ Initial Process ★★★
