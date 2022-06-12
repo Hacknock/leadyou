@@ -49,6 +49,7 @@ const setupMariaDB = () => {
 const setupCronJob = () => {
   const rule = new schedule.RecurrenceRule();
   rule.hour = 7;
+  rule.minute = 0;
   rule.tz = "Asia/Tokyo";
   // Updated every morning at 7:00 a.m.
   cronJob = schedule.scheduleJob(rule, async () => {
