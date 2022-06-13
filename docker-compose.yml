@@ -47,28 +47,3 @@ services:
       - backend
 networks:
   backend:
-  # web:
-  #   container_name: hacknock_web
-  #   environment:
-  #     HOST: db
-  #     MYSQL_USER: ${MYSQL_USER}
-  #     MYSQL_PASSWORD: ${MYSQL_PASSWORD}
-  #     CON_LIMIT: ${CON_LIMIT}
-  #     WEB_PORT: ${WEB_PORT}
-  #     GITHUB_TOKEN: ${GITHUB_TOKEN}
-  #     MYSQL_DATABASE: ${MYSQL_DATABASE}
-  #     NODE_ENV: development
-  #     LEADYOU_API_TOKEN: ${LEADYOU_API_TOKEN}
-  #     LEADYOU_WEBHOOK: ${LEADYOU_WEBHOOK}
-  #   build:
-  #     context: .
-  #     args:
-  #       - WEB_PORT=${WEB_PORT}
-  #       - NODE_ENV=development
-  #   ports:
-  #     - 127.0.0.1:${WEB_PORT}:${WEB_PORT}
-  #   depends_on:
-  #     db:
-  #       condition: service_healthy
-  #   networks:
-  #     - backend
