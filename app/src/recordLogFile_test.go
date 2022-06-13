@@ -6,7 +6,7 @@ import (
 
 func TestRecordLogFile(t *testing.T) {
 	rec, err := RecordLogFile("Hello")
-	if rec != "[2022-06-13 19:52][Error] - Hello" || err != nil {
+	if rec != "[2022-06-13 19:52][Error] - Hell" || err != nil {
 		t.Fatal("Does not much record or err exists.")
 	}
 }
