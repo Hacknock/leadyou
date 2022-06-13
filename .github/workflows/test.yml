@@ -1,0 +1,36 @@
+name: Readily Test
+
+on:
+  push:
+    branches:
+      - dev-*
+
+jobs:
+  readily_test:
+    runs-on: ubuntu-20.04
+    timeout-minutes: 5
+    env:
+      HOST: ${{secrets.HOST}}
+      MYSQL_ROOT_PASSWORD: ${{secrets.MYSQL_ROOT_PASSWORD}}
+      MYSQL_DATABASE: ${{secrets.MYSQL_DATABASE}}
+      MYSQL_USER: ${{secrets.MYSQL_USER}}
+      MYSQL_PASSWORD: ${{secrets.MYSQL_PASSWORD}}
+      MYSQL_PORT: ${{secrets.MYSQL_PORT}}
+      WEB_PORT: ${{secrets.WEB_PORT}}
+      CON_LIM: ${{secrets.CON_LIM}}
+      GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+      LEADYOU_API_TOKEN: ${{secrets.LEADYOU_API_TOKEN}}
+      LEADYOU_WEBHOOK: ${{secrets.LEADYOU_WEBHOOK}}
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Shutdown MariaDB
+        run: sudo service mysql stop
+
+      - name: Run docker-compose
+        shell: bash
+        run: |
+          touch .env
+          docker-compose -v
+          docker-compose up --build --abort-on-container-exit
+        working-directory: ./
