@@ -19,14 +19,15 @@ func (r RecordLogFile) Error(mess string) (rec string, err error) {
 	// Check the existing of directory
 	if _, err := os.Stat(r.path); os.IsNotExist(err) {
 		os.Mkdir(r.path, 0777)
-		return "", nil
+	} else if err != nil {
+		return "", err
 	}
 
 	// File open or create
 	f, err := os.OpenFile(r.path+"/"+r.file_name, os.O_CREATE|os.O_RDWR|os.O_APPEND, 0600)
 	if err != nil {
 		log.Fatal(err)
-		return "", nil
+		return "", err
 	}
 	defer f.Close()
 
