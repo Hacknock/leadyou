@@ -19,12 +19,14 @@ func (r RecordLogFile) Error(mess string) (rec string, err error) {
 	// Check the existing of directory
 	if _, err := os.Stat(r.path); os.IsNotExist(err) {
 		os.Mkdir(r.path, 0777)
+		return "", nil
 	}
 
 	// File open or create
 	f, err := os.OpenFile(r.path+"/"+r.file_name, os.O_CREATE|os.O_RDWR|os.O_APPEND, 0600)
 	if err != nil {
 		log.Fatal(err)
+		return "", nil
 	}
 	defer f.Close()
 
@@ -32,8 +34,10 @@ func (r RecordLogFile) Error(mess string) (rec string, err error) {
 	_, er := f.WriteString("[" + t.Format(time.RFC3339) + "][Error] - " + mess + "\n")
 	if er != nil {
 		log.Fatal(er)
+		return "", er
 	}
 
+	// To output the log to terminal
 	log.Println("[" + t.Format(time.RFC3339) + "][Error] - " + mess)
 	return "[" + t.Format(time.RFC3339) + "][Error] - " + mess, nil
 }
