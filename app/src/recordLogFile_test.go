@@ -1,18 +1,18 @@
 package recordLogFile
 
 import (
+	"bufio"
+	"os"
 	"testing"
 	"time"
-	"os"
-	"bufio"
 )
 
 func TestRecordLogFile(t *testing.T) {
 	mess := "Hello"
 	tim := time.Now()
-	recordLogFile := RecordLogFile{0, "test/test"}
+	recordLogFile := RecordLogFile{0, "test/test.txt"}
 	rec, err := recordLogFile.Error(mess)
-	if rec != "[" + tim.Format(time.RFC3339) + "][Error] - " + mess || err != nil {
+	if rec != "["+tim.Format(time.RFC3339)+"][Error] - "+mess || err != nil {
 		t.Fatal("Does not much record or err exists.")
 	}
 
@@ -30,10 +30,11 @@ func TestRecordLogFile(t *testing.T) {
 		line = scanner.Text()
 	}
 
-	if erro:= scanner.Err(); erro != nil {
+	if erro := scanner.Err(); erro != nil {
 		t.Fatal("Sccaner Error.")
 	}
-	if line != "[" + tim.Format(time.RFC3339) + "][Error] - " + mess {
+	if line != "["+tim.Format(time.RFC3339)+"][Error] - "+mess {
 		t.Fatal("No match written line.")
 	}
+
 }
