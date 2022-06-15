@@ -43,7 +43,7 @@ func (r RecordLogFile) temp(time_data string, cate string, mess string) (rec str
 	return mess_line, nil
 }
 
-// The function to record logs to file.
+// The function to record Error to file.
 func (r RecordLogFile) Error(mess string) (rec string, err error) {
 
 	// Get the current time
@@ -51,6 +51,22 @@ func (r RecordLogFile) Error(mess string) (rec string, err error) {
 
 	// Write the line and output it to stdout
 	res, err := r.temp(t.Format(time.RFC3339), "Error", mess)
+	if err != nil {
+		log.Fatal(err)
+		return "", err
+	}
+
+	return res, nil
+}
+
+// The function to record Warn to file.
+func (r RecordLogFile) Warn(mess string) (rec string, err error) {
+
+	// Get the current time
+	t := time.Now()
+
+	// Write the line and output it to stdout
+	res, err := r.temp(t.Format(time.RFC3339), "Warn", mess)
 	if err != nil {
 		log.Fatal(err)
 		return "", err
