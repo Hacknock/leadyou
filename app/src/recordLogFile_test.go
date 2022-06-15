@@ -224,3 +224,85 @@ func TestDebug(t *testing.T) {
 		l++
 	}
 }
+
+func TestOutputLevel(t *testing.T) {
+
+	// Message List
+	mess := []string{"Good night", "This is a test", "Testing", "Cat🐱"}
+
+	// Initialize recordLogFile0, All logs output
+	recordLogFile0 := RecordLogFile{0, "./test", "log0.txt"}
+	_, err := recordLogFile0.Debug(mess[0])
+	if err != nil {
+		t.Fatal("recordLogFile0.Debug throws error but it should not throw it.")
+	}
+	_, err = recordLogFile0.Log(mess[1])
+	if err != nil {
+		t.Fatal("recordLogFile0.Log throws error but it should not throw it.")
+	}
+	_, err = recordLogFile0.Warn(mess[2])
+	if err != nil {
+		t.Fatal("recordLogFile0.Warn throws error but it should not throw it.")
+	}
+	_, err = recordLogFile0.Error(mess[3])
+	if err != nil {
+		t.Fatal("recordLogFile0.Error throws error but it should not throw it.")
+	}
+
+	// Initialize recordLogFile1, logs except for Debug
+	recordLogFile1 := RecordLogFile{1, "./test", "log1.txt"}
+	_, err = recordLogFile1.Debug(mess[0])
+	if err == nil {
+		t.Fatal("recordLogFile1.Debug does not throw error but it should throw it.")
+	}
+	_, err = recordLogFile1.Log(mess[1])
+	if err != nil {
+		t.Fatal("recordLogFile1.Log throws error but it should not throw it.")
+	}
+	_, err = recordLogFile1.Warn(mess[2])
+	if err != nil {
+		t.Fatal("recordLogFile1.Warn throws error but it should not throw it.")
+	}
+	_, err = recordLogFile1.Error(mess[3])
+	if err != nil {
+		t.Fatal("recordLogFile1.Error throws error but it should not throw it.")
+	}
+
+	// Initialize recordLogFile1, output Warn and Error
+	recordLogFile2 := RecordLogFile{2, "./test", "log2.txt"}
+	_, err = recordLogFile2.Debug(mess[0])
+	if err == nil {
+		t.Fatal("recordLogFile2.Debug does not throw error but it should throw it.")
+	}
+	_, err = recordLogFile2.Log(mess[1])
+	if err == nil {
+		t.Fatal("recordLogFile2.Log does not throw error but it should throw it.")
+	}
+	_, err = recordLogFile2.Warn(mess[2])
+	if err != nil {
+		t.Fatal("recordLogFile2.Warn throws error but it should not throw it.")
+	}
+	_, err = recordLogFile2.Error(mess[3])
+	if err != nil {
+		t.Fatal("recordLogFile2.Error throws error but it should not throw it.")
+	}
+
+	// Initialize recordLogFile1, output Warn and Error
+	recordLogFile3 := RecordLogFile{3, "./test", "log3.txt"}
+	_, err = recordLogFile3.Debug(mess[0])
+	if err == nil {
+		t.Fatal("recordLogFile3.Debug does not throw error but it should throw it.")
+	}
+	_, err = recordLogFile3.Log(mess[1])
+	if err == nil {
+		t.Fatal("recordLogFile3.Log does not throw error but it should throw it.")
+	}
+	_, err = recordLogFile3.Warn(mess[2])
+	if err == nil {
+		t.Fatal("recordLogFile3.Warn does not throw error but it should throw it.")
+	}
+	_, err = recordLogFile3.Error(mess[3])
+	if err != nil {
+		t.Fatal("recordLogFile3.Error throws error but it should not throw it.")
+	}
+}

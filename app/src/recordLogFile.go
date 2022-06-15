@@ -1,6 +1,7 @@
 package recordLogFile
 
 import (
+	"errors"
 	"log"
 	"os"
 	"time"
@@ -62,6 +63,10 @@ func (r RecordLogFile) Error(mess string) (rec string, err error) {
 // The function to record Warn to file.
 func (r RecordLogFile) Warn(mess string) (rec string, err error) {
 
+	if r.level >= 3 {
+		return "", errors.New("This method will record and output Warn less than 2.")
+	}
+
 	// Get the current time
 	t := time.Now()
 
@@ -78,6 +83,10 @@ func (r RecordLogFile) Warn(mess string) (rec string, err error) {
 // The function to record Log to file.
 func (r RecordLogFile) Log(mess string) (rec string, err error) {
 
+	if r.level >= 2 {
+		return "", errors.New("This method will record and output Log less than 1.")
+	}
+
 	// Get the current time
 	t := time.Now()
 
@@ -93,6 +102,10 @@ func (r RecordLogFile) Log(mess string) (rec string, err error) {
 
 // The function to record Debug to file.
 func (r RecordLogFile) Debug(mess string) (rec string, err error) {
+
+	if r.level >= 1 {
+		return "", errors.New("This method will record and output Log when level is 0.")
+	}
 
 	// Get the current time
 	t := time.Now()
