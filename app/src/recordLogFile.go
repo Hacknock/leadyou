@@ -12,6 +12,7 @@ type RecordLogFile struct {
 	file_name string
 }
 
+// The template function to record and output a log line
 func (r RecordLogFile) temp(time_data string, cate string, mess string) (rec string, err error) {
 	// The message line
 	mess_line := "[" + time_data + "][" + cate + "] - " + mess
