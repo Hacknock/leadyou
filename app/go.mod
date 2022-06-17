@@ -1,3 +1,16 @@
-module github.com/Hacknock/leadyou
+module Hacknock/leadyou
 
 go 1.18
+
+replace Hacknock/recordLog => ./src/appTier/recordLog
+
+replace Hacknock/monitorMemory => ./src/dataTier/monitorMemory
+
+replace Hacknock/recordLine => ./src/dataTier/recordLine/
+
+require (
+	Hacknock/monitorMemory v0.0.0-00010101000000-000000000000
+	Hacknock/recordLog v0.0.0-00010101000000-000000000000
+)
+
+require Hacknock/recordLine v0.0.0-00010101000000-000000000000 // indirect
