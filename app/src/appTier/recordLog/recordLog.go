@@ -15,10 +15,10 @@ type RecordLog struct {
 // The function to record Error to file.
 func (r RecordLog) Error(mess string) (rec string, err error) {
 	// record function instance
-	recordL := recordLine.RecordLine{r.Path, r.File_name}
+	recordL := recordLine.RecordLine{Path: r.Path, File_name: r.File_name}
 
 	// Write the line and output it to stdout
-	res, err := recordL.Record("Error", mess, true, true)
+	res, _, err := recordL.Record("Error", mess, true, true)
 	if err != nil {
 		log.Fatal(err)
 		return "", err
@@ -35,10 +35,10 @@ func (r RecordLog) Warn(mess string) (rec string, err error) {
 	}
 
 	// record function instance
-	recordL := recordLine.RecordLine{r.Path, r.File_name}
+	recordL := recordLine.RecordLine{Path: r.Path, File_name: r.File_name}
 
 	// Write the line and output it to stdout
-	res, err := recordL.Record("Warn", mess, true, true)
+	res, _, err := recordL.Record("Warn", mess, true, true)
 	if err != nil {
 		log.Fatal(err)
 		return "", err
@@ -55,10 +55,10 @@ func (r RecordLog) Log(mess string) (rec string, err error) {
 	}
 
 	// record function instance
-	recordL := recordLine.RecordLine{r.Path, r.File_name}
+	recordL := recordLine.RecordLine{Path: r.Path, File_name: r.File_name}
 
 	// Write the line and output it to stdout
-	res, err := recordL.Record("Log", mess, true, true)
+	res, _, err := recordL.Record("Log", mess, true, true)
 	if err != nil {
 		log.Fatal(err)
 		return "", err
@@ -75,10 +75,10 @@ func (r RecordLog) Debug(mess string) (rec string, err error) {
 	}
 
 	// record function instance
-	recordL := recordLine.RecordLine{r.Path, r.File_name}
+	recordL := recordLine.RecordLine{Path: r.Path, File_name: r.File_name}
 
 	// Write the line and output it to stdout
-	res, err := recordL.Record("Debug", mess, true, true)
+	res, _, err := recordL.Record("Debug", mess, true, true)
 	if err != nil {
 		log.Fatal(err)
 		return "", err
