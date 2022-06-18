@@ -2,7 +2,6 @@ package monitorMemory
 
 import (
 	"bufio"
-	"log"
 	"os"
 	"strings"
 	"testing"
