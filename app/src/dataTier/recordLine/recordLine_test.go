@@ -15,7 +15,7 @@ func TestRecordBothOut(t *testing.T) {
 	tim := time.Now()
 
 	// Initialize recordLine
-	recordLine := RecordLine{Path: "./testg", File_name: "loga.txt"}
+	recordLine := RecordLine{Path: "./testg", File_name: "logabc.txt"}
 
 	// Make the arguments
 	mess := []string{"Hello World", "This is a test"}
@@ -60,7 +60,7 @@ func TestRecordOnlyFileOut(t *testing.T) {
 	tim := time.Now()
 
 	// Initialize recordLine
-	recordLine := RecordLine{Path: "./testg", File_name: "logb.txt"}
+	recordLine := RecordLine{Path: "./testg", File_name: "logcba.txt"}
 
 	// Make the arguments
 	mess := []string{"Hello World", "This is a test"}
