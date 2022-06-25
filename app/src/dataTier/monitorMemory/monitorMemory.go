@@ -12,7 +12,7 @@ type MonitorMemory struct {
 	File_name string
 }
 
-func (m MonitorMemory) recMemory(to_console bool, to_file bool) (rec string, console_out bool, err error) {
+func (m MonitorMemory) RecMemory(to_console bool, to_file bool) (rec string, console_out bool, err error) {
 
 	recordL := recordLine.RecordLine{Path: m.Path, File_name: m.File_name}
 

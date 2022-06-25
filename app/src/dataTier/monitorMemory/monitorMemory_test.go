@@ -17,7 +17,7 @@ func TestMonitorMemoryBothOut(t *testing.T) {
 	mess_line := "[" + time_data + "][Memory] - "
 
 	rm := MonitorMemory{Path: "./memory", File_name: "loga.txt"}
-	rec, console_out, err := rm.recMemory(true, true)
+	rec, console_out, err := rm.RecMemory(true, true)
 
 	if !strings.HasPrefix(rec, mess_line) || console_out == false || err != nil {
 		t.Fatal("TestMonitorMemoryConsole is failed.")
@@ -52,7 +52,7 @@ func TestMonitorMemoryConsoleOut(t *testing.T) {
 	mess_line := "[" + time_data + "][Memory] - "
 
 	rm := MonitorMemory{Path: "./memory/log", File_name: "loga.txt"}
-	rec, console_out, err := rm.recMemory(true, false)
+	rec, console_out, err := rm.RecMemory(true, false)
 
 	if !strings.HasPrefix(rec, mess_line) || console_out == false || err != nil {
 		t.Fatal("TestMonitorMemoryConsole is failed.")
@@ -75,7 +75,7 @@ func TestMonitorMemoryFileOut(t *testing.T) {
 	mess_line := "[" + time_data + "][Memory] - "
 
 	rm := MonitorMemory{Path: "./memory/hoge", File_name: "loga.txt"}
-	rec, console_out, err := rm.recMemory(false, true)
+	rec, console_out, err := rm.RecMemory(false, true)
 
 	if !strings.HasPrefix(rec, mess_line) || console_out == true || err != nil {
 		t.Fatal("TestMonitorMemoryConsole is failed.")
