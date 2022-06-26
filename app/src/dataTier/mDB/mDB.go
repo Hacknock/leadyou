@@ -19,6 +19,7 @@ type WhereParams struct {
 	Repo  string
 }
 
+// Open's document; https://github.com/go-sql-driver/mysql/wiki/Examples
 func (m MDB) Open() (db *sql.DB, err error) {
 	db, er := sql.Open("mysql", m.User+":"+m.Password+"@"+"tcp("+m.Host+":3306)"+"/"+m.Database)
 	if er != nil {
