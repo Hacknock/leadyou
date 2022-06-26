@@ -92,10 +92,17 @@ WEB_PORT=3000
 
 ### Test
 
-We prepare the test code to check the connection between the app and MariaDB. Please run the following command.
+We make the test code for each function. If you run them, please execute the following command on the directory which has docker-compose.yml in terminal.
 
 ```sh
-sudo docker-compose -f docker-compose.yml -f ./docker/test.yml up --build --abort-on-container-exit
+sudo docker-compose -f docker-compose.yml -f docker-compose-test.yml up --build --abort-on-container-exit
+```
+
+If you want to run the test codes without docker, please execute the following command on `app` directory which has server.go in terminal after establishing MySQL.
+
+```sh
+go get github.com/go-sql-driver/mysql
+sh test.sh
 ```
 
 ### Deploy
@@ -108,7 +115,13 @@ Please run the following command on the top-level directory of this repository.
 sudo docker-compose up --build
 ```
 
-Please type `ctrl+c` if you close docker.
+or, you execute the following command in `app` directory.
+
+```sh
+go run server.go
+```
+
+Please type `ctrl+c` if you close it.
 
 **Run without log output (daemon)**
 
