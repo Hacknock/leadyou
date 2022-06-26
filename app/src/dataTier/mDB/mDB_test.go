@@ -11,5 +11,6 @@ func TestHello(t *testing.T) {
 		User:     os.Getenv("MYSQL_USER"),
 		Password: os.Getenv("MYSQL_PASSWORD"),
 		Database: os.Getenv("MYSQL_DATABASE")}
-	mdb.Test()
+	para := WhereParams{Owner: "Hacknock", Repo: "Test"}
+	mdb.InsertRepo(para)
 }
