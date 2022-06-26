@@ -41,6 +41,7 @@ func TestOpen(t *testing.T) {
 	if err == nil {
 		t.Fatal("The connection is established.")
 	}
+	db.Close()
 }
 
 func TestHello(t *testing.T) {
