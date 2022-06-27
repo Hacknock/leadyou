@@ -18,6 +18,18 @@ type WhereParams struct {
 	Repo  string
 }
 
+type RepoInfo struct {
+	Owner  string
+	Repo   string
+	Branch string
+}
+
+// Get repository information
+func (m MDB) GetRepoInfo(p WhereParams) (RepoInfo, error) {
+	val := RepoInfo{Owner: p.Owner, Repo: p.Repo, Branch: "main"}
+	return val, nil
+}
+
 // Open's document; https://github.com/go-sql-driver/mysql/wiki/Examples
 func (m MDB) Open() (*sql.DB, error) {
 	db, err := sql.Open("mysql", m.User+":"+m.Password+"@"+"tcp("+m.Host+":3306)"+"/"+m.Database)
