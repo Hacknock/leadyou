@@ -35,7 +35,7 @@ func (m MDB) GetRepoInfo(p WhereParams) (RepoInfo, error) {
 
 	var owner, repo, branch *string
 
-	err = db.QueryRow(`select owner, repository, branch from leadyou.generated where owner = ? and repository = ?`, p.Owner, p.Repo).Scan(&owner, &repo, &branch)
+	err = db.QueryRow(`select owner, repository, branch from `+m.Database+`.generated where owner = ? and repository = ?`, p.Owner, p.Repo).Scan(&owner, &repo, &branch)
 
 	if err != nil {
 		return RepoInfo{}, err
