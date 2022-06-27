@@ -2,7 +2,6 @@ package mDB
 
 import (
 	"database/sql"
-	"log"
 
 	_ "github.com/go-sql-driver/mysql"
 )
@@ -20,11 +19,15 @@ type WhereParams struct {
 }
 
 // Open's document; https://github.com/go-sql-driver/mysql/wiki/Examples
-func (m MDB) Open() (db *sql.DB, err error) {
-	db, er := sql.Open("mysql", m.User+":"+m.Password+"@"+"tcp("+m.Host+":3306)"+"/"+m.Database)
-	if er != nil {
-		log.Fatal(er)
-		return nil, err
+func (m MDB) Open() (*sql.DB, error) {
+	db, err := sql.Open("mysql", m.User+":"+m.Password+"@"+"tcp("+m.Host+":3306)"+"/"+m.Database)
+	if err != nil {
+		return db, err
+	}
+
+	err = db.Ping()
+	if err != nil {
+		return db, err
 	}
 	return db, nil
 }
@@ -32,7 +35,6 @@ func (m MDB) Open() (db *sql.DB, err error) {
 func (m MDB) InsertRepo(p WhereParams) error {
 	db, err := m.Open()
 	if err != nil {
-		log.Fatal(err)
 		return err
 	}
 	defer db.Close()
