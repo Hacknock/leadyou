@@ -9,10 +9,10 @@ create table if not exists ${MYSQL_DATABASE}.generated (
     repository VARCHAR (256),
     branch VARCHAR (256) NULL
 );
-insert into generated(owner, repository, branch)
+insert into ${MYSQL_DATABASE}.generated(owner, repository, branch)
 values('Hacknock', 'test', 'main');
 
-insert into generated(owner, repository)
+insert into ${MYSQL_DATABASE}.generated(owner, repository)
 values('Hacknock', 'hogehoge');
 "
 

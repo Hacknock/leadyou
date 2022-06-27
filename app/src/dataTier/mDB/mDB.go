@@ -26,7 +26,29 @@ type RepoInfo struct {
 
 // Get repository information
 func (m MDB) GetRepoInfo(p WhereParams) (RepoInfo, error) {
-	val := RepoInfo{Owner: p.Owner, Repo: p.Repo, Branch: "main"}
+	// Establish the connection to DB
+	db, err := m.Open()
+	if err != nil {
+		return RepoInfo{}, err
+	}
+	defer db.Close()
+
+	var owner, repo, branch *string
+
+	err = db.QueryRow(`select owner, repository, branch from leadyou.generated where owner = ? and repository = ?`, p.Owner, p.Repo).Scan(&owner, &repo, &branch)
+
+	if err != nil {
+		return RepoInfo{}, err
+	}
+
+	var val RepoInfo
+
+	if branch == nil {
+		val = RepoInfo{Owner: *owner, Repo: *repo, Branch: ""}
+	} else {
+		val = RepoInfo{Owner: *owner, Repo: *repo, Branch: *branch}
+	}
+
 	return val, nil
 }
 

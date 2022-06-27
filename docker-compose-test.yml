@@ -1,4 +1,7 @@
 version: "3"
 services:
+  db:
+    volumes:
+      - ./sql/test:/docker-entrypoint-initdb.d
   web:
     command: ["sh", "test.sh"]

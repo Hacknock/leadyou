@@ -1,7 +1,6 @@
 package main
 
 import (
-	"Hacknock/mDB"
 	"Hacknock/monitorMemory"
 	"Hacknock/recordLog"
 	"fmt"
@@ -19,12 +18,11 @@ func main() {
 	r.Error("Hahaha")
 	m := monitorMemory.MonitorMemory{Path: "./test", File_name: "memory.txt"}
 	m.RecMemory(true, true)
-	mdb := mDB.MDB{
-		Host:     "db",
-		User:     os.Getenv("MYSQL_USER"),
-		Password: os.Getenv("MYSQL_PASSWORD"),
-		Database: os.Getenv("MYSQL_DATABASE")}
-	mdb.Test()
+	// mdb := mDB.MDB{
+	// 	Host:     "db",
+	// 	User:     os.Getenv("MYSQL_USER"),
+	// 	Password: os.Getenv("MYSQL_PASSWORD"),
+	// 	Database: os.Getenv("MYSQL_DATABASE")}
 	fmt.Print("Server Start")
 	fmt.Fprintf(os.Stdout, "Hello World")
 	log.Println("ニャホニャホタマクロー")

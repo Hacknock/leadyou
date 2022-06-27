@@ -8,9 +8,9 @@ services:
       MYSQL_DATABASE: ${MYSQL_DATABASE}
       MYSQL_USER: ${MYSQL_USER}
       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
-    # command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci --wait-timeout=90000
+    command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci --wait-timeout=90000
     volumes:
-      - ./sql:/docker-entrypoint-initdb.d
+      - ./sql/prod:/docker-entrypoint-initdb.d
     ports:
       - 127.0.0.1:${MYSQL_PORT}:${MYSQL_PORT}
     networks:
