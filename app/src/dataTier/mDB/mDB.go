@@ -27,14 +27,43 @@ type RepoInfo struct {
 
 // Get repository information does not have branch
 func (m MDB) GetRepoBranchNil(num int) ([]RepoInfo, error) {
-	correct := []RepoInfo{
-		RepoInfo{Owner: "Hacknock", Repo: "hogehoge", Branch: ""},
-		RepoInfo{Owner: "neconecopo", Repo: "esa", Branch: ""},
-		RepoInfo{Owner: "penguin", Repo: "sakana", Branch: ""},
-		RepoInfo{Owner: "dog", Repo: "ball", Branch: ""},
-		RepoInfo{Owner: "mouse", Repo: "cheese", Branch: ""},
+	// Make a connection to DB
+	db, err := m.Open()
+	if err != nil {
+		return []RepoInfo{}, err
 	}
-	return correct, nil
+	defer db.Close()
+
+	rows, err := db.Query("SELECT * FROM leadyou.generated where branch is null order by ts desc limit ?", num)
+	if err != nil {
+		return []RepoInfo{}, err
+	}
+	// Get column names
+	columns, err := rows.Columns()
+	if err != nil {
+		return []RepoInfo{}, err
+	}
+
+	values := make([]sql.RawBytes, len(columns)) // Allocate the length of slice
+
+	scanArgs := make([]interface{}, len(values))
+	for i := range values {
+		scanArgs[i] = &values[i]
+	}
+
+	var returnedValue []RepoInfo
+
+	for rows.Next() {
+		err = rows.Scan(scanArgs...)
+		if err != nil {
+			return []RepoInfo{}, err
+		}
+
+		v := RepoInfo{Owner: string(values[1]), Repo: string(values[2]), Branch: ""}
+		returnedValue = append(returnedValue, v)
+	}
+
+	return returnedValue, nil
 }
 
 // Insert repository information

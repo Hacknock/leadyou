@@ -38,6 +38,25 @@ func TestGetRepoBranchNil(t *testing.T) {
 			}
 		}
 	}
+
+	correct = []RepoInfo{
+		RepoInfo{Owner: "penguin", Repo: "sakana", Branch: ""},
+		RepoInfo{Owner: "dog", Repo: "ball", Branch: ""},
+		RepoInfo{Owner: "mouse", Repo: "cheese", Branch: ""},
+	}
+
+	infos, err = mdb.GetRepoBranchNil(3) // Get repository information does not have branch
+	for _, k := range infos {
+		for i, j := range correct {
+			if j == k {
+				fmt.Println("🐬match")
+				break
+			}
+			if i+1 == len(correct) {
+				t.Fatal("not found")
+			}
+		}
+	}
 }
 
 func TestInsert(t *testing.T) {
