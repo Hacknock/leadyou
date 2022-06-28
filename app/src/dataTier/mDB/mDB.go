@@ -25,6 +25,46 @@ type RepoInfo struct {
 	Branch string
 }
 
+func (m MDB) GetRepoBranchNotNil(num int) ([]RepoInfo, error) {
+	// Make a connection to DB
+	db, err := m.Open()
+	if err != nil {
+		return []RepoInfo{}, err
+	}
+	defer db.Close()
+
+	rows, err := db.Query("SELECT * FROM leadyou.generated where branch is not null order by ts desc limit ?", num)
+	if err != nil {
+		return []RepoInfo{}, err
+	}
+	// Get column names
+	columns, err := rows.Columns()
+	if err != nil {
+		return []RepoInfo{}, err
+	}
+
+	values := make([]sql.RawBytes, len(columns)) // Allocate the length of slice
+
+	scanArgs := make([]interface{}, len(values))
+	for i := range values {
+		scanArgs[i] = &values[i]
+	}
+
+	var returnedValue []RepoInfo
+
+	for rows.Next() {
+		err = rows.Scan(scanArgs...)
+		if err != nil {
+			return []RepoInfo{}, err
+		}
+
+		v := RepoInfo{Owner: string(values[1]), Repo: string(values[2]), Branch: string(values[3])}
+		returnedValue = append(returnedValue, v)
+	}
+
+	return returnedValue, nil
+}
+
 // Get repository information does not have branch
 func (m MDB) GetRepoBranchNil(num int) ([]RepoInfo, error) {
 	// Make a connection to DB
