@@ -3,6 +3,7 @@ package mDB
 import (
 	"database/sql"
 	"errors"
+	"time"
 
 	_ "github.com/go-sql-driver/mysql"
 )
@@ -23,6 +24,29 @@ type RepoInfo struct {
 	Owner  string
 	Repo   string
 	Branch string
+}
+
+func (m MDB) UpdateTsRepo(p WhereParams) error {
+	// Make a connection to DB
+	db, err := m.Open()
+	if err != nil {
+		return err
+	}
+	defer db.Close()
+
+	// update
+	stmtIns, err := db.Prepare("update " + m.Database + ".generated set ts = ? where owner = ? and repository = ?")
+	if err != nil {
+		return errors.New(err.Error())
+	}
+	defer stmtIns.Close() // Close the statement when we leave main() / the program terminates
+
+	time_now := time.Now()
+	const layout = "2006-01-02 15:04:05"
+	time_data := time_now.Format(layout)
+
+	stmtIns.Exec(time_data, p.Owner, p.Repo)
+	return nil
 }
 
 func (m MDB) DeleteRepo(p WhereParams) error {

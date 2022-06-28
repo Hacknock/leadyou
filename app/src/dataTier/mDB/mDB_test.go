@@ -5,6 +5,41 @@ import (
 	"testing"
 )
 
+func TestUpdateTsRepo(t *testing.T) {
+	// Make a handle
+	mdb := MDB{
+		Host:     "db",
+		User:     os.Getenv("MYSQL_USER"),
+		Password: os.Getenv("MYSQL_PASSWORD"),
+		Database: os.Getenv("MYSQL_DATABASE")}
+	db, err := mdb.Open()
+	if db == nil || err != nil {
+		t.Fatal("Unexpected the return value on Open() with valid arguments on TestUpdateTsRepo")
+	}
+
+	// parameter to delete the record
+	param := WhereParams{Owner: "deletedTest", Repo: "test"}
+
+	err = mdb.UpdateTsRepo(param)
+	if err != nil {
+		t.Fatal("Failed to update ts")
+	}
+
+	var ts string
+
+	err = db.QueryRow(`select ts from `+os.Getenv("MYSQL_DATABASE")+`.generated where owner = ? and repository = ?`, param.Owner, param.Repo).Scan(&ts)
+	defer db.Close()
+
+	if err != nil {
+		t.Fatal("Failed to check ts after updating")
+	}
+
+	if ts == "2042-06-27 04:02:32" {
+		t.Fatal("ts was not updated.")
+	}
+
+}
+
 func TestDeleteRepo(t *testing.T) {
 	// Make a handle
 	mdb := MDB{
