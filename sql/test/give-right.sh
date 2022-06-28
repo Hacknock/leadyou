@@ -13,7 +13,22 @@ insert into ${MYSQL_DATABASE}.generated(owner, repository, branch)
 values('Hacknock', 'test', 'main');
 
 insert into ${MYSQL_DATABASE}.generated(owner, repository)
+values('Hahaha', 'cook');
+
+insert into ${MYSQL_DATABASE}.generated(owner, repository)
 values('Hacknock', 'hogehoge');
+
+insert into ${MYSQL_DATABASE}.generated(owner, repository)
+values('neconecopo', 'esa');
+
+insert into ${MYSQL_DATABASE}.generated(owner, repository)
+values('penguin', 'sakana');
+
+insert into ${MYSQL_DATABASE}.generated(owner, repository)
+values('dog', 'ball');
+
+insert into ${MYSQL_DATABASE}.generated(owner, repository)
+values('mouse', 'cheese');
 "
 
 mysql -u root -p${MYSQL_ROOT_PASSWORD} --execute "grant select,update,insert,delete on leadyou.* to '${MYSQL_USER}'@'%';"

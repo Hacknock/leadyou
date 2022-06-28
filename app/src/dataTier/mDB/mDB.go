@@ -25,6 +25,18 @@ type RepoInfo struct {
 	Branch string
 }
 
+// Get repository information does not have branch
+func (m MDB) GetRepoBranchNil(num int) ([]RepoInfo, error) {
+	correct := []RepoInfo{
+		RepoInfo{Owner: "Hacknock", Repo: "hogehoge", Branch: ""},
+		RepoInfo{Owner: "neconecopo", Repo: "esa", Branch: ""},
+		RepoInfo{Owner: "penguin", Repo: "sakana", Branch: ""},
+		RepoInfo{Owner: "dog", Repo: "ball", Branch: ""},
+		RepoInfo{Owner: "mouse", Repo: "cheese", Branch: ""},
+	}
+	return correct, nil
+}
+
 // Insert repository information
 func (m MDB) InsertRepo(p WhereParams) error {
 	db, err := m.Open()

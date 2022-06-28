@@ -1,9 +1,44 @@
 package mDB
 
 import (
+	"fmt"
 	"os"
 	"testing"
 )
+
+func TestGetRepoBranchNil(t *testing.T) {
+	// Make a handle
+	mdb := MDB{
+		Host:     "db",
+		User:     os.Getenv("MYSQL_USER"),
+		Password: os.Getenv("MYSQL_PASSWORD"),
+		Database: os.Getenv("MYSQL_DATABASE")}
+	db, err := mdb.Open()
+	if db == nil || err != nil {
+		t.Fatal("Unexpected the return value on Open() with valid arguments")
+	}
+
+	correct := []RepoInfo{
+		RepoInfo{Owner: "Hacknock", Repo: "hogehoge", Branch: ""},
+		RepoInfo{Owner: "neconecopo", Repo: "esa", Branch: ""},
+		RepoInfo{Owner: "penguin", Repo: "sakana", Branch: ""},
+		RepoInfo{Owner: "dog", Repo: "ball", Branch: ""},
+		RepoInfo{Owner: "mouse", Repo: "cheese", Branch: ""},
+	}
+
+	infos, err := mdb.GetRepoBranchNil(5) // Get repository information does not have branch
+	for _, k := range infos {
+		for i, j := range correct {
+			if j == k {
+				fmt.Println("🐬match")
+				break
+			}
+			if i+1 == len(correct) {
+				t.Fatal("not found")
+			}
+		}
+	}
+}
 
 func TestInsert(t *testing.T) {
 	// Make a handle
