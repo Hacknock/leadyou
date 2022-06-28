@@ -25,6 +25,24 @@ type RepoInfo struct {
 	Branch string
 }
 
+func (m MDB) DeleteRepo(p WhereParams) error {
+	// Make a connection to DB
+	db, err := m.Open()
+	if err != nil {
+		return err
+	}
+	defer db.Close()
+
+	stmtIns, err := db.Prepare("delete from " + m.Database + ".generated where owner = ? and repository = ?")
+	if err != nil {
+		return errors.New(err.Error())
+	}
+	defer stmtIns.Close() // Close the statement when we leave main() / the program terminates
+
+	stmtIns.Exec(p.Owner, p.Repo)
+	return nil
+}
+
 func (m MDB) GetRepoBranchNotNil(num int) ([]RepoInfo, error) {
 	// Make a connection to DB
 	db, err := m.Open()

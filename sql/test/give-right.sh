@@ -10,6 +10,9 @@ create table if not exists ${MYSQL_DATABASE}.generated (
     branch VARCHAR (256) NULL
 );
 insert into ${MYSQL_DATABASE}.generated(ts, owner, repository, branch)
+values('2042-06-27 04:02:32', 'deletedTest', 'test', 'main');
+
+insert into ${MYSQL_DATABASE}.generated(ts, owner, repository, branch)
 values('2042-06-27 04:02:32', 'Hacknock', 'test', 'main');
 
 insert into ${MYSQL_DATABASE}.generated(ts, owner, repository, branch)
