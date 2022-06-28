@@ -26,6 +26,29 @@ type RepoInfo struct {
 	Branch string
 }
 
+func (m MDB) UpdateDefaultBranch(p RepoInfo) error {
+	// Make a connection to DB
+	db, err := m.Open()
+	if err != nil {
+		return err
+	}
+	defer db.Close()
+
+	// update
+	stmtIns, err := db.Prepare("update " + m.Database + ".generated set branch = ? where owner = ? and repository = ?")
+	if err != nil {
+		return errors.New(err.Error())
+	}
+	defer stmtIns.Close() // Close the statement when we leave main() / the program terminates
+
+	_, err = stmtIns.Exec(p.Branch, p.Owner, p.Repo)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
 func (m MDB) UpdateTsRepo(p WhereParams) error {
 	// Make a connection to DB
 	db, err := m.Open()
@@ -45,7 +68,10 @@ func (m MDB) UpdateTsRepo(p WhereParams) error {
 	const layout = "2006-01-02 15:04:05"
 	time_data := time_now.Format(layout)
 
-	stmtIns.Exec(time_data, p.Owner, p.Repo)
+	_, err = stmtIns.Exec(time_data, p.Owner, p.Repo)
+	if err != nil {
+		return err
+	}
 	return nil
 }
 
@@ -63,7 +89,10 @@ func (m MDB) DeleteRepo(p WhereParams) error {
 	}
 	defer stmtIns.Close() // Close the statement when we leave main() / the program terminates
 
-	stmtIns.Exec(p.Owner, p.Repo)
+	_, err = stmtIns.Exec(p.Owner, p.Repo)
+	if err != nil {
+		return err
+	}
 	return nil
 }
 

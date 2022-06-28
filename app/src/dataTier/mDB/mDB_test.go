@@ -1,9 +1,46 @@
 package mDB
 
 import (
+	"fmt"
 	"os"
 	"testing"
 )
+
+func TestUpdateDefaultBranch(t *testing.T) {
+	// Make a handle
+	mdb := MDB{
+		Host:     "db",
+		User:     os.Getenv("MYSQL_USER"),
+		Password: os.Getenv("MYSQL_PASSWORD"),
+		Database: os.Getenv("MYSQL_DATABASE")}
+	db, err := mdb.Open()
+	if db == nil || err != nil {
+		t.Fatal("Unexpected the return value on Open() with valid arguments on TestUpdateTsRepo")
+	}
+
+	param := RepoInfo{Owner: "branchChangeTest", Repo: "test", Branch: "develop"}
+
+	err = mdb.UpdateDefaultBranch(param)
+	if err != nil {
+		t.Fatal("Failed to update the default branch of the repository.")
+	}
+
+	var branch string
+
+	err = db.QueryRow(`select branch from `+os.Getenv("MYSQL_DATABASE")+`.generated where owner = ? and repository = ?`, param.Owner, param.Repo).Scan(&branch)
+	defer db.Close()
+
+	fmt.Println("🐙🐳")
+	fmt.Println(branch)
+
+	if err != nil {
+		t.Fatal("Failed to get branch from repository")
+	}
+
+	if branch == "main" {
+		t.Fatal("The default branch was not changed.")
+	}
+}
 
 func TestUpdateTsRepo(t *testing.T) {
 	// Make a handle
