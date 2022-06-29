@@ -2,7 +2,6 @@ package mDB
 
 import (
 	"Hacknock/typeName"
-	"fmt"
 	"os"
 	"testing"
 )
@@ -30,9 +29,6 @@ func TestUpdateDefaultBranch(t *testing.T) {
 
 	err = db.QueryRow(`select branch from `+os.Getenv("MYSQL_DATABASE")+`.generated where owner = ? and repository = ?`, param.Owner, param.Repo).Scan(&branch)
 	defer db.Close()
-
-	fmt.Println("🐙🐳")
-	fmt.Println(branch)
 
 	if err != nil {
 		t.Fatal("Failed to get branch from repository")
