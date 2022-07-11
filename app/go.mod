@@ -18,7 +18,7 @@ require (
 
 require (
 	Hacknock/recordLine v0.0.0-00010101000000-000000000000 // indirect
-	github.com/go-sql-driver/mysql v1.6.0 // indirect
+	github.com/mattn/go-sqlite3 v1.14.14 // indirect
 )
 
 replace Hacknock/mDB => ./src/dataTier/mDB
