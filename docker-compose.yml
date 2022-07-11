@@ -5,7 +5,6 @@ services:
     environment:
       WEB_PORT: ${WEB_PORT}
       GITHUB_TOKEN: ${GITHUB_TOKEN}
-      MYSQL_DATABASE: ${MYSQL_DATABASE}
       NODE_ENV: development
       LEADYOU_API_TOKEN: ${LEADYOU_API_TOKEN}
       LEADYOU_WEBHOOK: ${LEADYOU_WEBHOOK}
