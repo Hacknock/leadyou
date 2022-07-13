@@ -16,11 +16,6 @@ type MDB struct {
 	Test     bool
 }
 
-// type WhereParams struct {
-// 	Owner string
-// 	Repo  string
-// }
-
 type RepoInfo struct {
 	Owner  string
 	Repo   string
@@ -262,13 +257,24 @@ func (m MDB) InsertRepo(p typeName.WhereParams) error {
 	}
 	defer db.Close()
 
-	stmtIns, err := db.Prepare("insert into generated(owner, repository) values( ?, ? )")
+	// Make a transaction
+	tx, err := db.Begin()
+	if err != nil {
+		return err
+	}
+
+	stmtIns, err := tx.Prepare("insert into generated(owner, repository) values( ?, ? )")
 	if err != nil {
 		return errors.New(err.Error())
 	}
 	defer stmtIns.Close() // Close the statement when we leave main() / the program terminates
-
 	stmtIns.Exec(p.Owner, p.Repo)
+
+	err = tx.Commit() //Commit insert statement
+	if err != nil {
+		return err
+	}
+
 	return nil
 }
 
@@ -299,17 +305,3 @@ func (m MDB) GetRepoInfo(p typeName.WhereParams) (RepoInfo, error) {
 
 	return val, nil
 }
-
-// // Open's document; https://github.com/go-sql-driver/mysql/wiki/Examples
-// func (m MDB) Open() (*sql.DB, error) {
-// 	db, err := sql.Open("mysql", m.User+":"+m.Password+"@"+"tcp("+m.Host+":3306)"+"/"+m.Database)
-// 	if err != nil {
-// 		return db, err
-// 	}
-
-// 	err = db.Ping()
-// 	if err != nil {
-// 		return db, err
-// 	}
-// 	return db, nil
-// }
