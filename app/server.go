@@ -1,11 +1,12 @@
 package main
 
 import (
-	"Hacknock/gitHubAPI"
-	"Hacknock/mDB"
-	"Hacknock/monitorMemory"
-	"Hacknock/recordLog"
-	"Hacknock/typeName"
+	// "Hacknock/gitHubAPI"
+	// "Hacknock/mDB"
+	// "Hacknock/monitorMemory"
+	// "Hacknock/recordLog"
+	// "Hacknock/typeName"
+	// "Hacknock/getRepoData"
 	"encoding/json"
 	"fmt"
 	"net/http"
@@ -34,6 +35,7 @@ func termTask() {
 		select {
 		case <-ticker.C:
 			fmt.Printf("🐭 %d\n", count)
+			// UpdateCatalog
 			count++
 		}
 	}
@@ -137,7 +139,7 @@ func main() {
 
 			w.Header().Set("Content-Type", "application/json")
 			w.Write(res)
-			// updateCatalog(query)
+			// showGeneratedTable(query)
 		} else {
 			fmt.Print("😹")
 			http.NotFound(w, r)
