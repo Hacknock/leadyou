@@ -4,7 +4,6 @@ import (
 	"Hacknock/typeName"
 	"database/sql"
 	"errors"
-	"fmt"
 	"time"
 
 	_ "github.com/mattn/go-sqlite3"
@@ -34,50 +33,54 @@ func (m MDB) Init() (*sql.DB, error) {
     ts DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     owner VARCHAR (256),
     repository VARCHAR (256),
-    branch VARCHAR (256) NULL
+    branch VARCHAR (256) NULL,
+		unique(owner, repository)
 	);`
 
 	sqlTest := `
-	insert into generated(ts, owner, repository, branch)
+	insert or ignore into generated(ts, owner, repository, branch)
 	values('2030-06-27 04:02:32', 'deletedTest', 'test', 'main');
 
-	insert into generated(ts, owner, repository, branch)
+	insert or ignore into generated(ts, owner, repository, branch)
 	values('2030-06-27 05:02:32', 'branchChangeTest', 'test', 'main');
 
-	insert into generated(ts, owner, repository, branch)
+	insert or ignore into generated(ts, owner, repository, branch)
 	values('2042-06-27 04:02:32', 'Hacknock', 'test', 'main');
 
-	insert into generated(ts, owner, repository, branch)
+	insert or ignore into generated(ts, owner, repository, branch)
 	values('2042-06-27 04:03:32', 'panda', 'hogehoge', 'main');
 
-	insert into generated(ts, owner, repository, branch)
+	insert or ignore into generated(ts, owner, repository, branch)
 	values('2042-06-27 04:04:32', 'bird', 'esa', 'develop');
 
-	insert into generated(ts, owner, repository, branch)
+	insert or ignore into generated(ts, owner, repository, branch)
 	values('2042-06-27 04:05:32', 'cup', 'sakana', 'chance');
 
-	insert into generated(ts, owner, repository, branch)
+	insert or ignore into generated(ts, owner, repository, branch)
 	values('2042-06-27 04:06:32', 'clock', 'ball', 'change');
 
-	insert into generated(ts, owner, repository, branch)
+	insert or ignore into generated(ts, owner, repository, branch)
 	values('2042-06-27 04:07:32', 'world', 'cheese', 'bug-fix');
 
-	insert into generated(ts, owner, repository)
+	insert or ignore into generated(ts, owner, repository)
 	values('2042-06-27 04:02:32', 'Hahaha', 'cook');
 
-	insert into generated(ts, owner, repository)
+	insert or ignore into generated(ts, owner, repository)
 	values('2042-06-28 04:02:42','Hacknock', 'hogehoge');
 
-	insert into generated(ts, owner, repository)
+	insert or ignore into generated(ts, owner, repository)
 	values('2042-06-28 04:03:32','neconecopo', 'esa');
 
-	insert into generated(ts, owner, repository)
+	insert or ignore into generated(ts, owner, repository)
 	values('2042-06-28 04:03:42','penguin', 'sakana');
 
-	insert into generated(ts, owner, repository)
+	insert or ignore into generated(ts, owner, repository, branch)
+	values('2042-06-28 04:03:45','esa', 'tori', 'hoge');
+
+	insert or ignore into generated(ts, owner, repository)
 	values('2042-06-28 04:04:52','dog', 'ball');
 
-	insert into generated(ts, owner, repository)
+	insert or ignore into generated(ts, owner, repository)
 	values('2042-06-28 04:05:32','mouse', 'cheese');
 	`
 
@@ -152,9 +155,6 @@ func (m MDB) DeleteRepo(p typeName.WhereParams) error {
 	}
 	defer db.Close()
 
-	fmt.Println("🐬")
-	fmt.Println(p.Owner, p.Repo)
-
 	stmtIns, err := db.Prepare("delete from generated where owner = ? and repository = ?")
 	if err != nil {
 		return errors.New(err.Error())
@@ -176,7 +176,7 @@ func (m MDB) GetRepoBranchNotNil(num int) ([]RepoInfo, error) {
 	}
 	defer db.Close()
 
-	rows, err := db.Query("SELECT * FROM leadyou.generated where branch is not null order by ts desc limit ?", num)
+	rows, err := db.Query("SELECT * FROM generated where branch is not null order by ts desc limit ?", num)
 	if err != nil {
 		return []RepoInfo{}, err
 	}
@@ -209,7 +209,7 @@ func (m MDB) GetRepoBranchNotNil(num int) ([]RepoInfo, error) {
 }
 
 // Get repository information does not have branch
-func (m MDB) GetRepoBranchNil(num int) ([]RepoInfo, error) {
+func (m MDB) GetRepoBranchAll(num int) ([]RepoInfo, error) {
 	// Make a connection to DB
 	db, err := m.Init()
 	if err != nil {
@@ -217,7 +217,7 @@ func (m MDB) GetRepoBranchNil(num int) ([]RepoInfo, error) {
 	}
 	defer db.Close()
 
-	rows, err := db.Query("SELECT * FROM leadyou.generated where branch is null order by ts desc limit ?", num)
+	rows, err := db.Query("SELECT * FROM generated order by ts desc limit ?", num)
 	if err != nil {
 		return []RepoInfo{}, err
 	}
@@ -241,8 +241,13 @@ func (m MDB) GetRepoBranchNil(num int) ([]RepoInfo, error) {
 		if err != nil {
 			return []RepoInfo{}, err
 		}
+		var v RepoInfo
+		if values[3] == nil {
+			v = RepoInfo{Owner: string(values[1]), Repo: string(values[2]), Branch: ""}
+		} else {
+			v = RepoInfo{Owner: string(values[1]), Repo: string(values[2]), Branch: string(values[3])}
+		}
 
-		v := RepoInfo{Owner: string(values[1]), Repo: string(values[2]), Branch: ""}
 		returnedValue = append(returnedValue, v)
 	}
 

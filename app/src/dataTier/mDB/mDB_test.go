@@ -123,14 +123,7 @@ func TestDeleteRepo(t *testing.T) {
 	err = db.QueryRow(`select ts from generated where owner = ? and repository = ?`, param.Owner, param.Repo).Scan(&ts)
 	defer db.Close()
 
-	fmt.Print("🐡")
-	fmt.Println(ts)
-
-	// // Check the record to be deleted
-	// info, err = sqdb.GetRepoInfo(param)
-
 	if err == nil {
-		fmt.Print("🐙")
 		fmt.Println(info.Owner, info.Repo, info.Branch)
 		t.Fatal("Unexpected the return value of GetRepoInfo() after deleting on TestDeleteRepo\n")
 	}
@@ -150,14 +143,19 @@ func TestGetRepoBranchNotNil(t *testing.T) {
 	}
 
 	correct := []RepoInfo{
-		{Owner: "panda", Repo: "hogehoge", Branch: "main"},
 		{Owner: "bird", Repo: "esa", Branch: "develop"},
 		{Owner: "cup", Repo: "sakana", Branch: "chance"},
 		{Owner: "clock", Repo: "ball", Branch: "change"},
 		{Owner: "world", Repo: "cheese", Branch: "bug-fix"},
+		{Owner: "esa", Repo: "tori", Branch: "hoge"},
 	}
 
 	infos, err := sqdb.GetRepoBranchNotNil(5) // Get repository information does not have branch
+
+	if err != nil {
+		t.Fatal(err.Error())
+	}
+
 	for _, k := range infos {
 		for i, j := range correct {
 			if j == k {
@@ -170,13 +168,17 @@ func TestGetRepoBranchNotNil(t *testing.T) {
 	}
 
 	correct = []RepoInfo{
-		{Owner: "bird", Repo: "esa", Branch: "develop"},
 		{Owner: "cup", Repo: "sakana", Branch: "chance"},
 		{Owner: "clock", Repo: "ball", Branch: "change"},
 		{Owner: "world", Repo: "cheese", Branch: "bug-fix"},
+		{Owner: "esa", Repo: "tori", Branch: "hoge"},
 	}
 
 	infos, err = sqdb.GetRepoBranchNotNil(4) // Get repository information does not have branch
+	if err != nil {
+		t.Fatal(err.Error())
+	}
+
 	for _, k := range infos {
 		for i, j := range correct {
 			if j == k {
@@ -188,7 +190,7 @@ func TestGetRepoBranchNotNil(t *testing.T) {
 		}
 	}
 }
-func TestGetRepoBranchNil(t *testing.T) {
+func TestGetRepoBranchAll(t *testing.T) {
 	// Make a handle
 	sqdb := MDB{
 		Path:     "/sqlite3",
@@ -202,14 +204,19 @@ func TestGetRepoBranchNil(t *testing.T) {
 	}
 
 	correct := []RepoInfo{
-		{Owner: "Hacknock", Repo: "hogehoge", Branch: ""},
 		{Owner: "neconecopo", Repo: "esa", Branch: ""},
 		{Owner: "penguin", Repo: "sakana", Branch: ""},
+		{Owner: "esa", Repo: "tori", Branch: "hoge"},
 		{Owner: "dog", Repo: "ball", Branch: ""},
 		{Owner: "mouse", Repo: "cheese", Branch: ""},
 	}
 
-	infos, err := sqdb.GetRepoBranchNil(5) // Get repository information does not have branch
+	infos, err := sqdb.GetRepoBranchAll(5) // Get repository information does not have branch
+
+	if err != nil {
+		t.Fatal(err.Error())
+	}
+
 	for _, k := range infos {
 		for i, j := range correct {
 			if j == k {
@@ -222,12 +229,17 @@ func TestGetRepoBranchNil(t *testing.T) {
 	}
 
 	correct = []RepoInfo{
-		{Owner: "penguin", Repo: "sakana", Branch: ""},
+		{Owner: "esa", Repo: "tori", Branch: "hoge"},
 		{Owner: "dog", Repo: "ball", Branch: ""},
 		{Owner: "mouse", Repo: "cheese", Branch: ""},
 	}
 
-	infos, err = sqdb.GetRepoBranchNil(3) // Get repository information does not have branch
+	infos, err = sqdb.GetRepoBranchAll(3) // Get repository information does not have branch
+
+	if err != nil {
+		t.Fatal(err.Error())
+	}
+
 	for _, k := range infos {
 		for i, j := range correct {
 			if j == k {
