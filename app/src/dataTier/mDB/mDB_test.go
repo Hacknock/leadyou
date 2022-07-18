@@ -1,7 +1,7 @@
 package mDB
 
 import (
-	"fmt"
+	"Hacknock/typeName"
 	"os"
 	"testing"
 )
@@ -30,9 +30,6 @@ func TestUpdateDefaultBranch(t *testing.T) {
 	err = db.QueryRow(`select branch from `+os.Getenv("MYSQL_DATABASE")+`.generated where owner = ? and repository = ?`, param.Owner, param.Repo).Scan(&branch)
 	defer db.Close()
 
-	fmt.Println("🐙🐳")
-	fmt.Println(branch)
-
 	if err != nil {
 		t.Fatal("Failed to get branch from repository")
 	}
@@ -55,7 +52,7 @@ func TestUpdateTsRepo(t *testing.T) {
 	}
 
 	// parameter to delete the record
-	param := WhereParams{Owner: "deletedTest", Repo: "test"}
+	param := typeName.WhereParams{Owner: "deletedTest", Repo: "test"}
 
 	err = mdb.UpdateTsRepo(param)
 	if err != nil {
@@ -90,7 +87,7 @@ func TestDeleteRepo(t *testing.T) {
 	}
 
 	// parameter to delete the record
-	param := WhereParams{Owner: "deletedTest", Repo: "test"}
+	param := typeName.WhereParams{Owner: "deletedTest", Repo: "test"}
 
 	// Check the record to be deleted
 	info, err := mdb.GetRepoInfo(param)
@@ -226,7 +223,7 @@ func TestInsert(t *testing.T) {
 	}
 
 	// Insert Repository
-	param := WhereParams{Owner: "App", Repo: "beta"}
+	param := typeName.WhereParams{Owner: "App", Repo: "beta"}
 	err = mdb.InsertRepo(param)
 	if err != nil {
 		t.Fatal("Failed to insert record of new repository")
@@ -253,33 +250,33 @@ func TestGet(t *testing.T) {
 	}
 
 	// Get repository info with branch name is filled
-	param := WhereParams{Owner: "Hacknock", Repo: "test"}
+	param := typeName.WhereParams{Owner: "Hacknock", Repo: "test"}
 	info, err := mdb.GetRepoInfo(param)
 	if err != nil || info.Owner != param.Owner || info.Repo != param.Repo || info.Branch != "main" {
 		t.Fatal("Unexpected the return value of GetRepoInfo() with branch name")
 	}
 
 	// Get repository info without branch name is filled
-	param = WhereParams{Owner: "Hacknock", Repo: "hogehoge"}
+	param = typeName.WhereParams{Owner: "Hacknock", Repo: "hogehoge"}
 	info, err = mdb.GetRepoInfo(param)
 	if err != nil || info.Owner != param.Owner || info.Repo != param.Repo || info.Branch != "" {
 		t.Fatal("Unexpected the return value of GetRepoInfo() without branch name")
 	}
 
 	// Get not existed repository information
-	param = WhereParams{Owner: "Hacknock", Repo: "neco"}
+	param = typeName.WhereParams{Owner: "Hacknock", Repo: "neco"}
 	info, err = mdb.GetRepoInfo(param)
 	if err == nil {
 		t.Fatal("Unexpected the return value of GetRepoInfo() of not existed Repository")
 	}
 
-	param = WhereParams{Owner: "Hogeneco", Repo: "test"}
+	param = typeName.WhereParams{Owner: "Hogeneco", Repo: "test"}
 	info, err = mdb.GetRepoInfo(param)
 	if err == nil {
 		t.Fatal("Unexpected the return value of GetRepoInfo() of not existed Repository")
 	}
 
-	param = WhereParams{Owner: "Hogeneco", Repo: "neco"}
+	param = typeName.WhereParams{Owner: "Hogeneco", Repo: "neco"}
 	info, err = mdb.GetRepoInfo(param)
 	if err == nil {
 		t.Fatal("Unexpected the return value of GetRepoInfo() of not existed Repository")
