@@ -5,6 +5,33 @@ import (
 	"testing"
 )
 
+func TestInsert(t *testing.T) {
+	// Make a handle
+	mdb := MDB{
+		Host:     "db",
+		User:     os.Getenv("MYSQL_USER"),
+		Password: os.Getenv("MYSQL_PASSWORD"),
+		Database: os.Getenv("MYSQL_DATABASE")}
+	db, err := mdb.Open()
+	if db == nil || err != nil {
+		t.Fatal("Unexpected the return value on Open() with valid arguments")
+	}
+
+	// Insert Repository
+	param := WhereParams{Owner: "App", Repo: "beta"}
+	err = mdb.InsertRepo(param)
+	if err != nil {
+		t.Fatal("Failed to insert record of new repository")
+	}
+
+	// Check the inserted record
+	var info RepoInfo
+	info, err = mdb.GetRepoInfo(param)
+	if err != nil || info.Owner != param.Owner || info.Repo != param.Repo || info.Branch != "" {
+		t.Fatal("Unexpected the return value of GetRepoInfo() without branch name on insert")
+	}
+}
+
 func TestGet(t *testing.T) {
 	// Make a handle
 	mdb := MDB{
