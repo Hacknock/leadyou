@@ -9,6 +9,3 @@ WORKDIR /go/src/app
 ADD ./app /go/src/app
 
 EXPOSE ${WEB_PORT}
-
-# CMD ["go", "run", "server.go"]
-CMD ["go", "test", "-v", "./src"]
