@@ -1,11 +1,61 @@
 package mDB
 
 import (
-	"fmt"
 	"os"
 	"testing"
 )
 
+func TestGetRepoBranchNotNil(t *testing.T) {
+	// Make a handle
+	mdb := MDB{
+		Host:     "db",
+		User:     os.Getenv("MYSQL_USER"),
+		Password: os.Getenv("MYSQL_PASSWORD"),
+		Database: os.Getenv("MYSQL_DATABASE")}
+	db, err := mdb.Open()
+	if db == nil || err != nil {
+		t.Fatal("Unexpected the return value on Open() with valid arguments")
+	}
+
+	correct := []RepoInfo{
+		RepoInfo{Owner: "panda", Repo: "hogehoge", Branch: "main"},
+		RepoInfo{Owner: "bird", Repo: "esa", Branch: "develop"},
+		RepoInfo{Owner: "cup", Repo: "sakana", Branch: "chance"},
+		RepoInfo{Owner: "clock", Repo: "ball", Branch: "change"},
+		RepoInfo{Owner: "world", Repo: "cheese", Branch: "bug-fix"},
+	}
+
+	infos, err := mdb.GetRepoBranchNotNil(5) // Get repository information does not have branch
+	for _, k := range infos {
+		for i, j := range correct {
+			if j == k {
+				break
+			}
+			if i+1 == len(correct) {
+				t.Fatal("not found")
+			}
+		}
+	}
+
+	correct = []RepoInfo{
+		RepoInfo{Owner: "bird", Repo: "esa", Branch: "develop"},
+		RepoInfo{Owner: "cup", Repo: "sakana", Branch: "chance"},
+		RepoInfo{Owner: "clock", Repo: "ball", Branch: "change"},
+		RepoInfo{Owner: "world", Repo: "cheese", Branch: "bug-fix"},
+	}
+
+	infos, err = mdb.GetRepoBranchNotNil(4) // Get repository information does not have branch
+	for _, k := range infos {
+		for i, j := range correct {
+			if j == k {
+				break
+			}
+			if i+1 == len(correct) {
+				t.Fatal("not found")
+			}
+		}
+	}
+}
 func TestGetRepoBranchNil(t *testing.T) {
 	// Make a handle
 	mdb := MDB{
@@ -30,7 +80,6 @@ func TestGetRepoBranchNil(t *testing.T) {
 	for _, k := range infos {
 		for i, j := range correct {
 			if j == k {
-				fmt.Println("🐬match")
 				break
 			}
 			if i+1 == len(correct) {
@@ -49,7 +98,6 @@ func TestGetRepoBranchNil(t *testing.T) {
 	for _, k := range infos {
 		for i, j := range correct {
 			if j == k {
-				fmt.Println("🐬match")
 				break
 			}
 			if i+1 == len(correct) {
