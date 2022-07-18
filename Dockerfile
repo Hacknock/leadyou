@@ -8,6 +8,4 @@ WORKDIR /go/src/app
 
 ADD ./app /go/src/app
 
-RUN go get github.com/go-sql-driver/mysql
-
 EXPOSE ${WEB_PORT}

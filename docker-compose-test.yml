@@ -1,4 +1,4 @@
 version: "3"
 services:
   web:
-    command: ["go", "test", "-v", "Hacknock/recordLog", "Hacknock/monitorMemory", "Hacknock/recordLine", "Hacknock/mDB"]
+    command: ["sh", "test.sh"]
