@@ -8,4 +8,6 @@ WORKDIR /go/src/app
 
 ADD ./app /go/src/app
 
+RUN mkdir /sqlite3
+
 EXPOSE ${WEB_PORT}

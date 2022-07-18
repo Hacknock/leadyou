@@ -1,35 +1,10 @@
 version: "3"
 services:
-  db:
-    image: mysql:8.0.29
-    container_name: hacknock_db
-    environment:
-      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
-      MYSQL_DATABASE: ${MYSQL_DATABASE}
-      MYSQL_USER: ${MYSQL_USER}
-      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
-    command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci --wait-timeout=90000
-    volumes:
-      - ./sql/prod:/docker-entrypoint-initdb.d
-    ports:
-      - 127.0.0.1:${MYSQL_PORT}:${MYSQL_PORT}
-    networks:
-      - backend
-    healthcheck:
-      test: mysqladmin ping -h 127.0.0.1 -P ${MYSQL_PORT} -u root -p${MYSQL_ROOT_PASSWORD}
-      timeout: 20s
-      interval: 5s
-      retries: 5
   web:
     container_name: hacknock_web_go
     environment:
-      HOST: db
-      MYSQL_USER: ${MYSQL_USER}
-      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
-      CON_LIMIT: ${CON_LIMIT}
       WEB_PORT: ${WEB_PORT}
       GITHUB_TOKEN: ${GITHUB_TOKEN}
-      MYSQL_DATABASE: ${MYSQL_DATABASE}
       NODE_ENV: development
       LEADYOU_API_TOKEN: ${LEADYOU_API_TOKEN}
       LEADYOU_WEBHOOK: ${LEADYOU_WEBHOOK}
@@ -40,11 +15,4 @@ services:
         - NODE_ENV=development
     ports:
       - 127.0.0.1:${WEB_PORT}:${WEB_PORT}
-    depends_on:
-      db:
-        condition: service_healthy
     command: ["go", "run", "server.go"]
-    networks:
-      - backend
-networks:
-  backend:

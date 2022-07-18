@@ -2,51 +2,69 @@ package mDB
 
 import (
 	"Hacknock/typeName"
+	"fmt"
 	"os"
 	"testing"
 )
 
+func TestInit(t *testing.T) {
+	sqdb := MDB{
+		Path:     "/sqlite3",
+		Database: os.Getenv("MYSQL_DATABASE"),
+		Test:     true,
+	}
+
+	db, err := sqdb.Init()
+	if db == nil || err != nil {
+		t.Fatal(err)
+	}
+
+	db.Close()
+}
+
 func TestUpdateDefaultBranch(t *testing.T) {
 	// Make a handle
-	mdb := MDB{
-		Host:     "db",
-		User:     os.Getenv("MYSQL_USER"),
-		Password: os.Getenv("MYSQL_PASSWORD"),
-		Database: os.Getenv("MYSQL_DATABASE")}
-	db, err := mdb.Open()
+	sqdb := MDB{
+		Path:     "/sqlite3",
+		Database: os.Getenv("MYSQL_DATABASE"),
+		Test:     true,
+	}
+
+	db, err := sqdb.Init()
 	if db == nil || err != nil {
-		t.Fatal("Unexpected the return value on Open() with valid arguments on TestUpdateTsRepo")
+		t.Fatal("Unexpected the return value on Open() with valid arguments on TestUpdateTsRepo\n" + err.Error())
 	}
 
 	param := RepoInfo{Owner: "branchChangeTest", Repo: "test", Branch: "develop"}
 
-	err = mdb.UpdateDefaultBranch(param)
+	err = sqdb.UpdateDefaultBranch(param)
 	if err != nil {
-		t.Fatal("Failed to update the default branch of the repository.")
+		t.Fatal("Failed to update the default branch of the repository.\n" + err.Error())
 	}
 
 	var branch string
 
-	err = db.QueryRow(`select branch from `+os.Getenv("MYSQL_DATABASE")+`.generated where owner = ? and repository = ?`, param.Owner, param.Repo).Scan(&branch)
+	err = db.QueryRow(`select branch from generated where owner = ? and repository = ?`, param.Owner, param.Repo).Scan(&branch)
 	defer db.Close()
 
 	if err != nil {
-		t.Fatal("Failed to get branch from repository")
+		t.Fatal("Failed to get branch from repository.\n" + err.Error())
 	}
 
 	if branch == "main" {
-		t.Fatal("The default branch was not changed.")
+		t.Fatal("The default branch was not changed.\n" + err.Error())
 	}
 }
 
 func TestUpdateTsRepo(t *testing.T) {
 	// Make a handle
-	mdb := MDB{
-		Host:     "db",
-		User:     os.Getenv("MYSQL_USER"),
-		Password: os.Getenv("MYSQL_PASSWORD"),
-		Database: os.Getenv("MYSQL_DATABASE")}
-	db, err := mdb.Open()
+	sqdb := MDB{
+		Path:     "/sqlite3",
+		Database: os.Getenv("MYSQL_DATABASE"),
+		Test:     true,
+	}
+
+	db, err := sqdb.Init()
 	if db == nil || err != nil {
 		t.Fatal("Unexpected the return value on Open() with valid arguments on TestUpdateTsRepo")
 	}
@@ -54,14 +72,14 @@ func TestUpdateTsRepo(t *testing.T) {
 	// parameter to delete the record
 	param := typeName.WhereParams{Owner: "deletedTest", Repo: "test"}
 
-	err = mdb.UpdateTsRepo(param)
+	err = sqdb.UpdateTsRepo(param)
 	if err != nil {
 		t.Fatal("Failed to update ts")
 	}
 
 	var ts string
 
-	err = db.QueryRow(`select ts from `+os.Getenv("MYSQL_DATABASE")+`.generated where owner = ? and repository = ?`, param.Owner, param.Repo).Scan(&ts)
+	err = db.QueryRow(`select ts from generated where owner = ? and repository = ?`, param.Owner, param.Repo).Scan(&ts)
 	defer db.Close()
 
 	if err != nil {
@@ -76,59 +94,70 @@ func TestUpdateTsRepo(t *testing.T) {
 
 func TestDeleteRepo(t *testing.T) {
 	// Make a handle
-	mdb := MDB{
-		Host:     "db",
-		User:     os.Getenv("MYSQL_USER"),
-		Password: os.Getenv("MYSQL_PASSWORD"),
-		Database: os.Getenv("MYSQL_DATABASE")}
-	db, err := mdb.Open()
+	sqdb := MDB{
+		Path:     "/sqlite3",
+		Database: os.Getenv("MYSQL_DATABASE"),
+		Test:     true,
+	}
+
+	db, err := sqdb.Init()
 	if db == nil || err != nil {
-		t.Fatal("Unexpected the return value on Open() with valid arguments on TestDeleteRepo")
+		t.Fatal("Unexpected the return value on Open() with valid arguments on TestDeleteRepo\n" + err.Error())
 	}
 
 	// parameter to delete the record
 	param := typeName.WhereParams{Owner: "deletedTest", Repo: "test"}
 
 	// Check the record to be deleted
-	info, err := mdb.GetRepoInfo(param)
+	info, err := sqdb.GetRepoInfo(param)
 	if err != nil || info.Owner != param.Owner || info.Repo != param.Repo {
-		t.Fatal("Unexpected the return value of GetRepoInfo() on TestDeleteRepo")
+		t.Fatal("Unexpected the return value of GetRepoInfo() on TestDeleteRepo\n" + err.Error())
 	}
 
-	err = mdb.DeleteRepo(param)
+	err = sqdb.DeleteRepo(param)
 	if err != nil {
-		t.Fatal("An error is occurred on TestDeleteRepo.")
+		t.Fatal("An error is occurred on TestDeleteRepo.\n" + err.Error())
 	}
 
-	// Check the record to be deleted
-	info, err = mdb.GetRepoInfo(param)
+	var ts string
+	err = db.QueryRow(`select ts from generated where owner = ? and repository = ?`, param.Owner, param.Repo).Scan(&ts)
+	defer db.Close()
+
+	fmt.Print("🐡")
+	fmt.Println(ts)
+
+	// // Check the record to be deleted
+	// info, err = sqdb.GetRepoInfo(param)
 
 	if err == nil {
-		t.Fatal("Unexpected the return value of GetRepoInfo() after deleting on TestDeleteRepo")
+		fmt.Print("🐙")
+		fmt.Println(info.Owner, info.Repo, info.Branch)
+		t.Fatal("Unexpected the return value of GetRepoInfo() after deleting on TestDeleteRepo\n")
 	}
 }
 
 func TestGetRepoBranchNotNil(t *testing.T) {
 	// Make a handle
-	mdb := MDB{
-		Host:     "db",
-		User:     os.Getenv("MYSQL_USER"),
-		Password: os.Getenv("MYSQL_PASSWORD"),
-		Database: os.Getenv("MYSQL_DATABASE")}
-	db, err := mdb.Open()
+	sqdb := MDB{
+		Path:     "/sqlite3",
+		Database: os.Getenv("MYSQL_DATABASE"),
+		Test:     true,
+	}
+
+	db, err := sqdb.Init()
 	if db == nil || err != nil {
 		t.Fatal("Unexpected the return value on Open() with valid arguments")
 	}
 
 	correct := []RepoInfo{
-		RepoInfo{Owner: "panda", Repo: "hogehoge", Branch: "main"},
-		RepoInfo{Owner: "bird", Repo: "esa", Branch: "develop"},
-		RepoInfo{Owner: "cup", Repo: "sakana", Branch: "chance"},
-		RepoInfo{Owner: "clock", Repo: "ball", Branch: "change"},
-		RepoInfo{Owner: "world", Repo: "cheese", Branch: "bug-fix"},
+		{Owner: "panda", Repo: "hogehoge", Branch: "main"},
+		{Owner: "bird", Repo: "esa", Branch: "develop"},
+		{Owner: "cup", Repo: "sakana", Branch: "chance"},
+		{Owner: "clock", Repo: "ball", Branch: "change"},
+		{Owner: "world", Repo: "cheese", Branch: "bug-fix"},
 	}
 
-	infos, err := mdb.GetRepoBranchNotNil(5) // Get repository information does not have branch
+	infos, err := sqdb.GetRepoBranchNotNil(5) // Get repository information does not have branch
 	for _, k := range infos {
 		for i, j := range correct {
 			if j == k {
@@ -141,13 +170,13 @@ func TestGetRepoBranchNotNil(t *testing.T) {
 	}
 
 	correct = []RepoInfo{
-		RepoInfo{Owner: "bird", Repo: "esa", Branch: "develop"},
-		RepoInfo{Owner: "cup", Repo: "sakana", Branch: "chance"},
-		RepoInfo{Owner: "clock", Repo: "ball", Branch: "change"},
-		RepoInfo{Owner: "world", Repo: "cheese", Branch: "bug-fix"},
+		{Owner: "bird", Repo: "esa", Branch: "develop"},
+		{Owner: "cup", Repo: "sakana", Branch: "chance"},
+		{Owner: "clock", Repo: "ball", Branch: "change"},
+		{Owner: "world", Repo: "cheese", Branch: "bug-fix"},
 	}
 
-	infos, err = mdb.GetRepoBranchNotNil(4) // Get repository information does not have branch
+	infos, err = sqdb.GetRepoBranchNotNil(4) // Get repository information does not have branch
 	for _, k := range infos {
 		for i, j := range correct {
 			if j == k {
@@ -161,25 +190,26 @@ func TestGetRepoBranchNotNil(t *testing.T) {
 }
 func TestGetRepoBranchNil(t *testing.T) {
 	// Make a handle
-	mdb := MDB{
-		Host:     "db",
-		User:     os.Getenv("MYSQL_USER"),
-		Password: os.Getenv("MYSQL_PASSWORD"),
-		Database: os.Getenv("MYSQL_DATABASE")}
-	db, err := mdb.Open()
+	sqdb := MDB{
+		Path:     "/sqlite3",
+		Database: os.Getenv("MYSQL_DATABASE"),
+		Test:     true,
+	}
+
+	db, err := sqdb.Init()
 	if db == nil || err != nil {
 		t.Fatal("Unexpected the return value on Open() with valid arguments")
 	}
 
 	correct := []RepoInfo{
-		RepoInfo{Owner: "Hacknock", Repo: "hogehoge", Branch: ""},
-		RepoInfo{Owner: "neconecopo", Repo: "esa", Branch: ""},
-		RepoInfo{Owner: "penguin", Repo: "sakana", Branch: ""},
-		RepoInfo{Owner: "dog", Repo: "ball", Branch: ""},
-		RepoInfo{Owner: "mouse", Repo: "cheese", Branch: ""},
+		{Owner: "Hacknock", Repo: "hogehoge", Branch: ""},
+		{Owner: "neconecopo", Repo: "esa", Branch: ""},
+		{Owner: "penguin", Repo: "sakana", Branch: ""},
+		{Owner: "dog", Repo: "ball", Branch: ""},
+		{Owner: "mouse", Repo: "cheese", Branch: ""},
 	}
 
-	infos, err := mdb.GetRepoBranchNil(5) // Get repository information does not have branch
+	infos, err := sqdb.GetRepoBranchNil(5) // Get repository information does not have branch
 	for _, k := range infos {
 		for i, j := range correct {
 			if j == k {
@@ -192,12 +222,12 @@ func TestGetRepoBranchNil(t *testing.T) {
 	}
 
 	correct = []RepoInfo{
-		RepoInfo{Owner: "penguin", Repo: "sakana", Branch: ""},
-		RepoInfo{Owner: "dog", Repo: "ball", Branch: ""},
-		RepoInfo{Owner: "mouse", Repo: "cheese", Branch: ""},
+		{Owner: "penguin", Repo: "sakana", Branch: ""},
+		{Owner: "dog", Repo: "ball", Branch: ""},
+		{Owner: "mouse", Repo: "cheese", Branch: ""},
 	}
 
-	infos, err = mdb.GetRepoBranchNil(3) // Get repository information does not have branch
+	infos, err = sqdb.GetRepoBranchNil(3) // Get repository information does not have branch
 	for _, k := range infos {
 		for i, j := range correct {
 			if j == k {
@@ -212,26 +242,27 @@ func TestGetRepoBranchNil(t *testing.T) {
 
 func TestInsert(t *testing.T) {
 	// Make a handle
-	mdb := MDB{
-		Host:     "db",
-		User:     os.Getenv("MYSQL_USER"),
-		Password: os.Getenv("MYSQL_PASSWORD"),
-		Database: os.Getenv("MYSQL_DATABASE")}
-	db, err := mdb.Open()
+	sqdb := MDB{
+		Path:     "/sqlite3",
+		Database: os.Getenv("MYSQL_DATABASE"),
+		Test:     true,
+	}
+
+	db, err := sqdb.Init()
 	if db == nil || err != nil {
 		t.Fatal("Unexpected the return value on Open() with valid arguments")
 	}
 
 	// Insert Repository
 	param := typeName.WhereParams{Owner: "App", Repo: "beta"}
-	err = mdb.InsertRepo(param)
+	err = sqdb.InsertRepo(param)
 	if err != nil {
 		t.Fatal("Failed to insert record of new repository")
 	}
 
 	// Check the inserted record
 	var info RepoInfo
-	info, err = mdb.GetRepoInfo(param)
+	info, err = sqdb.GetRepoInfo(param)
 	if err != nil || info.Owner != param.Owner || info.Repo != param.Repo || info.Branch != "" {
 		t.Fatal("Unexpected the return value of GetRepoInfo() without branch name on insert")
 	}
@@ -239,74 +270,48 @@ func TestInsert(t *testing.T) {
 
 func TestGet(t *testing.T) {
 	// Make a handle
-	mdb := MDB{
-		Host:     "db",
-		User:     os.Getenv("MYSQL_USER"),
-		Password: os.Getenv("MYSQL_PASSWORD"),
-		Database: os.Getenv("MYSQL_DATABASE")}
-	db, err := mdb.Open()
+	sqdb := MDB{
+		Path:     "/sqlite3",
+		Database: os.Getenv("MYSQL_DATABASE"),
+		Test:     true,
+	}
+
+	db, err := sqdb.Init()
 	if db == nil || err != nil {
 		t.Fatal("Unexpected the return value on Open() with valid arguments")
 	}
 
 	// Get repository info with branch name is filled
 	param := typeName.WhereParams{Owner: "Hacknock", Repo: "test"}
-	info, err := mdb.GetRepoInfo(param)
+	info, err := sqdb.GetRepoInfo(param)
 	if err != nil || info.Owner != param.Owner || info.Repo != param.Repo || info.Branch != "main" {
 		t.Fatal("Unexpected the return value of GetRepoInfo() with branch name")
 	}
 
 	// Get repository info without branch name is filled
 	param = typeName.WhereParams{Owner: "Hacknock", Repo: "hogehoge"}
-	info, err = mdb.GetRepoInfo(param)
+	info, err = sqdb.GetRepoInfo(param)
 	if err != nil || info.Owner != param.Owner || info.Repo != param.Repo || info.Branch != "" {
 		t.Fatal("Unexpected the return value of GetRepoInfo() without branch name")
 	}
 
 	// Get not existed repository information
 	param = typeName.WhereParams{Owner: "Hacknock", Repo: "neco"}
-	info, err = mdb.GetRepoInfo(param)
+	info, err = sqdb.GetRepoInfo(param)
 	if err == nil {
 		t.Fatal("Unexpected the return value of GetRepoInfo() of not existed Repository")
 	}
 
 	param = typeName.WhereParams{Owner: "Hogeneco", Repo: "test"}
-	info, err = mdb.GetRepoInfo(param)
+	info, err = sqdb.GetRepoInfo(param)
 	if err == nil {
 		t.Fatal("Unexpected the return value of GetRepoInfo() of not existed Repository")
 	}
 
 	param = typeName.WhereParams{Owner: "Hogeneco", Repo: "neco"}
-	info, err = mdb.GetRepoInfo(param)
+	info, err = sqdb.GetRepoInfo(param)
 	if err == nil {
 		t.Fatal("Unexpected the return value of GetRepoInfo() of not existed Repository")
 	}
 
-}
-
-func TestOpen(t *testing.T) {
-	// Make a handle
-	mdb := MDB{
-		Host:     "db",
-		User:     os.Getenv("MYSQL_USER"),
-		Password: os.Getenv("MYSQL_PASSWORD"),
-		Database: os.Getenv("MYSQL_DATABASE")}
-	db, err := mdb.Open()
-	if db == nil || err != nil {
-		t.Fatal("Unexpected the return value on Open() with valid arguments")
-	}
-
-	db.Close()
-
-	// Make a handle with invalid argument
-	mdb = MDB{
-		Host:     "",
-		User:     os.Getenv("MYSQL_USER"),
-		Password: "",
-		Database: os.Getenv("MYSQL_DATABASE")}
-	db, err = mdb.Open()
-	if err == nil {
-		t.Fatal("Unexpected the return value on Open() with invalid arguments")
-	}
-	db.Close()
 }
