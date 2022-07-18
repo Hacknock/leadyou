@@ -90,3 +90,19 @@ func (r RecordLogFile) Log(mess string) (rec string, err error) {
 
 	return res, nil
 }
+
+// The function to record Debug to file.
+func (r RecordLogFile) Debug(mess string) (rec string, err error) {
+
+	// Get the current time
+	t := time.Now()
+
+	// Write the line and output it to stdout
+	res, err := r.temp(t.Format(time.RFC3339), "Debug", mess)
+	if err != nil {
+		log.Fatal(err)
+		return "", err
+	}
+
+	return res, nil
+}
