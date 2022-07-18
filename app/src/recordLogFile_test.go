@@ -224,3 +224,35 @@ func TestDebug(t *testing.T) {
 		l++
 	}
 }
+
+func TestOutputLevel(t *testing.T) {
+
+	// Message List
+	mess := []string{"Good night", "This is a test", "Testing", "Cat🐱"}
+
+	for i := 0; i < 4; i++ {
+		recordLogFile := RecordLogFile{i, "./test", "log.txt"}
+		_, errDebug := recordLogFile.Debug(mess[0])
+		_, errLog := recordLogFile.Log(mess[1])
+		_, errWarn := recordLogFile.Warn(mess[2])
+		_, errError := recordLogFile.Error(mess[3])
+
+		if i == 0 {
+			if errDebug != nil || errLog != nil || errWarn != nil || errError != nil {
+				t.Fatal("Error handling is failed on level 0.")
+			}
+		} else if i == 1 {
+			if errDebug == nil || errLog != nil || errWarn != nil || errError != nil {
+				t.Fatal("Error handling is failed on level 1.")
+			}
+		} else if i == 2 {
+			if errDebug == nil || errLog == nil || errWarn != nil || errError != nil {
+				t.Fatal("Error handling is failed on level 2.")
+			}
+		} else if i == 3 {
+			if errDebug == nil || errLog == nil || errWarn == nil || errError != nil {
+				t.Fatal("Error handling is failed on level 3.")
+			}
+		}
+	}
+}
