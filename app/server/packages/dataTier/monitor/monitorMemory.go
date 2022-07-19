@@ -1,7 +1,7 @@
-package monitorMemory
+package monitor
 
 import (
-	"Hacknock/recordLine"
+	"Hacknock/recorder"
 	"strconv"
 
 	"runtime"
@@ -14,7 +14,7 @@ type MonitorMemory struct {
 
 func (m MonitorMemory) RecMemory(to_console bool, to_file bool) (rec string, console_out bool, err error) {
 
-	recordL := recordLine.RecordLine{Path: m.Path, File_name: m.File_name}
+	recordL := recorder.RecordLine{Path: m.Path, File_name: m.File_name}
 
 	var (
 		ms runtime.MemStats

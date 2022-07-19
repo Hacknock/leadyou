@@ -1,7 +1,7 @@
-package mDB
+package database
 
 import (
-	"Hacknock/typeName"
+	"Hacknock/structure"
 	"database/sql"
 	"errors"
 	"time"
@@ -121,7 +121,7 @@ func (m MDB) UpdateDefaultBranch(p RepoInfo) error {
 	return nil
 }
 
-func (m MDB) UpdateTsRepo(p typeName.WhereParams) error {
+func (m MDB) UpdateTsRepo(p structure.WhereParams) error {
 	// Make a connection to DB
 	db, err := m.Init()
 	if err != nil {
@@ -147,7 +147,7 @@ func (m MDB) UpdateTsRepo(p typeName.WhereParams) error {
 	return nil
 }
 
-func (m MDB) DeleteRepo(p typeName.WhereParams) error {
+func (m MDB) DeleteRepo(p structure.WhereParams) error {
 	// Make a connection to DB
 	db, err := m.Init()
 	if err != nil {
@@ -255,7 +255,7 @@ func (m MDB) GetRepoBranchAll(num int) ([]RepoInfo, error) {
 }
 
 // Insert repository information
-func (m MDB) InsertRepo(p typeName.WhereParams) error {
+func (m MDB) InsertRepo(p structure.WhereParams) error {
 	db, err := m.Init()
 	if err != nil {
 		return err
@@ -284,7 +284,7 @@ func (m MDB) InsertRepo(p typeName.WhereParams) error {
 }
 
 // Get repository information
-func (m MDB) GetRepoInfo(p typeName.WhereParams) (RepoInfo, error) {
+func (m MDB) GetRepoInfo(p structure.WhereParams) (RepoInfo, error) {
 	// Establish the connection to DB
 	db, err := m.Init()
 	if err != nil {

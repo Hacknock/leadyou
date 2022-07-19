@@ -1,7 +1,7 @@
-package getRepoData
+package repository
 
 import (
-	"Hacknock/mDB"
+	"Hacknock/database"
 	"fmt"
 	"os"
 )
@@ -10,7 +10,7 @@ type GetRepoData struct {
 }
 
 func (g GetRepoData) GetCount() (int, error) {
-	mdb := mDB.MDB{
+	mdb := database.MDB{
 		Path:     "/sqlite3",
 		Database: os.Getenv("MYSQL_DATABASE"),
 		Test:     true,
@@ -19,6 +19,6 @@ func (g GetRepoData) GetCount() (int, error) {
 	if db == nil || err != nil {
 		fmt.Printf("🚨 %s\n", err)
 	}
-	
+
 	return 3, nil
 }

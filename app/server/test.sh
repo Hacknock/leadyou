@@ -1,3 +1,3 @@
 #!/bin/sh
 
-go test -v Hacknock/recordLog Hacknock/monitorMemory Hacknock/recordLine Hacknock/mDB Hacknock/gitHubAPI Hacknock/getRepoData
+go test -v Hacknock/logger Hacknock/monitor Hacknock/recorder Hacknock/database Hacknock/github Hacknock/repository

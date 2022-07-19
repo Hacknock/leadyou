@@ -1,7 +1,7 @@
-package recordLog
+package logger
 
 import (
-	"Hacknock/recordLine"
+	"Hacknock/recorder"
 	"errors"
 	"log"
 )
@@ -15,7 +15,7 @@ type RecordLog struct {
 // The function to record Error to file.
 func (r RecordLog) Error(mess string) (rec string, err error) {
 	// record function instance
-	recordL := recordLine.RecordLine{Path: r.Path, File_name: r.File_name}
+	recordL := recorder.RecordLine{Path: r.Path, File_name: r.File_name}
 
 	// Write the line and output it to stdout
 	res, _, err := recordL.Record("Error", mess, true, true)
@@ -35,7 +35,7 @@ func (r RecordLog) Warn(mess string) (rec string, err error) {
 	}
 
 	// record function instance
-	recordL := recordLine.RecordLine{Path: r.Path, File_name: r.File_name}
+	recordL := recorder.RecordLine{Path: r.Path, File_name: r.File_name}
 
 	// Write the line and output it to stdout
 	res, _, err := recordL.Record("Warn", mess, true, true)
@@ -55,7 +55,7 @@ func (r RecordLog) Log(mess string) (rec string, err error) {
 	}
 
 	// record function instance
-	recordL := recordLine.RecordLine{Path: r.Path, File_name: r.File_name}
+	recordL := recorder.RecordLine{Path: r.Path, File_name: r.File_name}
 
 	// Write the line and output it to stdout
 	res, _, err := recordL.Record("Log", mess, true, true)
@@ -75,7 +75,7 @@ func (r RecordLog) Debug(mess string) (rec string, err error) {
 	}
 
 	// record function instance
-	recordL := recordLine.RecordLine{Path: r.Path, File_name: r.File_name}
+	recordL := recorder.RecordLine{Path: r.Path, File_name: r.File_name}
 
 	// Write the line and output it to stdout
 	res, _, err := recordL.Record("Debug", mess, true, true)

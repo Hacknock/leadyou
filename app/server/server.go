@@ -1,15 +1,17 @@
 package main
 
 import (
-	// "Hacknock/getRepoData"
-	// "Hacknock/gitHubAPI"
-	// "Hacknock/mDB"
-	// "Hacknock/monitorMemory"
-	// "Hacknock/recordLog"
-	// "Hacknock/typeName"
+	"Hacknock/database"
+	"Hacknock/github"
+	"Hacknock/logger"
+	"Hacknock/monitor"
+	"Hacknock/repository"
+	"Hacknock/structure"
 	"encoding/json"
 	"fmt"
+	"log"
 	"net/http"
+	"os"
 	"strings"
 	"time"
 )
@@ -161,26 +163,26 @@ func main() {
 
 	http.ListenAndServe(":3001", nil)
 
-	// r := recordLog.RecordLog{Level: 1, Path: "./text", File_name: "log.txt"}
-	// r.Error("Hahaha")
-	// m := monitorMemory.MonitorMemory{Path: "./test", File_name: "memory.txt"}
-	// m.RecMemory(true, true)
-	// mdb := mDB.MDB{
-	// 	Path:     "/sqlite3",
-	// 	Database: os.Getenv("MYSQL_DATABASE"),
-	// 	Test:     true,
-	// }
-	// dummy := typeName.WhereParams{"aaa", "aaaaa"}
-	// db, err := mdb.Init()
+	r := logger.RecordLog{Level: 1, Path: "./text", File_name: "log.txt"}
+	r.Error("Hahaha")
+	m := monitor.MonitorMemory{Path: "./test", File_name: "memory.txt"}
+	m.RecMemory(true, true)
+	mdb := database.MDB{
+		Path:     "/sqlite3",
+		Database: os.Getenv("MYSQL_DATABASE"),
+		Test:     true,
+	}
+	dummy := structure.WhereParams{"aaa", "aaaaa"}
+	db, err := mdb.Init()
 
-	// if db == nil || err != nil {
-	// 	log.Fatal("Unexpected the return value on Open() with valid arguments")
-	// }
-	// ghapi := gitHubAPI.GitHubAPI{token: "test"}
-	// ghapi.FetchReadme(dummy)
-	// fmt.Print("Server Start")
-	// fmt.Fprintf(os.Stdout, "Hello World")
-	// log.Println("ニャホニャホタマクロー")
-	// getRD := getRepoData.GetRepoData{}
-	// num, err := getRD.GetCount()
+	if db == nil || err != nil {
+		log.Fatal("Unexpected the return value on Open() with valid arguments")
+	}
+	ghapi := github.GitHubAPI{token: "test"}
+	ghapi.FetchReadme(dummy)
+	fmt.Print("Server Start")
+	fmt.Fprintf(os.Stdout, "Hello World")
+	log.Println("ニャホニャホタマクロー")
+	getRD := repository.GetRepoData{}
+	num, err := getRD.GetCount()
 }

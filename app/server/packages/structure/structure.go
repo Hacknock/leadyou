@@ -1,4 +1,4 @@
-package typeName
+package structure
 
 type WhereParams struct {
 	Owner string

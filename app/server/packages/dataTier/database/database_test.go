@@ -1,7 +1,7 @@
-package mDB
+package database
 
 import (
-	"Hacknock/typeName"
+	"Hacknock/structure"
 	"fmt"
 	"os"
 	"testing"
@@ -70,7 +70,7 @@ func TestUpdateTsRepo(t *testing.T) {
 	}
 
 	// parameter to delete the record
-	param := typeName.WhereParams{Owner: "deletedTest", Repo: "test"}
+	param := structure.WhereParams{Owner: "deletedTest", Repo: "test"}
 
 	err = sqdb.UpdateTsRepo(param)
 	if err != nil {
@@ -106,7 +106,7 @@ func TestDeleteRepo(t *testing.T) {
 	}
 
 	// parameter to delete the record
-	param := typeName.WhereParams{Owner: "deletedTest", Repo: "test"}
+	param := structure.WhereParams{Owner: "deletedTest", Repo: "test"}
 
 	// Check the record to be deleted
 	info, err := sqdb.GetRepoInfo(param)
@@ -266,7 +266,7 @@ func TestInsert(t *testing.T) {
 	}
 
 	// Insert Repository
-	param := typeName.WhereParams{Owner: "App", Repo: "beta"}
+	param := structure.WhereParams{Owner: "App", Repo: "beta"}
 	err = sqdb.InsertRepo(param)
 	if err != nil {
 		t.Fatal("Failed to insert record of new repository")
@@ -294,33 +294,33 @@ func TestGet(t *testing.T) {
 	}
 
 	// Get repository info with branch name is filled
-	param := typeName.WhereParams{Owner: "Hacknock", Repo: "test"}
+	param := structure.WhereParams{Owner: "Hacknock", Repo: "test"}
 	info, err := sqdb.GetRepoInfo(param)
 	if err != nil || info.Owner != param.Owner || info.Repo != param.Repo || info.Branch != "main" {
 		t.Fatal("Unexpected the return value of GetRepoInfo() with branch name")
 	}
 
 	// Get repository info without branch name is filled
-	param = typeName.WhereParams{Owner: "Hacknock", Repo: "hogehoge"}
+	param = structure.WhereParams{Owner: "Hacknock", Repo: "hogehoge"}
 	info, err = sqdb.GetRepoInfo(param)
 	if err != nil || info.Owner != param.Owner || info.Repo != param.Repo || info.Branch != "" {
 		t.Fatal("Unexpected the return value of GetRepoInfo() without branch name")
 	}
 
 	// Get not existed repository information
-	param = typeName.WhereParams{Owner: "Hacknock", Repo: "neco"}
+	param = structure.WhereParams{Owner: "Hacknock", Repo: "neco"}
 	info, err = sqdb.GetRepoInfo(param)
 	if err == nil {
 		t.Fatal("Unexpected the return value of GetRepoInfo() of not existed Repository")
 	}
 
-	param = typeName.WhereParams{Owner: "Hogeneco", Repo: "test"}
+	param = structure.WhereParams{Owner: "Hogeneco", Repo: "test"}
 	info, err = sqdb.GetRepoInfo(param)
 	if err == nil {
 		t.Fatal("Unexpected the return value of GetRepoInfo() of not existed Repository")
 	}
 
-	param = typeName.WhereParams{Owner: "Hogeneco", Repo: "neco"}
+	param = structure.WhereParams{Owner: "Hogeneco", Repo: "neco"}
 	info, err = sqdb.GetRepoInfo(param)
 	if err == nil {
 		t.Fatal("Unexpected the return value of GetRepoInfo() of not existed Repository")

@@ -1,4 +1,4 @@
-package recordLine
+package recorder
 
 import (
 	"bufio"

@@ -1,14 +1,14 @@
 package gitHubAPI
 
 import (
-	"Hacknock/typeName"
+	"Hacknock/structure"
 	"os"
 	"testing"
 )
 
 func TestFetchReadme(t *testing.T) {
 	ghAPI := GitHubAPI{token: os.Getenv("GITHUB_TOKEN")}
-	param := typeName.WhereParams{Owner: "Hacknock", Repo: "leadyou"}
+	param := structure.WhereParams{Owner: "Hacknock", Repo: "leadyou"}
 	res, err := ghAPI.FetchReadme(param)
 	if err != nil {
 		t.Fatal("FetchReadme throw an error")
@@ -18,7 +18,7 @@ func TestFetchReadme(t *testing.T) {
 		t.Fatal("The default branch is not matched.")
 	}
 
-	param = typeName.WhereParams{Owner: "Hacknock", Repo: "environments-share"}
+	param = structure.WhereParams{Owner: "Hacknock", Repo: "environments-share"}
 	res, err = ghAPI.FetchReadme(param)
 
 	if res != "" {

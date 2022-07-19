@@ -1,4 +1,4 @@
-package monitorMemory
+package monitor
 
 import (
 	"bufio"

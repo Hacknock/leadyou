@@ -1,4 +1,4 @@
-package getRepoData
+package repository
 
 import "testing"
 

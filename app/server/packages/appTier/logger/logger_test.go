@@ -1,4 +1,4 @@
-package recordLog
+package logger
 
 import (
 	"bufio"

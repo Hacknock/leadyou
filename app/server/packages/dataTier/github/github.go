@@ -1,7 +1,7 @@
 package gitHubAPI
 
 import (
-	"Hacknock/typeName"
+	"Hacknock/structure"
 	"encoding/json"
 	"io"
 	"net/http"
@@ -12,7 +12,7 @@ type GitHubAPI struct {
 	token string
 }
 
-func (g GitHubAPI) FetchReadme(p typeName.WhereParams) (string, error) {
+func (g GitHubAPI) FetchReadme(p structure.WhereParams) (string, error) {
 	requestURL := "https://api.github.com/repos/" + p.Owner + "/" + p.Repo + "/readme"
 
 	req, err := http.NewRequest("GET", requestURL, nil)

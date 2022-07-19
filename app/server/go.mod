@@ -2,30 +2,30 @@ module Hacknock/leadyou
 
 go 1.18
 
-replace Hacknock/recordLog => ./packages/appTier/recordLog
+replace Hacknock/logger => ./packages/appTier/logger
 
-replace Hacknock/monitorMemory => ./packages/dataTier/monitorMemory
+replace Hacknock/monitor => ./packages/dataTier/monitor
 
-replace Hacknock/recordLine => ./packages/dataTier/recordLine
+replace Hacknock/recorder => ./packages/dataTier/recorder
 
-replace Hacknock/mDB => ./packages/dataTier/mDB
+replace Hacknock/database => ./packages/dataTier/database
 
-replace Hacknock/typeName => ./packages/typeName
+replace Hacknock/structure => ./packages/structure
+
+replace Hacknock/github => ./packages/dataTier/github
+
+replace Hacknock/repository => ./packages/appTier/repository
 
 require (
-	Hacknock/getRepoData v0.0.0-00010101000000-000000000000
-	Hacknock/gitHubAPI v0.0.0-00010101000000-000000000000
-	Hacknock/mDB v0.0.0-00010101000000-000000000000
-	Hacknock/monitorMemory v0.0.0-00010101000000-000000000000
-	Hacknock/recordLog v0.0.0-00010101000000-000000000000
-	Hacknock/typeName v0.0.0-00010101000000-000000000000
+	Hacknock/database v0.0.0-00010101000000-000000000000
+	Hacknock/github v0.0.0-00010101000000-000000000000
+	Hacknock/logger v0.0.0-00010101000000-000000000000
+	Hacknock/monitor v0.0.0-00010101000000-000000000000
+	Hacknock/repository v0.0.0-00010101000000-000000000000
+	Hacknock/structure v0.0.0-00010101000000-000000000000
 )
 
 require (
-	Hacknock/recordLine v0.0.0-00010101000000-000000000000 // indirect
+	Hacknock/recorder v0.0.0-00010101000000-000000000000 // indirect
 	github.com/mattn/go-sqlite3 v1.14.14 // indirect
 )
-
-replace Hacknock/gitHubAPI => ./packages/dataTier/gitHubAPI
-
-replace Hacknock/getRepoData => ./packages/appTier/getRepoData
