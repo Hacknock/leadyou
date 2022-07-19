@@ -10,9 +10,6 @@ services:
       LEADYOU_WEBHOOK: ${LEADYOU_WEBHOOK}
     build:
       context: .
-      args:
-        - WEB_PORT=${WEB_PORT}
-        - NODE_ENV=development
     ports:
       - 127.0.0.1:${WEB_PORT}:${WEB_PORT}
-    command: ["go", "run", "server.go"]
+    command: ["go", "run", "./server.go"]

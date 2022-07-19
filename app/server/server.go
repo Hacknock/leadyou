@@ -1,22 +1,18 @@
 package main
 
 import (
+	// "Hacknock/getRepoData"
 	// "Hacknock/gitHubAPI"
 	// "Hacknock/mDB"
 	// "Hacknock/monitorMemory"
 	// "Hacknock/recordLog"
 	// "Hacknock/typeName"
-	// "Hacknock/getRepoData"
 	"encoding/json"
 	"fmt"
 	"net/http"
 	"strings"
 	"time"
 )
-
-func handler(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, "Hello, World")
-}
 
 type Values struct {
 	Result string `json:"result"`
@@ -43,19 +39,19 @@ func termTask() {
 
 func main() {
 
-	termTask()
+	// termTask()
 
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		if "/" == r.URL.Path {
+		if r.URL.Path == "/" {
 			fmt.Print("🐬")
-			http.ServeFile(w, r, "./public/html/index.html")
+			http.ServeFile(w, r, "../client/html/index.html")
 			return
 		} else if strings.ToLower(r.URL.Path) == "/favicon.icon" {
-			http.ServeFile(w, r, "./public/images/favicon-black.ico")
+			http.ServeFile(w, r, "../client/images/favicon-black.ico")
 		} else if strings.ToLower(r.URL.Path) == "/makereadme" {
-			http.ServeFile(w, r, "./public/html/form.html")
+			http.ServeFile(w, r, "../client/html/form.html")
 		} else if strings.ToLower(r.URL.Path) == "/page" {
-			http.ServeFile(w, r, "./public/html/document.html")
+			http.ServeFile(w, r, "../client/html/document.html")
 		} else if strings.ToLower(r.URL.Path) == "/getvalues" {
 			// 🌟Replace This Block Later🌟
 			value := Values{Result: "Success"}
@@ -147,12 +143,12 @@ func main() {
 		}
 	})
 
-	http.Handle("/src/css/", http.StripPrefix("/src/css/", http.FileServer(http.Dir("public/css"))))
-	http.Handle("/src/js/", http.StripPrefix("/src/js/", http.FileServer(http.Dir("public/js"))))
-	http.Handle("/src/images/", http.StripPrefix("/src/images/", http.FileServer(http.Dir("public/images"))))
-	http.Handle("/src/customdom/", http.StripPrefix("/src/customdom/", http.FileServer(http.Dir("public/plugins/custom-elements/"))))
-	http.Handle("/src/json/", http.StripPrefix("/src/json/", http.FileServer(http.Dir("public/plugins/")))) // Should this line specify the *.json file?❓
-	http.Handle("/src/md/", http.StripPrefix("/src/md/", http.FileServer(http.Dir("public/md/"))))
+	http.Handle("/src/css/", http.StripPrefix("/src/css/", http.FileServer(http.Dir("../client/css"))))
+	http.Handle("/src/js/", http.StripPrefix("/src/js/", http.FileServer(http.Dir("../client/js"))))
+	http.Handle("/src/images/", http.StripPrefix("/src/images/", http.FileServer(http.Dir("../client/images"))))
+	http.Handle("/src/customdom/", http.StripPrefix("/src/customdom/", http.FileServer(http.Dir("../client/plugins/custom-elements/"))))
+	http.Handle("/src/json/", http.StripPrefix("/src/json/", http.FileServer(http.Dir("../client/plugins/")))) // Should this line specify the *.json file?❓
+	http.Handle("/src/md/", http.StripPrefix("/src/md/", http.FileServer(http.Dir("../client/md/"))))
 
 	http.ListenAndServe(":3001", nil)
 
@@ -176,4 +172,6 @@ func main() {
 	// fmt.Print("Server Start")
 	// fmt.Fprintf(os.Stdout, "Hello World")
 	// log.Println("ニャホニャホタマクロー")
+	// getRD := getRepoData.GetRepoData{}
+	// num, err := getRD.GetCount()
 }

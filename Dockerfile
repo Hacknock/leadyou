@@ -4,7 +4,7 @@ RUN apk update && apk add git && apk add --no-cache alpine-sdk build-base
 
 RUN mkdir /go/src/app
 
-WORKDIR /go/src/app
+WORKDIR /go/src/app/server
 
 ADD ./app /go/src/app
 

@@ -2,11 +2,15 @@ module Hacknock/leadyou
 
 go 1.18
 
-replace Hacknock/recordLog => ./src/appTier/recordLog
+replace Hacknock/recordLog => ./packages/appTier/recordLog
 
-replace Hacknock/monitorMemory => ./src/dataTier/monitorMemory
+replace Hacknock/monitorMemory => ./packages/dataTier/monitorMemory
 
-replace Hacknock/recordLine => ./src/dataTier/recordLine/
+replace Hacknock/recordLine => ./packages/dataTier/recordLine
+
+replace Hacknock/mDB => ./packages/dataTier/mDB
+
+replace Hacknock/typeName => ./packages/typeName
 
 require (
 	Hacknock/getRepoData v0.0.0-00010101000000-000000000000
@@ -22,10 +26,6 @@ require (
 	github.com/mattn/go-sqlite3 v1.14.14 // indirect
 )
 
-replace Hacknock/mDB => ./src/dataTier/mDB
+replace Hacknock/gitHubAPI => ./packages/dataTier/gitHubAPI
 
-replace Hacknock/typeName => ./src/typeName
-
-replace Hacknock/gitHubAPI => ./src/dataTier/gitHubAPI
-
-replace Hacknock/getRepoData => ./src/appTier/getRepoData
+replace Hacknock/getRepoData => ./packages/appTier/getRepoData
