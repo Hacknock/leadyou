@@ -25,21 +25,30 @@ type GetCount struct {
 
 func termTask() {
 	ticker := time.NewTicker(time.Second * 1)
-	defer ticker.Stop()
-	count := 0
-	for {
-		select {
-		case <-ticker.C:
-			fmt.Printf("🐭 %d\n", count)
-			// UpdateCatalog
-			count++
+
+	stop := make(chan bool)
+
+	go func() {
+	loop:
+		for {
+			select {
+			case t := <-ticker.C:
+				fmt.Println("🐾 at ", t)
+			case <-stop:
+				break loop
+			}
 		}
-	}
+		fmt.Println("Reachable")
+	}()
+
+	time.Sleep(time.Second * 10)
+	ticker.Stop()
+	close(stop)
 }
 
 func main() {
 
-	// termTask()
+	termTask()
 
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		if r.URL.Path == "/" {
