@@ -50,7 +50,6 @@ func main() {
 
 		switch strings.ToLower(r.URL.Path) {
 		case "/":
-			fmt.Print("🐬")
 			http.ServeFile(w, r, "../client/html/index.html")
 		case "/favicon.icon":
 			http.ServeFile(w, r, "../client/images/favicon-black.ico")
@@ -143,7 +142,6 @@ func main() {
 			w.Write(res)
 			// showGeneratedTable(query)
 		default:
-			fmt.Print("😹")
 			http.NotFound(w, r)
 		}
 	})
