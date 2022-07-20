@@ -13,9 +13,8 @@ func (g GetRepoData) GetCount() (int, error) {
 	sqdb := database.Database{
 		Path:     "/sqlite3",
 		Database: os.Getenv("MYSQL_DATABASE"),
-		Test:     true,
 	}
-	db, err := sqdb.Init()
+	db, err := sqdb.Open()
 	if db == nil || err != nil {
 		fmt.Printf("🚨 %s\n", err)
 	}

@@ -7,14 +7,89 @@ import (
 	"testing"
 )
 
+func TestMain(m *testing.M) {
+	sqdb := Database{
+		Path:     "/sqlite3",
+		Database: os.Getenv("MYSQL_DATABASE"),
+	}
+
+	err := sqdb.Init()
+	if err != nil {
+		println("🚨 Error to establish database.")
+		return
+	} else {
+
+		sqlTest := `
+		insert or ignore into generated(ts, owner, repository, branch)
+		values('2030-06-27 04:02:32', 'deletedTest', 'test', 'main');
+
+		insert or ignore into generated(ts, owner, repository, branch)
+		values('2030-06-27 05:02:32', 'branchChangeTest', 'test', 'main');
+
+		insert or ignore into generated(ts, owner, repository, branch)
+		values('2042-06-27 04:02:32', 'Hacknock', 'test', 'main');
+
+		insert or ignore into generated(ts, owner, repository, branch)
+		values('2042-06-27 04:03:32', 'panda', 'hogehoge', 'main');
+
+		insert or ignore into generated(ts, owner, repository, branch)
+		values('2042-06-27 04:04:32', 'bird', 'esa', 'develop');
+
+		insert or ignore into generated(ts, owner, repository, branch)
+		values('2042-06-27 04:05:32', 'cup', 'sakana', 'chance');
+
+		insert or ignore into generated(ts, owner, repository, branch)
+		values('2042-06-27 04:06:32', 'clock', 'ball', 'change');
+
+		insert or ignore into generated(ts, owner, repository, branch)
+		values('2042-06-27 04:07:32', 'world', 'cheese', 'bug-fix');
+
+		insert or ignore into generated(ts, owner, repository)
+		values('2042-06-27 04:02:32', 'Hahaha', 'cook');
+
+		insert or ignore into generated(ts, owner, repository)
+		values('2042-06-28 04:02:42','Hacknock', 'hogehoge');
+
+		insert or ignore into generated(ts, owner, repository)
+		values('2042-06-28 04:03:32','neconecopo', 'esa');
+
+		insert or ignore into generated(ts, owner, repository)
+		values('2042-06-28 04:03:42','penguin', 'sakana');
+
+		insert or ignore into generated(ts, owner, repository, branch)
+		values('2042-06-28 04:03:45','esa', 'tori', 'hoge');
+
+		insert or ignore into generated(ts, owner, repository)
+		values('2042-06-28 04:04:52','dog', 'ball');
+
+		insert or ignore into generated(ts, owner, repository)
+		values('2042-06-28 04:05:32','mouse', 'cheese');
+		`
+		db, err := sqdb.Open()
+
+		_, err = db.Exec(sqlTest)
+		if err != nil {
+			return
+		}
+
+		db.Close()
+	}
+
+	println("🚓 before all...")
+	code := m.Run()
+
+	println("🚑 after all...")
+
+	os.Exit(code)
+}
+
 func TestInit(t *testing.T) {
 	sqdb := Database{
 		Path:     "/sqlite3",
 		Database: os.Getenv("MYSQL_DATABASE"),
-		Test:     true,
 	}
 
-	db, err := sqdb.Init()
+	db, err := sqdb.Open()
 	if db == nil || err != nil {
 		t.Fatal(err)
 	}
@@ -27,10 +102,9 @@ func TestUpdateDefaultBranch(t *testing.T) {
 	sqdb := Database{
 		Path:     "/sqlite3",
 		Database: os.Getenv("MYSQL_DATABASE"),
-		Test:     true,
 	}
 
-	db, err := sqdb.Init()
+	db, err := sqdb.Open()
 	if db == nil || err != nil {
 		t.Fatal("Unexpected the return value on Open() with valid arguments on TestUpdateTsRepo\n" + err.Error())
 	}
@@ -61,10 +135,9 @@ func TestUpdateTsRepo(t *testing.T) {
 	sqdb := Database{
 		Path:     "/sqlite3",
 		Database: os.Getenv("MYSQL_DATABASE"),
-		Test:     true,
 	}
 
-	db, err := sqdb.Init()
+	db, err := sqdb.Open()
 	if db == nil || err != nil {
 		t.Fatal("Unexpected the return value on Open() with valid arguments on TestUpdateTsRepo")
 	}
@@ -97,10 +170,9 @@ func TestDeleteRepo(t *testing.T) {
 	sqdb := Database{
 		Path:     "/sqlite3",
 		Database: os.Getenv("MYSQL_DATABASE"),
-		Test:     true,
 	}
 
-	db, err := sqdb.Init()
+	db, err := sqdb.Open()
 	if db == nil || err != nil {
 		t.Fatal("Unexpected the return value on Open() with valid arguments on TestDeleteRepo\n" + err.Error())
 	}
@@ -134,10 +206,9 @@ func TestGetRepoBranchNotNil(t *testing.T) {
 	sqdb := Database{
 		Path:     "/sqlite3",
 		Database: os.Getenv("MYSQL_DATABASE"),
-		Test:     true,
 	}
 
-	db, err := sqdb.Init()
+	db, err := sqdb.Open()
 	if db == nil || err != nil {
 		t.Fatal("Unexpected the return value on Open() with valid arguments")
 	}
@@ -195,10 +266,9 @@ func TestGetRepoBranchAll(t *testing.T) {
 	sqdb := Database{
 		Path:     "/sqlite3",
 		Database: os.Getenv("MYSQL_DATABASE"),
-		Test:     true,
 	}
 
-	db, err := sqdb.Init()
+	db, err := sqdb.Open()
 	if db == nil || err != nil {
 		t.Fatal("Unexpected the return value on Open() with valid arguments")
 	}
@@ -257,10 +327,9 @@ func TestInsert(t *testing.T) {
 	sqdb := Database{
 		Path:     "/sqlite3",
 		Database: os.Getenv("MYSQL_DATABASE"),
-		Test:     true,
 	}
 
-	db, err := sqdb.Init()
+	db, err := sqdb.Open()
 	if db == nil || err != nil {
 		t.Fatal("Unexpected the return value on Open() with valid arguments")
 	}
@@ -285,10 +354,9 @@ func TestGet(t *testing.T) {
 	sqdb := Database{
 		Path:     "/sqlite3",
 		Database: os.Getenv("MYSQL_DATABASE"),
-		Test:     true,
 	}
 
-	db, err := sqdb.Init()
+	db, err := sqdb.Open()
 	if db == nil || err != nil {
 		t.Fatal("Unexpected the return value on Open() with valid arguments")
 	}

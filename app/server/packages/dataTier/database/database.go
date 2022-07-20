@@ -12,7 +12,6 @@ import (
 type Database struct {
 	Path     string
 	Database string
-	Test     bool
 }
 
 type RepoInfo struct {
@@ -21,13 +20,14 @@ type RepoInfo struct {
 	Branch string
 }
 
-// create tables
-func (d Database) Init() (*sql.DB, error) {
+// create tables on Initialization
+func (d Database) Init() error {
 	p := d.Path + "/leadyou.db" // The path to save database
 	db, err := sql.Open("sqlite3", p)
 	if err != nil {
-		return nil, err
+		return err
 	}
+	defer db.Close()
 
 	sqlStmt := `
 	create table if not exists generated (
@@ -38,70 +38,27 @@ func (d Database) Init() (*sql.DB, error) {
 		unique(owner, repository)
 	);`
 
-	sqlTest := `
-	insert or ignore into generated(ts, owner, repository, branch)
-	values('2030-06-27 04:02:32', 'deletedTest', 'test', 'main');
-
-	insert or ignore into generated(ts, owner, repository, branch)
-	values('2030-06-27 05:02:32', 'branchChangeTest', 'test', 'main');
-
-	insert or ignore into generated(ts, owner, repository, branch)
-	values('2042-06-27 04:02:32', 'Hacknock', 'test', 'main');
-
-	insert or ignore into generated(ts, owner, repository, branch)
-	values('2042-06-27 04:03:32', 'panda', 'hogehoge', 'main');
-
-	insert or ignore into generated(ts, owner, repository, branch)
-	values('2042-06-27 04:04:32', 'bird', 'esa', 'develop');
-
-	insert or ignore into generated(ts, owner, repository, branch)
-	values('2042-06-27 04:05:32', 'cup', 'sakana', 'chance');
-
-	insert or ignore into generated(ts, owner, repository, branch)
-	values('2042-06-27 04:06:32', 'clock', 'ball', 'change');
-
-	insert or ignore into generated(ts, owner, repository, branch)
-	values('2042-06-27 04:07:32', 'world', 'cheese', 'bug-fix');
-
-	insert or ignore into generated(ts, owner, repository)
-	values('2042-06-27 04:02:32', 'Hahaha', 'cook');
-
-	insert or ignore into generated(ts, owner, repository)
-	values('2042-06-28 04:02:42','Hacknock', 'hogehoge');
-
-	insert or ignore into generated(ts, owner, repository)
-	values('2042-06-28 04:03:32','neconecopo', 'esa');
-
-	insert or ignore into generated(ts, owner, repository)
-	values('2042-06-28 04:03:42','penguin', 'sakana');
-
-	insert or ignore into generated(ts, owner, repository, branch)
-	values('2042-06-28 04:03:45','esa', 'tori', 'hoge');
-
-	insert or ignore into generated(ts, owner, repository)
-	values('2042-06-28 04:04:52','dog', 'ball');
-
-	insert or ignore into generated(ts, owner, repository)
-	values('2042-06-28 04:05:32','mouse', 'cheese');
-	`
-
-	var exeSql string
-	if d.Test {
-		exeSql = sqlStmt + sqlTest
-	} else {
-		exeSql = sqlStmt
+	_, err = db.Exec(sqlStmt)
+	if err != nil {
+		return err
 	}
+	return nil
+}
 
-	_, err = db.Exec(exeSql)
+// Make the connection
+func (d Database) Open() (*sql.DB, error) {
+	p := d.Path + "/leadyou.db" // The path to save database
+	db, err := sql.Open("sqlite3", p)
 	if err != nil {
 		return nil, err
 	}
+
 	return db, nil
 }
 
 func (d Database) UpdateDefaultBranch(p RepoInfo) error {
 	// Make a connection to DB
-	db, err := d.Init()
+	db, err := d.Open()
 	if err != nil {
 		return err
 	}
@@ -124,7 +81,7 @@ func (d Database) UpdateDefaultBranch(p RepoInfo) error {
 
 func (d Database) UpdateTsRepo(p structure.WhereParams) error {
 	// Make a connection to DB
-	db, err := d.Init()
+	db, err := d.Open()
 	if err != nil {
 		return err
 	}
@@ -150,7 +107,7 @@ func (d Database) UpdateTsRepo(p structure.WhereParams) error {
 
 func (d Database) DeleteRepo(p structure.WhereParams) error {
 	// Make a connection to DB
-	db, err := d.Init()
+	db, err := d.Open()
 	if err != nil {
 		return err
 	}
@@ -171,7 +128,7 @@ func (d Database) DeleteRepo(p structure.WhereParams) error {
 
 func (d Database) GetRepoBranchNotNil(num int) ([]RepoInfo, error) {
 	// Make a connection to DB
-	db, err := d.Init()
+	db, err := d.Open()
 	if err != nil {
 		return []RepoInfo{}, err
 	}
@@ -212,7 +169,7 @@ func (d Database) GetRepoBranchNotNil(num int) ([]RepoInfo, error) {
 // Get repository information does not have branch
 func (d Database) GetRepoBranchAll(num int) ([]RepoInfo, error) {
 	// Make a connection to DB
-	db, err := d.Init()
+	db, err := d.Open()
 	if err != nil {
 		return []RepoInfo{}, err
 	}
@@ -257,7 +214,7 @@ func (d Database) GetRepoBranchAll(num int) ([]RepoInfo, error) {
 
 // Insert repository information
 func (d Database) InsertRepo(p structure.WhereParams) error {
-	db, err := d.Init()
+	db, err := d.Open()
 	if err != nil {
 		return err
 	}
@@ -287,7 +244,7 @@ func (d Database) InsertRepo(p structure.WhereParams) error {
 // Get repository information
 func (d Database) GetRepoInfo(p structure.WhereParams) (RepoInfo, error) {
 	// Establish the connection to DB
-	db, err := d.Init()
+	db, err := d.Open()
 	if err != nil {
 		return RepoInfo{}, err
 	}
