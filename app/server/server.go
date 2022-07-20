@@ -1,17 +1,15 @@
 package main
 
 import (
-	"Hacknock/database"
-	"Hacknock/github"
-	"Hacknock/logger"
-	"Hacknock/monitor"
-	"Hacknock/repository"
-	"Hacknock/structure"
+	// "Hacknock/database"
+	// "Hacknock/github"
+	// "Hacknock/logger"
+	// "Hacknock/monitor"
+	// "Hacknock/repository"
+	// "Hacknock/structure"
 	"encoding/json"
 	"fmt"
-	"log"
 	"net/http"
-	"os"
 	"strings"
 	"time"
 )
@@ -43,9 +41,9 @@ func termTask() {
 		fmt.Println("Reachable")
 	}()
 
-	time.Sleep(time.Second * 10)
-	ticker.Stop()
-	close(stop)
+	// time.Sleep(time.Second * 10)
+	// ticker.Stop()
+	// close(stop)
 }
 
 func main() {
@@ -53,17 +51,18 @@ func main() {
 	termTask()
 
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		if r.URL.Path == "/" {
+
+		switch strings.ToLower(r.URL.Path) {
+		case "/":
 			fmt.Print("🐬")
 			http.ServeFile(w, r, "../client/html/index.html")
-			return
-		} else if strings.ToLower(r.URL.Path) == "/favicon.icon" {
+		case "/favicon.icon":
 			http.ServeFile(w, r, "../client/images/favicon-black.ico")
-		} else if strings.ToLower(r.URL.Path) == "/makereadme" {
+		case "/makereadme":
 			http.ServeFile(w, r, "../client/html/form.html")
-		} else if strings.ToLower(r.URL.Path) == "/page" {
+		case "/page":
 			http.ServeFile(w, r, "../client/html/document.html")
-		} else if strings.ToLower(r.URL.Path) == "/getvalues" {
+		case "/getvalues":
 			// 🌟Replace This Block Later🌟
 			value := Values{Result: "Success"}
 
@@ -77,7 +76,7 @@ func main() {
 			w.Header().Set("Content-Type", "application/json")
 			w.Write(res)
 			// getValues(query)
-		} else if strings.ToLower(r.URL.Path) == "/getcount" {
+		case "/getcount":
 			// 🌟Replace This Block Later🌟
 			value := GetCount{Result: "Success", Count: 240}
 
@@ -91,7 +90,7 @@ func main() {
 			w.Header().Set("Content-Type", "application/json")
 			w.Write(res)
 			// getCount(query)
-		} else if strings.ToLower(r.URL.Path) == "/countup" {
+		case "/countup":
 			// 🌟Replace This Block Later🌟
 			value := Values{Result: "Failed"}
 
@@ -105,7 +104,7 @@ func main() {
 			w.Header().Set("Content-Type", "application/json")
 			w.Write(res)
 			//countUp(query)
-		} else if strings.ToLower(r.URL.Path) == "/getlist" {
+		case "/getlist":
 			// 🌟Replace This Block Later🌟
 			value := Values{Result: "Success"}
 
@@ -119,7 +118,7 @@ func main() {
 			w.Header().Set("Content-Type", "application/json")
 			w.Write(res)
 			//getList(w)
-		} else if strings.ToLower(r.URL.Path) == "/updatecatalog" {
+		case "/updatecatalog":
 			// 🌟Replace This Block Later🌟
 			value := Values{Result: "Failed: this API requires a token"}
 
@@ -133,7 +132,7 @@ func main() {
 			w.Header().Set("Content-Type", "application/json")
 			w.Write(res)
 			// updateCatalog(query)
-		} else if strings.ToLower(r.URL.Path) == "/showgeneratedtable" {
+		case "/showgeneratedtable":
 			// 🌟Replace This Block Later🌟
 			value := Values{Result: "Failed: this API requires a token"}
 
@@ -147,11 +146,110 @@ func main() {
 			w.Header().Set("Content-Type", "application/json")
 			w.Write(res)
 			// showGeneratedTable(query)
-		} else {
+		default:
 			fmt.Print("😹")
 			http.NotFound(w, r)
-			return
 		}
+
+		// if r.URL.Path == "/" {
+		// 	fmt.Print("🐬")
+		// 	http.ServeFile(w, r, "../client/html/index.html")
+		// 	return
+		// } else if strings.ToLower(r.URL.Path) == "/favicon.icon" {
+		// 	http.ServeFile(w, r, "../client/images/favicon-black.ico")
+		// } else if strings.ToLower(r.URL.Path) == "/makereadme" {
+		// 	http.ServeFile(w, r, "../client/html/form.html")
+		// } else if strings.ToLower(r.URL.Path) == "/page" {
+		// 	http.ServeFile(w, r, "../client/html/document.html")
+		// } else if strings.ToLower(r.URL.Path) == "/getvalues" {
+		// 	// 🌟Replace This Block Later🌟
+		// 	value := Values{Result: "Success"}
+
+		// 	res, err := json.Marshal(value)
+
+		// 	if err != nil {
+		// 		http.Error(w, err.Error(), http.StatusInternalServerError)
+		// 		return
+		// 	}
+
+		// 	w.Header().Set("Content-Type", "application/json")
+		// 	w.Write(res)
+		// 	// getValues(query)
+		// } else if strings.ToLower(r.URL.Path) == "/getcount" {
+		// 	// 🌟Replace This Block Later🌟
+		// 	value := GetCount{Result: "Success", Count: 240}
+
+		// 	res, err := json.Marshal(value)
+
+		// 	if err != nil {
+		// 		http.Error(w, err.Error(), http.StatusInternalServerError)
+		// 		return
+		// 	}
+
+		// 	w.Header().Set("Content-Type", "application/json")
+		// 	w.Write(res)
+		// 	// getCount(query)
+		// } else if strings.ToLower(r.URL.Path) == "/countup" {
+		// 	// 🌟Replace This Block Later🌟
+		// 	value := Values{Result: "Failed"}
+
+		// 	res, err := json.Marshal(value)
+
+		// 	if err != nil {
+		// 		http.Error(w, err.Error(), http.StatusInternalServerError)
+		// 		return
+		// 	}
+
+		// 	w.Header().Set("Content-Type", "application/json")
+		// 	w.Write(res)
+		// 	//countUp(query)
+		// } else if strings.ToLower(r.URL.Path) == "/getlist" {
+		// 	// 🌟Replace This Block Later🌟
+		// 	value := Values{Result: "Success"}
+
+		// 	res, err := json.Marshal(value)
+
+		// 	if err != nil {
+		// 		http.Error(w, err.Error(), http.StatusInternalServerError)
+		// 		return
+		// 	}
+
+		// 	w.Header().Set("Content-Type", "application/json")
+		// 	w.Write(res)
+		// 	//getList(w)
+		// } else if strings.ToLower(r.URL.Path) == "/updatecatalog" {
+		// 	// 🌟Replace This Block Later🌟
+		// 	value := Values{Result: "Failed: this API requires a token"}
+
+		// 	res, err := json.Marshal(value)
+
+		// 	if err != nil {
+		// 		http.Error(w, err.Error(), http.StatusInternalServerError)
+		// 		return
+		// 	}
+
+		// 	w.Header().Set("Content-Type", "application/json")
+		// 	w.Write(res)
+		// 	// updateCatalog(query)
+		// } else if strings.ToLower(r.URL.Path) == "/showgeneratedtable" {
+		// 	// 🌟Replace This Block Later🌟
+		// 	value := Values{Result: "Failed: this API requires a token"}
+
+		// 	res, err := json.Marshal(value)
+
+		// 	if err != nil {
+		// 		http.Error(w, err.Error(), http.StatusInternalServerError)
+		// 		return
+		// 	}
+
+		// 	w.Header().Set("Content-Type", "application/json")
+		// 	w.Write(res)
+		// 	// showGeneratedTable(query)
+		// } else {
+		// 	fmt.Print("😹")
+		// 	http.NotFound(w, r)
+		// 	return
+		// }
 	})
 
 	http.Handle("/src/css/", http.StripPrefix("/src/css/", http.FileServer(http.Dir("../client/css"))))
@@ -163,26 +261,26 @@ func main() {
 
 	http.ListenAndServe(":3001", nil)
 
-	r := logger.RecordLog{Level: 1, Path: "./text", File_name: "log.txt"}
-	r.Error("Hahaha")
-	m := monitor.MonitorMemory{Path: "./test", File_name: "memory.txt"}
-	m.RecMemory(true, true)
-	mdb := database.MDB{
-		Path:     "/sqlite3",
-		Database: os.Getenv("MYSQL_DATABASE"),
-		Test:     true,
-	}
-	dummy := structure.WhereParams{"aaa", "aaaaa"}
-	db, err := mdb.Init()
+	// r := logger.RecordLog{Level: 1, Path: "./text", File_name: "log.txt"}
+	// r.Error("Hahaha")
+	// m := monitor.MonitorMemory{Path: "./test", File_name: "memory.txt"}
+	// m.RecMemory(true, true)
+	// mdb := database.MDB{
+	// 	Path:     "/sqlite3",
+	// 	Database: os.Getenv("MYSQL_DATABASE"),
+	// 	Test:     true,
+	// }
+	// dummy := structure.WhereParams{"aaa", "aaaaa"}
+	// db, err := mdb.Init()
 
-	if db == nil || err != nil {
-		log.Fatal("Unexpected the return value on Open() with valid arguments")
-	}
-	ghapi := github.GitHubAPI{token: "test"}
-	ghapi.FetchReadme(dummy)
-	fmt.Print("Server Start")
-	fmt.Fprintf(os.Stdout, "Hello World")
-	log.Println("ニャホニャホタマクロー")
-	getRD := repository.GetRepoData{}
-	num, err := getRD.GetCount()
+	// if db == nil || err != nil {
+	// 	log.Fatal("Unexpected the return value on Open() with valid arguments")
+	// }
+	// ghapi := github.GitHubAPI{token: "test"}
+	// ghapi.FetchReadme(dummy)
+	// fmt.Print("Server Start")
+	// fmt.Fprintf(os.Stdout, "Hello World")
+	// log.Println("ニャホニャホタマクロー")
+	// getRD := repository.GetRepoData{}
+	// num, err := getRD.GetCount()
 }
