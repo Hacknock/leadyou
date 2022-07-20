@@ -67,6 +67,10 @@ func TestMain(m *testing.M) {
 		`
 		db, err := sqdb.Open()
 
+		if err != nil {
+			return
+		}
+
 		_, err = db.Exec(sqlTest)
 		if err != nil {
 			return
@@ -75,10 +79,7 @@ func TestMain(m *testing.M) {
 		db.Close()
 	}
 
-	println("🚓 before all...")
 	code := m.Run()
-
-	println("🚑 after all...")
 
 	os.Exit(code)
 }

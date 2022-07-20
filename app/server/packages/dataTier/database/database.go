@@ -94,11 +94,10 @@ func (d Database) UpdateTsRepo(p structure.WhereParams) error {
 	}
 	defer stmtIns.Close() // Close the statement when we leave main() / the program terminates
 
-	now := time.Now()
 	const layout = "2006-01-02 15:04:05"
-	time_data := now.Format(layout)
+	now := time.Now().Format(layout)
 
-	_, err = stmtIns.Exec(time_data, p.Owner, p.Repo)
+	_, err = stmtIns.Exec(now, p.Owner, p.Repo)
 	if err != nil {
 		return err
 	}

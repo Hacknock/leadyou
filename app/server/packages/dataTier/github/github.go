@@ -20,8 +20,9 @@ func (g Github) FetchReadme(p structure.WhereParams) (string, error) {
 		return "", err
 	}
 
+	t := `token ` + g.Token
 	req.Header.Add("Content-Type", "application/json; charset=utf-8")
-	req.Header.Add("Authorization", `token `+g.Token)
+	req.Header.Add("Authorization", t)
 	req.Header.Set("Access-Control-Allow-Origin", "https://api.github.com")
 	req.Header.Set("Access-Control-Allow-Credentials", "true")
 	req.Header.Set("Access-Control-Allow-Headers", "Content-Type, X-Requested-With, Origin, X-Csrftoken, Accept, Cookie")
