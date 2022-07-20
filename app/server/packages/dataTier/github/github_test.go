@@ -1,4 +1,4 @@
-package gitHubAPI
+package github
 
 import (
 	"Hacknock/structure"
@@ -7,7 +7,7 @@ import (
 )
 
 func TestFetchReadme(t *testing.T) {
-	ghAPI := GitHubAPI{token: os.Getenv("GITHUB_TOKEN")}
+	ghAPI := Github{Token: os.Getenv("GITHUB_TOKEN")}
 	param := structure.WhereParams{Owner: "Hacknock", Repo: "leadyou"}
 	res, err := ghAPI.FetchReadme(param)
 	if err != nil {
@@ -19,7 +19,7 @@ func TestFetchReadme(t *testing.T) {
 	}
 
 	param = structure.WhereParams{Owner: "Hacknock", Repo: "environments-share"}
-	res, err = ghAPI.FetchReadme(param)
+	res, _ = ghAPI.FetchReadme(param)
 
 	if res != "" {
 		t.Fatal("This return must throw an error.")

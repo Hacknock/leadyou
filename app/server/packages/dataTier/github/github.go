@@ -1,4 +1,4 @@
-package gitHubAPI
+package github
 
 import (
 	"Hacknock/structure"
@@ -8,35 +8,35 @@ import (
 	"strings"
 )
 
-type GitHubAPI struct {
-	token string
+type Github struct {
+	Token string
 }
 
-func (g GitHubAPI) FetchReadme(p structure.WhereParams) (string, error) {
-	requestURL := "https://api.github.com/repos/" + p.Owner + "/" + p.Repo + "/readme"
+func (g Github) FetchReadme(p structure.WhereParams) (string, error) {
 
-	req, err := http.NewRequest("GET", requestURL, nil)
+	ru := "https://api.github.com/repos/" + p.Owner + "/" + p.Repo + "/readme" // Request-URL
+	req, err := http.NewRequest("GET", ru, nil)
 	if err != nil {
 		return "", err
 	}
 
 	req.Header.Add("Content-Type", "application/json; charset=utf-8")
-	req.Header.Add("Authorization", `token `+g.token)
+	req.Header.Add("Authorization", `token `+g.Token)
 	req.Header.Set("Access-Control-Allow-Origin", "https://api.github.com")
 	req.Header.Set("Access-Control-Allow-Credentials", "true")
 	req.Header.Set("Access-Control-Allow-Headers", "Content-Type, X-Requested-With, Origin, X-Csrftoken, Accept, Cookie")
-	req.Header.Set("Access-Control-Allow-Methods", "POST, GET, OPTIONS, DELETE, PUT")
+	req.Header.Set("Access-Control-Allow-Methods", "GET")
 
 	client := new(http.Client)
-	resp, err := client.Do(req)
+	res, err := client.Do(req)
 
 	if err != nil {
 		return "", err
 	}
 
-	defer resp.Body.Close()
+	defer res.Body.Close()
 
-	body, err := io.ReadAll(resp.Body)
+	body, err := io.ReadAll(res.Body)
 
 	if err != nil {
 		return "", err

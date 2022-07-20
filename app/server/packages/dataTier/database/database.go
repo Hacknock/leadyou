@@ -9,7 +9,7 @@ import (
 	_ "github.com/mattn/go-sqlite3"
 )
 
-type MDB struct {
+type Database struct {
 	Path     string
 	Database string
 	Test     bool
@@ -22,8 +22,9 @@ type RepoInfo struct {
 }
 
 // create tables
-func (m MDB) Init() (*sql.DB, error) {
-	db, err := sql.Open("sqlite3", m.Path+"/leadyou.db")
+func (d Database) Init() (*sql.DB, error) {
+	p := d.Path + "/leadyou.db" // The path to save database
+	db, err := sql.Open("sqlite3", p)
 	if err != nil {
 		return nil, err
 	}
@@ -85,7 +86,7 @@ func (m MDB) Init() (*sql.DB, error) {
 	`
 
 	var exeSql string
-	if m.Test == true {
+	if d.Test {
 		exeSql = sqlStmt + sqlTest
 	} else {
 		exeSql = sqlStmt
@@ -98,9 +99,9 @@ func (m MDB) Init() (*sql.DB, error) {
 	return db, nil
 }
 
-func (m MDB) UpdateDefaultBranch(p RepoInfo) error {
+func (d Database) UpdateDefaultBranch(p RepoInfo) error {
 	// Make a connection to DB
-	db, err := m.Init()
+	db, err := d.Init()
 	if err != nil {
 		return err
 	}
@@ -121,9 +122,9 @@ func (m MDB) UpdateDefaultBranch(p RepoInfo) error {
 	return nil
 }
 
-func (m MDB) UpdateTsRepo(p structure.WhereParams) error {
+func (d Database) UpdateTsRepo(p structure.WhereParams) error {
 	// Make a connection to DB
-	db, err := m.Init()
+	db, err := d.Init()
 	if err != nil {
 		return err
 	}
@@ -136,9 +137,9 @@ func (m MDB) UpdateTsRepo(p structure.WhereParams) error {
 	}
 	defer stmtIns.Close() // Close the statement when we leave main() / the program terminates
 
-	time_now := time.Now()
+	now := time.Now()
 	const layout = "2006-01-02 15:04:05"
-	time_data := time_now.Format(layout)
+	time_data := now.Format(layout)
 
 	_, err = stmtIns.Exec(time_data, p.Owner, p.Repo)
 	if err != nil {
@@ -147,9 +148,9 @@ func (m MDB) UpdateTsRepo(p structure.WhereParams) error {
 	return nil
 }
 
-func (m MDB) DeleteRepo(p structure.WhereParams) error {
+func (d Database) DeleteRepo(p structure.WhereParams) error {
 	// Make a connection to DB
-	db, err := m.Init()
+	db, err := d.Init()
 	if err != nil {
 		return err
 	}
@@ -168,9 +169,9 @@ func (m MDB) DeleteRepo(p structure.WhereParams) error {
 	return nil
 }
 
-func (m MDB) GetRepoBranchNotNil(num int) ([]RepoInfo, error) {
+func (d Database) GetRepoBranchNotNil(num int) ([]RepoInfo, error) {
 	// Make a connection to DB
-	db, err := m.Init()
+	db, err := d.Init()
 	if err != nil {
 		return []RepoInfo{}, err
 	}
@@ -209,9 +210,9 @@ func (m MDB) GetRepoBranchNotNil(num int) ([]RepoInfo, error) {
 }
 
 // Get repository information does not have branch
-func (m MDB) GetRepoBranchAll(num int) ([]RepoInfo, error) {
+func (d Database) GetRepoBranchAll(num int) ([]RepoInfo, error) {
 	// Make a connection to DB
-	db, err := m.Init()
+	db, err := d.Init()
 	if err != nil {
 		return []RepoInfo{}, err
 	}
@@ -255,8 +256,8 @@ func (m MDB) GetRepoBranchAll(num int) ([]RepoInfo, error) {
 }
 
 // Insert repository information
-func (m MDB) InsertRepo(p structure.WhereParams) error {
-	db, err := m.Init()
+func (d Database) InsertRepo(p structure.WhereParams) error {
+	db, err := d.Init()
 	if err != nil {
 		return err
 	}
@@ -284,9 +285,9 @@ func (m MDB) InsertRepo(p structure.WhereParams) error {
 }
 
 // Get repository information
-func (m MDB) GetRepoInfo(p structure.WhereParams) (RepoInfo, error) {
+func (d Database) GetRepoInfo(p structure.WhereParams) (RepoInfo, error) {
 	// Establish the connection to DB
-	db, err := m.Init()
+	db, err := d.Init()
 	if err != nil {
 		return RepoInfo{}, err
 	}

@@ -7,24 +7,22 @@ import (
 	"runtime"
 )
 
-type MonitorMemory struct {
-	Path      string
-	File_name string
+type Monitor struct {
+	Path     string
+	FileName string
 }
 
-func (m MonitorMemory) RecMemory(to_console bool, to_file bool) (rec string, console_out bool, err error) {
+func (m Monitor) RecMemory(toConsole bool, toFile bool) (string, bool, error) {
 
-	recordL := recorder.RecordLine{Path: m.Path, File_name: m.File_name}
+	recordL := recorder.Recorder{Path: m.Path, FileName: m.FileName}
 
-	var (
-		ms runtime.MemStats
-	)
+	var ms runtime.MemStats
 	runtime.ReadMemStats(&ms)
 	memVal := m.toKb(ms.Sys)
 
-	return recordL.Record("Memory", strconv.FormatUint(memVal, 10)+" KB", to_console, to_file)
+	return recordL.Record("Memory", strconv.FormatUint(memVal, 10)+" KB", toConsole, toFile)
 }
 
-func (m MonitorMemory) toKb(bytes uint64) uint64 {
+func (m Monitor) toKb(bytes uint64) uint64 {
 	return bytes / 1024
 }

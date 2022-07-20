@@ -10,7 +10,7 @@ import (
 
 func TestError(t *testing.T) {
 	// Get the present time
-	tim := time.Now()
+	now := time.Now()
 
 	// Initialize recordLog
 	recordLog := RecordLog{0, "./test", "log.txt"}
@@ -19,7 +19,8 @@ func TestError(t *testing.T) {
 	mess := []string{"Hello", "This is a test"}
 	var expects []string
 	for i := 0; i < len(mess); i++ {
-		expects = append(expects, "["+tim.Format(time.RFC3339)+"][Error] - "+mess[i])
+		m := "[" + now.Format(time.RFC3339) + "][Error] - " + mess[i]
+		expects = append(expects, m)
 		rec, err := recordLog.Error(mess[i])
 
 		// Check the return
@@ -29,7 +30,7 @@ func TestError(t *testing.T) {
 	}
 
 	// File open to check the written lines by recordLog.Error()
-	file, er := os.Open(recordLog.Path + "/" + recordLog.File_name)
+	file, er := os.Open(recordLog.Path + "/" + recordLog.FileName)
 	if er != nil {
 		t.Fatal("Fail to open the file. test.txt")
 	}
@@ -44,8 +45,8 @@ func TestError(t *testing.T) {
 		line := scanner.Text()
 		if line != expects[l] {
 			t.Fatal("Not matched line " + strconv.Itoa(l) + ".\n" +
-				"Expected: " + expects[l] +
-				"\nActual: " + line)
+				"Expected: " + expects[l] + "\n" +
+				"Actual: " + line)
 		}
 		l++
 	}
@@ -53,7 +54,7 @@ func TestError(t *testing.T) {
 
 func TestWarn(t *testing.T) {
 	// Get the present time
-	tim := time.Now()
+	now := time.Now()
 
 	// Initialize recordLog
 	recordLog := RecordLog{0, "./test/aaa", "log.txt"}
@@ -62,7 +63,8 @@ func TestWarn(t *testing.T) {
 	mess := []string{"Good night", "This is a test"}
 	var expects []string
 	for i := 0; i < len(mess); i++ {
-		expects = append(expects, "["+tim.Format(time.RFC3339)+"][Warn] - "+mess[i])
+		m := "[" + now.Format(time.RFC3339) + "][Warn] - " + mess[i]
+		expects = append(expects, m)
 		rec, err := recordLog.Warn(mess[i])
 
 		// Check the return
@@ -72,7 +74,7 @@ func TestWarn(t *testing.T) {
 	}
 
 	// File open to check the written lines by recordLog.Warn()
-	file, er := os.Open(recordLog.Path + "/" + recordLog.File_name)
+	file, er := os.Open(recordLog.Path + "/" + recordLog.FileName)
 	if er != nil {
 		t.Fatal("Fail to open the file. test.txt")
 	}
@@ -96,7 +98,7 @@ func TestWarn(t *testing.T) {
 
 func TestLog(t *testing.T) {
 	// Get the present time
-	tim := time.Now()
+	now := time.Now()
 
 	// Initialize recordLog
 	recordLog := RecordLog{0, "./test/aaa/bbb", "log.txt"}
@@ -105,7 +107,8 @@ func TestLog(t *testing.T) {
 	mess := []string{"Good night", "This is a test", "Testing"}
 	var expects []string
 	for i := 0; i < len(mess); i++ {
-		expects = append(expects, "["+tim.Format(time.RFC3339)+"][Log] - "+mess[i])
+		m := "[" + now.Format(time.RFC3339) + "][Log] - " + mess[i]
+		expects = append(expects, m)
 		rec, err := recordLog.Log(mess[i])
 
 		// Check the return
@@ -115,7 +118,7 @@ func TestLog(t *testing.T) {
 	}
 
 	// File open to check the written lines by recordLog.Log()
-	file, er := os.Open(recordLog.Path + "/" + recordLog.File_name)
+	file, er := os.Open(recordLog.Path + "/" + recordLog.FileName)
 	if er != nil {
 		t.Fatal("Fail to open the file. test.txt")
 	}
@@ -130,8 +133,8 @@ func TestLog(t *testing.T) {
 		line := scanner.Text()
 		if line != expects[l] {
 			t.Fatal("Not matched line " + strconv.Itoa(l) + ".\n" +
-				"Expected: " + expects[l] +
-				"\nActual: " + line)
+				"Expected: " + expects[l] + "\n" +
+				"Actual: " + line)
 		}
 		l++
 	}
@@ -139,7 +142,7 @@ func TestLog(t *testing.T) {
 
 func TestDebug(t *testing.T) {
 	// Get the present time
-	tim := time.Now()
+	now := time.Now()
 
 	// Initialize recordLog
 	recordLog := RecordLog{0, "./test/aaa/bbb/ccc", "log.txt"}
@@ -148,7 +151,8 @@ func TestDebug(t *testing.T) {
 	mess := []string{"Good night", "This is a test", "Testing", "Cat"}
 	var expects []string
 	for i := 0; i < len(mess); i++ {
-		expects = append(expects, "["+tim.Format(time.RFC3339)+"][Debug] - "+mess[i])
+		m := "[" + now.Format(time.RFC3339) + "][Debug] - " + mess[i]
+		expects = append(expects, m)
 		rec, err := recordLog.Debug(mess[i])
 
 		// Check the return
@@ -158,7 +162,7 @@ func TestDebug(t *testing.T) {
 	}
 
 	// File open to check the written lines by recordLog.Debug()
-	file, er := os.Open(recordLog.Path + "/" + recordLog.File_name)
+	file, er := os.Open(recordLog.Path + "/" + recordLog.FileName)
 	if er != nil {
 		t.Fatal("Fail to open the file. test.txt")
 	}
@@ -173,8 +177,8 @@ func TestDebug(t *testing.T) {
 		line := scanner.Text()
 		if line != expects[l] {
 			t.Fatal("Not matched line " + strconv.Itoa(l) + ".\n" +
-				"Expected: " + expects[l] +
-				"\nActual: " + line)
+				"Expected: " + expects[l] + "\n" +
+				"Actual: " + line)
 		}
 		l++
 	}

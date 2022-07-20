@@ -10,12 +10,12 @@ type GetRepoData struct {
 }
 
 func (g GetRepoData) GetCount() (int, error) {
-	mdb := database.MDB{
+	sqdb := database.Database{
 		Path:     "/sqlite3",
 		Database: os.Getenv("MYSQL_DATABASE"),
 		Test:     true,
 	}
-	db, err := mdb.Init()
+	db, err := sqdb.Init()
 	if db == nil || err != nil {
 		fmt.Printf("🚨 %s\n", err)
 	}

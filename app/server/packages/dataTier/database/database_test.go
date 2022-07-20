@@ -8,7 +8,7 @@ import (
 )
 
 func TestInit(t *testing.T) {
-	sqdb := MDB{
+	sqdb := Database{
 		Path:     "/sqlite3",
 		Database: os.Getenv("MYSQL_DATABASE"),
 		Test:     true,
@@ -24,7 +24,7 @@ func TestInit(t *testing.T) {
 
 func TestUpdateDefaultBranch(t *testing.T) {
 	// Make a handle
-	sqdb := MDB{
+	sqdb := Database{
 		Path:     "/sqlite3",
 		Database: os.Getenv("MYSQL_DATABASE"),
 		Test:     true,
@@ -58,7 +58,7 @@ func TestUpdateDefaultBranch(t *testing.T) {
 
 func TestUpdateTsRepo(t *testing.T) {
 	// Make a handle
-	sqdb := MDB{
+	sqdb := Database{
 		Path:     "/sqlite3",
 		Database: os.Getenv("MYSQL_DATABASE"),
 		Test:     true,
@@ -94,7 +94,7 @@ func TestUpdateTsRepo(t *testing.T) {
 
 func TestDeleteRepo(t *testing.T) {
 	// Make a handle
-	sqdb := MDB{
+	sqdb := Database{
 		Path:     "/sqlite3",
 		Database: os.Getenv("MYSQL_DATABASE"),
 		Test:     true,
@@ -131,7 +131,7 @@ func TestDeleteRepo(t *testing.T) {
 
 func TestGetRepoBranchNotNil(t *testing.T) {
 	// Make a handle
-	sqdb := MDB{
+	sqdb := Database{
 		Path:     "/sqlite3",
 		Database: os.Getenv("MYSQL_DATABASE"),
 		Test:     true,
@@ -192,7 +192,7 @@ func TestGetRepoBranchNotNil(t *testing.T) {
 }
 func TestGetRepoBranchAll(t *testing.T) {
 	// Make a handle
-	sqdb := MDB{
+	sqdb := Database{
 		Path:     "/sqlite3",
 		Database: os.Getenv("MYSQL_DATABASE"),
 		Test:     true,
@@ -254,7 +254,7 @@ func TestGetRepoBranchAll(t *testing.T) {
 
 func TestInsert(t *testing.T) {
 	// Make a handle
-	sqdb := MDB{
+	sqdb := Database{
 		Path:     "/sqlite3",
 		Database: os.Getenv("MYSQL_DATABASE"),
 		Test:     true,
@@ -282,7 +282,7 @@ func TestInsert(t *testing.T) {
 
 func TestGet(t *testing.T) {
 	// Make a handle
-	sqdb := MDB{
+	sqdb := Database{
 		Path:     "/sqlite3",
 		Database: os.Getenv("MYSQL_DATABASE"),
 		Test:     true,

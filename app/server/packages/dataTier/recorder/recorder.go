@@ -6,52 +6,55 @@ import (
 	"time"
 )
 
-type RecordLine struct {
-	Path      string
-	File_name string
+type Recorder struct {
+	Path     string
+	FileName string
 }
 
-func (r RecordLine) Record(cate string, mess string, to_console bool, to_file bool) (rec string, console_out bool, err error) {
+func (r Recorder) Record(cate string, mess string, toConsole bool, toFile bool) (string, bool, error) {
 
 	// Variable console out log
-	flag_console := false
+	isConsole := false
 
 	// Get the current time
 	t := time.Now()
-	time_data := t.Format(time.RFC3339)
+	timeData := t.Format(time.RFC3339)
 
 	// The message line
-	mess_line := "[" + time_data + "][" + cate + "] - " + mess
+	messLine := "[" + timeData + "][" + cate + "] - " + mess
 
-	if to_file {
+	if toFile {
 		// Check the existing of directory
-		if _, err := os.Stat(r.Path); os.IsNotExist(err) {
+		_, err := os.Stat(r.Path)
+		if os.IsNotExist(err) {
 			os.Mkdir(r.Path, 0777)
 		} else if err != nil {
-			return "", flag_console, err
+			return "", isConsole, err
 		}
 
 		// File open or create
-		f, err := os.OpenFile(r.Path+"/"+r.File_name, os.O_CREATE|os.O_RDWR|os.O_APPEND, 0600)
+		p := r.Path + "/" + r.FileName             // path to save the file
+		o := os.O_CREATE | os.O_RDWR | os.O_APPEND // option to save data to the file
+		f, err := os.OpenFile(p, o, 0600)
 		if err != nil {
 			log.Fatal(err)
-			return "", flag_console, err
+			return "", isConsole, err
 		}
 		defer f.Close()
 
 		// Write error line
-		_, er := f.WriteString(mess_line + "\n")
+		_, er := f.WriteString(messLine + "\n")
 		if er != nil {
 			log.Fatal(er)
-			return "", flag_console, er
+			return "", isConsole, er
 		}
 	}
 
-	if to_console {
+	if toConsole {
 		// To output the log to terminal
-		log.Println(mess_line)
-		flag_console = true
+		log.Println(messLine)
+		isConsole = true
 	}
 
-	return mess_line, flag_console, nil
+	return messLine, isConsole, nil
 }
