@@ -10,6 +10,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
+	"os"
 	"strings"
 	"time"
 )
@@ -153,7 +154,9 @@ func main() {
 	http.Handle("/src/json/", http.StripPrefix("/src/json/", http.FileServer(http.Dir("../client/plugins/")))) // Should this line specify the *.json file?❓
 	http.Handle("/src/md/", http.StripPrefix("/src/md/", http.FileServer(http.Dir("../client/md/"))))
 
-	http.ListenAndServe(":3001", nil)
+	PORT := ":" + os.Getenv("WEB_PORT")
+
+	http.ListenAndServe(PORT, nil)
 
 	// r := logger.RecordLog{Level: 1, Path: "./text", File_name: "log.txt"}
 	// r.Error("Hahaha")
