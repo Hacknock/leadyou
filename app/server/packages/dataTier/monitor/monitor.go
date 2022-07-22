@@ -20,7 +20,8 @@ func (m Monitor) RecMemory(toConsole bool, toFile bool) (string, bool, error) {
 	runtime.ReadMemStats(&ms)
 	memVal := m.toKb(ms.Sys)
 
-	return recordL.Record("Memory", strconv.FormatUint(memVal, 10)+" KB", toConsole, toFile)
+	a := strconv.FormatUint(memVal, 10) + " KB" // The argument for recordL.Record()
+	return recordL.Record("Memory", a, toConsole, toFile)
 }
 
 func (m Monitor) toKb(bytes uint64) uint64 {
