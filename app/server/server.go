@@ -11,7 +11,6 @@ import (
 	"fmt"
 	"net/http"
 	"os"
-	"strings"
 	"time"
 )
 
@@ -48,103 +47,115 @@ func main() {
 	termTask()
 
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+		http.ServeFile(w, r, "../client/html/index.html")
+	})
 
-		switch strings.ToLower(r.URL.Path) {
-		case "/":
-			http.ServeFile(w, r, "../client/html/index.html")
-		case "/favicon.icon":
-			http.ServeFile(w, r, "../client/images/favicon-black.ico")
-		case "/makereadme":
-			http.ServeFile(w, r, "../client/html/form.html")
-		case "/page":
-			http.ServeFile(w, r, "../client/html/document.html")
-		case "/getvalues":
-			// 🌟Replace This Block Later🌟
-			value := Values{Result: "Success"}
+	http.HandleFunc("/favicon.icon", func(w http.ResponseWriter, r *http.Request) {
+		http.ServeFile(w, r, "../client/images/favicon-black.ico")
+	})
 
-			res, err := json.Marshal(value)
+	http.HandleFunc("/makereadme", func(w http.ResponseWriter, r *http.Request) {
+		http.ServeFile(w, r, "../client/html/form.html")
+	})
 
-			if err != nil {
-				http.Error(w, err.Error(), http.StatusInternalServerError)
-				return
-			}
+	http.HandleFunc("/page", func(w http.ResponseWriter, r *http.Request) {
+		http.ServeFile(w, r, "../client/html/document.html")
+	})
 
-			w.Header().Set("Content-Type", "application/json")
-			w.Write(res)
-			// getValues(query)
-		case "/getcount":
-			// 🌟Replace This Block Later🌟
-			value := GetCount{Result: "Success", Count: 240}
+	http.HandleFunc("/getvalues", func(w http.ResponseWriter, r *http.Request) {
+		// 🌟Replace This Block Later🌟
+		value := Values{Result: "Success"}
 
-			res, err := json.Marshal(value)
+		res, err := json.Marshal(value)
 
-			if err != nil {
-				http.Error(w, err.Error(), http.StatusInternalServerError)
-				return
-			}
-
-			w.Header().Set("Content-Type", "application/json")
-			w.Write(res)
-			// getCount(query)
-		case "/countup":
-			// 🌟Replace This Block Later🌟
-			value := Values{Result: "Failed"}
-
-			res, err := json.Marshal(value)
-
-			if err != nil {
-				http.Error(w, err.Error(), http.StatusInternalServerError)
-				return
-			}
-
-			w.Header().Set("Content-Type", "application/json")
-			w.Write(res)
-			//countUp(query)
-		case "/getlist":
-			// 🌟Replace This Block Later🌟
-			value := Values{Result: "Success"}
-
-			res, err := json.Marshal(value)
-
-			if err != nil {
-				http.Error(w, err.Error(), http.StatusInternalServerError)
-				return
-			}
-
-			w.Header().Set("Content-Type", "application/json")
-			w.Write(res)
-			//getList(w)
-		case "/updatecatalog":
-			// 🌟Replace This Block Later🌟
-			value := Values{Result: "Failed: this API requires a token"}
-
-			res, err := json.Marshal(value)
-
-			if err != nil {
-				http.Error(w, err.Error(), http.StatusInternalServerError)
-				return
-			}
-
-			w.Header().Set("Content-Type", "application/json")
-			w.Write(res)
-			// updateCatalog(query)
-		case "/showgeneratedtable":
-			// 🌟Replace This Block Later🌟
-			value := Values{Result: "Failed: this API requires a token"}
-
-			res, err := json.Marshal(value)
-
-			if err != nil {
-				http.Error(w, err.Error(), http.StatusInternalServerError)
-				return
-			}
-
-			w.Header().Set("Content-Type", "application/json")
-			w.Write(res)
-			// showGeneratedTable(query)
-		default:
-			http.NotFound(w, r)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
 		}
+
+		w.Header().Set("Content-Type", "application/json")
+		w.Write(res)
+		// getValues(query)
+	})
+
+	http.HandleFunc("/getcount", func(w http.ResponseWriter, r *http.Request) {
+		// 🌟Replace This Block Later🌟
+		value := GetCount{Result: "Success", Count: 240}
+
+		res, err := json.Marshal(value)
+
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+
+		w.Header().Set("Content-Type", "application/json")
+		w.Write(res)
+		// getCount(query)
+	})
+
+	http.HandleFunc("/countup", func(w http.ResponseWriter, r *http.Request) {
+		// 🌟Replace This Block Later🌟
+		value := Values{Result: "Failed"}
+
+		res, err := json.Marshal(value)
+
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+
+		w.Header().Set("Content-Type", "application/json")
+		w.Write(res)
+		//countUp(query)
+	})
+
+	http.HandleFunc("/getlist", func(w http.ResponseWriter, r *http.Request) {
+		// 🌟Replace This Block Later🌟
+		value := Values{Result: "Success"}
+
+		res, err := json.Marshal(value)
+
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+
+		w.Header().Set("Content-Type", "application/json")
+		w.Write(res)
+		//getList(w)
+	})
+
+	http.HandleFunc("/updatecatalog", func(w http.ResponseWriter, r *http.Request) {
+		// 🌟Replace This Block Later🌟
+		value := Values{Result: "Failed: this API requires a token"}
+
+		res, err := json.Marshal(value)
+
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+
+		w.Header().Set("Content-Type", "application/json")
+		w.Write(res)
+		// updateCatalog(query)
+	})
+
+	http.HandleFunc("/showgeneratedtable", func(w http.ResponseWriter, r *http.Request) {
+		// 🌟Replace This Block Later🌟
+		value := Values{Result: "Failed: this API requires a token"}
+
+		res, err := json.Marshal(value)
+
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+
+		w.Header().Set("Content-Type", "application/json")
+		w.Write(res)
+		// showGeneratedTable(query)
 	})
 
 	http.Handle("/src/css/", http.StripPrefix("/src/css/", http.FileServer(http.Dir("../client/css"))))
