@@ -23,6 +23,7 @@ require (
 	Hacknock/monitor v0.0.0-00010101000000-000000000000
 	Hacknock/repository v0.0.0-00010101000000-000000000000
 	Hacknock/structure v0.0.0-00010101000000-000000000000
+	github.com/go-chi/chi/v5 v5.0.7
 )
 
 require (
