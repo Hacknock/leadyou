@@ -9,7 +9,6 @@ import (
 	// "Hacknock/structure"
 	"encoding/json"
 	"fmt"
-	"log"
 	"net/http"
 	"os"
 	"time"
