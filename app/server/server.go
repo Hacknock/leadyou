@@ -12,6 +12,9 @@ import (
 	"net/http"
 	"os"
 	"time"
+
+	"github.com/go-chi/chi/v5"
+	"github.com/go-chi/chi/v5/middleware"
 )
 
 type Values struct {
@@ -46,23 +49,30 @@ func main() {
 
 	termTask()
 
-	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+	r := chi.NewRouter()
+	r.Use(middleware.Logger)
+
+	r.Get("/", func(w http.ResponseWriter, r *http.Request) {
+		fmt.Print("😹")
 		http.ServeFile(w, r, "../client/html/index.html")
 	})
 
-	http.HandleFunc("/favicon.icon", func(w http.ResponseWriter, r *http.Request) {
+	r.Get("/favicon.icon", func(w http.ResponseWriter, r *http.Request) {
+		fmt.Print("🐳")
 		http.ServeFile(w, r, "../client/images/favicon-black.ico")
 	})
 
-	http.HandleFunc("/makereadme", func(w http.ResponseWriter, r *http.Request) {
+	r.Get("/makereadme", func(w http.ResponseWriter, r *http.Request) {
+		fmt.Print("🐬")
 		http.ServeFile(w, r, "../client/html/form.html")
 	})
 
-	http.HandleFunc("/page", func(w http.ResponseWriter, r *http.Request) {
+	r.Get("/page", func(w http.ResponseWriter, r *http.Request) {
+		fmt.Print("🐙")
 		http.ServeFile(w, r, "../client/html/document.html")
 	})
 
-	http.HandleFunc("/getvalues", func(w http.ResponseWriter, r *http.Request) {
+	r.Get("/getvalues", func(w http.ResponseWriter, r *http.Request) {
 		// 🌟Replace This Block Later🌟
 		value := Values{Result: "Success"}
 
@@ -78,7 +88,7 @@ func main() {
 		// getValues(query)
 	})
 
-	http.HandleFunc("/getcount", func(w http.ResponseWriter, r *http.Request) {
+	r.Get("/getcount", func(w http.ResponseWriter, r *http.Request) {
 		// 🌟Replace This Block Later🌟
 		value := GetCount{Result: "Success", Count: 240}
 
@@ -94,7 +104,7 @@ func main() {
 		// getCount(query)
 	})
 
-	http.HandleFunc("/countup", func(w http.ResponseWriter, r *http.Request) {
+	r.Get("/countup", func(w http.ResponseWriter, r *http.Request) {
 		// 🌟Replace This Block Later🌟
 		value := Values{Result: "Failed"}
 
@@ -110,7 +120,7 @@ func main() {
 		//countUp(query)
 	})
 
-	http.HandleFunc("/getlist", func(w http.ResponseWriter, r *http.Request) {
+	r.Get("/getlist", func(w http.ResponseWriter, r *http.Request) {
 		// 🌟Replace This Block Later🌟
 		value := Values{Result: "Success"}
 
@@ -126,7 +136,7 @@ func main() {
 		//getList(w)
 	})
 
-	http.HandleFunc("/updatecatalog", func(w http.ResponseWriter, r *http.Request) {
+	r.Get("/updatecatalog", func(w http.ResponseWriter, r *http.Request) {
 		// 🌟Replace This Block Later🌟
 		value := Values{Result: "Failed: this API requires a token"}
 
@@ -142,7 +152,7 @@ func main() {
 		// updateCatalog(query)
 	})
 
-	http.HandleFunc("/showgeneratedtable", func(w http.ResponseWriter, r *http.Request) {
+	r.Get("/showgeneratedtable", func(w http.ResponseWriter, r *http.Request) {
 		// 🌟Replace This Block Later🌟
 		value := Values{Result: "Failed: this API requires a token"}
 
@@ -158,16 +168,16 @@ func main() {
 		// showGeneratedTable(query)
 	})
 
-	http.Handle("/src/css/", http.StripPrefix("/src/css/", http.FileServer(http.Dir("../client/css"))))
-	http.Handle("/src/js/", http.StripPrefix("/src/js/", http.FileServer(http.Dir("../client/js"))))
-	http.Handle("/src/images/", http.StripPrefix("/src/images/", http.FileServer(http.Dir("../client/images"))))
-	http.Handle("/src/customdom/", http.StripPrefix("/src/customdom/", http.FileServer(http.Dir("../client/plugins/custom-elements/"))))
-	http.Handle("/src/json/", http.StripPrefix("/src/json/", http.FileServer(http.Dir("../client/plugins/")))) // Should this line specify the *.json file?❓
-	http.Handle("/src/md/", http.StripPrefix("/src/md/", http.FileServer(http.Dir("../client/md/"))))
+	r.Handle("/src/css/*", http.StripPrefix("/src/css/", http.FileServer(http.Dir("../client/css"))))
+	r.Handle("/src/js/*", http.StripPrefix("/src/js/", http.FileServer(http.Dir("../client/js"))))
+	r.Handle("/src/images/*", http.StripPrefix("/src/images/", http.FileServer(http.Dir("../client/images"))))
+	r.Handle("/src/customdom/*", http.StripPrefix("/src/customdom/", http.FileServer(http.Dir("../client/plugins/custom-elements/"))))
+	r.Handle("/src/json/*", http.StripPrefix("/src/json/", http.FileServer(http.Dir("../client/plugins/")))) // Should this line specify the *.json file?❓
+	r.Handle("/src/md/*", http.StripPrefix("/src/md/", http.FileServer(http.Dir("../client/md/"))))
 
 	PORT := ":" + os.Getenv("WEB_PORT")
 
-	http.ListenAndServe(PORT, nil)
+	http.ListenAndServe(PORT, r)
 
 	// r := logger.RecordLog{Level: 1, Path: "./text", File_name: "log.txt"}
 	// r.Error("Hahaha")
