@@ -28,7 +28,7 @@ type GetCount struct {
 }
 
 func termTask() {
-	ticker := time.NewTicker(time.Second * 1)
+	ticker := time.NewTicker(time.Second * 10)
 	defer ticker.Stop()
 	count := 0
 	for {
@@ -43,7 +43,7 @@ func termTask() {
 
 func main() {
 
-	termTask()
+	go termTask()
 
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		if "/" == r.URL.Path {
