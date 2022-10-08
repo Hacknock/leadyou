@@ -7,16 +7,18 @@ import (
 	// "Hacknock/recordLog"
 	// "Hacknock/typeName"
 	// "Hacknock/getRepoData"
-	"encoding/json"
+
 	"fmt"
 	"net/http"
-	"strings"
+	"os"
 	"time"
+
+	"github.com/labstack/echo/v4"
 )
 
-func handler(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, "Hello, World")
-}
+// func handler(w http.ResponseWriter, r *http.Request) {
+// 	fmt.Fprintf(w, "Hello, World")
+// }
 
 type Values struct {
 	Result string `json:"result"`
@@ -37,124 +39,103 @@ func termTask() {
 			fmt.Printf("🐭 %d\n", count)
 			// UpdateCatalog
 			count++
+		default:
+			continue
 		}
 	}
 }
 
 func main() {
-
 	go termTask()
 
-	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		if "/" == r.URL.Path {
-			fmt.Print("🐬")
-			http.ServeFile(w, r, "./public/html/index.html")
-			return
-		} else if strings.ToLower(r.URL.Path) == "/favicon.icon" {
-			http.ServeFile(w, r, "./public/images/favicon-black.ico")
-		} else if strings.ToLower(r.URL.Path) == "/makereadme" {
-			http.ServeFile(w, r, "./public/html/form.html")
-		} else if strings.ToLower(r.URL.Path) == "/page" {
-			http.ServeFile(w, r, "./public/html/document.html")
-		} else if strings.ToLower(r.URL.Path) == "/getvalues" {
-			// 🌟Replace This Block Later🌟
-			value := Values{Result: "Success"}
+	// Use echo
+	e := echo.New()
 
-			res, err := json.Marshal(value)
-
-			if err != nil {
-				http.Error(w, err.Error(), http.StatusInternalServerError)
-				return
-			}
-
-			w.Header().Set("Content-Type", "application/json")
-			w.Write(res)
-			// getValues(query)
-		} else if strings.ToLower(r.URL.Path) == "/getcount" {
-			// 🌟Replace This Block Later🌟
-			value := GetCount{Result: "Success", Count: 240}
-
-			res, err := json.Marshal(value)
-
-			if err != nil {
-				http.Error(w, err.Error(), http.StatusInternalServerError)
-				return
-			}
-
-			w.Header().Set("Content-Type", "application/json")
-			w.Write(res)
-			// getCount(query)
-		} else if strings.ToLower(r.URL.Path) == "/countup" {
-			// 🌟Replace This Block Later🌟
-			value := Values{Result: "Failed"}
-
-			res, err := json.Marshal(value)
-
-			if err != nil {
-				http.Error(w, err.Error(), http.StatusInternalServerError)
-				return
-			}
-
-			w.Header().Set("Content-Type", "application/json")
-			w.Write(res)
-			//countUp(query)
-		} else if strings.ToLower(r.URL.Path) == "/getlist" {
-			// 🌟Replace This Block Later🌟
-			value := Values{Result: "Success"}
-
-			res, err := json.Marshal(value)
-
-			if err != nil {
-				http.Error(w, err.Error(), http.StatusInternalServerError)
-				return
-			}
-
-			w.Header().Set("Content-Type", "application/json")
-			w.Write(res)
-			//getList(w)
-		} else if strings.ToLower(r.URL.Path) == "/updatecatalog" {
-			// 🌟Replace This Block Later🌟
-			value := Values{Result: "Failed: this API requires a token"}
-
-			res, err := json.Marshal(value)
-
-			if err != nil {
-				http.Error(w, err.Error(), http.StatusInternalServerError)
-				return
-			}
-
-			w.Header().Set("Content-Type", "application/json")
-			w.Write(res)
-			// updateCatalog(query)
-		} else if strings.ToLower(r.URL.Path) == "/showgeneratedtable" {
-			// 🌟Replace This Block Later🌟
-			value := Values{Result: "Failed: this API requires a token"}
-
-			res, err := json.Marshal(value)
-
-			if err != nil {
-				http.Error(w, err.Error(), http.StatusInternalServerError)
-				return
-			}
-
-			w.Header().Set("Content-Type", "application/json")
-			w.Write(res)
-			// showGeneratedTable(query)
-		} else {
-			fmt.Print("😹")
-			http.NotFound(w, r)
-			return
-		}
+	// Top page
+	e.GET("/", func(c echo.Context) error {
+		return c.File("./public/html/index.html")
 	})
 
-	http.Handle("/src/css/", http.StripPrefix("/src/css/", http.FileServer(http.Dir("public/css"))))
-	http.Handle("/src/js/", http.StripPrefix("/src/js/", http.FileServer(http.Dir("public/js"))))
-	http.Handle("/src/images/", http.StripPrefix("/src/images/", http.FileServer(http.Dir("public/images"))))
-	http.Handle("/src/customdom/", http.StripPrefix("/src/customdom/", http.FileServer(http.Dir("public/plugins/custom-elements/"))))
-	http.Handle("/src/json/", http.StripPrefix("/src/json/", http.FileServer(http.Dir("public/plugins/")))) // Should this line specify the *.json file?❓
-	http.Handle("/src/md/", http.StripPrefix("/src/md/", http.FileServer(http.Dir("public/md/"))))
+	// favicon
+	e.GET("/favicon.icon", func(c echo.Context) error {
+		return c.File("./public/images/favicon-black.ico")
+	})
 
-	http.ListenAndServe(":3001", nil)
+	// makereadme (generate readme.md)
+	e.GET("/makereadme", func(c echo.Context) error {
+		return c.File("./public/html/form.html")
+	})
+
+	// document
+	e.GET("/page", func(c echo.Context) error {
+		return c.File("./public/html/document.html")
+	})
+
+	// getvalue
+	e.GET("/getvalue", func(c echo.Context) error {
+		// 🌟Replace This Block Later🌟
+		var value Values
+		value.Result = "Success"
+
+		return c.JSON(http.StatusOK, value)
+	})
+
+	// getcount
+	e.GET("/getcount", func(c echo.Context) error {
+		// 🌟Replace This Block Later🌟
+		var value Values
+		value.Result = "Success"
+
+		return c.JSON(http.StatusOK, value)
+	})
+
+	// countup
+	e.GET("/countup", func(c echo.Context) error {
+		// 🌟Replace This Block Later🌟
+		var value Values
+		value.Result = "Success"
+
+		return c.JSON(http.StatusOK, value)
+	})
+
+	// getlist
+	e.GET("/getlist", func(c echo.Context) error {
+		// 🌟Replace This Block Later🌟
+		var value Values
+		value.Result = "Success"
+
+		return c.JSON(http.StatusOK, value)
+	})
+
+	// updatecatalog
+	e.GET("/updatecatalog", func(c echo.Context) error {
+		// 🌟Replace This Block Later🌟
+		var value Values
+		value.Result = "Success"
+
+		return c.JSON(http.StatusOK, value)
+	})
+
+	// showgeneratedtable
+	e.GET("/showgeneratedtable", func(c echo.Context) error {
+		// 🌟Replace This Block Later🌟
+		var value Values
+		value.Result = "Success"
+
+		return c.JSON(http.StatusOK, value)
+	})
+
+	// css files
+	e.Static("/src/css/", "public/css")
+	e.Static("/src/js/", "public/js")
+	e.Static("/src/images/", "public/images")
+	e.Static("/src/customdom/", "public/plugins/custom-elements/")
+	e.Static("/src/json/", "public/plugins/")
+	e.Static("/src/md/", "public/md/")
+
+	e.Logger.Fatal(e.Start(":" + os.Getenv("WEB_PORT")))
+
+	// http.ListenAndServe(":"+os.Getenv("WEB_PORT"), nil)
 
 	// r := recordLog.RecordLog{Level: 1, Path: "./text", File_name: "log.txt"}
 	// r.Error("Hahaha")
