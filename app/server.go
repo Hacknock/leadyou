@@ -16,10 +16,6 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-// func handler(w http.ResponseWriter, r *http.Request) {
-// 	fmt.Fprintf(w, "Hello, World")
-// }
-
 type Values struct {
 	Result string `json:"result"`
 }
