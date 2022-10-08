@@ -8,7 +8,8 @@ import (
 	// "Hacknock/typeName"
 	// "Hacknock/getRepoData"
 
-	"fmt"
+	"Hacknock/monitorMemory"
+	"Hacknock/recordLog"
 	"net/http"
 	"os"
 	"time"
@@ -26,13 +27,15 @@ type GetCount struct {
 }
 
 func termTask() {
+	// memory monitoring
+	m := monitorMemory.MonitorMemory{Path: "./test", File_name: "memory.txt"}
 	ticker := time.NewTicker(time.Second * 10)
 	defer ticker.Stop()
 	count := 0
 	for {
 		select {
 		case <-ticker.C:
-			fmt.Printf("🐭 %d\n", count)
+			m.RecMemory(true, true) // Memory monitoring
 			// UpdateCatalog
 			count++
 		default:
@@ -42,6 +45,11 @@ func termTask() {
 }
 
 func main() {
+
+	// log initialization
+	r := recordLog.RecordLog{Level: 1, Path: "./text", File_name: "log.txt"}
+
+	// periodic task
 	go termTask()
 
 	// Use echo
@@ -69,6 +77,7 @@ func main() {
 
 	// getvalue
 	e.GET("/getvalue", func(c echo.Context) error {
+		r.Log("Called /getvalue")
 		// 🌟Replace This Block Later🌟
 		var value Values
 		value.Result = "Success"
@@ -78,6 +87,7 @@ func main() {
 
 	// getcount
 	e.GET("/getcount", func(c echo.Context) error {
+		r.Log("Called /getcount")
 		// 🌟Replace This Block Later🌟
 		var value Values
 		value.Result = "Success"
@@ -87,6 +97,7 @@ func main() {
 
 	// countup
 	e.GET("/countup", func(c echo.Context) error {
+		r.Log("Called /countup")
 		// 🌟Replace This Block Later🌟
 		var value Values
 		value.Result = "Success"
@@ -96,6 +107,7 @@ func main() {
 
 	// getlist
 	e.GET("/getlist", func(c echo.Context) error {
+		r.Log("Called /getlist")
 		// 🌟Replace This Block Later🌟
 		var value Values
 		value.Result = "Success"
@@ -105,6 +117,7 @@ func main() {
 
 	// updatecatalog
 	e.GET("/updatecatalog", func(c echo.Context) error {
+		r.Log("Called /updatecatalog")
 		// 🌟Replace This Block Later🌟
 		var value Values
 		value.Result = "Success"
@@ -114,6 +127,7 @@ func main() {
 
 	// showgeneratedtable
 	e.GET("/showgeneratedtable", func(c echo.Context) error {
+		r.Log("Called /showgeneratedtable")
 		// 🌟Replace This Block Later🌟
 		var value Values
 		value.Result = "Success"
@@ -131,12 +145,6 @@ func main() {
 
 	e.Logger.Fatal(e.Start(":" + os.Getenv("WEB_PORT")))
 
-	// http.ListenAndServe(":"+os.Getenv("WEB_PORT"), nil)
-
-	// r := recordLog.RecordLog{Level: 1, Path: "./text", File_name: "log.txt"}
-	// r.Error("Hahaha")
-	// m := monitorMemory.MonitorMemory{Path: "./test", File_name: "memory.txt"}
-	// m.RecMemory(true, true)
 	// mdb := mDB.MDB{
 	// 	Path:     "/sqlite3",
 	// 	Database: os.Getenv("MYSQL_DATABASE"),
