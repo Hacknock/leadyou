@@ -74,7 +74,7 @@ func main() {
 
 	r.Get("/getvalues", func(w http.ResponseWriter, r *http.Request) {
 		// 🌟Replace This Block Later🌟
-		value := Values{Result: "Success"}
+		value := Values{Result: "success"}
 
 		res, err := json.Marshal(value)
 
@@ -90,7 +90,7 @@ func main() {
 
 	r.Get("/getcount", func(w http.ResponseWriter, r *http.Request) {
 		// 🌟Replace This Block Later🌟
-		value := GetCount{Result: "Success", Count: 240}
+		value := GetCount{Result: "success", Count: 240}
 
 		res, err := json.Marshal(value)
 
@@ -122,7 +122,7 @@ func main() {
 
 	r.Get("/getlist", func(w http.ResponseWriter, r *http.Request) {
 		// 🌟Replace This Block Later🌟
-		value := Values{Result: "Success"}
+		value := Values{Result: "success"}
 
 		res, err := json.Marshal(value)
 
