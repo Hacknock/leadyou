@@ -3,6 +3,7 @@ module github.com/Hacknock/leadyou
 go 1.20
 
 require (
+	github.com/google/wire v0.5.0
 	github.com/jinzhu/gorm v1.9.16 // indirect
 	github.com/jinzhu/inflection v1.0.0 // indirect
 	github.com/labstack/echo/v4 v4.10.2 // indirect
