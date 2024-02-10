@@ -17,7 +17,7 @@ export default function Document(props: Props) {
     fetch(`./md/${pageID || "error"}.md`)
       .then((response) => response.text())
       .then((text) => setFile(text));
-  });
+  }, []);
 
   return (
     <div className="document md-content">

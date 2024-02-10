@@ -4,10 +4,13 @@ import "./Editor.css";
 
 type Props = {
   lang: string;
+  owner: string | null;
+  repo: string | null;
+  autoFill: boolean;
 };
 
 export default function Editor(props: Props) {
-  const { lang } = props;
+  const { lang, owner, repo, autoFill } = props;
   const { t } = useTranslation();
 
   return <div className="editor">hello</div>;

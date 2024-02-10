@@ -25,12 +25,9 @@ i18n.use(initReactI18next).init({
 
 export default function App() {
   const qs = queryString.parse(window.location.search);
-  const defaultLang = ((qs: queryString.ParsedQuery) => {
-    if ("lang" in qs && qs.lang === "en") {
-      return "en";
-    }
-    return "ja";
-  })(qs);
+  const defaultLang = "lang" in qs && qs.lang === "en" ? "en" : "ja";
+  const { t, i18n } = useTranslation();
+  const [lang, setLang] = useState(defaultLang);
   const scene = ((qs: queryString.ParsedQuery) => {
     if ("scene" in qs && qs.scene === "editor") {
       return "editor";
@@ -40,15 +37,10 @@ export default function App() {
       return "top";
     }
   })(qs);
-  const pageID = ((qs: queryString.ParsedQuery) => {
-    if ("pageid" in qs && typeof qs.pageid === "string") {
-      return qs.pageid;
-    }
-    return null;
-  })(qs);
-
-  const { t, i18n } = useTranslation();
-  const [lang, setLang] = useState(defaultLang);
+  const pageID = "pageid" in qs && typeof qs.pageid === "string" ? qs.pageid : null;
+  const owner = "owner" in qs && typeof qs.owner === "string" ? qs.owner : null;
+  const repo = "repo" in qs && typeof qs.repo === "string" ? qs.repo : null;
+  const autoFill = "autofill" in qs && typeof qs.autofill === "boolean" ? qs.autofill : false;
 
   useEffect(() => {
     i18n.changeLanguage(lang);
@@ -68,7 +60,7 @@ export default function App() {
       <Header lang={lang} onLangChange={onLangChange} />
       <DummyHeader />
       {scene === "top" && <Top lang={lang} />}
-      {scene === "editor" && <Editor lang={lang} />}
+      {scene === "editor" && <Editor lang={lang} owner={owner} repo={repo} autoFill={autoFill} />}
       {scene === "document" && <Document lang={lang} pageID={pageID} />}
       <Footer />
     </div>
