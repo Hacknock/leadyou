@@ -1,4 +1,4 @@
-import React, { useState, FormEventHandler, useEffect } from "react";
+import React, { useState, useEffect, FormEventHandler } from "react";
 import { useTranslation } from "react-i18next";
 import "./Top.css";
 
@@ -67,8 +67,8 @@ export default function Top(props: Props) {
             type="text"
             className="normal-repo"
             value={url}
-            placeholder="Input an url of your public GitHub repository"
             onChange={(e) => setUrl(e.target.value)}
+            placeholder="Input an url of your public GitHub repository"
           />
         </div>
         <div className="checkbox-area">

@@ -1,4 +1,56 @@
 .editor {
-  flex: 1;
-  padding: 32px;
+  display: flex;
+  justify-content: space-between;
+  margin: 20px auto;
+  width: 90%;
+  min-width: 750px;
+}
+
+.edit-area,
+.preview-area {
+  width: 49%;
+  height: auto;
+}
+
+/* Form */
+.edit-inner {
+  padding: 16px;
+  border: 1px solid;
+}
+
+.proviso {
+  text-align: left;
+}
+
+.separate-form {
+  border: 0;
+  border-bottom: 1px solid #d0d0d0;
+  margin: 32px 0;
+}
+
+.fill-alert {
+  color: #f44336;
+  margin-top: 8px;
+  margin-bottom: 0;
+}
+
+.editor input[type="submit"] {
+  margin: 20px auto 32px;
+  background-color: #0277bd;
+  padding: 5px 12px;
+  font-size: large;
+  color: #eceff1;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
+
+/* Preview */
+div.md-content {
+  padding: 16px;
+  border: 1px dashed;
+  text-align: left;
 }
