@@ -3,11 +3,14 @@ import i18n from "i18next";
 import { initReactI18next, useTranslation } from "react-i18next";
 import queryString from "query-string";
 import { Header, DummyHeader } from "./Header";
-import Content from "./Content";
+import Top from "./Top";
+import Editor from "./Editor";
+import Document from "./Document";
 import Footer from "./Footer";
 import ja from "./json/locales/ja.json";
 import en from "./json/locales/en.json";
 import "./App.css";
+import "./Marked.css";
 
 i18n.use(initReactI18next).init({
   debug: true,
@@ -28,6 +31,22 @@ export default function App() {
     }
     return "ja";
   })(qs);
+  const scene = ((qs: queryString.ParsedQuery) => {
+    if ("scene" in qs && qs.scene === "editor") {
+      return "editor";
+    } else if ("scene" in qs && qs.scene === "document") {
+      return "document";
+    } else {
+      return "top";
+    }
+  })(qs);
+  const pageID = ((qs: queryString.ParsedQuery) => {
+    if ("pageid" in qs && typeof qs.pageid === "string") {
+      return qs.pageid;
+    }
+    return null;
+  })(qs);
+
   const { t, i18n } = useTranslation();
   const [lang, setLang] = useState(defaultLang);
 
@@ -48,7 +67,9 @@ export default function App() {
     <div className="app">
       <Header lang={lang} onLangChange={onLangChange} />
       <DummyHeader />
-      <Content lang={lang} />
+      {scene === "top" && <Top lang={lang} />}
+      {scene === "editor" && <Editor lang={lang} />}
+      {scene === "document" && <Document lang={lang} pageID={pageID} />}
       <Footer />
     </div>
   );

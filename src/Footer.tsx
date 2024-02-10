@@ -15,27 +15,27 @@ export default function Footer() {
       </div>
       <div className="footer-child right-child-1">
         <p>
-          <a href="/page?md=about-readme">About README</a>
+          <a href="?scene=document&pageid=about-readme">About README</a>
         </p>
         <p>
-          <a href="/page?md=how-to-use-generator">How to Use</a>
+          <a href="?scene=document&pageid=how-to-use-generator">How to Use</a>
         </p>
         <p>
-          <a href="/page?md=new-readme-format-proposal">Proposal</a>
+          <a href="?scene=document&pageid=new-readme-format-proposal">Proposal</a>
         </p>
         <p>
-          <a href="/page?md=help">Help</a>
+          <a href="?scene=document&pageid=help">Help</a>
         </p>
       </div>
       <div className="footer-child right-child-2">
         <p>
-          <a href="/page?md=terms-of-service">Terms of Service</a>
+          <a href="?scene=document&pageid=terms-of-service">Terms of Service</a>
         </p>
         <p>
-          <a href="/page?md=privacy-policy">Privacy Policy</a>
+          <a href="?scene=document&pageid=privacy-policy">Privacy Policy</a>
         </p>
         <p>
-          <a href="/page?md=contact">Contact</a>
+          <a href="?scene=document&pageid=contact">Contact</a>
         </p>
       </div>
     </div>
