@@ -1,0 +1,39 @@
+.footer {
+  display: flex;
+  width: 100%;
+  min-width: 750px;
+  height: auto;
+  padding: 16px 0;
+  color: white;
+  background-color: #616161;
+}
+
+.footer-child {
+  text-align: left;
+}
+
+.footer-child h1 {
+  margin-top: 16px;
+}
+
+.footer-child a {
+  color: white;
+  text-decoration: none;
+}
+
+.footer-child a:hover {
+  color: #e0e0e0;
+}
+
+.footer .left-child {
+  margin-left: 50px;
+  margin-right: auto;
+}
+
+.footer .right-child-1 {
+  margin-right: 32px;
+}
+
+.footer .right-child-2 {
+  margin-right: 50px;
+}

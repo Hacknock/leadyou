@@ -1,0 +1,10 @@
+.content {
+  background-color: #e7ebed;
+  font-family: "Exo 2", sans-serif;
+}
+
+.content div.section {
+  padding: 20px 0;
+  display: flex;
+  justify-content: flex-start;
+}
