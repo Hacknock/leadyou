@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
+import { chunked } from "../Utils";
 import Forms from "./Forms";
 import Preview from "./Preview";
 import templateJSON from "../json/template.json";
@@ -118,6 +119,53 @@ export default function Editor(props: Props) {
     });
   };
 
+  const generateReadme = (output: boolean) => {
+    const text = editorState.sectionStates.reduce((result, sectionState) => {
+      const { title, hiddenTitle, replacingTitle, kindsOfValues, formats } = sectionState.section;
+      let text = "";
+      const isEmpty =
+        sectionState.values.reduce((result, value) => {
+          return result + value.length;
+        }, 0) === 0;
+      if (isEmpty) {
+        return result;
+      }
+      const hasFile = sectionState.section.attributes.kindsOfFile !== undefined;
+      const valueText = chunked(sectionState.values, kindsOfValues.length)
+        .reduce((result, values, i) => {
+          const formatedText = formats.reduce((result, format, j) => {
+            if (values[j].length > 0) {
+              if (output && hasFile) {
+                const extension = sectionState.files[i]?.name.split(".").pop() || "";
+                const path = `resources/file-${i}-${j}.${extension}`;
+                return result + format.replace("%s", path);
+              } else {
+                return result + format.replace("%s", values[j]);
+              }
+            } else {
+              return result;
+            }
+          }, "");
+          return result + formatedText;
+        }, "")
+        .trimEnd();
+      if (hiddenTitle === false) {
+        if (replacingTitle) {
+          text += `# ${valueText}\n`;
+        } else {
+          text += `# ${title}\n\n`;
+          text += `${valueText}\n`;
+        }
+      } else {
+        text += `<!-- # ${title} -->\n\n`;
+        text += `${valueText}\n`;
+      }
+      text += "\n";
+      return result + text;
+    }, "");
+    return text + "<!-- CREATED_BY_LEADYOU_README_GENERATOR -->";
+  };
+
   return (
     <div className="editor">
       <div className="edit-area">
@@ -146,7 +194,7 @@ export default function Editor(props: Props) {
       <div className="preview-area">
         <h2>Preview README</h2>
         <div className="md-content">
-          <Preview editorState={editorState} />
+          <Preview markdownText={generateReadme(false)} />
         </div>
       </div>
     </div>
