@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
-import "./OneLineField.css";
+import "./AttachmentWithMultiLineField.css";
 
 type Props = {
   title: string;
@@ -9,30 +9,37 @@ type Props = {
   multiple: boolean;
   placeholder: string | null;
   maxLength: number | null;
+  values: string[];
+  setValues: (values: string[]) => void;
 };
 
-export default function OneLineField(props: Props) {
+export default function UploadFile(props: Props) {
   const { t } = useTranslation();
-  const { title, description, required, multiple, placeholder, maxLength } = props;
+  const { description, maxLength, values, setValues } = props;
 
   let desc: string = description;
   if (maxLength !== null && maxLength > 0) {
     desc = `${description} (in ${maxLength} characters or less)`;
   }
 
-  const [values, setValues] = useState([""]);
   const rows = values.map((value, i) => {
     return (
-      <div key={`one-line-${i}`} className="container">
-        <input
-          type="text"
-          value={value}
-          onChange={(e) => {
-            setValues(values.map((v, j) => (j === i ? e.target.value : v)));
-          }}
-          placeholder={placeholder || ""}
-          maxLength={maxLength || 140}
-        />
+      <div key={`upload-file-${i}`} className="container">
+        <div className="inner">
+          <input type="file" id="up-file-element" onChange={(e) => {}} />
+          <input type="file" id="data-id" onChange={(e) => {}} />
+          <button type="button" className="clear" onClick={(e) => {}}>
+            <img src="images/close.png" className="close" />
+          </button>
+          <textarea
+            value={value}
+            onChange={(e) => {
+              setValues(values.map((v, j) => (j === i ? e.target.value : v)));
+            }}
+            placeholder={props.placeholder || ""}
+            maxLength={maxLength || 0}
+          />
+        </div>
         {values.length > 1 && (
           <input
             type="button"
@@ -49,14 +56,14 @@ export default function OneLineField(props: Props) {
   });
 
   return (
-    <div className="one-line-field">
+    <div className="upload-file">
       <h3 className="sub-title">
-        {title}
-        {required && <span className="mark-required">*</span>}
+        {props.title}
+        {props.required && <span className="mark-required">*</span>}
       </h3>
       <p>{desc}</p>
       {rows}
-      {multiple && (
+      {props.multiple && (
         <input
           type="button"
           value="add"

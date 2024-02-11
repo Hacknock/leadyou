@@ -4,7 +4,7 @@ import { initReactI18next, useTranslation } from "react-i18next";
 import queryString from "query-string";
 import { Header, DummyHeader } from "./Header";
 import Top from "./Top";
-import Editor from "./Editor";
+import Editor from "./Editor/Editor";
 import Document from "./Document";
 import Footer from "./Footer";
 import ja from "./json/locales/ja.json";

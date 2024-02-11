@@ -82,7 +82,7 @@
       "hiddenTitle": false,
       "replacingTitle": false,
       "formType": "attachment-with-multi-line-field",
-      "kindsOfValues": ["filepath", "plain"],
+      "kindsOfValues": ["filePath", "plain"],
       "formats": ["![Demo](%s)\n\n", "%s  \n"],
       "attributes": {
         "kindsOfFile": ["image/png", "image/jpg", "image/gif"],
@@ -139,7 +139,7 @@
       "hiddenTitle": false,
       "replacingTitle": false,
       "formType": "attachment-with-multi-line-field",
-      "kindsOfValues": ["filepath", "plain"],
+      "kindsOfValues": ["filePath", "plain"],
       "formats": ["![Minimal Example](%s)\n\n", "%s  \n"],
       "attributes": {
         "kindsOfFile": ["image/png", "image/jpg", "image/gif"],

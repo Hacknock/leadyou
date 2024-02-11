@@ -1,47 +1,19 @@
 import React from "react";
+import { EditorState } from "./Editor";
 import OneLineField from "./formTypes/OneLineField";
 import MultiLineField from "./formTypes/MultiLineField";
 import AttachmentWithMultiLineField from "./formTypes/AttachmentWithMultiLineField";
-import templateJSON from "./json/template.json";
 
-type Attributes = {
-  kindsOfFile?: string[];
-  placeholder?: string;
-  maxLength?: number;
+type Props = {
+  editorState: EditorState;
+  setValues: (at: number, values: string[]) => void;
 };
 
-type Decoration = {
-  title: string;
-  description: string;
-  required: boolean;
-  formType: string;
-  attributes: Attributes;
-};
+export default function Forms(props: Props) {
+  const { editorState, setValues } = props;
 
-type Section = {
-  title: string;
-  description: string;
-  required: boolean;
-  multiple: boolean;
-  hiddenTitle: boolean;
-  replacingTitle: boolean;
-  formType: string;
-  kindsOfValues: string[];
-  formats: string[];
-  attributes: Attributes;
-  script: string;
-};
-
-type Template = {
-  decorations: Decoration[];
-  sections: Section[];
-};
-
-export default function Forms() {
-  const template = templateJSON as Template;
-
-  const forms = template.sections
-    .map((section) => {
+  const forms = editorState.sectionStates
+    .map(({ section, values }, index) => {
       switch (section.formType) {
         case "one-line-field":
           return (
@@ -52,6 +24,8 @@ export default function Forms() {
               multiple={section.multiple}
               placeholder={section.attributes.placeholder || null}
               maxLength={section.attributes.maxLength || null}
+              values={values}
+              setValues={(values) => setValues(index, values)}
             />
           );
         case "multi-line-field":
@@ -63,6 +37,8 @@ export default function Forms() {
               multiple={section.multiple}
               placeholder={section.attributes.placeholder || null}
               maxLength={section.attributes.maxLength || null}
+              values={values}
+              setValues={(values) => setValues(index, values)}
             />
           );
         case "attachment-with-multi-line-field":
@@ -74,6 +50,8 @@ export default function Forms() {
               multiple={section.multiple}
               placeholder={section.attributes.placeholder || null}
               maxLength={section.attributes.maxLength || null}
+              values={values}
+              setValues={(values) => setValues(index, values)}
             />
           );
       }

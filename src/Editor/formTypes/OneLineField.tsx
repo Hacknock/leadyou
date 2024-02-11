@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React from "react";
 import { useTranslation } from "react-i18next";
-import "./MultiLineField.css";
+import "./OneLineField.css";
 
 type Props = {
   title: string;
@@ -9,28 +9,30 @@ type Props = {
   multiple: boolean;
   placeholder: string | null;
   maxLength: number | null;
+  values: string[];
+  setValues: (values: string[]) => void;
 };
 
-export default function MultiLineField(props: Props) {
+export default function OneLineField(props: Props) {
   const { t } = useTranslation();
-  const { title, description, required, multiple, placeholder, maxLength } = props;
+  const { description, maxLength, values, setValues } = props;
 
   let desc: string = description;
   if (maxLength !== null && maxLength > 0) {
     desc = `${description} (in ${maxLength} characters or less)`;
   }
 
-  const [values, setValues] = useState([""]);
   const rows = values.map((value, i) => {
     return (
-      <div key={`multi-line-${i}`} className="container">
-        <textarea
+      <div key={`one-line-${i}`} className="container">
+        <input
+          type="text"
           value={value}
           onChange={(e) => {
             setValues(values.map((v, j) => (j === i ? e.target.value : v)));
           }}
-          placeholder={placeholder || ""}
-          maxLength={maxLength || 0}
+          placeholder={props.placeholder || ""}
+          maxLength={maxLength || 140}
         />
         {values.length > 1 && (
           <input
@@ -48,14 +50,14 @@ export default function MultiLineField(props: Props) {
   });
 
   return (
-    <div className="multi-line-field">
+    <div className="one-line-field">
       <h3 className="sub-title">
-        {title}
-        {required && <span className="mark-required">*</span>}
+        {props.title}
+        {props.required && <span className="mark-required">*</span>}
       </h3>
       <p>{desc}</p>
       {rows}
-      {multiple && (
+      {props.multiple && (
         <input
           type="button"
           value="add"
