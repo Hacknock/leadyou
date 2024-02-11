@@ -1,29 +1,29 @@
-.upload-file p {
+.attachment-with-multi-line-field p {
   display: inline-block;
   margin-top: 0;
   text-align: left;
   hyphens: auto;
 }
 
-.upload-file .mark-required {
+.attachment-with-multi-line-field .mark-required {
   margin-left: 4px;
   color: #f44336;
 }
 
-.upload-file div.container {
+.attachment-with-multi-line-field div.container {
   display: flex;
   margin-bottom: 10px;
 }
 
-.upload-file div.inner {
+.attachment-with-multi-line-field div.inner {
   width: 100%;
 }
 
-.upload-file input[type="file"] {
+.attachment-with-multi-line-field input[type="file"] {
   margin-bottom: 10px;
 }
 
-.upload-file input[type="button"] {
+.attachment-with-multi-line-field input[type="button"] {
   padding: 3px 8px;
   color: #eceff1;
   border: none;
@@ -34,11 +34,7 @@
   appearance: none;
 }
 
-#data-id {
-  display: none;
-}
-
-.upload-file button.clear {
+.attachment-with-multi-line-field button.clear {
   margin-left: 8px;
   padding: 0;
   width: 20px;
@@ -50,26 +46,26 @@
   cursor: pointer;
 }
 
-.upload-file button.clear:hover {
+.attachment-with-multi-line-field button.clear:hover {
   background-color: #efefef;
 }
 
-.upload-file img.close {
+.attachment-with-multi-line-field img.close {
   height: 100%;
 }
 
-.upload-file textarea {
+.attachment-with-multi-line-field textarea {
   width: 100%;
   height: 160px;
   resize: vertical;
 }
 
-.upload-file .delete {
+.attachment-with-multi-line-field .delete {
   align-self: center;
   margin-left: 16px;
   background-color: #f44336;
 }
 
-.upload-file .add {
+.attachment-with-multi-line-field .add {
   background-color: #00897b;
 }

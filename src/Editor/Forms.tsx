@@ -18,12 +18,13 @@ export default function Forms(props: Props) {
         case "one-line-field":
           return (
             <OneLineField
+              key={`one-line-field-${index}`}
               title={section.title}
               description={section.description}
               required={section.required}
               multiple={section.multiple}
-              placeholder={section.attributes.placeholder || null}
-              maxLength={section.attributes.maxLength || null}
+              placeholder={section.attributes.placeholder}
+              maxLength={section.attributes.maxLength}
               values={values}
               setValues={(values) => setValues(index, values)}
             />
@@ -31,12 +32,13 @@ export default function Forms(props: Props) {
         case "multi-line-field":
           return (
             <MultiLineField
+              key={`multi-line-field-${index}`}
               title={section.title}
               description={section.description}
               required={section.required}
               multiple={section.multiple}
-              placeholder={section.attributes.placeholder || null}
-              maxLength={section.attributes.maxLength || null}
+              placeholder={section.attributes.placeholder}
+              maxLength={section.attributes.maxLength}
               values={values}
               setValues={(values) => setValues(index, values)}
             />
@@ -44,19 +46,21 @@ export default function Forms(props: Props) {
         case "attachment-with-multi-line-field":
           return (
             <AttachmentWithMultiLineField
+              key={`attachment-with-multi-line-field-${index}`}
               title={section.title}
               description={section.description}
               required={section.required}
               multiple={section.multiple}
-              placeholder={section.attributes.placeholder || null}
-              maxLength={section.attributes.maxLength || null}
+              kindsOfFile={section.attributes.kindsOfFile || null}
+              placeholder={section.attributes.placeholder}
+              maxLength={section.attributes.maxLength}
               values={values}
               setValues={(values) => setValues(index, values)}
             />
           );
       }
     })
-    .flatMap((item) => [item, <hr className="separate-form" />]);
+    .flatMap((item, i) => [item, <hr key={`separater-${i}`} className="separater" />]);
 
   return <React.Fragment>{forms}</React.Fragment>;
 }

@@ -84,6 +84,7 @@ export default function Editor(props: Props) {
   const [editorState, setEditorState] = useState(initialState);
 
   const setValues = (at: number, values: string[]) => {
+    console.dir(values, { depth: null });
     setEditorState({
       ...editorState,
       sectionStates: editorState.sectionStates.map((sectionState, index): SectionState => {

@@ -7,8 +7,8 @@ type Props = {
   description: string;
   required: boolean;
   multiple: boolean;
-  placeholder: string | null;
-  maxLength: number | null;
+  placeholder?: string;
+  maxLength?: number;
   values: string[];
   setValues: (values: string[]) => void;
 };
@@ -18,7 +18,7 @@ export default function MultiLineField(props: Props) {
   const { description, maxLength, values, setValues } = props;
 
   let desc: string = description;
-  if (maxLength !== null && maxLength > 0) {
+  if (maxLength !== undefined && maxLength > 0) {
     desc = `${description} (in ${maxLength} characters or less)`;
   }
 
@@ -30,8 +30,8 @@ export default function MultiLineField(props: Props) {
           onChange={(e) => {
             setValues(values.map((v, j) => (j === i ? e.target.value : v)));
           }}
-          placeholder={props.placeholder || ""}
-          maxLength={maxLength || 0}
+          placeholder={props.placeholder}
+          maxLength={maxLength}
         />
         {values.length > 1 && (
           <input
@@ -39,7 +39,6 @@ export default function MultiLineField(props: Props) {
             value="delete"
             onClick={(e) => {
               setValues(values.filter((_, j) => j !== i));
-              console.log("delete");
             }}
             className="delete"
           />
