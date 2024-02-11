@@ -1,7 +1,7 @@
 import React, { useRef, useEffect, ChangeEvent } from "react";
 import { useTranslation } from "react-i18next";
 import { chunked } from "../../Utils";
-import "./AttachmentWithMultiLineField.css";
+import "./FileWithMultiLineField.css";
 
 type FileInputProps = {
   file: File | null;
@@ -42,7 +42,7 @@ type Props = {
   setFiles: (values: string[], files: (File | null)[]) => void;
 };
 
-export default function UploadFile(props: Props) {
+export default function FileWithMultiLineField(props: Props) {
   const { t } = useTranslation();
   const { description, maxLength, values, setValues, files, setFiles } = props;
 
@@ -88,7 +88,7 @@ export default function UploadFile(props: Props) {
 
   const rows = chunked(values, 2).map((value, i) => {
     return (
-      <div key={`attachment-sub-section-${i}`} className="container">
+      <div key={`file-sub-section-${i}`} className="container">
         <div className="inner">
           <FileInput
             file={files[i]}
@@ -113,7 +113,7 @@ export default function UploadFile(props: Props) {
   });
 
   return (
-    <div className="attachment-with-multi-line-field">
+    <div className="file-with-multi-line-field">
       <h3 className="sub-title">
         {props.title}
         {props.required && <span className="mark-required">*</span>}

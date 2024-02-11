@@ -4,7 +4,7 @@
       "title": "Project Icon",
       "description": "Please upload the project's icon.",
       "required": true,
-      "formType": "attachment-with-multi-line-field",
+      "formType": "file-with-multi-line-field",
       "attributes": {
         "kindsOfFile": ["image/*"],
         "placeholder": "The size of the icon must be 64x64px."
@@ -81,7 +81,7 @@
       "multiple": true,
       "hiddenTitle": false,
       "replacingTitle": false,
-      "formType": "attachment-with-multi-line-field",
+      "formType": "file-with-multi-line-field",
       "kindsOfValues": ["filePath", "plain"],
       "formats": ["![Demo](%s)\n\n", "%s  \n"],
       "attributes": {
@@ -138,7 +138,7 @@
       "multiple": false,
       "hiddenTitle": false,
       "replacingTitle": false,
-      "formType": "attachment-with-multi-line-field",
+      "formType": "file-with-multi-line-field",
       "kindsOfValues": ["filePath", "plain"],
       "formats": ["![Minimal Example](%s)\n\n", "%s  \n"],
       "attributes": {

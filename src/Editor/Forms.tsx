@@ -2,7 +2,7 @@ import React from "react";
 import { EditorState } from "./Editor";
 import OneLineField from "./formTypes/OneLineField";
 import MultiLineField from "./formTypes/MultiLineField";
-import AttachmentWithMultiLineField from "./formTypes/AttachmentWithMultiLineField";
+import FileWithMultiLineField from "./formTypes/FileWithMultiLineField";
 
 type Props = {
   editorState: EditorState;
@@ -44,10 +44,10 @@ export default function Forms(props: Props) {
               setValues={(values) => setValues(index, values)}
             />
           );
-        case "attachment-with-multi-line-field":
+        case "file-with-multi-line-field":
           return (
-            <AttachmentWithMultiLineField
-              key={`attachment-with-multi-line-field-${index}`}
+            <FileWithMultiLineField
+              key={`file-with-multi-line-field-${index}`}
               title={section.title}
               description={section.description}
               required={section.required}

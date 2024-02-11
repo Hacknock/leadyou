@@ -1,29 +1,29 @@
-.attachment-with-multi-line-field p {
+.file-with-multi-line-field p {
   display: inline-block;
   margin-top: 0;
   text-align: left;
   hyphens: auto;
 }
 
-.attachment-with-multi-line-field .mark-required {
+.file-with-multi-line-field .mark-required {
   margin-left: 4px;
   color: #f44336;
 }
 
-.attachment-with-multi-line-field div.container {
+.file-with-multi-line-field div.container {
   display: flex;
   margin-bottom: 10px;
 }
 
-.attachment-with-multi-line-field div.inner {
+.file-with-multi-line-field div.inner {
   width: 100%;
 }
 
-.attachment-with-multi-line-field input[type="file"] {
+.file-with-multi-line-field input[type="file"] {
   margin-bottom: 10px;
 }
 
-.attachment-with-multi-line-field input[type="button"] {
+.file-with-multi-line-field input[type="button"] {
   padding: 3px 8px;
   color: #eceff1;
   border: none;
@@ -34,7 +34,7 @@
   appearance: none;
 }
 
-.attachment-with-multi-line-field button.clear {
+.file-with-multi-line-field button.clear {
   margin-left: 8px;
   padding: 0;
   width: 20px;
@@ -46,26 +46,26 @@
   cursor: pointer;
 }
 
-.attachment-with-multi-line-field button.clear:hover {
+.file-with-multi-line-field button.clear:hover {
   background-color: #efefef;
 }
 
-.attachment-with-multi-line-field img.close {
+.file-with-multi-line-field img.close {
   height: 100%;
 }
 
-.attachment-with-multi-line-field textarea {
+.file-with-multi-line-field textarea {
   width: 100%;
   height: 160px;
   resize: vertical;
 }
 
-.attachment-with-multi-line-field .delete {
+.file-with-multi-line-field .delete {
   align-self: center;
   margin-left: 16px;
   background-color: #f44336;
 }
 
-.attachment-with-multi-line-field .add {
+.file-with-multi-line-field .add {
   background-color: #00897b;
 }
