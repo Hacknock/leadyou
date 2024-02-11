@@ -1,6 +1,32 @@
-import React, { useState, useRef, ChangeEvent } from "react";
+import React, { useRef, useEffect, ChangeEvent } from "react";
 import { useTranslation } from "react-i18next";
+import { chunked } from "../../Utils";
 import "./AttachmentWithMultiLineField.css";
+
+type FileInputProps = {
+  file: File | null;
+  handleOnChange: (event: ChangeEvent<HTMLInputElement>) => void;
+  accept: string;
+};
+
+function FileInput(props: FileInputProps) {
+  const { file, handleOnChange, accept } = props;
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    if (inputRef.current) {
+      if (file) {
+        const dataTransfer = new DataTransfer();
+        dataTransfer.items.add(file);
+        inputRef.current.files = dataTransfer.files;
+      } else {
+        inputRef.current.value = "";
+      }
+    }
+  }, [file]);
+
+  return <input type="file" ref={inputRef} onChange={(e) => handleOnChange(e)} accept={accept} />;
+}
 
 type Props = {
   title: string;
@@ -12,80 +38,62 @@ type Props = {
   maxLength?: number;
   values: string[];
   setValues: (values: string[]) => void;
+  files: (File | null)[];
+  setFiles: (values: string[], files: (File | null)[]) => void;
 };
 
 export default function UploadFile(props: Props) {
   const { t } = useTranslation();
-  const { description, maxLength, values, setValues } = props;
-  const [files, setFiles] = useState([""]);
-  const inputElement = useRef<HTMLInputElement>(null);
+  const { description, maxLength, values, setValues, files, setFiles } = props;
 
   let desc: string = description;
   if (maxLength !== undefined && maxLength > 0) {
     desc = `${description} (in ${maxLength} characters or less)`;
   }
 
-  const chunked = (array: string[], chunk: number): string[][] => {
-    return array.reduce<string[][]>((result, value, index) => {
-      if (index % chunk === 0) {
-        result.push([value]);
-      } else {
-        result[result.length - 1].push(value);
-      }
-      return result;
-    }, []);
-  };
-
   const handleSelectFile = (index: number, event: ChangeEvent<HTMLInputElement>) => {
     const fileList = event.target.files;
     if (fileList !== null) {
       const blobURL = window.URL.createObjectURL(fileList[0]);
-      setValues(
-        values.map((v, j) => {
-          return j === 2 * index ? blobURL : v;
-        })
+      setFiles(
+        values.map((v, j) => (j === 2 * index ? blobURL : v)),
+        files.map((v, j) => (j === index ? fileList[0] : v))
       );
     }
   };
 
   const handleClear = (index: number) => {
-    setValues(
-      values.map((v, j) => {
-        return j === 2 * index ? "" : v;
-      })
+    setFiles(
+      values.map((v, j) => (j === 2 * index ? "" : v)),
+      files.map((v, j) => (j === index ? null : v))
     );
-    if (inputElement.current !== null) {
-      inputElement.current.value = "";
-    }
   };
 
   const handleTextareaChange = (index: number, event: ChangeEvent<HTMLTextAreaElement>) => {
-    setValues(
-      values.map((v, j) => {
-        return j === 2 * index + 1 ? event.target.value : v;
-      })
-    );
+    setValues(values.map((v, j) => (j === 2 * index + 1 ? event.target.value : v)));
   };
 
   const handleDelete = (index: number) => {
-    setValues(
+    setFiles(
       values.filter((_, j) => {
         return ![2 * index, 2 * index + 1].includes(j);
-      })
+      }),
+      files.filter((_, j) => j !== index)
     );
-    setFiles(files.filter((_, j) => index === j));
+  };
+
+  const handleAdd = () => {
+    setFiles([...values, "", ""], [...files, null]);
   };
 
   const rows = chunked(values, 2).map((value, i) => {
     return (
       <div key={`attachment-sub-section-${i}`} className="container">
         <div className="inner">
-          <input
-            type="file"
-            value={files[i]}
-            onChange={(e) => handleSelectFile(i, e)}
+          <FileInput
+            file={files[i]}
+            handleOnChange={(e) => handleSelectFile(i, e)}
             accept={props.kindsOfFile?.join(", ") || ""}
-            ref={inputElement}
           />
           <button type="button" className="clear" onClick={() => handleClear(i)}>
             <img src="images/close.png" className="close" />
@@ -113,15 +121,7 @@ export default function UploadFile(props: Props) {
       <p>{desc}</p>
       {rows}
       {props.multiple && (
-        <input
-          type="button"
-          value="add"
-          onClick={(_) => {
-            setValues([...values, "", ""]);
-            setFiles([...files, ""]);
-          }}
-          className="add"
-        />
+        <input type="button" value="add" onClick={(_) => handleAdd()} className="add" />
       )}
     </div>
   );

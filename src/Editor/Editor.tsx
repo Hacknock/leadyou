@@ -48,6 +48,7 @@ type Template = {
 type SectionState = {
   section: Section;
   values: string[];
+  files: (File | null)[];
 };
 
 export type EditorState = {
@@ -78,13 +79,13 @@ export default function Editor(props: Props) {
       (section): SectionState => ({
         section: section,
         values: Array(section.kindsOfValues.length || 1).fill(""),
+        files: [null],
       })
     ),
   };
   const [editorState, setEditorState] = useState(initialState);
 
   const setValues = (at: number, values: string[]) => {
-    console.dir(values, { depth: null });
     setEditorState({
       ...editorState,
       sectionStates: editorState.sectionStates.map((sectionState, index): SectionState => {
@@ -100,13 +101,30 @@ export default function Editor(props: Props) {
     });
   };
 
+  const setFiles = (at: number, values: string[], files: (File | null)[]) => {
+    setEditorState({
+      ...editorState,
+      sectionStates: editorState.sectionStates.map((sectionState, index): SectionState => {
+        if (index === at) {
+          return {
+            ...sectionState,
+            values: values,
+            files: files,
+          };
+        } else {
+          return sectionState;
+        }
+      }),
+    });
+  };
+
   return (
     <div className="editor">
       <div className="edit-area">
         <h2>Input Form</h2>
         <div className="edit-inner">
           <form>
-            <Forms editorState={editorState} setValues={setValues} />
+            <Forms editorState={editorState} setValues={setValues} setFiles={setFiles} />
             <p className="proviso">
               {"If you generate a README, you are deemed to have accepted the "}
               <a href="?scene=document&pageid=terms-of-service">Terms of Service</a>

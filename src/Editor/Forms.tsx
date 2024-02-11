@@ -7,13 +7,14 @@ import AttachmentWithMultiLineField from "./formTypes/AttachmentWithMultiLineFie
 type Props = {
   editorState: EditorState;
   setValues: (at: number, values: string[]) => void;
+  setFiles: (at: number, values: string[], files: (File | null)[]) => void;
 };
 
 export default function Forms(props: Props) {
-  const { editorState, setValues } = props;
+  const { editorState, setValues, setFiles } = props;
 
   const forms = editorState.sectionStates
-    .map(({ section, values }, index) => {
+    .map(({ section, values, files }, index) => {
       switch (section.formType) {
         case "one-line-field":
           return (
@@ -56,6 +57,8 @@ export default function Forms(props: Props) {
               maxLength={section.attributes.maxLength}
               values={values}
               setValues={(values) => setValues(index, values)}
+              files={files}
+              setFiles={(values, files) => setFiles(index, values, files)}
             />
           );
       }
