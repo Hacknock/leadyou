@@ -19,6 +19,7 @@
 }
 
 .proviso {
+  display: inline-block;
   text-align: left;
 }
 
