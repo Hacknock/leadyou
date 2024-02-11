@@ -1,8 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import OneLineField from "./forms/OneLineField";
-import MultiLineField from "./forms/MultiLineField";
-import UploadFile from "./forms/UploadFile";
+import Forms from "./Forms";
 import "./Editor.css";
 
 type Props = {
@@ -15,7 +13,6 @@ type Props = {
 export default function Editor(props: Props) {
   const { lang, owner, repo, autoFill } = props;
   const { t } = useTranslation();
-
   const [showAlert, setShowAlert] = useState(false);
 
   return (
@@ -24,33 +21,7 @@ export default function Editor(props: Props) {
         <h2>Input Form</h2>
         <div className="edit-inner">
           <form>
-            <MultiLineField
-              title={"Short Description"}
-              hiddenTitle={false}
-              description={"Please write down a short description of the project."}
-              required={true}
-              multiple={true}
-              placeholder={null}
-              maxLength={500}
-            />
-            <OneLineField
-              title={"Badges"}
-              hiddenTitle={false}
-              description={"Please input the badges."}
-              required={false}
-              multiple={true}
-              placeholder={null}
-              maxLength={300}
-            />
-            <UploadFile
-              title={"Demo"}
-              hiddenTitle={false}
-              description={"Please upload an image and input a description for a demonstration."}
-              required={false}
-              multiple={true}
-              placeholder={null}
-              maxLength={500}
-            />
+            <Forms />
             <p className="proviso">
               If you generate a README, you are deemed to have accepted the
               <a href="?scene=document&pageid=terms-of-service">Terms of Service</a>. And if you

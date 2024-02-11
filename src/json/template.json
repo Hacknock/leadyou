@@ -2,9 +2,9 @@
   "decorations": [
     {
       "title": "Project Icon",
-      "required": true,
-      "component": "wrap-upload-file",
       "description": "Please upload the project's icon.",
+      "required": true,
+      "formType": "attachment-with-multi-line-field",
       "attributes": {
         "kindsOfFile": ["image/*"],
         "placeholder": "The size of the icon must be 64x64px."
@@ -14,60 +14,60 @@
   "sections": [
     {
       "title": "Project Name",
-      "hiddenTitle": false,
-      "required": true,
-      "replacement": true,
-      "multiple": false,
-      "component": "wrap-oneline-field",
       "description": "Please type the project name.",
+      "required": true,
+      "multiple": false,
+      "hiddenTitle": false,
+      "replacingTitle": true,
+      "formType": "one-line-field",
       "kindsOfValues": ["plain"],
       "formats": ["%s"],
       "attributes": {
         "placeholder": "Your project/repository name",
-        "maxlength": 50
+        "maxLength": 50
       },
       "script": "getProjectName.js"
     },
     {
       "title": "Short Description",
-      "hiddenTitle": true,
-      "required": true,
-      "replacement": false,
-      "multiple": false,
-      "component": "wrap-multiline-field",
       "description": "Please write down a short description of the project.",
+      "required": true,
+      "multiple": false,
+      "hiddenTitle": true,
+      "replacingTitle": false,
+      "formType": "multi-line-field",
       "kindsOfValues": ["plain"],
       "formats": ["%s  \n"],
       "attributes": {
         "placeholder": "You should include: \n- Motivation for this project (issues)\n- Your ideas for solving issues\n- Achievement",
-        "maxlength": 500
+        "maxLength": 500
       },
       "script": "getShortDescription.js"
     },
     {
       "title": "Badges",
-      "hiddenTitle": true,
-      "required": false,
-      "replacement": false,
-      "multiple": true,
-      "component": "wrap-oneline-field",
       "description": "Please input the badges.",
+      "required": false,
+      "multiple": true,
+      "hiddenTitle": true,
+      "replacingTitle": false,
+      "formType": "one-line-field",
       "kindsOfValues": ["plain"],
       "formats": ["%s\n"],
       "attributes": {
         "placeholder": "[![Title](Badge URL)](Jump URL)",
-        "maxlength": 300
+        "maxLength": 300
       },
       "script": "getBadges.js"
     },
     {
       "title": "Tags",
-      "hiddenTitle": false,
-      "required": true,
-      "replacement": false,
-      "multiple": true,
-      "component": "wrap-oneline-field",
       "description": "Please input the tags related to the project.",
+      "required": true,
+      "multiple": true,
+      "hiddenTitle": false,
+      "replacingTitle": false,
+      "formType": "one-line-field",
       "kindsOfValues": ["plain"],
       "formats": ["`%s` "],
       "attributes": {
@@ -76,12 +76,12 @@
     },
     {
       "title": "Demo",
-      "hiddenTitle": false,
-      "required": false,
-      "replacement": false,
-      "multiple": true,
-      "component": "wrap-upload-file",
       "description": "Please upload an image and input a description for a demonstration.",
+      "required": false,
+      "multiple": true,
+      "hiddenTitle": false,
+      "replacingTitle": false,
+      "formType": "attachment-with-multi-line-field",
       "kindsOfValues": ["filepath", "plain"],
       "formats": ["![Demo](%s)\n\n", "%s  \n"],
       "attributes": {
@@ -91,12 +91,12 @@
     },
     {
       "title": "Advantages",
-      "hiddenTitle": false,
-      "required": true,
-      "replacement": false,
-      "multiple": false,
-      "component": "wrap-multiline-field",
       "description": "Please describe the advantages of the project.",
+      "required": true,
+      "multiple": false,
+      "hiddenTitle": false,
+      "replacingTitle": false,
+      "formType": "multi-line-field",
       "kindsOfValues": ["plain"],
       "formats": ["%s  \n"],
       "attributes": {
@@ -105,12 +105,12 @@
     },
     {
       "title": "Installation",
-      "hiddenTitle": false,
-      "required": true,
-      "replacement": false,
-      "multiple": false,
-      "component": "wrap-multiline-field",
       "description": "Please describe how to install the project.",
+      "required": true,
+      "multiple": false,
+      "hiddenTitle": false,
+      "replacingTitle": false,
+      "formType": "multi-line-field",
       "kindsOfValues": ["plain"],
       "formats": ["%s  \n"],
       "attributes": {
@@ -119,12 +119,12 @@
     },
     {
       "title": "Deployment",
-      "hiddenTitle": false,
-      "required": false,
-      "replacement": false,
-      "multiple": false,
-      "component": "wrap-multiline-field",
       "description": "Please describe how to deploy the project.",
+      "required": false,
+      "multiple": false,
+      "hiddenTitle": false,
+      "replacingTitle": false,
+      "formType": "multi-line-field",
       "kindsOfValues": ["plain"],
       "formats": ["%s  \n"],
       "attributes": {
@@ -133,12 +133,12 @@
     },
     {
       "title": "Minimal Example",
-      "hiddenTitle": false,
-      "required": true,
-      "replacement": false,
-      "multiple": false,
-      "component": "wrap-upload-file",
       "description": "Please illustrate a minimal implementation.",
+      "required": true,
+      "multiple": false,
+      "hiddenTitle": false,
+      "replacingTitle": false,
+      "formType": "attachment-with-multi-line-field",
       "kindsOfValues": ["filepath", "plain"],
       "formats": ["![Minimal Example](%s)\n\n", "%s  \n"],
       "attributes": {
@@ -148,12 +148,12 @@
     },
     {
       "title": "Contributors",
-      "hiddenTitle": false,
-      "required": true,
-      "replacement": false,
-      "multiple": true,
-      "component": "wrap-oneline-field",
       "description": "Please input the contributors to the project.",
+      "required": true,
+      "multiple": true,
+      "hiddenTitle": false,
+      "replacingTitle": false,
+      "formType": "one-line-field",
       "kindsOfValues": ["plain"],
       "formats": ["- %s\n"],
       "attributes": {
@@ -163,12 +163,12 @@
     },
     {
       "title": "Users",
-      "hiddenTitle": false,
-      "required": false,
-      "replacement": false,
-      "multiple": true,
-      "component": "wrap-oneline-field",
       "description": "Please input the users of the project.",
+      "required": false,
+      "multiple": true,
+      "hiddenTitle": false,
+      "replacingTitle": false,
+      "formType": "one-line-field",
       "kindsOfValues": ["plain"],
       "formats": ["- %s\n"],
       "attributes": {

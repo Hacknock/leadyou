@@ -1,10 +1,9 @@
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
-import "./MultiLineField.css";
+import "./AttachmentWithMultiLineField.css";
 
 type Props = {
   title: string;
-  hiddenTitle: boolean;
   description: string;
   required: boolean;
   multiple: boolean;
@@ -12,9 +11,9 @@ type Props = {
   maxLength: number | null;
 };
 
-export default function MultiLineField(props: Props) {
+export default function UploadFile(props: Props) {
   const { t } = useTranslation();
-  const { title, hiddenTitle, description, required, multiple, placeholder, maxLength } = props;
+  const { title, description, required, multiple, placeholder, maxLength } = props;
 
   let desc: string = description;
   if (maxLength !== null && maxLength > 0) {
@@ -24,15 +23,22 @@ export default function MultiLineField(props: Props) {
   const [values, setValues] = useState([""]);
   const rows = values.map((value, i) => {
     return (
-      <div key={`multi-line-${i}`} className="container">
-        <textarea
-          value={value}
-          onChange={(e) => {
-            setValues(values.map((v, j) => (j === i ? e.target.value : v)));
-          }}
-          placeholder={placeholder || ""}
-          maxLength={maxLength || 0}
-        />
+      <div key={`upload-file-${i}`} className="container">
+        <div className="inner">
+          <input type="file" id="up-file-element" onChange={(e) => {}} />
+          <input type="file" id="data-id" onChange={(e) => {}} />
+          <button type="button" className="clear" onClick={(e) => {}}>
+            <img src="images/close.png" className="close" />
+          </button>
+          <textarea
+            value={value}
+            onChange={(e) => {
+              setValues(values.map((v, j) => (j === i ? e.target.value : v)));
+            }}
+            placeholder={placeholder || ""}
+            maxLength={maxLength || 0}
+          />
+        </div>
         {values.length > 1 && (
           <input
             type="button"
@@ -49,13 +55,11 @@ export default function MultiLineField(props: Props) {
   });
 
   return (
-    <div className="multi-line-field">
-      {!hiddenTitle && (
-        <h3 className="sub-title">
-          {title}
-          {required && <span className="mark-required">*</span>}
-        </h3>
-      )}
+    <div className="upload-file">
+      <h3 className="sub-title">
+        {title}
+        {required && <span className="mark-required">*</span>}
+      </h3>
       <p>{desc}</p>
       {rows}
       {multiple && (

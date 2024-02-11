@@ -4,7 +4,6 @@ import "./OneLineField.css";
 
 type Props = {
   title: string;
-  hiddenTitle: boolean;
   description: string;
   required: boolean;
   multiple: boolean;
@@ -14,7 +13,7 @@ type Props = {
 
 export default function OneLineField(props: Props) {
   const { t } = useTranslation();
-  const { title, hiddenTitle, description, required, multiple, placeholder, maxLength } = props;
+  const { title, description, required, multiple, placeholder, maxLength } = props;
 
   let desc: string = description;
   if (maxLength !== null && maxLength > 0) {
@@ -51,12 +50,10 @@ export default function OneLineField(props: Props) {
 
   return (
     <div className="one-line-field">
-      {!hiddenTitle && (
-        <h3 className="sub-title">
-          {title}
-          {required && <span className="mark-required">*</span>}
-        </h3>
-      )}
+      <h3 className="sub-title">
+        {title}
+        {required && <span className="mark-required">*</span>}
+      </h3>
       <p>{desc}</p>
       {rows}
       {multiple && (
