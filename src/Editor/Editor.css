@@ -19,7 +19,7 @@
 }
 
 .proviso {
-  display: inline-block;
+  padding: 0 16px;
   text-align: left;
 }
 
@@ -37,7 +37,7 @@
 }
 
 .editor input[type="submit"] {
-  margin: 20px auto;
+  margin: 16px auto;
   background-color: #0277bd;
   padding: 5px 12px;
   font-size: large;

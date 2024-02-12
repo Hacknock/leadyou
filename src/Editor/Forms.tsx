@@ -66,7 +66,9 @@ export default function Forms(props: Props) {
           );
       }
     })
-    .flatMap((item, i) => [item, <hr key={`separater-${i}`} className="separater" />]);
+    .flatMap((item, i) => {
+      return i === 0 ? item : [<hr key={`separater-${i}`} className="separater" />, item];
+    });
 
   return <React.Fragment>{forms}</React.Fragment>;
 }

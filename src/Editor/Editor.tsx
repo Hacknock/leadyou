@@ -256,24 +256,24 @@ export default function Editor(props: Props) {
     <div className="editor">
       <div className="edit-area">
         <h2>{t("inputForm")}</h2>
-        <div className="edit-inner">
-          <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit}>
+          <div className="edit-inner">
             <Forms editorState={editorState} setValues={setValues} setFiles={setFiles} />
-            <p className="proviso">
-              <Trans
-                i18nKey="proviso-1"
-                components={{ l: <a href="?scene=document&pageid=terms-of-service" /> }}
-              />
-              <Trans i18nKey="proviso-2" components={{ l: <a href="/" /> }} />
-              <Trans
-                i18nKey="proviso-3"
-                components={{ l: <a href="?scene=document&pageid=help" /> }}
-              />
-            </p>
-            <input type="submit" value={t("generate") || undefined} />
-            {editorState.showAlert && <p className="fill-alert">{t("warningForRequirements")}</p>}
-          </form>
-        </div>
+          </div>
+          <p className="proviso">
+            <Trans
+              i18nKey="proviso-1"
+              components={{ l: <a href="?scene=document&pageid=terms-of-service" /> }}
+            />
+            <Trans i18nKey="proviso-2" components={{ l: <a href="/" /> }} />
+            <Trans
+              i18nKey="proviso-3"
+              components={{ l: <a href="?scene=document&pageid=help" /> }}
+            />
+          </p>
+          <input type="submit" value={t("generate") || undefined} />
+          {editorState.showAlert && <p className="fill-alert">{t("warningForRequirements")}</p>}
+        </form>
       </div>
       <div className="preview-area">
         <h2>{t("previewReadme")}</h2>
