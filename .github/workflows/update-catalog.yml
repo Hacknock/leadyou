@@ -1,0 +1,54 @@
+name: Update Catalog
+
+#  ┌───────────── minute (0 - 59)
+#  │ ┌─────────── hour (0 - 23)
+#  │ │ ┌───────── day of the month (1 - 31)
+#  │ │ │ ┌─────── month (1 - 12 or JAN-DEC)
+#  │ │ │ │ ┌───── day of the week (0 - 6 or SUN-SAT)
+#  │ │ │ │ │
+#  │ │ │ │ │
+#  │ │ │ │ │
+#  * * * * *
+
+on:
+  workflow_dispatch:
+  schedule:
+    # 日本時間 毎週日曜日 朝 9:00
+    - cron: "0 0 * * 0"
+
+jobs:
+  update-catalog:
+    name: Update catalog.json
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    timeout-minutes: 15
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+
+      - name: Cache Node Modules
+        uses: actions/cache@v4
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-modules-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: ${{ runner.os }}-node-modules-
+
+      - name: Run Script
+        run: |
+          npm ci
+          npm run update-catalog
+        env:
+          LEADYOU_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Commit Diff
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "Updated category.json automatically."
+          file_pattern: "src/json/catalog.json"

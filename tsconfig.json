@@ -12,6 +12,6 @@
     "lib": ["DOM", "ES2021"],
     "typeRoots": ["types", "node_modules/@types"]
   },
-  "include": ["src", "types", "dummy.mjs", "fetch-readmes.mjs"],
+  "include": ["src", "types", "dummy.mjs", "update-catalog.mjs"],
   "exclude": ["node_modules"]
 }

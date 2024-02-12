@@ -15,7 +15,7 @@
   "scripts": {
     "start": "webpack serve --config webpack.config.js --mode development",
     "build": "webpack",
-    "fetch-readmes": "node fetch-readmes.mjs $LEADYOU_TOKEN"
+    "update-catalog": "node update-catalog.mjs $LEADYOU_TOKEN"
   },
   "engines": {
     "node": "^18.18.0"
