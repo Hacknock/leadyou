@@ -13,7 +13,7 @@ export function Header() {
       <h2
         className="title"
         onClick={() => {
-          window.location.href = "/";
+          window.location.href = "/leadyou/";
         }}
       >
         {t("title")}

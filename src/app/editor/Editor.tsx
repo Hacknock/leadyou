@@ -269,7 +269,7 @@ export default function Editor(props: Props) {
               i18nKey="proviso-1"
               components={{ l: <a href="?scene=document&pageid=terms-of-service" /> }}
             />
-            <Trans i18nKey="proviso-2" components={{ l: <a href="/" /> }} />
+            <Trans i18nKey="proviso-2" components={{ l: <a href="/leadyou/" /> }} />
             <Trans
               i18nKey="proviso-3"
               components={{ l: <a href="?scene=document&pageid=help" /> }}
