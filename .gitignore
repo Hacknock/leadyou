@@ -1,4 +1,4 @@
 .DS_Store
 node_modules/
+docs/js/
 dummy.js
-index.bundle.js.LICENSE.txt
