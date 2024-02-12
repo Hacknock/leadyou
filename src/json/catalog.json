@@ -1,5 +1,5 @@
 {
-  "totalCount": 22,
+  "totalCount": 21,
   "repositories": [
     {
       "ownerRepo": "Kyome22/RunCat_for_windows",
@@ -52,9 +52,9 @@
       "sha": "b884bdf5a690543ad59a23461de3c6317058379f"
     },
     {
-      "ownerRepo": "Hacknock/leadyou",
-      "rawURL": "https://raw.githubusercontent.com/Hacknock/leadyou/561cf49d6266d600a47c0dc015d23564096af879/README.md",
-      "sha": "561cf49d6266d600a47c0dc015d23564096af879"
+      "ownerRepo": "Kyome22/UITestPractice",
+      "rawURL": "https://raw.githubusercontent.com/Kyome22/UITestPractice/0c72c4543cb59bcfab993264e529eddaa53a7658/README.md",
+      "sha": "0c72c4543cb59bcfab993264e529eddaa53a7658"
     },
     {
       "ownerRepo": "nucosen/broadcast",
