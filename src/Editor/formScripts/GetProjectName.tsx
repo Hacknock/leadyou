@@ -1,6 +1,6 @@
 import { FormScript, FormScriptResult } from "./FormScript";
 
-export class GetProjectName implements FormScript {
+export default class GetProjectName implements FormScript {
   async getValues(repoURL: string): Promise<FormScriptResult> {
     if (!repoURL.startsWith("https://github.com/")) {
       throw new Error("Inputed repository url is not correct.");
@@ -11,6 +11,6 @@ export class GetProjectName implements FormScript {
       throw new Error("Can not specify the repository with the inputed url.");
     }
 
-    return { values: [splitRepoURL[4]] };
+    return { title: "Project Name", values: [splitRepoURL[4]] };
   }
 }

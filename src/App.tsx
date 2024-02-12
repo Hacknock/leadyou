@@ -35,7 +35,7 @@ export default function App() {
   const pageID = "pageid" in qs && typeof qs.pageid === "string" ? qs.pageid : null;
   const owner = "owner" in qs && typeof qs.owner === "string" ? qs.owner : null;
   const repo = "repo" in qs && typeof qs.repo === "string" ? qs.repo : null;
-  const autoFill = "autofill" in qs && typeof qs.autofill === "boolean" ? qs.autofill : false;
+  const autoFill = "autofill" in qs && typeof qs.autofill === "string" && qs.autofill === "true";
 
   return (
     <div className="app">

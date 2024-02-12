@@ -6,7 +6,7 @@ type BadgeInfo = {
   jumpKey: string;
 };
 
-export class GetBadges implements FormScript {
+export default class GetBadges implements FormScript {
   async getValues(repoURL: string): Promise<FormScriptResult> {
     if (!repoURL.startsWith("https://github.com/")) {
       throw new Error("Inputed repository url is not correct.");
@@ -30,6 +30,6 @@ export class GetBadges implements FormScript {
       return `[![Github ${info.name}](${url})`;
     });
 
-    return { values: values };
+    return { title: "Badges", values: values };
   }
 }

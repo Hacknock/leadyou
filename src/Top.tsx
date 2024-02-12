@@ -34,7 +34,7 @@ export default function Top() {
         throw new Error("network response was not ok.");
       }
     } catch (error) {
-      console.log(error);
+      console.error(error);
       setShowAlert(true);
     }
   };

@@ -1,11 +1,16 @@
-import React, { FormEventHandler, useState } from "react";
+import React, { useState, useEffect, FormEventHandler } from "react";
 import { Trans, useTranslation } from "react-i18next";
 import { chunked } from "../Utils";
-import JSZip, { file } from "jszip";
+import JSZip from "jszip";
 import Forms from "./Forms";
 import Preview from "./Preview";
+import GetProjectName from "./formScripts/GetProjectName";
+import GetShortDescription from "./formScripts/GetShortDescription";
+import GetBadges from "./formScripts/GetBadges";
+import GetContributors from "./formScripts/GetContributors";
 import templateJSON from "../json/template.json";
 import "./Editor.css";
+import { FormScript } from "./formScripts/FormScript";
 
 type Props = {
   owner: string | null;
@@ -60,6 +65,13 @@ export type EditorState = {
 export default function Editor(props: Props) {
   const { owner, repo, autoFill } = props;
   const { t } = useTranslation();
+  const formScripts: FormScript[] = [
+    new GetProjectName(),
+    new GetShortDescription(),
+    new GetBadges(),
+    new GetContributors(),
+  ];
+
   const initialState: EditorState = {
     showAlert: false,
     sectionStates: (templateJSON as Template).sections.map(
@@ -77,10 +89,7 @@ export default function Editor(props: Props) {
       ...editorState,
       sectionStates: editorState.sectionStates.map((sectionState, index): SectionState => {
         if (index === at) {
-          return {
-            ...sectionState,
-            values: values,
-          };
+          return { ...sectionState, values: values };
         } else {
           return sectionState;
         }
@@ -93,11 +102,7 @@ export default function Editor(props: Props) {
       ...editorState,
       sectionStates: editorState.sectionStates.map((sectionState, index): SectionState => {
         if (index === at) {
-          return {
-            ...sectionState,
-            values: values,
-            files: files,
-          };
+          return { ...sectionState, values: values, files: files };
         } else {
           return sectionState;
         }
@@ -219,6 +224,33 @@ export default function Editor(props: Props) {
     e.preventDefault();
     generate();
   };
+
+  useEffect(() => {
+    if (owner !== null && repo !== null && autoFill) {
+      const repoURL = `https://github.com/${owner}/${repo}`;
+      const promises = formScripts.map((formScript) => {
+        return formScript.getValues(repoURL);
+      });
+
+      Promise.all(promises)
+        .then((response) => {
+          const sectionStates = editorState.sectionStates.map((sectionState): SectionState => {
+            const item = response.find((item) => {
+              return item.title === sectionState.section.title;
+            });
+            if (item !== undefined) {
+              return { ...sectionState, values: item.values };
+            } else {
+              return sectionState;
+            }
+          });
+          setEditorState({ ...editorState, sectionStates: sectionStates });
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    }
+  }, []);
 
   return (
     <div className="editor">

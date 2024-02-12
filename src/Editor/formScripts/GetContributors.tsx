@@ -1,6 +1,6 @@
 import { FormScript, FormScriptResult } from "./FormScript";
 
-export class GetContributors implements FormScript {
+export default class GetContributors implements FormScript {
   async getValues(repoURL: string): Promise<FormScriptResult> {
     if (!repoURL.startsWith("https://github.com/")) {
       throw new Error("Inputed repository url is not correct.");
@@ -18,16 +18,21 @@ export class GetContributors implements FormScript {
       },
     };
 
+    const result: FormScriptResult = {
+      title: "Contributors",
+      values: [],
+    };
+
     try {
       const response = await fetch(requestURL, options);
       const json = await response.json();
       if (!Array.isArray(json)) {
-        return { values: [] };
+        return result;
       }
       const values = json.map((user) => {
         return `[${user.login}](${user.html_url})`;
       });
-      return { values: values };
+      return { ...result, values: values };
     } catch (err) {
       throw err;
     }

@@ -1,6 +1,6 @@
 import { FormScript, FormScriptResult } from "./FormScript";
 
-export class GetShortDescription implements FormScript {
+export default class GetShortDescription implements FormScript {
   async getValues(repoURL: string): Promise<FormScriptResult> {
     if (!repoURL.startsWith("https://github.com/")) {
       throw new Error("Inputed repository url is not correct.");
@@ -22,7 +22,7 @@ export class GetShortDescription implements FormScript {
       const response = await fetch(requestURL, options);
       const json = await response.json();
       const description = "description" in json ? json.description : "";
-      return { values: [description] };
+      return { title: "Short Description", values: [description] };
     } catch (err) {
       throw err;
     }

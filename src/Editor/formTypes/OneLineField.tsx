@@ -46,9 +46,8 @@ export default function OneLineField(props: Props) {
           <input
             type="button"
             value="delete"
-            onClick={(e) => {
+            onClick={() => {
               setValues(values.filter((_, j) => j !== i));
-              console.log("delete");
             }}
             className="delete"
           />

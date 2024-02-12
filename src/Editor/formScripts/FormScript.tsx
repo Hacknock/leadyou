@@ -1,4 +1,5 @@
 export type FormScriptResult = {
+  title: string;
   values: string[];
 };
 
