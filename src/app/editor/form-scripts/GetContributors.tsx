@@ -19,7 +19,7 @@ export default class GetContributors implements FormScript {
     };
 
     const result: FormScriptResult = {
-      title: "Contributors",
+      script: this.constructor.name,
       values: [],
     };
 

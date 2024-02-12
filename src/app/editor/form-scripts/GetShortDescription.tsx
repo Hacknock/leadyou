@@ -22,7 +22,7 @@ export default class GetShortDescription implements FormScript {
       const response = await fetch(requestURL, options);
       const json = await response.json();
       const description = "description" in json ? json.description : "";
-      return { title: "Short Description", values: [description] };
+      return { script: this.constructor.name, values: [description] };
     } catch (err) {
       throw err;
     }

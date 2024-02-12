@@ -43,7 +43,7 @@ type Section = {
   kindsOfValues: string[];
   formats: string[];
   attributes: Attributes;
-  script: string;
+  script?: string;
 };
 
 type Template = {
@@ -225,30 +225,34 @@ export default function Editor(props: Props) {
     generate();
   };
 
+  const runAutoFill = (owner: string, repo: string) => {
+    const repoURL = `https://github.com/${owner}/${repo}`;
+    const promises = formScripts.map((formScript) => {
+      return formScript.getValues(repoURL);
+    });
+
+    Promise.all(promises)
+      .then((response) => {
+        const sectionStates = editorState.sectionStates.map((sectionState): SectionState => {
+          const item = response.find((item) => {
+            return item.script === sectionState.section.script;
+          });
+          if (item !== undefined) {
+            return { ...sectionState, values: item.values };
+          } else {
+            return sectionState;
+          }
+        });
+        setEditorState({ ...editorState, sectionStates: sectionStates });
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
+
   useEffect(() => {
     if (owner !== null && repo !== null && autoFill) {
-      const repoURL = `https://github.com/${owner}/${repo}`;
-      const promises = formScripts.map((formScript) => {
-        return formScript.getValues(repoURL);
-      });
-
-      Promise.all(promises)
-        .then((response) => {
-          const sectionStates = editorState.sectionStates.map((sectionState): SectionState => {
-            const item = response.find((item) => {
-              return item.title === sectionState.section.title;
-            });
-            if (item !== undefined) {
-              return { ...sectionState, values: item.values };
-            } else {
-              return sectionState;
-            }
-          });
-          setEditorState({ ...editorState, sectionStates: sectionStates });
-        })
-        .catch((error) => {
-          console.error(error);
-        });
+      runAutoFill(owner, repo);
     }
   }, []);
 

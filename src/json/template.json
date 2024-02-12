@@ -26,7 +26,7 @@
         "placeholder": "Your project/repository name",
         "maxLength": 50
       },
-      "script": "getProjectName.js"
+      "script": "GetProjectName"
     },
     {
       "title": "Short Description",
@@ -42,7 +42,7 @@
         "placeholder": "You should include: \n- Motivation for this project (issues)\n- Your ideas for solving issues\n- Achievement",
         "maxLength": 500
       },
-      "script": "getShortDescription.js"
+      "script": "GetShortDescription"
     },
     {
       "title": "Badges",
@@ -58,7 +58,7 @@
         "placeholder": "[![Title](Badge URL)](Jump URL)",
         "maxLength": 300
       },
-      "script": "getBadges.js"
+      "script": "GetBadges"
     },
     {
       "title": "Tags",
@@ -159,7 +159,7 @@
       "attributes": {
         "placeholder": "[Name](GitHub Profile URL)"
       },
-      "script": "getContributors.js"
+      "script": "GetContributors"
     },
     {
       "title": "Users",

@@ -11,6 +11,6 @@ export default class GetProjectName implements FormScript {
       throw new Error("Can not specify the repository with the inputed url.");
     }
 
-    return { title: "Project Name", values: [splitRepoURL[4]] };
+    return { script: this.constructor.name, values: [splitRepoURL[4]] };
   }
 }

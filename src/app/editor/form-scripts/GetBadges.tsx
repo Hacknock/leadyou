@@ -30,6 +30,6 @@ export default class GetBadges implements FormScript {
       return `[![Github ${info.name}](${url})`;
     });
 
-    return { title: "Badges", values: values };
+    return { script: this.constructor.name, values: values };
   }
 }
