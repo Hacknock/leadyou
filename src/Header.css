@@ -30,17 +30,13 @@ h3 {
   margin-right: 16px;
 }
 
-.header .sub-title {
-  margin-right: auto;
-}
-
-.header h3.language:hover {
+.header .title:hover {
   cursor: pointer;
   color: #e0e0e0;
 }
 
-.header h3.language {
-  margin-right: 15px;
+.header .sub-title {
+  margin-right: auto;
 }
 
 .dummy-header {

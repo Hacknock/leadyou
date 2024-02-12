@@ -10,7 +10,14 @@ export function Header() {
       <div className="icon-container">
         <img className="icon" src={"images/icon-mini.png"} alt="leadyou" />
       </div>
-      <h2 className="title">{t("title")}</h2>
+      <h2
+        className="title"
+        onClick={() => {
+          window.location.href = "/";
+        }}
+      >
+        {t("title")}
+      </h2>
       <h3 className="sub-title">{t("subTitle")}</h3>
     </div>
   );
