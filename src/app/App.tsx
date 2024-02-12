@@ -8,6 +8,8 @@ import Editor from "./editor/Editor";
 import Document from "./document/Document";
 import Footer from "./footer/Footer";
 import en from "../json/locales/en.json";
+import { CatalogObject } from "./top/Catalog";
+import catalogJSON from "../json/catalog.json";
 import "./App.css";
 import "./support/Marked.css";
 
@@ -36,15 +38,16 @@ export default function App() {
   const owner = "owner" in qs && typeof qs.owner === "string" ? qs.owner : null;
   const repo = "repo" in qs && typeof qs.repo === "string" ? qs.repo : null;
   const autoFill = "autofill" in qs && typeof qs.autofill === "string" && qs.autofill === "true";
+  const catalog = catalogJSON as CatalogObject;
 
   return (
     <div className="app">
       <Header />
       <DummyHeader />
-      {scene === "top" && <Top />}
+      {scene === "top" && <Top catalog={catalog} />}
       {scene === "editor" && <Editor owner={owner} repo={repo} autoFill={autoFill} />}
       {scene === "document" && <Document pageID={pageID} />}
-      <Footer />
+      <Footer generatedCount={catalog.totalCount} />
     </div>
   );
 }

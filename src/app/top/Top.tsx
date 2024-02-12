@@ -1,9 +1,13 @@
 import React, { useState, useEffect, FormEventHandler } from "react";
 import { useTranslation } from "react-i18next";
-import Catalog from "./Catalog";
+import Catalog, { CatalogObject } from "./Catalog";
 import "./Top.css";
 
-export default function Top() {
+type Props = {
+  catalog: CatalogObject;
+};
+
+export default function Top(props: Props) {
   const { t } = useTranslation();
   const [url, setUrl] = useState("");
   const [autoFill, setAutoFill] = useState(false);
@@ -75,7 +79,7 @@ export default function Top() {
         </div>
         <input type="submit" value={t("next") || undefined} />
       </form>
-      <Catalog />
+      <Catalog catalog={props.catalog} />
     </div>
   );
 }

@@ -40,7 +40,7 @@ const fetchReadmes = async () => {
   try {
     const json = await getJSON(requestURL);
     console.log("total_count", json.total_count);
-    const readmes = json.items
+    const repositories = json.items
       .map((item) => {
         let rawURL = "https://raw.githubusercontent.com/";
         rawURL += item.repository.full_name;
@@ -53,15 +53,15 @@ const fetchReadmes = async () => {
         };
       })
       .slice(0, 12);
-    return readmes;
+    return { totalCount: json.total_count, repositories: repositories };
   } catch (error) {
     throw error;
   }
 };
 
 // Overwrite Catalog.json
-const overwriteCatalog = async (readmes) => {
-  const text = JSON.stringify(readmes, null, 2);
+const overwriteCatalog = async (catalog) => {
+  const text = JSON.stringify(catalog, null, 2);
   try {
     await fs.writeFile("src/json/catalog.json", text);
   } catch (error) {
@@ -71,10 +71,10 @@ const overwriteCatalog = async (readmes) => {
 
 (async () => {
   try {
-    const readmes = await fetchReadmes();
-    console.log("count", readmes.length);
-    console.dir(readmes, { depth: null });
-    await overwriteCatalog(readmes);
+    const catalog = await fetchReadmes();
+    console.dir(catalog, { depth: null });
+    console.log("count", catalog.repositories.length);
+    await overwriteCatalog(catalog);
   } catch (error) {
     console.error("⚠️", error);
     process.exit(1);

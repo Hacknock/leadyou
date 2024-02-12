@@ -2,7 +2,11 @@ import React from "react";
 import { useTranslation } from "react-i18next";
 import "./Footer.css";
 
-export default function Footer() {
+type Props = {
+  generatedCount: number;
+};
+
+export default function Footer(props: Props) {
   const { t } = useTranslation();
 
   const anchor = (pageid: string, labelKey: string) => {
@@ -12,10 +16,10 @@ export default function Footer() {
   return (
     <div className="footer">
       <div className="footer-child left-child">
-        <h1>
-          {t("title")}
-          <span id="counter">+0</span>
-        </h1>
+        <div>
+          <h1 className="title">{t("title")} </h1>
+          <span className="counter">{`+${props.generatedCount}`}</span>
+        </div>
         <p>{t("copyright")}</p>
       </div>
       <div className="footer-child right-child-1">

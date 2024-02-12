@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import catalogJSON from "../../json/catalog.json";
 import { parse } from "marked";
 import styles from "../support/Marked.css";
 import "./Catalog.css";
@@ -11,14 +10,23 @@ type Repository = {
   sha: string;
 };
 
+export type CatalogObject = {
+  totalCount: number;
+  repositories: Repository[];
+};
+
+type Props = {
+  catalog: CatalogObject;
+};
+
 type README = {
   repo: Repository;
   text: string;
 };
 
-export default function Catalog() {
+export default function Catalog(props: Props) {
+  const { catalog } = props;
   const { t } = useTranslation();
-  const catalog = catalogJSON as Repository[];
   const [readmes, setReadmes] = useState<README[]>([]);
 
   const getReadme = async (repo: Repository) => {
@@ -132,7 +140,7 @@ export default function Catalog() {
   })();
 
   useEffect(() => {
-    const promises = catalog.map((repo) => getReadme(repo));
+    const promises = catalog.repositories.map((repo) => getReadme(repo));
     Promise.all(promises)
       .then((readmes) => setReadmes(readmes))
       .catch((error) => console.error(error));

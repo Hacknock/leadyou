@@ -38,3 +38,7 @@
 .footer .right-child-2 {
   margin-right: 50px;
 }
+
+.footer h1.title {
+  display: inline-block;
+}
