@@ -7,6 +7,7 @@
   color: white;
   background-color: #0078be;
   display: flex;
+  z-index: 2;
 }
 
 .header h2,
