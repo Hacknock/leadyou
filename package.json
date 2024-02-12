@@ -14,14 +14,17 @@
   },
   "scripts": {
     "start": "webpack serve --config webpack.config.js --mode development",
-    "build": "webpack"
+    "build": "webpack",
+    "fetch-readmes": "node fetch-readmes.mjs $LEADYOU_TOKEN"
   },
   "engines": {
     "node": "^18.18.0"
   },
   "dependencies": {
+    "fs": "^0.0.1-security",
     "i18next": "^22.4.6",
     "jszip": "^3.10.1",
+    "node-fetch": "^3.3.2",
     "query-string": "^8.0.3",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
