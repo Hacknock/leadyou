@@ -17,7 +17,7 @@ Additionally you can fill other items we recommend you to fill (Tags, Advantages
 
 # Tags
 
-`README` `GitHub` `Markdown` `React` `WebPack`
+`README` `GitHub` `Markdown` `React` `TypeScript` `webpack` `GitHub Pages` `GitHub Actions`
 
 # Demo
 
@@ -48,34 +48,6 @@ Additionally you can fill other items we recommend you to fill (Tags, Advantages
    npm run start
    ```
    Then, access `localhost:3000`.
-
-# Minimal Example
-
-You can add or delete some items to make README using this repository source code.
-For example, you want to add "Support".
-This item will help your colleagues ask you when they will face a problem with using your software.
-You add the following code on lines 178 to 191 of `/app/public/public/plugins/template.json`.
-
-```json
-{
-  "title": "Support",
-  "hiddenTitle": false,
-  "required": false,
-  "replacement": false,
-  "multiple": true,
-  "component": "wrap-oneline-field",
-  "description": "Please input the contact information when the user faces some problem on using your software.",
-  "kindsOfValues": ["plain"],
-  "formats": ["- %s\n"],
-  "attributes": {
-    "placeholder": "[Name](URL)"
-  }
-}
-```
-
-You deploy it again, Support item will be on edit form like this screenshot. 🍻
-
-![Minimal Example](resources/file-1.png)
 
 # Contributors
 
