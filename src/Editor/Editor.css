@@ -51,7 +51,7 @@
 }
 
 /* Preview */
-div.md-content {
+.preview-inner {
   padding: 16px;
   border: 1px dashed;
   text-align: left;

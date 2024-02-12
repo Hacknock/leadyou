@@ -4,13 +4,13 @@ import { chunked } from "../Utils";
 import JSZip from "jszip";
 import Forms from "./Forms";
 import Preview from "./Preview";
+import { FormScript } from "./formScripts/FormScript";
 import GetProjectName from "./formScripts/GetProjectName";
 import GetShortDescription from "./formScripts/GetShortDescription";
 import GetBadges from "./formScripts/GetBadges";
 import GetContributors from "./formScripts/GetContributors";
 import templateJSON from "../json/template.json";
 import "./Editor.css";
-import { FormScript } from "./formScripts/FormScript";
 
 type Props = {
   owner: string | null;
@@ -277,7 +277,7 @@ export default function Editor(props: Props) {
       </div>
       <div className="preview-area">
         <h2>{t("previewReadme")}</h2>
-        <div className="md-content">
+        <div className="preview-inner md-content">
           <Preview markdownText={composeReadme(false)} />
         </div>
       </div>
