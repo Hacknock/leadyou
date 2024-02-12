@@ -1,0 +1,35 @@
+name: Deploy GitHub Pages
+
+on:
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    timeout-minutes: 15
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 18
+
+      - name: Cache Node Modules
+        uses: actions/cache@v4
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-modules-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: ${{ runner.os }}-node-modules-
+
+      - name: Build
+        run: |
+          npm ci
+          npm run build
+
+      - uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: "Automatic GitHub Pages deployment"
+          file_pattern: "docs/js/*.js"
