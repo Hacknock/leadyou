@@ -1,15 +1,15 @@
 import React, { useState, useEffect, FormEventHandler } from "react";
 import { Trans, useTranslation } from "react-i18next";
-import { chunked } from "../Utils";
+import { chunked } from "../support/Utils";
 import JSZip from "jszip";
 import Forms from "./Forms";
 import Preview from "./Preview";
-import { FormScript } from "./formScripts/FormScript";
-import GetProjectName from "./formScripts/GetProjectName";
-import GetShortDescription from "./formScripts/GetShortDescription";
-import GetBadges from "./formScripts/GetBadges";
-import GetContributors from "./formScripts/GetContributors";
-import templateJSON from "../json/template.json";
+import { FormScript } from "./form-scripts/FormScript";
+import GetProjectName from "./form-scripts/GetProjectName";
+import GetShortDescription from "./form-scripts/GetShortDescription";
+import GetBadges from "./form-scripts/GetBadges";
+import GetContributors from "./form-scripts/GetContributors";
+import templateJSON from "../../json/template.json";
 import "./Editor.css";
 
 type Props = {

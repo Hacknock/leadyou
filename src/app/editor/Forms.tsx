@@ -1,8 +1,8 @@
 import React from "react";
 import { EditorState } from "./Editor";
-import OneLineField from "./formTypes/OneLineField";
-import MultiLineField from "./formTypes/MultiLineField";
-import FileWithMultiLineField from "./formTypes/FileWithMultiLineField";
+import OneLineField from "./form-types/OneLineField";
+import MultiLineField from "./form-types/MultiLineField";
+import FileWithMultiLineField from "./form-types/FileWithMultiLineField";
 
 type Props = {
   editorState: EditorState;

@@ -1,5 +1,5 @@
 import React, { useRef, useEffect, ChangeEvent } from "react";
-import { chunked } from "../../Utils";
+import { chunked } from "../../support/Utils";
 import "./FileWithMultiLineField.css";
 
 type FileInputProps = {

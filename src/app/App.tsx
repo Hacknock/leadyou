@@ -2,14 +2,14 @@ import React from "react";
 import i18n from "i18next";
 import { initReactI18next } from "react-i18next";
 import queryString from "query-string";
-import { Header, DummyHeader } from "./Header";
-import Top from "./Top";
-import Editor from "./Editor/Editor";
-import Document from "./Document";
-import Footer from "./Footer";
-import en from "./json/locales/en.json";
+import { Header, DummyHeader } from "./header/Header";
+import Top from "./top/Top";
+import Editor from "./editor/Editor";
+import Document from "./document/Document";
+import Footer from "./footer/Footer";
+import en from "../json/locales/en.json";
 import "./App.css";
-import "./Marked.css";
+import "./support/Marked.css";
 
 i18n.use(initReactI18next).init({
   debug: true,
