@@ -1,5 +1,6 @@
 import React, { useState, useEffect, FormEventHandler } from "react";
 import { useTranslation } from "react-i18next";
+import Catalog from "./Catalog";
 import "./Top.css";
 
 export default function Top() {
@@ -74,6 +75,7 @@ export default function Top() {
         </div>
         <input type="submit" value={t("next") || undefined} />
       </form>
+      <Catalog />
     </div>
   );
 }

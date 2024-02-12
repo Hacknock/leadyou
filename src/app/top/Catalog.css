@@ -1,0 +1,69 @@
+.generated-readmes {
+  margin: 40px auto 0px;
+  font-size: x-large;
+  font-weight: bolder;
+}
+
+.catalog-area {
+  padding: 24px 0px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, 302px);
+  grid-auto-rows: 414px;
+  grid-gap: 24px;
+  justify-content: center;
+}
+
+.readme {
+  text-align: center;
+  border: 1px solid #d0d0d0;
+  background-color: white;
+}
+
+.wrap-iframe {
+  margin: 0;
+  padding: 0;
+  width: 300px;
+  height: 360px;
+  overflow: hidden;
+}
+
+.readme iframe {
+  width: 500px;
+  height: 600px;
+  border: 0;
+  transform: scale(0.6);
+  transform-origin: 0 0;
+}
+
+.readme p {
+  display: flex;
+  margin: 0;
+  padding: 16px 0px;
+  width: 100%;
+  justify-content: center;
+  border-top: 1px solid #d0d0d0;
+  overflow: hidden;
+}
+
+.readme img {
+  margin-right: 4px;
+  width: 20px;
+  height: 20px;
+  align-self: center;
+}
+
+.readme a {
+  max-width: 260px;
+  text-decoration: none;
+  line-height: 20px;
+  align-self: center;
+  font-size: medium;
+  color: #424242;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.readme a:hover {
+  color: #9e9e9e;
+}

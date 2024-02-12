@@ -14,6 +14,7 @@
   "repositoryPlaceholder": "Input an url of your public GitHub repository",
   "autoFill": "Auto Fill",
   "autoFillExplain": "Fill in some forms automatically based on the information of the repository.",
+  "generatedReadmes": "Generated READMEs",
   "inputForm": "Input Form",
   "generate": "Generate",
   "warningForRequirements": "⚠️ Red frames indicate its fields are required.",

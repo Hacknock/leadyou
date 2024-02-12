@@ -1,50 +1,62 @@
 [
   {
     "ownerRepo": "Kyome22/RunCat_for_windows",
-    "rawURl": "https://raw.githubusercontent.com/Kyome22/RunCat_for_windows/2d65ef464282258c3b2137933cc91bb8cc81007e/README.md"
+    "rawURL": "https://raw.githubusercontent.com/Kyome22/RunCat_for_windows/2d65ef464282258c3b2137933cc91bb8cc81007e/README.md",
+    "sha": "2d65ef464282258c3b2137933cc91bb8cc81007e"
   },
   {
     "ownerRepo": "Kyome22/menubar_runcat",
-    "rawURl": "https://raw.githubusercontent.com/Kyome22/menubar_runcat/82747b139cc32e13a7b713f8521f44c70317f7d4/README.md"
+    "rawURL": "https://raw.githubusercontent.com/Kyome22/menubar_runcat/82747b139cc32e13a7b713f8521f44c70317f7d4/README.md",
+    "sha": "82747b139cc32e13a7b713f8521f44c70317f7d4"
   },
   {
     "ownerRepo": "theoria24/searchGguide",
-    "rawURl": "https://raw.githubusercontent.com/theoria24/searchGguide/68675e5be95e24ac3d5f1d20319d5421dbbd0938/README.md"
+    "rawURL": "https://raw.githubusercontent.com/theoria24/searchGguide/68675e5be95e24ac3d5f1d20319d5421dbbd0938/README.md",
+    "sha": "68675e5be95e24ac3d5f1d20319d5421dbbd0938"
   },
   {
     "ownerRepo": "NakaokaRei/SwiftAutoGUI",
-    "rawURl": "https://raw.githubusercontent.com/NakaokaRei/SwiftAutoGUI/9efe9fc805abfcf27786128958abbe7d53335284/README.md"
+    "rawURL": "https://raw.githubusercontent.com/NakaokaRei/SwiftAutoGUI/9efe9fc805abfcf27786128958abbe7d53335284/README.md",
+    "sha": "9efe9fc805abfcf27786128958abbe7d53335284"
   },
   {
     "ownerRepo": "GCer-Hidenori/TSQLScriptDomParser",
-    "rawURl": "https://raw.githubusercontent.com/GCer-Hidenori/TSQLScriptDomParser/6b2d8365d5ecd64a7c2771a1b9074b4e9a83c702/README.md"
+    "rawURL": "https://raw.githubusercontent.com/GCer-Hidenori/TSQLScriptDomParser/6b2d8365d5ecd64a7c2771a1b9074b4e9a83c702/README.md",
+    "sha": "6b2d8365d5ecd64a7c2771a1b9074b4e9a83c702"
   },
   {
     "ownerRepo": "cybozu/ios-interface-trace",
-    "rawURl": "https://raw.githubusercontent.com/cybozu/ios-interface-trace/db27ca6b358bb64d4a453d892bc8bf0b0f94859b/README.md"
+    "rawURL": "https://raw.githubusercontent.com/cybozu/ios-interface-trace/db27ca6b358bb64d4a453d892bc8bf0b0f94859b/README.md",
+    "sha": "db27ca6b358bb64d4a453d892bc8bf0b0f94859b"
   },
   {
     "ownerRepo": "Avis-Inc/ChatGPTForXcode",
-    "rawURl": "https://raw.githubusercontent.com/Avis-Inc/ChatGPTForXcode/0db351fbe9f4e30a073f5e82e554daf04ad6ae17/README.md"
+    "rawURL": "https://raw.githubusercontent.com/Avis-Inc/ChatGPTForXcode/0db351fbe9f4e30a073f5e82e554daf04ad6ae17/README.md",
+    "sha": "0db351fbe9f4e30a073f5e82e554daf04ad6ae17"
   },
   {
     "ownerRepo": "LieNongDeWanOu/-",
-    "rawURl": "https://raw.githubusercontent.com/LieNongDeWanOu/-/b42566656aa9b3d85fbfe0957700bc6fd3be4aef/README.md"
+    "rawURL": "https://raw.githubusercontent.com/LieNongDeWanOu/-/b42566656aa9b3d85fbfe0957700bc6fd3be4aef/README.md",
+    "sha": "b42566656aa9b3d85fbfe0957700bc6fd3be4aef"
   },
   {
     "ownerRepo": "moneyforward-i/terraform-aws-admina-integration",
-    "rawURl": "https://raw.githubusercontent.com/moneyforward-i/terraform-aws-admina-integration/c02f8870ed58321df4da5cde30be3783d43eb889/README.md"
+    "rawURL": "https://raw.githubusercontent.com/moneyforward-i/terraform-aws-admina-integration/c02f8870ed58321df4da5cde30be3783d43eb889/README.md",
+    "sha": "c02f8870ed58321df4da5cde30be3783d43eb889"
   },
   {
     "ownerRepo": "KASHIHARAAkira/android-test-drill",
-    "rawURl": "https://raw.githubusercontent.com/KASHIHARAAkira/android-test-drill/b884bdf5a690543ad59a23461de3c6317058379f/README.md"
+    "rawURL": "https://raw.githubusercontent.com/KASHIHARAAkira/android-test-drill/b884bdf5a690543ad59a23461de3c6317058379f/README.md",
+    "sha": "b884bdf5a690543ad59a23461de3c6317058379f"
   },
   {
     "ownerRepo": "Hacknock/leadyou",
-    "rawURl": "https://raw.githubusercontent.com/Hacknock/leadyou/2470b88d5549baed392aa914f4e1e341bc696147/README.md"
+    "rawURL": "https://raw.githubusercontent.com/Hacknock/leadyou/13639cbd1d54a2e2a169cfc03ee44947667f1c5a/README.md",
+    "sha": "13639cbd1d54a2e2a169cfc03ee44947667f1c5a"
   },
   {
     "ownerRepo": "nucosen/broadcast",
-    "rawURl": "https://raw.githubusercontent.com/nucosen/broadcast/02b0bcac8fbbde6213163ebc306e9752979f8306/README.md"
+    "rawURL": "https://raw.githubusercontent.com/nucosen/broadcast/02b0bcac8fbbde6213163ebc306e9752979f8306/README.md",
+    "sha": "02b0bcac8fbbde6213163ebc306e9752979f8306"
   }
 ]

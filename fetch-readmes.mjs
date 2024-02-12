@@ -31,7 +31,7 @@ const getJSON = (requestURL) => {
 };
 
 // Fetch READMEs
-const fetchREADMEs = async () => {
+const fetchReadmes = async () => {
   const leadyouTag = "CREATED_BY_LEADYOU_README_GENERATOR";
   let requestURL = "https://api.github.com/search/code";
   requestURL += `?q=${leadyouTag}+in:file+language:md+filename:README+path:/`;
@@ -45,9 +45,11 @@ const fetchREADMEs = async () => {
         let rawURL = "https://raw.githubusercontent.com/";
         rawURL += item.repository.full_name;
         rawURL += item.html_url.split("blob").pop();
+        const sha = item.html_url.split("/blob/").pop().split("/").shift();
         return {
           ownerRepo: item.repository.full_name,
-          rawURl: rawURL,
+          rawURL: rawURL,
+          sha: sha,
         };
       })
       .slice(0, 12);
@@ -69,7 +71,7 @@ const overwriteCatalog = async (readmes) => {
 
 (async () => {
   try {
-    const readmes = await fetchREADMEs();
+    const readmes = await fetchReadmes();
     console.log("count", readmes.length);
     console.dir(readmes, { depth: null });
     await overwriteCatalog(readmes);

@@ -24,6 +24,7 @@
     "fs": "^0.0.1-security",
     "i18next": "^22.4.6",
     "jszip": "^3.10.1",
+    "marked": "^12.0.0",
     "node-fetch": "^3.3.2",
     "query-string": "^8.0.3",
     "react": "^18.2.0",

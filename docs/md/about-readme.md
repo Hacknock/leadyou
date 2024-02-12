@@ -56,7 +56,7 @@ In this issue, we're proposing content to be included in README.md based on the 
 At the time of writing this document, the suggestions which was written by LEADYOU developers have been adopted, but you can suggest a new README.md format for LEADYOU.
 See [here](https://hacknock.com) for more information about how to contribute README format on LEADYOU.
 
-## Let's Write Readme
+## Let's Write README
 
 The form application to generate a README.md according to the above suggested content is available at the following link
-[Let's write Readme!](/)
+[Let's write README!](/)
