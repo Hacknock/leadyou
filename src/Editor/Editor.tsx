@@ -1,6 +1,7 @@
 import React, { FormEventHandler, useState } from "react";
 import { Trans, useTranslation } from "react-i18next";
 import { chunked } from "../Utils";
+import JSZip, { file } from "jszip";
 import Forms from "./Forms";
 import Preview from "./Preview";
 import templateJSON from "../json/template.json";
@@ -109,7 +110,7 @@ export default function Editor(props: Props) {
   };
 
   const composeReadme = (output: boolean) => {
-    const text = editorState.sectionStates.reduce((result, sectionState) => {
+    const text = editorState.sectionStates.reduce((result, sectionState, i) => {
       const { title, hiddenTitle, replacingTitle, kindsOfValues, formats } = sectionState.section;
       let text = "";
       const isEmpty =
@@ -121,15 +122,15 @@ export default function Editor(props: Props) {
       }
       const hasFile = sectionState.section.attributes.kindsOfFile !== undefined;
       const valueText = chunked(sectionState.values, kindsOfValues.length)
-        .reduce((result, values, i) => {
-          const formatedText = formats.reduce((result, format, j) => {
-            if (values[j].length > 0) {
-              if (output && hasFile) {
-                const extension = sectionState.files[i]?.name.split(".").pop() || "";
+        .reduce((result, values, j) => {
+          const formatedText = formats.reduce((result, format, k) => {
+            if (values[k].length > 0) {
+              if (output && hasFile && kindsOfValues[k] === "filePath") {
+                const extension = sectionState.files[j]?.name.split(".").pop() || "";
                 const path = `resources/file-${i}-${j}.${extension}`;
                 return result + format.replace("%s", path);
               } else {
-                return result + format.replace("%s", values[j]);
+                return result + format.replace("%s", values[k]);
               }
             } else {
               return result;
@@ -155,8 +156,63 @@ export default function Editor(props: Props) {
     return text + "<!-- CREATED_BY_LEADYOU_README_GENERATOR -->";
   };
 
+  const checkRequirements = () => {
+    for (const sectionState of editorState.sectionStates) {
+      if (sectionState.section.required) {
+        const isEmpty =
+          sectionState.values.reduce((result, value) => {
+            return result + value.length;
+          }, 0) === 0;
+        if (isEmpty) return false;
+      }
+    }
+    return true;
+  };
+
+  const saveBlob = (blob: Blob, filename: string) => {
+    const anchor = document.createElement("a");
+    anchor.href = URL.createObjectURL(blob);
+    anchor.download = `${filename}.zip`;
+    anchor.click();
+    URL.revokeObjectURL(anchor.href);
+  };
+
+  const download = async (filename: string) => {
+    const zip = new JSZip();
+    const folder = zip.folder(filename);
+    if (folder === null) return;
+    const resourceFolder = folder.folder("resources");
+    if (resourceFolder === null) return;
+    editorState.sectionStates.forEach((sectionState, i) => {
+      sectionState.files.forEach((file, j) => {
+        if (file !== null) {
+          const extension = file.name.split(".").pop() || "";
+          const resourceName = `file-${i}-${j}.${extension}`;
+          resourceFolder.file(resourceName, file);
+        }
+      });
+    });
+    const readme = composeReadme(true);
+    const readmeBlob = new Blob([readme], { type: "application/octet-stream" });
+    folder.file("README.md", readmeBlob);
+    const zipBlob = await zip.generateAsync({ type: "blob" });
+    saveBlob(zipBlob, filename);
+  };
+
   const generate = () => {
-    setShowAlert(true);
+    if (checkRequirements()) {
+      download("README").finally(() => {
+        setShowAlert(false);
+      });
+    } else {
+      if (confirm(t("confirmGenerate") || undefined)) {
+        download("README").finally(() => {
+          setShowAlert(true);
+        });
+      } else {
+        setShowAlert(true);
+      }
+    }
   };
 
   const handleSubmit: FormEventHandler<HTMLFormElement> = (e) => {
@@ -183,7 +239,7 @@ export default function Editor(props: Props) {
               />
             </p>
             <input type="submit" value={t("generate") || undefined} />
-            {editorState.showAlert && <p className="fill-alert">{t("warningForBlankFields")}</p>}
+            {editorState.showAlert && <p className="fill-alert">{t("warningForRequirements")}</p>}
           </form>
         </div>
       </div>

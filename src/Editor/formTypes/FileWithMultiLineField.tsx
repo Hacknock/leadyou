@@ -53,7 +53,7 @@ export default function FileWithMultiLineField(props: Props) {
   const handleSelectFile = (index: number, event: ChangeEvent<HTMLInputElement>) => {
     const fileList = event.target.files;
     if (fileList !== null) {
-      const blobURL = window.URL.createObjectURL(fileList[0]);
+      const blobURL = URL.createObjectURL(fileList[0]);
       setFiles(
         values.map((v, j) => (j === 2 * index ? blobURL : v)),
         files.map((v, j) => (j === index ? fileList[0] : v))
