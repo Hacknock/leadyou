@@ -39,6 +39,7 @@ type Props = {
   setValues: (values: string[]) => void;
   files: (File | null)[];
   setFiles: (values: string[], files: (File | null)[]) => void;
+  showAlert: boolean;
 };
 
 export default function FileWithMultiLineField(props: Props) {
@@ -84,6 +85,14 @@ export default function FileWithMultiLineField(props: Props) {
     setFiles([...values, "", ""], [...files, null]);
   };
 
+  const showWarning = (() => {
+    const isEmpty =
+      values.reduce((result, value) => {
+        return result + value.length;
+      }, 0) === 0;
+    return props.required && props.showAlert && isEmpty;
+  })();
+
   const rows = chunked(values, 2).map((value, i) => {
     return (
       <div key={`file-sub-section-${i}`} className="container">
@@ -101,6 +110,7 @@ export default function FileWithMultiLineField(props: Props) {
             onChange={(e) => handleTextareaChange(i, e)}
             placeholder={props.placeholder}
             maxLength={maxLength}
+            className={showWarning ? "warning" : undefined}
           />
         </div>
         {values.length > 2 && (

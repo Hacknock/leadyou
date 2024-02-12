@@ -28,6 +28,7 @@ export default function Forms(props: Props) {
               maxLength={section.attributes.maxLength}
               values={values}
               setValues={(values) => setValues(index, values)}
+              showAlert={editorState.showAlert}
             />
           );
         case "multi-line-field":
@@ -42,6 +43,7 @@ export default function Forms(props: Props) {
               maxLength={section.attributes.maxLength}
               values={values}
               setValues={(values) => setValues(index, values)}
+              showAlert={editorState.showAlert}
             />
           );
         case "file-with-multi-line-field":
@@ -59,6 +61,7 @@ export default function Forms(props: Props) {
               setValues={(values) => setValues(index, values)}
               files={files}
               setFiles={(values, files) => setFiles(index, values, files)}
+              showAlert={editorState.showAlert}
             />
           );
       }

@@ -37,7 +37,7 @@
 }
 
 .editor input[type="submit"] {
-  margin: 20px auto 32px;
+  margin: 20px auto;
   background-color: #0277bd;
   padding: 5px 12px;
   font-size: large;

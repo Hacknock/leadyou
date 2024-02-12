@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { FormEventHandler, useState } from "react";
 import { Trans, useTranslation } from "react-i18next";
 import { chunked } from "../Utils";
 import Forms from "./Forms";
@@ -104,7 +104,11 @@ export default function Editor(props: Props) {
     });
   };
 
-  const generateReadme = (output: boolean) => {
+  const setShowAlert = (showAlert: boolean) => {
+    setEditorState({ ...editorState, showAlert: showAlert });
+  };
+
+  const composeReadme = (output: boolean) => {
     const text = editorState.sectionStates.reduce((result, sectionState) => {
       const { title, hiddenTitle, replacingTitle, kindsOfValues, formats } = sectionState.section;
       let text = "";
@@ -151,12 +155,21 @@ export default function Editor(props: Props) {
     return text + "<!-- CREATED_BY_LEADYOU_README_GENERATOR -->";
   };
 
+  const generate = () => {
+    setShowAlert(true);
+  };
+
+  const handleSubmit: FormEventHandler<HTMLFormElement> = (e) => {
+    e.preventDefault();
+    generate();
+  };
+
   return (
     <div className="editor">
       <div className="edit-area">
         <h2>{t("inputForm")}</h2>
         <div className="edit-inner">
-          <form>
+          <form onSubmit={handleSubmit}>
             <Forms editorState={editorState} setValues={setValues} setFiles={setFiles} />
             <p className="proviso">
               <Trans
@@ -170,14 +183,14 @@ export default function Editor(props: Props) {
               />
             </p>
             <input type="submit" value={t("generate") || undefined} />
-            {editorState.showAlert && <p className="fill-alert"></p>}
+            {editorState.showAlert && <p className="fill-alert">{t("warningForBlankFields")}</p>}
           </form>
         </div>
       </div>
       <div className="preview-area">
         <h2>{t("previewReadme")}</h2>
         <div className="md-content">
-          <Preview markdownText={generateReadme(false)} />
+          <Preview markdownText={composeReadme(false)} />
         </div>
       </div>
     </div>

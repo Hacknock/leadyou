@@ -40,3 +40,8 @@
 .one-line-field .add {
   background-color: #00897b;
 }
+
+.one-line-field .warning {
+  border: solid 1.3px #e53935;
+  border-radius: 2px;
+}

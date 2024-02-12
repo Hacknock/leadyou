@@ -10,6 +10,7 @@ type Props = {
   maxLength?: number;
   values: string[];
   setValues: (values: string[]) => void;
+  showAlert: boolean;
 };
 
 export default function MultiLineField(props: Props) {
@@ -19,6 +20,14 @@ export default function MultiLineField(props: Props) {
   if (maxLength !== undefined && maxLength > 0) {
     desc = `${description} (in ${maxLength} characters or less)`;
   }
+
+  const showWarning = (() => {
+    const isEmpty =
+      values.reduce((result, value) => {
+        return result + value.length;
+      }, 0) === 0;
+    return props.required && props.showAlert && isEmpty;
+  })();
 
   const rows = values.map((value, i) => {
     return (
@@ -30,6 +39,7 @@ export default function MultiLineField(props: Props) {
           }}
           placeholder={props.placeholder}
           maxLength={maxLength}
+          className={showWarning ? "warning" : undefined}
         />
         {values.length > 1 && (
           <input

@@ -69,3 +69,8 @@
 .file-with-multi-line-field .add {
   background-color: #00897b;
 }
+
+.file-with-multi-line-field .warning {
+  border: solid 1.3px #e53935;
+  border-radius: 2px;
+}
