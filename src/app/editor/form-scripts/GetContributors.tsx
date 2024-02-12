@@ -13,13 +13,11 @@ export default class GetContributors implements FormScript {
     const requestURL = `https://api.github.com/repos/${splitRepoURL[3]}/${splitRepoURL[4]}/contributors`;
     const options: RequestInit = {
       mode: "cors",
-      headers: {
-        "Content-Type": "application/json; charset=utf-8",
-      },
+      headers: { Accept: "application/vnd.github+json" },
     };
 
     const result: FormScriptResult = {
-      script: this.constructor.name,
+      script: "GetContributors",
       values: [],
     };
 

@@ -13,16 +13,14 @@ export default class GetShortDescription implements FormScript {
     const requestURL = `https://api.github.com/repos/${splitRepoURL[3]}/${splitRepoURL[4]}`;
     const options: RequestInit = {
       mode: "cors",
-      headers: {
-        "Content-Type": "application/json; charset=utf-8",
-      },
+      headers: { Accept: "application/vnd.github+json" },
     };
 
     try {
       const response = await fetch(requestURL, options);
       const json = await response.json();
       const description = "description" in json ? json.description : "";
-      return { script: this.constructor.name, values: [description] };
+      return { script: "GetShortDescription", values: [description] };
     } catch (err) {
       throw err;
     }
