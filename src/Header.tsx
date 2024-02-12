@@ -2,13 +2,7 @@ import React from "react";
 import { useTranslation } from "react-i18next";
 import "./Header.css";
 
-type Props = {
-  lang: string;
-  onLangChange: () => void;
-};
-
-export function Header(props: Props) {
-  const { lang, onLangChange } = props;
+export function Header() {
   const { t } = useTranslation();
 
   return (
@@ -16,11 +10,8 @@ export function Header(props: Props) {
       <div className="icon-container">
         <img className="icon" src={"images/icon-mini.png"} alt="leadyou" />
       </div>
-      <h2 className="title">LEADYOU</h2>
-      <h3 className="subtitle">README Generator for OSS</h3>
-      <h3 className="language" onClick={onLangChange}>
-        {t("language")}
-      </h3>
+      <h2 className="title">{t("title")}</h2>
+      <h3 className="sub-title">{t("subTitle")}</h3>
     </div>
   );
 }

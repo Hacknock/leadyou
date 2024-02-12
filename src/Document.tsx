@@ -5,12 +5,11 @@ import rehypeRaw from "rehype-raw";
 import "./Document.css";
 
 type Props = {
-  lang: string;
   pageID: string | null;
 };
 
 export default function Document(props: Props) {
-  const { lang, pageID } = props;
+  const { pageID } = props;
   const [file, setFile] = useState("");
 
   useEffect(() => {

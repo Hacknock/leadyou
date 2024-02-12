@@ -2,12 +2,7 @@ import React, { useState, useEffect, FormEventHandler } from "react";
 import { useTranslation } from "react-i18next";
 import "./Top.css";
 
-type Props = {
-  lang: string;
-};
-
-export default function Top(props: Props) {
-  const { lang } = props;
+export default function Top() {
   const { t } = useTranslation();
   const [url, setUrl] = useState("");
   const [autoFill, setAutoFill] = useState(false);
@@ -53,22 +48,18 @@ export default function Top(props: Props) {
     <div className="top">
       <div className="top-banner">
         <img src="./images/leadyou-icon.png" />
-        LEADYOU
+        {t("title")}
       </div>
-      <h3>README Generator for OSS</h3>
+      <h3>{t("subTitle")}</h3>
       <form onSubmit={handleSubmit}>
         <div>
-          {showAlert && (
-            <p className="alert-message">
-              This repository is a private repository or does not exist.
-            </p>
-          )}
+          {showAlert && <p className="alert-message">{t("invalidRepository")}</p>}
           <input
             type="text"
             className="normal-repo"
             value={url}
             onChange={(e) => setUrl(e.target.value)}
-            placeholder="Input an url of your public GitHub repository"
+            placeholder={t("repositoryPlaceholder") || undefined}
           />
         </div>
         <div className="checkbox-area">
@@ -78,12 +69,10 @@ export default function Top(props: Props) {
             onChange={(e) => setAutoFill(e.target.checked)}
             disabled={disabled}
           />
-          <label htmlFor="auto-fill">Auto Fill</label>
-          <p className="checkbox-description">
-            Fill in some forms automatically based on the information of the repository.
-          </p>
+          <label htmlFor="auto-fill">{t("autoFill")}</label>
+          <p className="checkbox-description">{t("autoFillExplain")}</p>
         </div>
-        <input type="submit" value="Next" />
+        <input type="submit" value={t("next") || undefined} />
       </form>
     </div>
   );

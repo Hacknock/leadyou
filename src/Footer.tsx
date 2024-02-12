@@ -5,38 +5,29 @@ import "./Footer.css";
 export default function Footer() {
   const { t } = useTranslation();
 
+  const anchor = (pageid: string, labelKey: string) => {
+    return <a href={`?scene=document&pageid=${pageid}`}>{t(labelKey)}</a>;
+  };
+
   return (
     <div className="footer">
       <div className="footer-child left-child">
         <h1>
-          LEADYOU<span id="counter">+0</span>
+          {t("title")}
+          <span id="counter">+0</span>
         </h1>
         <p>{t("copyright")}</p>
       </div>
       <div className="footer-child right-child-1">
-        <p>
-          <a href="?scene=document&pageid=about-readme">About README</a>
-        </p>
-        <p>
-          <a href="?scene=document&pageid=how-to-use-generator">How to Use</a>
-        </p>
-        <p>
-          <a href="?scene=document&pageid=new-readme-format-proposal">Proposal</a>
-        </p>
-        <p>
-          <a href="?scene=document&pageid=help">Help</a>
-        </p>
+        <p>{anchor("about-readme", "aboutReadme")}</p>
+        <p>{anchor("how-to-use-generator", "howToUse")}</p>
+        <p>{anchor("new-readme-format-proposal", "proposal")}</p>
+        <p>{anchor("help", "help")}</p>
       </div>
       <div className="footer-child right-child-2">
-        <p>
-          <a href="?scene=document&pageid=terms-of-service">Terms of Service</a>
-        </p>
-        <p>
-          <a href="?scene=document&pageid=privacy-policy">Privacy Policy</a>
-        </p>
-        <p>
-          <a href="?scene=document&pageid=contact">Contact</a>
-        </p>
+        <p>{anchor("terms-of-service", "termsOfService")}</p>
+        <p>{anchor("privacy-policy", "privacyPolicy")}</p>
+        <p>{anchor("contact", "contact")}</p>
       </div>
     </div>
   );

@@ -1,5 +1,4 @@
 import React, { useRef, useEffect, ChangeEvent } from "react";
-import { useTranslation } from "react-i18next";
 import { chunked } from "../../Utils";
 import "./FileWithMultiLineField.css";
 
@@ -43,7 +42,6 @@ type Props = {
 };
 
 export default function FileWithMultiLineField(props: Props) {
-  const { t } = useTranslation();
   const { description, maxLength, values, setValues, files, setFiles } = props;
 
   let desc: string = description;

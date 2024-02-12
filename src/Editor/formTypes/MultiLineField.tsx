@@ -1,5 +1,4 @@
 import React from "react";
-import { useTranslation } from "react-i18next";
 import "./MultiLineField.css";
 
 type Props = {
@@ -14,7 +13,6 @@ type Props = {
 };
 
 export default function MultiLineField(props: Props) {
-  const { t } = useTranslation();
   const { description, maxLength, values, setValues } = props;
 
   let desc: string = description;
