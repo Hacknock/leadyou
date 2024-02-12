@@ -23,6 +23,8 @@ jobs:
     permissions:
       contents: write
     timeout-minutes: 15
+    outputs:
+      changes_detected: ${{ steps.auto-commit-diff.outputs.changes_detected }}
 
     steps:
       - name: Checkout
@@ -49,10 +51,12 @@ jobs:
 
       - name: Commit Diff
         uses: stefanzweifel/git-auto-commit-action@v5
+        id: auto-commit-diff
         with:
           commit_message: "Updated category.json automatically."
           file_pattern: "src/json/catalog.json"
 
   deploy-pages:
     needs: update-catalog
+    if: needs.update-catalog.outputs.changes_detected == 'true'
     uses: ./.github/workflows/deploy-pages.yml
