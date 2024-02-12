@@ -6,7 +6,7 @@ module.exports = {
     index: path.resolve(__dirname, "src", "index.tsx"),
   },
   output: {
-    path: path.resolve(__dirname, "static"),
+    path: path.resolve(__dirname, "docs"),
     filename: "js/[name].bundle.js",
   },
   resolve: {
@@ -14,7 +14,7 @@ module.exports = {
   },
   devServer: {
     static: {
-      directory: path.resolve(__dirname, "static"),
+      directory: path.resolve(__dirname, "docs"),
     },
     port: 3000,
   },
