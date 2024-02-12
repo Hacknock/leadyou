@@ -52,3 +52,7 @@ jobs:
         with:
           commit_message: "Updated category.json automatically."
           file_pattern: "src/json/catalog.json"
+
+  deploy-pages:
+    needs: update-catalog
+    uses: ./.github/workflows/deploy-pages.yml
