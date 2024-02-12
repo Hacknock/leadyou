@@ -12,8 +12,11 @@ jobs:
     timeout-minutes: 15
 
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
         with:
           node-version: 18
 
@@ -29,10 +32,10 @@ jobs:
           npm ci
           npm run build
 
-      - uses: stefanzweifel/git-auto-commit-action@v5
+      - name: Upload Artifact
+        uses: actions/upload-pages-artifact@v3
         with:
-          commit_message: "Automatic GitHub Pages deployment"
-          file_pattern: "docs/js/*.js"
+          path: docs
 
   deploy:
     name: Deploy
@@ -46,5 +49,6 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
 
     steps:
-      - uses: actions/deploy-pages@v1
+      - name: Deploy Pages
+        uses: actions/deploy-pages@v1
         id: deployment
