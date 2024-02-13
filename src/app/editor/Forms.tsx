@@ -14,12 +14,12 @@ export default function Forms(props: Props) {
   const { editorState, setValues, setFiles } = props;
 
   const forms = editorState.sectionStates
-    .map(({ section, values, files }, index) => {
+    .map(({ section, values, files }, i) => {
       switch (section.formType) {
         case "one-line-field":
           return (
             <OneLineField
-              key={`one-line-field-${index}`}
+              key={`one-line-field-${i}`}
               title={section.title}
               description={section.description}
               required={section.required}
@@ -27,14 +27,14 @@ export default function Forms(props: Props) {
               placeholder={section.attributes.placeholder}
               maxLength={section.attributes.maxLength}
               values={values}
-              setValues={(values) => setValues(index, values)}
+              setValues={(values) => setValues(i, values)}
               showAlert={editorState.showAlert}
             />
           );
         case "multi-line-field":
           return (
             <MultiLineField
-              key={`multi-line-field-${index}`}
+              key={`multi-line-field-${i}`}
               title={section.title}
               description={section.description}
               required={section.required}
@@ -42,14 +42,14 @@ export default function Forms(props: Props) {
               placeholder={section.attributes.placeholder}
               maxLength={section.attributes.maxLength}
               values={values}
-              setValues={(values) => setValues(index, values)}
+              setValues={(values) => setValues(i, values)}
               showAlert={editorState.showAlert}
             />
           );
         case "file-with-multi-line-field":
           return (
             <FileWithMultiLineField
-              key={`file-with-multi-line-field-${index}`}
+              key={`file-with-multi-line-field-${i}`}
               title={section.title}
               description={section.description}
               required={section.required}
@@ -58,9 +58,9 @@ export default function Forms(props: Props) {
               placeholder={section.attributes.placeholder}
               maxLength={section.attributes.maxLength}
               values={values}
-              setValues={(values) => setValues(index, values)}
+              setValues={(values) => setValues(i, values)}
               files={files}
-              setFiles={(values, files) => setFiles(index, values, files)}
+              setFiles={(values, files) => setFiles(i, values, files)}
               showAlert={editorState.showAlert}
             />
           );

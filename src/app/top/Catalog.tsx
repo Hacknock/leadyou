@@ -122,11 +122,11 @@ export default function Catalog(props: Props) {
   const cells = (() => {
     return readmes
       .filter((readme) => readme.text.length > 0)
-      .map((readme) => {
+      .map((readme, i) => {
         const html = createHTML(readme);
         const { ownerRepo } = readme.repo;
         return (
-          <div className="readme">
+          <div className="readme" key={`readme-cell-${i}`}>
             <div className="wrap-iframe">
               <iframe title={"owner/repo"} srcDoc={html} />
             </div>
@@ -148,7 +148,7 @@ export default function Catalog(props: Props) {
 
   return (
     <div className="catalog">
-      <p className="generated-readmes">{t("generatedReadmes")}</p>
+      <h2>{t("generatedReadmes")}</h2>
       <div className="catalog-area">{cells}</div>
     </div>
   );

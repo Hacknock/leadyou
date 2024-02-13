@@ -1,11 +1,9 @@
-.generated-readmes {
-  margin: 40px auto 0px;
-  font-size: x-large;
-  font-weight: bolder;
+.catalog {
+  margin-top: 40px;
 }
 
 .catalog-area {
-  padding: 24px 0px;
+  padding: 0px;
   display: grid;
   grid-template-columns: repeat(auto-fit, 302px);
   grid-auto-rows: 414px;

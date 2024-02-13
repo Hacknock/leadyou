@@ -87,8 +87,8 @@ export default function Editor(props: Props) {
   const setValues = (at: number, values: string[]) => {
     setEditorState({
       ...editorState,
-      sectionStates: editorState.sectionStates.map((sectionState, index): SectionState => {
-        if (index === at) {
+      sectionStates: editorState.sectionStates.map((sectionState, i): SectionState => {
+        if (i === at) {
           return { ...sectionState, values: values };
         } else {
           return sectionState;
@@ -100,8 +100,8 @@ export default function Editor(props: Props) {
   const setFiles = (at: number, values: string[], files: (File | null)[]) => {
     setEditorState({
       ...editorState,
-      sectionStates: editorState.sectionStates.map((sectionState, index): SectionState => {
-        if (index === at) {
+      sectionStates: editorState.sectionStates.map((sectionState, i): SectionState => {
+        if (i === at) {
           return { ...sectionState, values: values, files: files };
         } else {
           return sectionState;
