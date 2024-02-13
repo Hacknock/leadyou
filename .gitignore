@@ -1,5 +1,6 @@
 .DS_Store
 node_modules/
 docs/js/
+dist/js/
 dummy.js
 dummy.mjs
