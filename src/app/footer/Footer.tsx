@@ -31,7 +31,9 @@ export default function Footer(props: Props) {
       <div className="footer-child right-child-2">
         <p>{anchor("terms-of-service", "termsOfService")}</p>
         <p>{anchor("privacy-policy", "privacyPolicy")}</p>
-        <p>{anchor("contact", "contact")}</p>
+        <p>
+          <a href="https://hacknock.github.io/member.html">{t("contact")}</a>
+        </p>
       </div>
     </div>
   );

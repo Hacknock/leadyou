@@ -51,23 +51,11 @@ When a user visits a Hacknock site, the following information is automatically c
 We will only use this information to improve the services operated by Hacknock.
 It is not linked to any personally identifiable information, such as name or email address.
 
-You can disable cookies in your browser settings. As a result, some of the services provided by Hacknock may not be available to you.
-
-# About Cookies
-
-Hacknock uses cookies to make our services more useful to our users.
-Hacknock uses cookies primarily for the following purposes.
-
-- To help Hacknock provide a more personalised service to our users.
-- To perform analytical work to understand the activities of users of Hacknock's services.
-
-You can disable cookies through your browser settings. As a result, some of the services provided by Hacknock may not be available to you.
-
 # Contact
 
-If you have any comments or questions about this Privacy Policy, please contact us at the email address below.
-contact@leadyou.hacknock.com
+If you have any comments or questions about this Privacy Policy, please contact [Hacknock](https://hacknock.github.io/member.html) members.
 
 # Revision history
 
-- 2020-08-17 First edition
+- 2020-08-17) First edition
+- 2024-02-13) Deleted `About Cookies` section and Edited `Contact` section.

@@ -64,7 +64,7 @@ In the event of any discrepancies or differences between the two versions, the J
 
 # Revision history
 
-- 2020-08-17 First edition
+- 2020-08-17) First edition
 
 <details>
 <summary>The original text（Japanese）</summary>
@@ -131,6 +131,6 @@ Hacknock が提供するサービスの種類や性質の変更により予告�
 
 # 改定履歴
 
-- 2020-08-17 初版
+- 2020-08-17) 初版
 
 </details>

@@ -12,7 +12,7 @@ You can generate README.md with the necessary information by following five step
 ## Access to README Generator
 
 README Generator is a web application.
-Please access the [LEADYOU](/).
+Please access the [LEADYOU](/leadyou).
 
 ## Put your public repository URL and check "Auto Fill"
 
@@ -67,4 +67,4 @@ git push origin [your branch name]
 ```
 
 2. Uploading the files through the browser<br />
-   Refer to ["Adding a file to a repository"](https://docs.github.com/en/github/managing-files-in-a-repository/adding-a-file-to-a-repository) and upload the files.
+   Refer to ["Adding a file to a repository"](https://docs.github.com/en/repositories/working-with-files/managing-files/adding-a-file-to-a-repository) and upload the files.

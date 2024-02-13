@@ -5,7 +5,7 @@
 A README is like a specification that a developer refers to when using the open source or library you created.
 
 > You can add a README file to your repository to tell other people why your project is useful, what they can do with your project, and how they can use it.
-> (Quote it from [About READMEs](https://docs.github.com/en/github/creating-cloning-and-archiving-repositories/about-readmes) written by Github.com)
+> (Quote it from [About READMEs](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-readmes) written by Github.com)
 
 As Github says, the README can be used to show the usefulness of your project, what it can do, and how to use it.
 Github states that the following five are generally included:
@@ -54,9 +54,9 @@ In this issue, we're proposing content to be included in README.md based on the 
 ### You can contribute this format
 
 At the time of writing this document, the suggestions which was written by LEADYOU developers have been adopted, but you can suggest a new README.md format for LEADYOU.
-See [here](https://hacknock.com) for more information about how to contribute README format on LEADYOU.
+See [here](/leadyou/?scene=document&pageid=new-readme-format-proposal) for more information about how to contribute README format on LEADYOU.
 
 ## Let's Write README
 
 The form application to generate a README.md according to the above suggested content is available at the following link
-[Let's write README!](/)
+[Let's write README!](/leadyou)
