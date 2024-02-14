@@ -1,6 +1,7 @@
 {
   "title": "LEADYOU",
   "subTitle": "README Generator for OSS",
+  "description": "LEADYOU is a service that helps you create a README automatically from GitHub's public repositories.",
   "aboutReadme": "About README",
   "howToUse": "How to Use",
   "proposal": "Proposal",
