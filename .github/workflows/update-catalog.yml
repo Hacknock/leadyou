@@ -13,8 +13,8 @@ name: Update Catalog
 on:
   workflow_dispatch:
   schedule:
-    # 日本時間 毎週日曜日 朝 9:00
-    - cron: "0 0 * * 0"
+    # 日本時間 毎日 朝 9:00
+    - cron: "0 0 * * *"
 
 jobs:
   update-catalog:
