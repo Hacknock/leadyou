@@ -1,5 +1,6 @@
 .DS_Store
 node_modules/
-dist/js/
+dist/js/*
+!analytics.js
 dummy.js
 dummy.mjs
