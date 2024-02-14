@@ -23,7 +23,7 @@ Additionally you can fill other items we recommend you to fill (Tags, Advantages
 
 **Just follow the flow of input to create a rich document** 🎉
 
-![Demo](resources/file-0.png)
+<img src="resources/file-0.png" alt="Demo" width="500px" />
 
 ## Advantages
 
@@ -76,7 +76,7 @@ You add the following code after lines 178 of `/src/json/template.json`.
 
 You deploy it again, Support item will be on edit form like this screenshot. 🍻
 
-![Minimal Example](resources/file-1.png)
+<img src="resources/file-1.png" alt="Minimal Example" width="300px" />
 
 ## Contributors
 
