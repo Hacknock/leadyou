@@ -15,23 +15,23 @@ Additionally you can fill other items we recommend you to fill (Tags, Advantages
 [![GitHub top language](https://img.shields.io/github/languages/top/Hacknock/leadyou)](https://github.com/Hacknock/leadyou/)
 [![GitHub license](https://img.shields.io/github/license/Hacknock/leadyou)](https://github.com/Hacknock/leadyou/)
 
-# Tags
+## Tags
 
 `README` `GitHub` `Markdown` `React` `TypeScript` `webpack` `GitHub Pages` `GitHub Actions`
 
-# Demo
+## Demo
 
 **Just follow the flow of input to create a rich document** 🎉
 
 ![Demo](resources/file-0.png)
 
-# Advantages
+## Advantages
 
 1. You can clarify what to write README because LEADYOU gives you specific items to write.
 2. LEADYOU supports you to write README with auto-fill function.
 3. Easy to insert demo images because LEADYOU automatically generates necessary links after uploading images to LEADYOU.
 
-# Build
+## Build
 
 0. LEADYOU needs Node.js (v18) and npm (v9).
 1. Please download this repository before deploying.
@@ -49,7 +49,36 @@ Additionally you can fill other items we recommend you to fill (Tags, Advantages
    ```
    Then, access `localhost:3000`.
 
-# Contributors
+## Minimal Example
+
+You can add or delete some items to make README using this repository source code. 
+For example, you want to add "Support".
+This item will help your colleagues ask you when they will face a problem with using your software.
+You add the following code after lines 178 of `/src/json/template.json`.
+
+```json
+},
+{
+  "title": "Support",
+  "description": "Please input the contact information when the user faces some problem on using your software.",
+  "required": false,
+  "multiple": true,
+  "hiddenTitle": false,
+  "replacingTitle": false,
+  "formType": "one-line-field",
+  "kindsOfValues": ["plain"],
+  "formats": ["- %s\n"],
+  "attributes": {
+    "placeholder": "[Name](URL)"
+  }
+}
+```
+
+You deploy it again, Support item will be on edit form like this screenshot. 🍻
+
+![Minimal Example](resources/file-1.png)
+
+## Contributors
 
 - [KASHIHARAAkira](https://github.com/KASHIHARAAkira)
 - [Kyome22](https://github.com/Kyome22)
