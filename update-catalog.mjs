@@ -31,32 +31,47 @@ const getJSON = (requestURL) => {
 };
 
 // Fetch READMEs
-const fetchReadmes = async () => {
+const searchCodes = async () => {
   const leadyouTag = "CREATED_BY_LEADYOU_README_GENERATOR";
   let requestURL = "https://api.github.com/search/code";
   requestURL += `?q=${leadyouTag}+in:file+language:md+filename:README+path:/`;
-  requestURL += "&sort=updated";
 
+  const json = await getJSON(requestURL);
+  return json.items.map((item) => ({
+    ownerRepo: item.repository.full_name,
+    sha: item.html_url.split("/blob/").pop().split("/").shift(),
+  }));
+};
+
+const getDate = async (ownerRepo, sha) => {
+  const requestURL = `https://api.github.com/repos/${ownerRepo}/commits/${sha}`;
+
+  const props = { ownerRepo, sha };
   try {
     const json = await getJSON(requestURL);
-    console.log("total_count", json.total_count);
-    const repositories = json.items
-      .map((item) => {
-        let rawURL = "https://raw.githubusercontent.com/";
-        rawURL += item.repository.full_name;
-        rawURL += item.html_url.split("blob").pop();
-        const sha = item.html_url.split("/blob/").pop().split("/").shift();
-        return {
-          ownerRepo: item.repository.full_name,
-          rawURL: rawURL,
-          sha: sha,
-        };
-      })
-      .slice(0, 12);
-    return { totalCount: json.total_count, repositories: repositories };
+    return { ...props, date: Date.parse(json.commit.committer.date) };
   } catch (error) {
-    throw error;
+    console.log(ownerRepo, sha);
+    console.error(error);
+    return { ...props, date: null };
   }
+};
+
+const fetchReadmes = async () => {
+  const codes = await searchCodes();
+  const promises = codes.map(({ ownerRepo, sha }) => {
+    return getDate(ownerRepo, sha);
+  });
+  let commits = await Promise.all(promises);
+  const repositories = commits
+    .filter((commit) => commit.date !== null)
+    .sort((a, b) => b.date - a.date)
+    .map((props) => {
+      const rawURL = `https://raw.githubusercontent.com/${props.ownerRepo}/${props.sha}`;
+      return { ...props, rawURL };
+    })
+    .slice(0, 12);
+  return { totalCount: codes.length, repositories };
 };
 
 // Overwrite Catalog.json
