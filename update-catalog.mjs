@@ -67,7 +67,7 @@ const fetchReadmes = async () => {
     .filter((commit) => commit.date !== null)
     .sort((a, b) => b.date - a.date)
     .map((props) => {
-      const rawURL = `https://raw.githubusercontent.com/${props.ownerRepo}/${props.sha}`;
+      const rawURL = `https://raw.githubusercontent.com/${props.ownerRepo}/${props.sha}/README.md`;
       return { ...props, rawURL };
     })
     .slice(0, 12);
