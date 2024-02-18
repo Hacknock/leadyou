@@ -1,11 +1,11 @@
 {
-  "totalCount": 22,
+  "totalCount": 21,
   "repositories": [
     {
       "ownerRepo": "Hacknock/leadyou",
-      "sha": "930a964333cf7fd4622a0d56ae6b4939de1711f9",
-      "date": 1708131566000,
-      "rawURL": "https://raw.githubusercontent.com/Hacknock/leadyou/930a964333cf7fd4622a0d56ae6b4939de1711f9/README.md"
+      "sha": "cdf0fdd71df9d3181911ee5103859e469a041123",
+      "date": 1708165568000,
+      "rawURL": "https://raw.githubusercontent.com/Hacknock/leadyou/cdf0fdd71df9d3181911ee5103859e469a041123/README.md"
     },
     {
       "ownerRepo": "nucosen/broadcast",
@@ -68,10 +68,10 @@
       "rawURL": "https://raw.githubusercontent.com/Kyome22/UITestPractice/0c72c4543cb59bcfab993264e529eddaa53a7658/README.md"
     },
     {
-      "ownerRepo": "75asa/slack-activator",
-      "sha": "a3adeb0629949a8df1415a34395a28584701717f",
-      "date": 1643889029000,
-      "rawURL": "https://raw.githubusercontent.com/75asa/slack-activator/a3adeb0629949a8df1415a34395a28584701717f/README.md"
+      "ownerRepo": "cybozu/ios-interface-trace",
+      "sha": "db27ca6b358bb64d4a453d892bc8bf0b0f94859b",
+      "date": 1645435999000,
+      "rawURL": "https://raw.githubusercontent.com/cybozu/ios-interface-trace/db27ca6b358bb64d4a453d892bc8bf0b0f94859b/README.md"
     }
   ]
 }
