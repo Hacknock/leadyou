@@ -72,7 +72,7 @@ export default function Catalog(props: Props) {
 
   const convertMarkdownImageLink = (ownerRepo: string, sha: string, text: string) => {
     let text_ = text;
-    const tags = text_.match(/!\[([^\[\]\(\)]*?)\]\(([^\[\]\(\)]*?)\)/g);
+    const tags = text_.match(/!\[.*?\]\((.*?)\)/g);
     if (Array.isArray(tags)) {
       for (const tag of tags) {
         const matched = tag.match(/^!\[.*?\]\((.*?)\)$/);
@@ -112,8 +112,8 @@ export default function Catalog(props: Props) {
 
   const createHTML = (readme: README) => {
     const newText = convertRelativeToAbsolute(readme);
-    let style =
-      ".md-content { padding: 16px; text-align: left; }\n.md-content img { max-width: 450px; }\n";
+    let style = ".md-content { padding: 16px; text-align: left; font-family: sans-serif; }\n";
+    style += ".md-content img { max-width: 450px; height: auto; }\n";
     style += styles;
     const html = `<div class="md-content">${parse(newText)}</div>`;
     return `<html><head><style>${style}</style></head><body>${html}</body></html>`;
