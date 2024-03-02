@@ -53,7 +53,7 @@ It is not linked to any personally identifiable information, such as name or ema
 
 # Contact
 
-If you have any comments or questions about this Privacy Policy, please contact [Hacknock](https://hacknock.github.io/member.html) members.
+If you have any comments or questions about this Privacy Policy, please contact [Hacknock](https://hacknock.github.io/members.html) members.
 
 # Revision history
 
