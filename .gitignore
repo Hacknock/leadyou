@@ -1,10 +1,6 @@
 .DS_Store
-.idea/
 node_modules/
-config/
-package-lock.json
-yarn.lock
-json/
-.env
-volume/
+dist/js/*
+!analytics.js
 dummy.js
+dummy.mjs

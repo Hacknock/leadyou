@@ -1,0 +1,47 @@
+.header {
+  position: fixed;
+  width: 100%;
+  min-width: 750px;
+  height: 60px;
+  text-align: left;
+  color: white;
+  background-color: #0078be;
+  display: flex;
+  z-index: 2;
+}
+
+.header h2,
+h3 {
+  margin: 0px 5px 0px 5px;
+  line-height: 60px;
+}
+
+.icon-container {
+  margin: 14px 5px 14px 15px;
+  width: 32px;
+  height: 32px;
+}
+
+.icon {
+  width: 32px;
+  height: 32px;
+}
+
+.header .title {
+  margin-right: 16px;
+}
+
+.header .title:hover {
+  cursor: pointer;
+  color: #e0e0e0;
+}
+
+.header .sub-title {
+  margin-right: auto;
+}
+
+.dummy-header {
+  margin: 0;
+  padding: 0;
+  height: 60px;
+}
