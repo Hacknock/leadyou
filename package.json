@@ -15,10 +15,10 @@
   "scripts": {
     "start": "webpack serve --config webpack.config.js --mode development",
     "build": "webpack",
-    "update-catalog": "node update-catalog.mjs $LEADYOU_TOKEN"
+    "update-catalog": "node update-catalog.mjs"
   },
   "engines": {
-    "node": "^18.18.0"
+    "node": "^20.11.1"
   },
   "dependencies": {
     "fs": "^0.0.1-security",

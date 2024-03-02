@@ -1,6 +1,6 @@
 (() => {
-  if (process.argv.length !== 3) {
-    const error = new Error("Argument was incorrectly specified.");
+  if (process.env.LEADYOU_TOKEN === undefined) {
+    const error = new Error("Environment variable LEADYOU_TOKEN does not exist.");
     console.error("⚠️", error);
     process.exit(0);
   }
@@ -8,7 +8,7 @@
 
 import fetch from "node-fetch";
 import { promises as fs } from "fs";
-const apiToken = process.argv[2];
+const apiToken = process.env.LEADYOU_TOKEN;
 
 // Tap GitHub API
 const checkStatus = (response) => {
