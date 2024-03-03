@@ -3,9 +3,21 @@
   "repositories": [
     {
       "ownerRepo": "Hacknock/leadyou",
-      "sha": "8356c4fdb927c43b4746ffa8d09a1a89ffb97534",
-      "date": 1708823041000,
-      "rawURL": "https://raw.githubusercontent.com/Hacknock/leadyou/8356c4fdb927c43b4746ffa8d09a1a89ffb97534/README.md"
+      "sha": "0788ca86ab9626bd41d9fa8070abf3476c3465a0",
+      "date": 1709384711000,
+      "rawURL": "https://raw.githubusercontent.com/Hacknock/leadyou/0788ca86ab9626bd41d9fa8070abf3476c3465a0/README.md"
+    },
+    {
+      "ownerRepo": "KoheiKanagu/garage",
+      "sha": "bcab3f97f76d7b135dfc20e857c353343fbf6468",
+      "date": 1709368702000,
+      "rawURL": "https://raw.githubusercontent.com/KoheiKanagu/garage/bcab3f97f76d7b135dfc20e857c353343fbf6468/README.md"
+    },
+    {
+      "ownerRepo": "Kyome22/RunCat_for_windows",
+      "sha": "2785e9b5db916376d177553f2f8c06429e9883d7",
+      "date": 1709287443000,
+      "rawURL": "https://raw.githubusercontent.com/Kyome22/RunCat_for_windows/2785e9b5db916376d177553f2f8c06429e9883d7/README.md"
     },
     {
       "ownerRepo": "nucosen/broadcast",
@@ -32,12 +44,6 @@
       "rawURL": "https://raw.githubusercontent.com/NakaokaRei/SwiftAutoGUI/9efe9fc805abfcf27786128958abbe7d53335284/README.md"
     },
     {
-      "ownerRepo": "Kyome22/menubar_runcat",
-      "sha": "82747b139cc32e13a7b713f8521f44c70317f7d4",
-      "date": 1684821635000,
-      "rawURL": "https://raw.githubusercontent.com/Kyome22/menubar_runcat/82747b139cc32e13a7b713f8521f44c70317f7d4/README.md"
-    },
-    {
       "ownerRepo": "Avis-Inc/ChatGPTForXcode",
       "sha": "0db351fbe9f4e30a073f5e82e554daf04ad6ae17",
       "date": 1679904793000,
@@ -48,12 +54,6 @@
       "sha": "c02f8870ed58321df4da5cde30be3783d43eb889",
       "date": 1668150807000,
       "rawURL": "https://raw.githubusercontent.com/moneyforward-i/terraform-aws-admina-integration/c02f8870ed58321df4da5cde30be3783d43eb889/README.md"
-    },
-    {
-      "ownerRepo": "Kyome22/RunCat_for_windows",
-      "sha": "2d65ef464282258c3b2137933cc91bb8cc81007e",
-      "date": 1659358993000,
-      "rawURL": "https://raw.githubusercontent.com/Kyome22/RunCat_for_windows/2d65ef464282258c3b2137933cc91bb8cc81007e/README.md"
     },
     {
       "ownerRepo": "levshx/logger-mc-server",
