@@ -1,17 +1,23 @@
 {
-  "totalCount": 21,
+  "totalCount": 22,
   "repositories": [
     {
       "ownerRepo": "KoheiKanagu/garage",
-      "sha": "e8d0e995d2eb48fc3cb83ea19058723a6e5ffbed",
-      "date": 1710738117000,
-      "rawURL": "https://raw.githubusercontent.com/KoheiKanagu/garage/e8d0e995d2eb48fc3cb83ea19058723a6e5ffbed/README.md"
+      "sha": "b76dcd1c0615de843323a63bd74e8f860b39126d",
+      "date": 1711796215000,
+      "rawURL": "https://raw.githubusercontent.com/KoheiKanagu/garage/b76dcd1c0615de843323a63bd74e8f860b39126d/README.md"
+    },
+    {
+      "ownerRepo": "Kyome22/NSCatWindow",
+      "sha": "22197f498a7d92acc234554b6b24debd4af76996",
+      "date": 1711541925000,
+      "rawURL": "https://raw.githubusercontent.com/Kyome22/NSCatWindow/22197f498a7d92acc234554b6b24debd4af76996/README.md"
     },
     {
       "ownerRepo": "Hacknock/leadyou",
-      "sha": "d86aed62ed34392463cfd00c4995999577cb994a",
-      "date": 1710635289000,
-      "rawURL": "https://raw.githubusercontent.com/Hacknock/leadyou/d86aed62ed34392463cfd00c4995999577cb994a/README.md"
+      "sha": "5bc21445ce7debd58b29814fcfffea56067e3539",
+      "date": 1711240154000,
+      "rawURL": "https://raw.githubusercontent.com/Hacknock/leadyou/5bc21445ce7debd58b29814fcfffea56067e3539/README.md"
     },
     {
       "ownerRepo": "Kyome22/RunCat_for_windows",
@@ -66,12 +72,6 @@
       "sha": "0c72c4543cb59bcfab993264e529eddaa53a7658",
       "date": 1646382645000,
       "rawURL": "https://raw.githubusercontent.com/Kyome22/UITestPractice/0c72c4543cb59bcfab993264e529eddaa53a7658/README.md"
-    },
-    {
-      "ownerRepo": "cybozu/ios-interface-trace",
-      "sha": "db27ca6b358bb64d4a453d892bc8bf0b0f94859b",
-      "date": 1645435999000,
-      "rawURL": "https://raw.githubusercontent.com/cybozu/ios-interface-trace/db27ca6b358bb64d4a453d892bc8bf0b0f94859b/README.md"
     }
   ]
 }
