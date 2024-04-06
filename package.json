@@ -3,10 +3,7 @@
   "version": "1.0.0",
   "private": "true",
   "description": "LEADYOU is a web application that helps you to write a README easily.",
-  "main": "server.js",
-  "scripts": {
-    "run-jest": "jest"
-  },
+  "homepage": "https://hacknock.github.io/leadyou",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Hacknock/leadyou.git"
@@ -15,18 +12,37 @@
   "bugs": {
     "url": "https://github.com/Hacknock/leadyou/issues"
   },
-  "homepage": "https://leadyou.hacknock.com/",
+  "scripts": {
+    "start": "webpack serve --config webpack.config.js --mode development",
+    "build": "webpack",
+    "update-catalog": "node update-catalog.mjs"
+  },
+  "engines": {
+    "node": "^20.11.1"
+  },
   "dependencies": {
-    "config": "^3.3.6",
-    "express": "^4.17.1",
-    "fs": "0.0.1-security",
-    "helmet": "^5.0.2",
-    "mariadb": "^2.5.5",
-    "node-schedule": "^2.1.0",
-    "node-fetch": "^2.6.6",
-    "uuid": "^8.3.2"
+    "fs": "^0.0.1-security",
+    "i18next": "^23.10.0",
+    "jszip": "^3.10.1",
+    "marked": "^12.0.0",
+    "node-fetch": "^3.3.2",
+    "query-string": "^9.0.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-i18next": "^14.0.5",
+    "react-markdown": "^9.0.1",
+    "rehype-raw": "^7.0.0",
+    "remark-gfm": "^4.0.0"
   },
   "devDependencies": {
-    "jest": "^27.5.1"
+    "@types/react": "^18.2.61",
+    "@types/react-dom": "^18.0.9",
+    "css-loader": "^6.7.3",
+    "style-loader": "^3.3.1",
+    "ts-loader": "^9.4.2",
+    "typescript": "^5.3.3",
+    "webpack": "^5.90.3",
+    "webpack-cli": "^5.0.1",
+    "webpack-dev-server": "^5.0.2"
   }
 }

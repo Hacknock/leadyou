@@ -1,0 +1,179 @@
+{
+  "decorations": [
+    {
+      "title": "Project Icon",
+      "description": "Please upload the project's icon.",
+      "required": true,
+      "formType": "file-with-multi-line-field",
+      "attributes": {
+        "kindsOfFile": ["image/*"],
+        "placeholder": "The size of the icon must be 64x64px."
+      }
+    }
+  ],
+  "sections": [
+    {
+      "title": "Project Name",
+      "description": "Please type the project name.",
+      "required": true,
+      "multiple": false,
+      "hiddenTitle": false,
+      "replacingTitle": true,
+      "formType": "one-line-field",
+      "kindsOfValues": ["plain"],
+      "formats": ["%s"],
+      "attributes": {
+        "placeholder": "Your project/repository name",
+        "maxLength": 50
+      },
+      "script": "GetProjectName"
+    },
+    {
+      "title": "Short Description",
+      "description": "Please write down a short description of the project.",
+      "required": true,
+      "multiple": false,
+      "hiddenTitle": true,
+      "replacingTitle": false,
+      "formType": "multi-line-field",
+      "kindsOfValues": ["plain"],
+      "formats": ["%s  \n"],
+      "attributes": {
+        "placeholder": "You should include: \n- Motivation for this project (issues)\n- Your ideas for solving issues\n- Achievement",
+        "maxLength": 500
+      },
+      "script": "GetShortDescription"
+    },
+    {
+      "title": "Badges",
+      "description": "Please input the badges.",
+      "required": false,
+      "multiple": true,
+      "hiddenTitle": true,
+      "replacingTitle": false,
+      "formType": "one-line-field",
+      "kindsOfValues": ["plain"],
+      "formats": ["%s\n"],
+      "attributes": {
+        "placeholder": "[![Title](Badge URL)](Jump URL)",
+        "maxLength": 300
+      },
+      "script": "GetBadges"
+    },
+    {
+      "title": "Tags",
+      "description": "Please input the tags related to the project.",
+      "required": true,
+      "multiple": true,
+      "hiddenTitle": false,
+      "replacingTitle": false,
+      "formType": "one-line-field",
+      "kindsOfValues": ["plain"],
+      "formats": ["`%s` "],
+      "attributes": {
+        "placeholder": "Plain text without prefix"
+      }
+    },
+    {
+      "title": "Demo",
+      "description": "Please upload an image and input a description for a demonstration.",
+      "required": false,
+      "multiple": true,
+      "hiddenTitle": false,
+      "replacingTitle": false,
+      "formType": "file-with-multi-line-field",
+      "kindsOfValues": ["filePath", "plain"],
+      "formats": ["![Demo](%s)\n\n", "%s  \n"],
+      "attributes": {
+        "kindsOfFile": ["image/png", "image/jpg", "image/gif"],
+        "placeholder": "You should include:\n- A screenshot during execution\n- How to reproduce it"
+      }
+    },
+    {
+      "title": "Advantages",
+      "description": "Please describe the advantages of the project.",
+      "required": true,
+      "multiple": false,
+      "hiddenTitle": false,
+      "replacingTitle": false,
+      "formType": "multi-line-field",
+      "kindsOfValues": ["plain"],
+      "formats": ["%s  \n"],
+      "attributes": {
+        "placeholder": "You should describe:\n- The benefits of your project to users compared to other projects"
+      }
+    },
+    {
+      "title": "Installation",
+      "description": "Please describe how to install the project.",
+      "required": true,
+      "multiple": false,
+      "hiddenTitle": false,
+      "replacingTitle": false,
+      "formType": "multi-line-field",
+      "kindsOfValues": ["plain"],
+      "formats": ["%s  \n"],
+      "attributes": {
+        "placeholder": "You should include:\n- The specific ways to implement it\n- The environment to run\n- The dependencies with implementation\n- The command or way to install"
+      }
+    },
+    {
+      "title": "Deployment",
+      "description": "Please describe how to deploy the project.",
+      "required": false,
+      "multiple": false,
+      "hiddenTitle": false,
+      "replacingTitle": false,
+      "formType": "multi-line-field",
+      "kindsOfValues": ["plain"],
+      "formats": ["%s  \n"],
+      "attributes": {
+        "placeholder": "You should include:\n- Any code\n- The procedures\n- The dependencies"
+      }
+    },
+    {
+      "title": "Minimal Example",
+      "description": "Please illustrate a minimal implementation.",
+      "required": true,
+      "multiple": false,
+      "hiddenTitle": false,
+      "replacingTitle": false,
+      "formType": "file-with-multi-line-field",
+      "kindsOfValues": ["filePath", "plain"],
+      "formats": ["![Minimal Example](%s)\n\n", "%s  \n"],
+      "attributes": {
+        "kindsOfFile": ["image/png", "image/jpg", "image/gif"],
+        "placeholder": "Your should include:\n- Any example code\n- How to run them\n- The result (attach an image if necessary)"
+      }
+    },
+    {
+      "title": "Contributors",
+      "description": "Please input the contributors to the project.",
+      "required": true,
+      "multiple": true,
+      "hiddenTitle": false,
+      "replacingTitle": false,
+      "formType": "one-line-field",
+      "kindsOfValues": ["plain"],
+      "formats": ["- %s\n"],
+      "attributes": {
+        "placeholder": "[Name](GitHub Profile URL)"
+      },
+      "script": "GetContributors"
+    },
+    {
+      "title": "Users",
+      "description": "Please input the users of the project.",
+      "required": false,
+      "multiple": true,
+      "hiddenTitle": false,
+      "replacingTitle": false,
+      "formType": "one-line-field",
+      "kindsOfValues": ["plain"],
+      "formats": ["- %s\n"],
+      "attributes": {
+        "placeholder": "[Name](URL)"
+      }
+    }
+  ]
+}
