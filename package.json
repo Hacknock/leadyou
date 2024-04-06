@@ -1,7 +1,6 @@
 {
   "name": "leadyou",
   "version": "1.0.0",
-  "private": "true",
   "description": "LEADYOU is a web application that helps you to write a README easily.",
   "homepage": "https://hacknock.github.io/leadyou",
   "repository": {
@@ -9,9 +8,20 @@
     "url": "git+https://github.com/Hacknock/leadyou.git"
   },
   "author": "Akira Kashihara, Takuto Nakamura",
+  "license": "Apache-2.0",
   "bugs": {
     "url": "https://github.com/Hacknock/leadyou/issues"
   },
+  "keywords": [
+    "README",
+    "GitHub",
+    "Markdown",
+    "React",
+    "TypeScript",
+    "webpack",
+    "GitHub Pages",
+    "GitHub Actions"
+  ],
   "scripts": {
     "start": "webpack serve --config webpack.config.js --mode development",
     "build": "webpack",
