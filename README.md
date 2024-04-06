@@ -31,6 +31,11 @@ Additionally you can fill other items we recommend you to fill (Tags, Advantages
 2. LEADYOU supports you to write README with auto-fill function.
 3. Easy to insert demo images because LEADYOU automatically generates necessary links after uploading images to LEADYOU.
 
+## Requirements
+
+- Node.js: 20.11.1+
+- npm: 10.2.4+
+
 ## Build
 
 0. LEADYOU needs Node.js (v18) and npm (v9).
