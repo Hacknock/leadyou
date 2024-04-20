@@ -1,35 +1,47 @@
 {
-  "totalCount": 22,
+  "totalCount": 24,
   "repositories": [
     {
+      "ownerRepo": "nucosen/broadcast",
+      "sha": "ff2ed39fef7ffdae63467ad38751f155ef2eae08",
+      "date": 1713431808000,
+      "rawURL": "https://raw.githubusercontent.com/nucosen/broadcast/ff2ed39fef7ffdae63467ad38751f155ef2eae08/README.md"
+    },
+    {
       "ownerRepo": "KoheiKanagu/garage",
-      "sha": "b76dcd1c0615de843323a63bd74e8f860b39126d",
-      "date": 1711796215000,
-      "rawURL": "https://raw.githubusercontent.com/KoheiKanagu/garage/b76dcd1c0615de843323a63bd74e8f860b39126d/README.md"
+      "sha": "58c257dfe713d2aced96d0e5df959731cca44d23",
+      "date": 1713422707000,
+      "rawURL": "https://raw.githubusercontent.com/KoheiKanagu/garage/58c257dfe713d2aced96d0e5df959731cca44d23/README.md"
     },
     {
       "ownerRepo": "Kyome22/NSCatWindow",
-      "sha": "22197f498a7d92acc234554b6b24debd4af76996",
-      "date": 1711541925000,
-      "rawURL": "https://raw.githubusercontent.com/Kyome22/NSCatWindow/22197f498a7d92acc234554b6b24debd4af76996/README.md"
+      "sha": "3e96bd84841712df4ee8cdcd733e5301fea7957e",
+      "date": 1712677045000,
+      "rawURL": "https://raw.githubusercontent.com/Kyome22/NSCatWindow/3e96bd84841712df4ee8cdcd733e5301fea7957e/README.md"
+    },
+    {
+      "ownerRepo": "Hacknock/clam-example",
+      "sha": "898d828e5a45c0aec4ca7331cb4300848778ef1a",
+      "date": 1712437484000,
+      "rawURL": "https://raw.githubusercontent.com/Hacknock/clam-example/898d828e5a45c0aec4ca7331cb4300848778ef1a/README.md"
+    },
+    {
+      "ownerRepo": "Hacknock/clam",
+      "sha": "fdc526988d957b3c9631f988be4b3346c3d97556",
+      "date": 1712437389000,
+      "rawURL": "https://raw.githubusercontent.com/Hacknock/clam/fdc526988d957b3c9631f988be4b3346c3d97556/README.md"
     },
     {
       "ownerRepo": "Hacknock/leadyou",
-      "sha": "5bc21445ce7debd58b29814fcfffea56067e3539",
-      "date": 1711240154000,
-      "rawURL": "https://raw.githubusercontent.com/Hacknock/leadyou/5bc21445ce7debd58b29814fcfffea56067e3539/README.md"
+      "sha": "180f9be1c1961f8bdad9d114c363f60898ea9896",
+      "date": 1712413072000,
+      "rawURL": "https://raw.githubusercontent.com/Hacknock/leadyou/180f9be1c1961f8bdad9d114c363f60898ea9896/README.md"
     },
     {
       "ownerRepo": "Kyome22/RunCat_for_windows",
       "sha": "2785e9b5db916376d177553f2f8c06429e9883d7",
       "date": 1709287443000,
       "rawURL": "https://raw.githubusercontent.com/Kyome22/RunCat_for_windows/2785e9b5db916376d177553f2f8c06429e9883d7/README.md"
-    },
-    {
-      "ownerRepo": "nucosen/broadcast",
-      "sha": "02b0bcac8fbbde6213163ebc306e9752979f8306",
-      "date": 1705541063000,
-      "rawURL": "https://raw.githubusercontent.com/nucosen/broadcast/02b0bcac8fbbde6213163ebc306e9752979f8306/README.md"
     },
     {
       "ownerRepo": "Kyome22/GitGrass",
@@ -60,18 +72,6 @@
       "sha": "c02f8870ed58321df4da5cde30be3783d43eb889",
       "date": 1668150807000,
       "rawURL": "https://raw.githubusercontent.com/moneyforward-i/terraform-aws-admina-integration/c02f8870ed58321df4da5cde30be3783d43eb889/README.md"
-    },
-    {
-      "ownerRepo": "levshx/logger-mc-server",
-      "sha": "7b4f2b0b72d867f37a2056fda73aba4de9da4c2a",
-      "date": 1652107717000,
-      "rawURL": "https://raw.githubusercontent.com/levshx/logger-mc-server/7b4f2b0b72d867f37a2056fda73aba4de9da4c2a/README.md"
-    },
-    {
-      "ownerRepo": "Kyome22/UITestPractice",
-      "sha": "0c72c4543cb59bcfab993264e529eddaa53a7658",
-      "date": 1646382645000,
-      "rawURL": "https://raw.githubusercontent.com/Kyome22/UITestPractice/0c72c4543cb59bcfab993264e529eddaa53a7658/README.md"
     }
   ]
 }
