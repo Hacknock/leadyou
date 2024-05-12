@@ -1,17 +1,23 @@
 {
-  "totalCount": 25,
+  "totalCount": 26,
   "repositories": [
     {
       "ownerRepo": "KoheiKanagu/garage",
-      "sha": "f32e8eaf8056e15e0591a7e3923c2928ffc58630",
-      "date": 1714627194000,
-      "rawURL": "https://raw.githubusercontent.com/KoheiKanagu/garage/f32e8eaf8056e15e0591a7e3923c2928ffc58630/README.md"
+      "sha": "1bea936e67688c59a8fb81eaae00340f3a38b091",
+      "date": 1715157590000,
+      "rawURL": "https://raw.githubusercontent.com/KoheiKanagu/garage/1bea936e67688c59a8fb81eaae00340f3a38b091/README.md"
+    },
+    {
+      "ownerRepo": "enumura1/react-component-liquidUI",
+      "sha": "a8af4cd063c6c6e7815d9bc97c0d9a11ee9ed29a",
+      "date": 1714976061000,
+      "rawURL": "https://raw.githubusercontent.com/enumura1/react-component-liquidUI/a8af4cd063c6c6e7815d9bc97c0d9a11ee9ed29a/README.md"
     },
     {
       "ownerRepo": "Hacknock/leadyou",
-      "sha": "99c2c9b6bceeade81c5b071e6ba6773a830a48ea",
-      "date": 1714264202000,
-      "rawURL": "https://raw.githubusercontent.com/Hacknock/leadyou/99c2c9b6bceeade81c5b071e6ba6773a830a48ea/README.md"
+      "sha": "2d740214f2297caf75aa6e8a8f3af0448c89c2c2",
+      "date": 1714868961000,
+      "rawURL": "https://raw.githubusercontent.com/Hacknock/leadyou/2d740214f2297caf75aa6e8a8f3af0448c89c2c2/README.md"
     },
     {
       "ownerRepo": "nucosen/broadcast",
@@ -66,12 +72,6 @@
       "sha": "0db351fbe9f4e30a073f5e82e554daf04ad6ae17",
       "date": 1679904793000,
       "rawURL": "https://raw.githubusercontent.com/Avis-Inc/ChatGPTForXcode/0db351fbe9f4e30a073f5e82e554daf04ad6ae17/README.md"
-    },
-    {
-      "ownerRepo": "moneyforward-i/terraform-aws-admina-integration",
-      "sha": "c02f8870ed58321df4da5cde30be3783d43eb889",
-      "date": 1668150807000,
-      "rawURL": "https://raw.githubusercontent.com/moneyforward-i/terraform-aws-admina-integration/c02f8870ed58321df4da5cde30be3783d43eb889/README.md"
     }
   ]
 }
