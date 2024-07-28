@@ -2,16 +2,16 @@
   "totalCount": 26,
   "repositories": [
     {
+      "ownerRepo": "Hacknock/leadyou",
+      "sha": "2f74aed97103563a575a3c92e24286de120d2dec",
+      "date": 1721521996000,
+      "rawURL": "https://raw.githubusercontent.com/Hacknock/leadyou/2f74aed97103563a575a3c92e24286de120d2dec/README.md"
+    },
+    {
       "ownerRepo": "KoheiKanagu/garage",
       "sha": "37e0d679a83415ec5506588b67e83d349170b130",
       "date": 1720397234000,
       "rawURL": "https://raw.githubusercontent.com/KoheiKanagu/garage/37e0d679a83415ec5506588b67e83d349170b130/README.md"
-    },
-    {
-      "ownerRepo": "Hacknock/leadyou",
-      "sha": "8ec5e70ed972b1a6d5b5e72b4ebdf7752e367b8d",
-      "date": 1720312356000,
-      "rawURL": "https://raw.githubusercontent.com/Hacknock/leadyou/8ec5e70ed972b1a6d5b5e72b4ebdf7752e367b8d/README.md"
     },
     {
       "ownerRepo": "nucosen/broadcast",
