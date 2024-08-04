@@ -1,17 +1,23 @@
 {
-  "totalCount": 26,
+  "totalCount": 27,
   "repositories": [
     {
-      "ownerRepo": "Hacknock/leadyou",
-      "sha": "2f74aed97103563a575a3c92e24286de120d2dec",
-      "date": 1721521996000,
-      "rawURL": "https://raw.githubusercontent.com/Hacknock/leadyou/2f74aed97103563a575a3c92e24286de120d2dec/README.md"
+      "ownerRepo": "KoeInoue/square-go-sdk",
+      "sha": "ba84502bf0ec895b8b0efebcaa5d2ebb347a9530",
+      "date": 1722427334000,
+      "rawURL": "https://raw.githubusercontent.com/KoeInoue/square-go-sdk/ba84502bf0ec895b8b0efebcaa5d2ebb347a9530/README.md"
     },
     {
       "ownerRepo": "KoheiKanagu/garage",
-      "sha": "37e0d679a83415ec5506588b67e83d349170b130",
-      "date": 1720397234000,
-      "rawURL": "https://raw.githubusercontent.com/KoheiKanagu/garage/37e0d679a83415ec5506588b67e83d349170b130/README.md"
+      "sha": "f380fed403e1705f7e3161750749a925a7a4a999",
+      "date": 1722410891000,
+      "rawURL": "https://raw.githubusercontent.com/KoheiKanagu/garage/f380fed403e1705f7e3161750749a925a7a4a999/README.md"
+    },
+    {
+      "ownerRepo": "Hacknock/leadyou",
+      "sha": "d8da855bc0bf77ff9aff0d18902f8ea660f2066a",
+      "date": 1722126827000,
+      "rawURL": "https://raw.githubusercontent.com/Hacknock/leadyou/d8da855bc0bf77ff9aff0d18902f8ea660f2066a/README.md"
     },
     {
       "ownerRepo": "nucosen/broadcast",
@@ -66,12 +72,6 @@
       "sha": "6b2d8365d5ecd64a7c2771a1b9074b4e9a83c702",
       "date": 1698554171000,
       "rawURL": "https://raw.githubusercontent.com/GCer-Hidenori/TSQLScriptDomParser/6b2d8365d5ecd64a7c2771a1b9074b4e9a83c702/README.md"
-    },
-    {
-      "ownerRepo": "Avis-Inc/ChatGPTForXcode",
-      "sha": "0db351fbe9f4e30a073f5e82e554daf04ad6ae17",
-      "date": 1679904793000,
-      "rawURL": "https://raw.githubusercontent.com/Avis-Inc/ChatGPTForXcode/0db351fbe9f4e30a073f5e82e554daf04ad6ae17/README.md"
     }
   ]
 }
