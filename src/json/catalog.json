@@ -2,22 +2,22 @@
   "totalCount": 27,
   "repositories": [
     {
+      "ownerRepo": "KoheiKanagu/garage",
+      "sha": "56458859a785309ab471d87071a65b22d95f9df2",
+      "date": 1723006089000,
+      "rawURL": "https://raw.githubusercontent.com/KoheiKanagu/garage/56458859a785309ab471d87071a65b22d95f9df2/README.md"
+    },
+    {
+      "ownerRepo": "Hacknock/leadyou",
+      "sha": "ef50ce4ae159cd027ee3d6c5f50690a3fbc9372b",
+      "date": 1722731622000,
+      "rawURL": "https://raw.githubusercontent.com/Hacknock/leadyou/ef50ce4ae159cd027ee3d6c5f50690a3fbc9372b/README.md"
+    },
+    {
       "ownerRepo": "KoeInoue/square-go-sdk",
       "sha": "ba84502bf0ec895b8b0efebcaa5d2ebb347a9530",
       "date": 1722427334000,
       "rawURL": "https://raw.githubusercontent.com/KoeInoue/square-go-sdk/ba84502bf0ec895b8b0efebcaa5d2ebb347a9530/README.md"
-    },
-    {
-      "ownerRepo": "KoheiKanagu/garage",
-      "sha": "f380fed403e1705f7e3161750749a925a7a4a999",
-      "date": 1722410891000,
-      "rawURL": "https://raw.githubusercontent.com/KoheiKanagu/garage/f380fed403e1705f7e3161750749a925a7a4a999/README.md"
-    },
-    {
-      "ownerRepo": "Hacknock/leadyou",
-      "sha": "d8da855bc0bf77ff9aff0d18902f8ea660f2066a",
-      "date": 1722126827000,
-      "rawURL": "https://raw.githubusercontent.com/Hacknock/leadyou/d8da855bc0bf77ff9aff0d18902f8ea660f2066a/README.md"
     },
     {
       "ownerRepo": "nucosen/broadcast",
