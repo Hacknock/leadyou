@@ -2,6 +2,12 @@
   "totalCount": 27,
   "repositories": [
     {
+      "ownerRepo": "Hacknock/leadyou",
+      "sha": "1b032c16c3d8bffa7336c7029a40e0f0187d18a8",
+      "date": 1723941227000,
+      "rawURL": "https://raw.githubusercontent.com/Hacknock/leadyou/1b032c16c3d8bffa7336c7029a40e0f0187d18a8/README.md"
+    },
+    {
       "ownerRepo": "KoeInoue/square-go-sdk",
       "sha": "11c035f7cbb434614d9afb9a7e1cc3141205a07e",
       "date": 1723699630000,
@@ -12,12 +18,6 @@
       "sha": "7421888bb8ca60c0570b79b25b26ee6d63b5e040",
       "date": 1723615247000,
       "rawURL": "https://raw.githubusercontent.com/KoheiKanagu/garage/7421888bb8ca60c0570b79b25b26ee6d63b5e040/README.md"
-    },
-    {
-      "ownerRepo": "Hacknock/leadyou",
-      "sha": "3aced4812bd02f20f52465fb480e4a10a5fdec31",
-      "date": 1723336455000,
-      "rawURL": "https://raw.githubusercontent.com/Hacknock/leadyou/3aced4812bd02f20f52465fb480e4a10a5fdec31/README.md"
     },
     {
       "ownerRepo": "nucosen/broadcast",
