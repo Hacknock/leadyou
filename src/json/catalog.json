@@ -3,21 +3,21 @@
   "repositories": [
     {
       "ownerRepo": "KoheiKanagu/garage",
-      "sha": "04299480dc193f0b9225f860c18c761da1d39742",
-      "date": 1724989105000,
-      "rawURL": "https://raw.githubusercontent.com/KoheiKanagu/garage/04299480dc193f0b9225f860c18c761da1d39742/README.md"
+      "sha": "45ed7a18f2e60de00fcfaeb79c4c1109a54f271f",
+      "date": 1725245015000,
+      "rawURL": "https://raw.githubusercontent.com/KoheiKanagu/garage/45ed7a18f2e60de00fcfaeb79c4c1109a54f271f/README.md"
+    },
+    {
+      "ownerRepo": "Hacknock/leadyou",
+      "sha": "d8d6b4c2f1482eec87607e23276cee91ef74f672",
+      "date": 1725151144000,
+      "rawURL": "https://raw.githubusercontent.com/Hacknock/leadyou/d8d6b4c2f1482eec87607e23276cee91ef74f672/README.md"
     },
     {
       "ownerRepo": "kohta9521/Tunify_Service_Site",
       "sha": "45661b2419a424dbcf69fcf0effb466a062daac2",
       "date": 1724744607000,
       "rawURL": "https://raw.githubusercontent.com/kohta9521/Tunify_Service_Site/45661b2419a424dbcf69fcf0effb466a062daac2/README.md"
-    },
-    {
-      "ownerRepo": "Hacknock/leadyou",
-      "sha": "c2f7da7b58b3c08015d87ec60f94a7deb9180cb4",
-      "date": 1724546058000,
-      "rawURL": "https://raw.githubusercontent.com/Hacknock/leadyou/c2f7da7b58b3c08015d87ec60f94a7deb9180cb4/README.md"
     },
     {
       "ownerRepo": "KoeInoue/square-go-sdk",
