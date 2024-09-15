@@ -2,16 +2,16 @@
   "totalCount": 28,
   "repositories": [
     {
+      "ownerRepo": "Hacknock/leadyou",
+      "sha": "22c80287d5591b1b28e17841ed199cf3eb66f33f",
+      "date": 1725755800000,
+      "rawURL": "https://raw.githubusercontent.com/Hacknock/leadyou/22c80287d5591b1b28e17841ed199cf3eb66f33f/README.md"
+    },
+    {
       "ownerRepo": "KoheiKanagu/garage",
       "sha": "45ed7a18f2e60de00fcfaeb79c4c1109a54f271f",
       "date": 1725245015000,
       "rawURL": "https://raw.githubusercontent.com/KoheiKanagu/garage/45ed7a18f2e60de00fcfaeb79c4c1109a54f271f/README.md"
-    },
-    {
-      "ownerRepo": "Hacknock/leadyou",
-      "sha": "d8d6b4c2f1482eec87607e23276cee91ef74f672",
-      "date": 1725151144000,
-      "rawURL": "https://raw.githubusercontent.com/Hacknock/leadyou/d8d6b4c2f1482eec87607e23276cee91ef74f672/README.md"
     },
     {
       "ownerRepo": "kohta9521/Tunify_Service_Site",
