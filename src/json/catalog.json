@@ -2,16 +2,16 @@
   "totalCount": 28,
   "repositories": [
     {
+      "ownerRepo": "Hacknock/leadyou",
+      "sha": "274311fc3225a3f1ae9d25ec19c1517a2ca14986",
+      "date": 1734223342000,
+      "rawURL": "https://raw.githubusercontent.com/Hacknock/leadyou/274311fc3225a3f1ae9d25ec19c1517a2ca14986/README.md"
+    },
+    {
       "ownerRepo": "Kyome22/GitGrass",
       "sha": "171f8b72665b4312009ceb912995cae73cea4507",
       "date": 1733636187000,
       "rawURL": "https://raw.githubusercontent.com/Kyome22/GitGrass/171f8b72665b4312009ceb912995cae73cea4507/README.md"
-    },
-    {
-      "ownerRepo": "Hacknock/leadyou",
-      "sha": "99aeaaf21f4ba7c47e23ce18287eaa66f238542a",
-      "date": 1733618530000,
-      "rawURL": "https://raw.githubusercontent.com/Hacknock/leadyou/99aeaaf21f4ba7c47e23ce18287eaa66f238542a/README.md"
     },
     {
       "ownerRepo": "KoheiKanagu/garage",
