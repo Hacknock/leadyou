@@ -2,6 +2,12 @@
   "totalCount": 30,
   "repositories": [
     {
+      "ownerRepo": "Hacknock/leadyou",
+      "sha": "5d649dd74ee331214001500641ea3be847cd0731",
+      "date": 1738456633000,
+      "rawURL": "https://raw.githubusercontent.com/Hacknock/leadyou/5d649dd74ee331214001500641ea3be847cd0731/README.md"
+    },
+    {
       "ownerRepo": "yasutakatou/code-lc4ri",
       "sha": "f3ba15dfe742935af7fd02c772f2557d5c37c875",
       "date": 1737978279000,
@@ -12,12 +18,6 @@
       "sha": "720e599cf217834b9163f2785f74504fa4e9f73c",
       "date": 1737956480000,
       "rawURL": "https://raw.githubusercontent.com/Jack0Amano/SandboxSystem2D/720e599cf217834b9163f2785f74504fa4e9f73c/README.md"
-    },
-    {
-      "ownerRepo": "Hacknock/leadyou",
-      "sha": "f782d3ffa70a971b5102bd0f54c2c1f3b287d72d",
-      "date": 1737851868000,
-      "rawURL": "https://raw.githubusercontent.com/Hacknock/leadyou/f782d3ffa70a971b5102bd0f54c2c1f3b287d72d/README.md"
     },
     {
       "ownerRepo": "Kyome22/GitGrass",
