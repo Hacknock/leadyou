@@ -2,22 +2,22 @@
   "totalCount": 30,
   "repositories": [
     {
+      "ownerRepo": "yasutakatou/code-lc4ri",
+      "sha": "1cd3cd3db5a86c2e249b0c1eedce5b7f56313245",
+      "date": 1741520270000,
+      "rawURL": "https://raw.githubusercontent.com/yasutakatou/code-lc4ri/1cd3cd3db5a86c2e249b0c1eedce5b7f56313245/README.md"
+    },
+    {
       "ownerRepo": "Hacknock/leadyou",
-      "sha": "48bc4ab2db6a81f1c41516889da4460f34b745a3",
-      "date": 1740875966000,
-      "rawURL": "https://raw.githubusercontent.com/Hacknock/leadyou/48bc4ab2db6a81f1c41516889da4460f34b745a3/README.md"
+      "sha": "e4d00ee60f7a403fdf7379cf68fa328606896b18",
+      "date": 1741480378000,
+      "rawURL": "https://raw.githubusercontent.com/Hacknock/leadyou/e4d00ee60f7a403fdf7379cf68fa328606896b18/README.md"
     },
     {
       "ownerRepo": "KoheiKanagu/garage",
       "sha": "69a9e9eb8b2a672cd25d59732f45aa17356807a0",
       "date": 1740442851000,
       "rawURL": "https://raw.githubusercontent.com/KoheiKanagu/garage/69a9e9eb8b2a672cd25d59732f45aa17356807a0/README.md"
-    },
-    {
-      "ownerRepo": "yasutakatou/code-lc4ri",
-      "sha": "0fa7a163a2d1b2374e67131fb678687cdae5ab0b",
-      "date": 1740398438000,
-      "rawURL": "https://raw.githubusercontent.com/yasutakatou/code-lc4ri/0fa7a163a2d1b2374e67131fb678687cdae5ab0b/README.md"
     },
     {
       "ownerRepo": "Kyome22/NSCatWindow",
