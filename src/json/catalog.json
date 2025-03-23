@@ -2,16 +2,22 @@
   "totalCount": 30,
   "repositories": [
     {
+      "ownerRepo": "NakaokaRei/SwiftAutoGUI",
+      "sha": "90dd7c4ead2e48a07810e8176487e0c436631207",
+      "date": 1742478747000,
+      "rawURL": "https://raw.githubusercontent.com/NakaokaRei/SwiftAutoGUI/90dd7c4ead2e48a07810e8176487e0c436631207/README.md"
+    },
+    {
+      "ownerRepo": "Hacknock/leadyou",
+      "sha": "e24ed572203a87e245d243a937f4127f28c37510",
+      "date": 1742085648000,
+      "rawURL": "https://raw.githubusercontent.com/Hacknock/leadyou/e24ed572203a87e245d243a937f4127f28c37510/README.md"
+    },
+    {
       "ownerRepo": "yasutakatou/code-lc4ri",
       "sha": "1cd3cd3db5a86c2e249b0c1eedce5b7f56313245",
       "date": 1741520270000,
       "rawURL": "https://raw.githubusercontent.com/yasutakatou/code-lc4ri/1cd3cd3db5a86c2e249b0c1eedce5b7f56313245/README.md"
-    },
-    {
-      "ownerRepo": "Hacknock/leadyou",
-      "sha": "e4d00ee60f7a403fdf7379cf68fa328606896b18",
-      "date": 1741480378000,
-      "rawURL": "https://raw.githubusercontent.com/Hacknock/leadyou/e4d00ee60f7a403fdf7379cf68fa328606896b18/README.md"
     },
     {
       "ownerRepo": "KoheiKanagu/garage",
@@ -54,12 +60,6 @@
       "sha": "4a2047ec35b64db2530ccb83ebb20d6d53bafc2d",
       "date": 1720233723000,
       "rawURL": "https://raw.githubusercontent.com/nucosen/broadcast/4a2047ec35b64db2530ccb83ebb20d6d53bafc2d/README.md"
-    },
-    {
-      "ownerRepo": "NakaokaRei/SwiftAutoGUI",
-      "sha": "7000a647ff6341a3ed989b8ec0c7c24d5723307b",
-      "date": 1719663183000,
-      "rawURL": "https://raw.githubusercontent.com/NakaokaRei/SwiftAutoGUI/7000a647ff6341a3ed989b8ec0c7c24d5723307b/README.md"
     },
     {
       "ownerRepo": "enumura1/liquidui-animation",
