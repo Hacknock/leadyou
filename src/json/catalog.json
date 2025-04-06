@@ -2,16 +2,16 @@
   "totalCount": 30,
   "repositories": [
     {
+      "ownerRepo": "Hacknock/leadyou",
+      "sha": "b3d0363ce778ecbe9e1c03966977d05e4e867df0",
+      "date": 1743295318000,
+      "rawURL": "https://raw.githubusercontent.com/Hacknock/leadyou/b3d0363ce778ecbe9e1c03966977d05e4e867df0/README.md"
+    },
+    {
       "ownerRepo": "KoheiKanagu/garage",
       "sha": "1bf988ca4645cc43cadf08963c438b743f86a5cd",
       "date": 1742864951000,
       "rawURL": "https://raw.githubusercontent.com/KoheiKanagu/garage/1bf988ca4645cc43cadf08963c438b743f86a5cd/README.md"
-    },
-    {
-      "ownerRepo": "Hacknock/leadyou",
-      "sha": "07fdad84be48488bf75f223fa0a73d36f9577280",
-      "date": 1742690474000,
-      "rawURL": "https://raw.githubusercontent.com/Hacknock/leadyou/07fdad84be48488bf75f223fa0a73d36f9577280/README.md"
     },
     {
       "ownerRepo": "NakaokaRei/SwiftAutoGUI",
