@@ -2,10 +2,16 @@
   "totalCount": 30,
   "repositories": [
     {
+      "ownerRepo": "NakaokaRei/SwiftAutoGUI",
+      "sha": "13a99aef5465a8070ffea5aef69d3d940173b146",
+      "date": 1751761770000,
+      "rawURL": "https://raw.githubusercontent.com/NakaokaRei/SwiftAutoGUI/13a99aef5465a8070ffea5aef69d3d940173b146/README.md"
+    },
+    {
       "ownerRepo": "Hacknock/leadyou",
-      "sha": "c9b8890163e495d8cf5deb5da3c6b987d3e322c1",
-      "date": 1750553237000,
-      "rawURL": "https://raw.githubusercontent.com/Hacknock/leadyou/c9b8890163e495d8cf5deb5da3c6b987d3e322c1/README.md"
+      "sha": "85fbcae473d9dacd2b768679d099496040bb2a0c",
+      "date": 1751158159000,
+      "rawURL": "https://raw.githubusercontent.com/Hacknock/leadyou/85fbcae473d9dacd2b768679d099496040bb2a0c/README.md"
     },
     {
       "ownerRepo": "Accord33/LOVEStackInterpreter",
@@ -18,12 +24,6 @@
       "sha": "1bf988ca4645cc43cadf08963c438b743f86a5cd",
       "date": 1742864951000,
       "rawURL": "https://raw.githubusercontent.com/KoheiKanagu/garage/1bf988ca4645cc43cadf08963c438b743f86a5cd/README.md"
-    },
-    {
-      "ownerRepo": "NakaokaRei/SwiftAutoGUI",
-      "sha": "90dd7c4ead2e48a07810e8176487e0c436631207",
-      "date": 1742478747000,
-      "rawURL": "https://raw.githubusercontent.com/NakaokaRei/SwiftAutoGUI/90dd7c4ead2e48a07810e8176487e0c436631207/README.md"
     },
     {
       "ownerRepo": "yasutakatou/code-lc4ri",
