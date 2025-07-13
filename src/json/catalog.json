@@ -3,15 +3,15 @@
   "repositories": [
     {
       "ownerRepo": "NakaokaRei/SwiftAutoGUI",
-      "sha": "13a99aef5465a8070ffea5aef69d3d940173b146",
-      "date": 1751761770000,
-      "rawURL": "https://raw.githubusercontent.com/NakaokaRei/SwiftAutoGUI/13a99aef5465a8070ffea5aef69d3d940173b146/README.md"
+      "sha": "21caa19e12c2de73c1150b8a11c96179dd8a2121",
+      "date": 1752332367000,
+      "rawURL": "https://raw.githubusercontent.com/NakaokaRei/SwiftAutoGUI/21caa19e12c2de73c1150b8a11c96179dd8a2121/README.md"
     },
     {
       "ownerRepo": "Hacknock/leadyou",
-      "sha": "85fbcae473d9dacd2b768679d099496040bb2a0c",
-      "date": 1751158159000,
-      "rawURL": "https://raw.githubusercontent.com/Hacknock/leadyou/85fbcae473d9dacd2b768679d099496040bb2a0c/README.md"
+      "sha": "4b56335a921f1da77df4c43d42b8af0f38ac69a7",
+      "date": 1751762890000,
+      "rawURL": "https://raw.githubusercontent.com/Hacknock/leadyou/4b56335a921f1da77df4c43d42b8af0f38ac69a7/README.md"
     },
     {
       "ownerRepo": "Accord33/LOVEStackInterpreter",
@@ -24,12 +24,6 @@
       "sha": "1bf988ca4645cc43cadf08963c438b743f86a5cd",
       "date": 1742864951000,
       "rawURL": "https://raw.githubusercontent.com/KoheiKanagu/garage/1bf988ca4645cc43cadf08963c438b743f86a5cd/README.md"
-    },
-    {
-      "ownerRepo": "yasutakatou/code-lc4ri",
-      "sha": "1cd3cd3db5a86c2e249b0c1eedce5b7f56313245",
-      "date": 1741520270000,
-      "rawURL": "https://raw.githubusercontent.com/yasutakatou/code-lc4ri/1cd3cd3db5a86c2e249b0c1eedce5b7f56313245/README.md"
     },
     {
       "ownerRepo": "Kyome22/NSCatWindow",
@@ -72,6 +66,12 @@
       "sha": "eb92114e824a395e807552ed06d9caeb1ebafd29",
       "date": 1718431331000,
       "rawURL": "https://raw.githubusercontent.com/enumura1/liquidui-animation/eb92114e824a395e807552ed06d9caeb1ebafd29/README.md"
+    },
+    {
+      "ownerRepo": "Hacknock/clam-example",
+      "sha": "898d828e5a45c0aec4ca7331cb4300848778ef1a",
+      "date": 1712437484000,
+      "rawURL": "https://raw.githubusercontent.com/Hacknock/clam-example/898d828e5a45c0aec4ca7331cb4300848778ef1a/README.md"
     }
   ]
 }
