@@ -3,15 +3,15 @@
   "repositories": [
     {
       "ownerRepo": "NakaokaRei/SwiftAutoGUI",
-      "sha": "21caa19e12c2de73c1150b8a11c96179dd8a2121",
-      "date": 1752332367000,
-      "rawURL": "https://raw.githubusercontent.com/NakaokaRei/SwiftAutoGUI/21caa19e12c2de73c1150b8a11c96179dd8a2121/README.md"
+      "sha": "0dbf47a0ec7afcf5c00b4030e8f7ea2db3192491",
+      "date": 1752916316000,
+      "rawURL": "https://raw.githubusercontent.com/NakaokaRei/SwiftAutoGUI/0dbf47a0ec7afcf5c00b4030e8f7ea2db3192491/README.md"
     },
     {
       "ownerRepo": "Hacknock/leadyou",
-      "sha": "4b56335a921f1da77df4c43d42b8af0f38ac69a7",
-      "date": 1751762890000,
-      "rawURL": "https://raw.githubusercontent.com/Hacknock/leadyou/4b56335a921f1da77df4c43d42b8af0f38ac69a7/README.md"
+      "sha": "b1262e7e0a94eebaff16944993146066f426a01b",
+      "date": 1752367810000,
+      "rawURL": "https://raw.githubusercontent.com/Hacknock/leadyou/b1262e7e0a94eebaff16944993146066f426a01b/README.md"
     },
     {
       "ownerRepo": "Accord33/LOVEStackInterpreter",
