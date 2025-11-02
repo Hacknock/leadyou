@@ -2,22 +2,16 @@
   "totalCount": 30,
   "repositories": [
     {
-      "ownerRepo": "Hacknock/leadyou",
-      "sha": "8e8e9b86e48b82bef1cb43c36a8d680063869df6",
-      "date": 1760834674000,
-      "rawURL": "https://raw.githubusercontent.com/Hacknock/leadyou/8e8e9b86e48b82bef1cb43c36a8d680063869df6/README.md"
+      "ownerRepo": "NakaokaRei/SwiftAutoGUI",
+      "sha": "1ead1b7b43e65d4ad26ba39f5cff91a54f8c9b3c",
+      "date": 1761543840000,
+      "rawURL": "https://raw.githubusercontent.com/NakaokaRei/SwiftAutoGUI/1ead1b7b43e65d4ad26ba39f5cff91a54f8c9b3c/README.md"
     },
     {
       "ownerRepo": "Kyome22/GitGrass",
       "sha": "ca575253e3fa5b50581ecf516dad95987d2246f3",
       "date": 1755432688000,
       "rawURL": "https://raw.githubusercontent.com/Kyome22/GitGrass/ca575253e3fa5b50581ecf516dad95987d2246f3/README.md"
-    },
-    {
-      "ownerRepo": "NakaokaRei/SwiftAutoGUI",
-      "sha": "52a48b4f01a4e0f65268e48c73eeadeef56bbfc5",
-      "date": 1755401065000,
-      "rawURL": "https://raw.githubusercontent.com/NakaokaRei/SwiftAutoGUI/52a48b4f01a4e0f65268e48c73eeadeef56bbfc5/README.md"
     },
     {
       "ownerRepo": "Accord33/LOVEStackInterpreter",
@@ -72,6 +66,12 @@
       "sha": "eb92114e824a395e807552ed06d9caeb1ebafd29",
       "date": 1718431331000,
       "rawURL": "https://raw.githubusercontent.com/enumura1/liquidui-animation/eb92114e824a395e807552ed06d9caeb1ebafd29/README.md"
+    },
+    {
+      "ownerRepo": "Hacknock/clam-example",
+      "sha": "898d828e5a45c0aec4ca7331cb4300848778ef1a",
+      "date": 1712437484000,
+      "rawURL": "https://raw.githubusercontent.com/Hacknock/clam-example/898d828e5a45c0aec4ca7331cb4300848778ef1a/README.md"
     }
   ]
 }
