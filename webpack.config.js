@@ -13,6 +13,7 @@ module.exports = {
     extensions: [".ts", ".tsx", ".js", ".jsx"],
   },
   devServer: {
+    host: "127.0.0.1",
     static: {
       directory: path.resolve(__dirname, "dist"),
     },

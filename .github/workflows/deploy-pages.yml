@@ -23,7 +23,11 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version-file: ".node-version"
+
+      - name: Setup npm
+        run: npm install -g npm@12.2.1
+        working-directory: ${{ runner.temp }}
 
       - name: Cache Node Modules
         uses: actions/cache@v4
@@ -35,6 +39,9 @@ jobs:
       - name: Build
         run: |
           npm ci
+          npm test
+          npm run typecheck
+          npm audit --omit=dev
           npm run build
 
       - name: Upload Artifact

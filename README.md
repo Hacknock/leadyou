@@ -33,12 +33,12 @@ Additionally you can fill other items we recommend you to fill (Tags, Advantages
 
 ## Requirements
 
-- Node.js: 20.11.1+
-- npm: 10.2.4+
+- Node.js: 24.22.1 (`.node-version`)
+- npm: 12.2.1
 
 ## Build
 
-0. LEADYOU needs Node.js (v18) and npm (v9).
+0. Use Node.js 24.22.1 and npm 12.2.1 (matching CI).
 1. Please download this repository before deploying.
    ```sh
    git clone git@github.com:Hacknock/leadyou.git
@@ -49,10 +49,11 @@ Additionally you can fill other items we recommend you to fill (Tags, Advantages
    ```
 2. Build and view in web browser.
    ```sh
-   npm install
+   npm install -g npm@12.2.1
+   npm ci
    npm run start
    ```
-   Then, access `localhost:3000`.
+   Then, access `http://127.0.0.1:3000`.
 
 ## Minimal Example
 

@@ -3,6 +3,7 @@ import { useTranslation } from "react-i18next";
 import { parse } from "marked";
 import styles from "../support/Marked.css";
 import "./Catalog.css";
+import ReadmeFrame from "./ReadmeFrame";
 
 type Repository = {
   ownerRepo: string;
@@ -128,7 +129,7 @@ export default function Catalog(props: Props) {
         return (
           <div className="readme" key={`readme-cell-${i}`}>
             <div className="wrap-iframe">
-              <iframe title={"owner/repo"} srcDoc={html} />
+              <ReadmeFrame title={ownerRepo} html={html} />
             </div>
             <p>
               <img src={"images/github-icon.png"} />

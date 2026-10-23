@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import rehypeRaw from "rehype-raw";
+import rehypeSanitize from "rehype-sanitize";
 import "./Document.css";
 
 type Props = {
@@ -20,7 +21,7 @@ export default function Document(props: Props) {
 
   return (
     <div className="document md-content">
-      <ReactMarkdown children={file} remarkPlugins={[remarkGfm]} rehypePlugins={[rehypeRaw]} />
+      <ReactMarkdown children={file} remarkPlugins={[remarkGfm]} rehypePlugins={[rehypeRaw, rehypeSanitize]} />
     </div>
   );
 }
