@@ -25,10 +25,13 @@
   "scripts": {
     "start": "webpack serve --config webpack.config.js --mode development",
     "build": "webpack",
-    "update-catalog": "node update-catalog.mjs"
+    "update-catalog": "node update-catalog.mjs",
+    "typecheck": "tsc --noEmit",
+    "test": "node --import tsx --test tests/*.test.tsx"
   },
   "engines": {
-    "node": "^20.11.1"
+    "node": ">=24.22.1",
+    "npm": ">=12.2.1"
   },
   "dependencies": {
     "fs": "^0.0.1-security",
@@ -42,6 +45,7 @@
     "react-i18next": "^15.1.0",
     "react-markdown": "^9.0.1",
     "rehype-raw": "^7.0.0",
+    "rehype-sanitize": "^6.0.0",
     "remark-gfm": "^4.0.0"
   },
   "devDependencies": {
@@ -50,9 +54,16 @@
     "css-loader": "^7.1.2",
     "style-loader": "^4.0.0",
     "ts-loader": "^9.4.2",
+    "tsx": "^4.23.15",
     "typescript": "^5.6.3",
     "webpack": "^5.90.3",
     "webpack-cli": "^5.0.1",
-    "webpack-dev-server": "^5.1.0"
+    "webpack-dev-server": "^6.1.0"
+  },
+  "devEngines": {
+    "packageManager": {
+      "name": "npm",
+      "onFail": "error"
+    }
   }
 }

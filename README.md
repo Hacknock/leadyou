@@ -33,12 +33,12 @@ Additionally you can fill other items we recommend you to fill (Tags, Advantages
 
 ## Requirements
 
-- Node.js: 20.11.1+
-- npm: 10.2.4+
+- Node.js: 24.22.1 (`.node-version`)
+- npm: 12.2.1
 
 ## Build
 
-0. LEADYOU needs Node.js (v18) and npm (v9).
+0. Use Node.js 24.22.1 and npm 12.2.1 (matching CI).
 1. Please download this repository before deploying.
    ```sh
    git clone git@github.com:Hacknock/leadyou.git
@@ -49,10 +49,36 @@ Additionally you can fill other items we recommend you to fill (Tags, Advantages
    ```
 2. Build and view in web browser.
    ```sh
-   npm install
+   npm install -g npm@12.2.1
+   npm ci
    npm run start
    ```
-   Then, access `localhost:3000`.
+   Then, access `http://127.0.0.1:3000`.
+
+## Validation and security
+
+```sh
+npm test
+npm run typecheck
+npm run build
+npm audit --omit=dev
+npm audit
+```
+
+Node.js 24.22.1 and npm 12.2.1 are used locally and in both workflows.
+On 2026-10-23, webpack-dev-server 6.1.0 was installed with a one-time exception
+to the local npm release-age policy to remove vulnerable development dependencies.
+
+The remaining full-audit findings come from `braces` (GHSA-vfj7-8cjw-p6xm), via
+`micromatch` → `http-proxy-middleware` → `webpack-dev-server`. No patched braces
+release was available on 2026-10-23. This development-only dependency chain is not
+bundled into the published site. The development server binds to loopback; do not
+expose it publicly or pass untrusted glob patterns to development tooling. Loopback
+binding does not fix the underlying advisory. Do not use `npm audit fix --force`
+to downgrade the development server to an obsolete version.
+
+Markdown previews sanitize raw HTML. Catalog README frames use an empty sandbox,
+so scripts, forms, popups and access to the parent origin are disabled.
 
 ## Minimal Example
 
